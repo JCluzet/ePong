@@ -30,7 +30,8 @@ RM		    := rm -f
 all:		
 			@echo "To launch the front part, install npx"
 			@echo "Then, $(GREEN)cd front/$(CLR_RMV)"
-			@echo "And launch : $(GREEN)npm start$(CLR_RMV)"
+			@echo "Install package with $(GREEN)npm install$(CLR_RMV)"
+			@echo "And launch with : $(GREEN)npm start$(CLR_RMV)"
 
 bonus:		all
 
