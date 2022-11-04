@@ -1,13 +1,26 @@
 version: '3.9'
 
 services:
+
   backend:
     container_name: backend
     build:
-      context: ./backend
+      context: ./back
     image: img_backend
     volumes:
-      - ./backend/src:/app/src
+      - ./back/src:/app/src
     ports:
-      - "5001:5000"
+      - 5001:5000
+    restart: unless-stopped
+
+  front:
+    container_name: frontend
+    build:
+      context: ./front
+    image: img_frontend
+    volumes:
+      - ./front/src:/app/src
+      - ./front/public:/app/public
+    ports:
+      - 3000:3000
     restart: unless-stopped
