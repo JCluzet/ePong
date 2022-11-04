@@ -1,0 +1,13 @@
+version: '3.9'
+
+services:
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+    image: img_backend
+    volumes:
+      - ./backend/src:/app/src
+    ports:
+      - "5001:5000"
+    restart: unless-stopped
