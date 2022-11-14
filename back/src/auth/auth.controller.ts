@@ -8,7 +8,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { request } from 'http';
 import { UsersService } from 'src/users/users.service';
 import { AuthService } from './auth.service';
 import { ILoginSuccess } from './interfaces/loginSuccess.interface';
