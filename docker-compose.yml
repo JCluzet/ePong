@@ -1,8 +1,5 @@
 version: '3.9'
 
-networks:
-  backend:
-
 services:
 
   backend:
@@ -16,20 +13,38 @@ services:
       - 5001:5000
     env_file:
       - ./dockerEnv/backend.env
-    networks:
-      - backend
     restart: unless-stopped
 
-  # front:
-  #   container_name: frontend
-  #   build:
-  #     context: ./front
-  #   image: img_frontend
-  #   volumes:
-  #     - ./front/src:/app/src
-  #     - ./front/public:/app/public
-  #   ports:
-  #     - 3000:3000
-  #   networks:
-  #     - network
-  #   restart: unless-stopped
+  front:
+    container_name: frontend
+    build:
+      context: ./front
+    image: img_frontend
+    volumes:
+      - ./front/src:/app/src
+      - ./front/public:/app/public
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+
+  db-server:
+    container_name: db-server
+    image: postgres
+    ports:
+    - 5432:5432
+    env_file:
+      - ./dockerEnv/db-server.env
+    volumes:
+      - ./db-data/:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  db-client:
+    container_name: db-client
+    image: img_db-client
+    build:
+      context: ./db-server
+    ports:
+      - 5050:80
+    env_file:
+      - ./dockerEnv/db-client.env
+    restart: unless-stopped

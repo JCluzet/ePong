@@ -12,3 +12,5 @@ export const API_URL = HOST_NAME + ':5001';
 export const INTRA_API_URL = 'https://api.intra.42.fr';
 
 export const APP_LOGIN_REDIRECT = 'https://google.com';
+
+export const TWOFA_LENGTH = 6;

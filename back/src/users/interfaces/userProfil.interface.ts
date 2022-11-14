@@ -3,4 +3,5 @@ export interface IUserProfil {
   nbWins: number;
   nbLoses: number;
   isTwoFa: boolean;
+  avatarUrl: string;
 }

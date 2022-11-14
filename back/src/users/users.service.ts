@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { IProfilSettings } from './interfaces/profileSetting.interface';
 import { EUser } from './interfaces/user.entity';
 import { IUserProfil } from './interfaces/userProfil.interface';
 import { IUserPublicProfil } from './interfaces/userPublicProfil.interface';
@@ -32,6 +33,7 @@ export class UsersService {
         nbWins: ret.nbWins,
         nbLoses: ret.nbLoses,
         isTwoFa: ret.isTwoFa,
+        avatarUrl: ret.avatarUrl,
       };
       return userProfil;
     } catch (err) {
@@ -39,6 +41,7 @@ export class UsersService {
     }
   }
 
+  // eslint-disable-next-line prettier/prettier
   async findUserPublicProfil(login: string): Promise<IUserPublicProfil | undefined> {
     try {
       const ret: EUser | undefined = await this.findUserByLogin(login);
@@ -47,6 +50,7 @@ export class UsersService {
         login: ret.login,
         nbWins: ret.nbWins,
         nbLoses: ret.nbLoses,
+        avatarUrl: ret.avatarUrl,
       };
       return userPublicProfil;
     } catch (err) {
@@ -81,6 +85,21 @@ export class UsersService {
       return true;
     } catch (err) {
       Logger.log(`Error: User db remove failled.`);
+      return false;
+    }
+  }
+
+  async editWithSetting(profileSettings: IProfilSettings): Promise<boolean> {
+    try {
+      const user: EUser = await this.findUserByLogin(profileSettings.login);
+      if (!user) return false;
+      user.isTwoFa = profileSettings.istwofa;
+      user.avatarUrl = profileSettings.avatarUrl;
+      await this.usersRepository.save(user);
+      return true;
+    } catch (err) {
+      // eslint-disable-next-line prettier/prettier
+      Logger.log(`Error user ${profileSettings.login} edition failed`, profileSettings);
       return false;
     }
   }

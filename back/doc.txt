@@ -1,0 +1,10 @@
+create controller: 
+  - nest g controller CONTROLLER_NAME
+
+create service:
+  - nest g service SERVICE_NAME
+
+create module:
+  - nest g module MODULE_NAME
+
+

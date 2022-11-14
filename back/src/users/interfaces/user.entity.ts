@@ -4,7 +4,7 @@ import { Trole } from './role.type';
 @Entity('users')
 export class EUser {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
   @Column()
   login: string;
@@ -20,4 +20,7 @@ export class EUser {
 
   @Column()
   isTwoFa?: boolean;
+
+  @Column()
+  avatarUrl: string;
 }
