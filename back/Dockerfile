@@ -1,17 +1,18 @@
-FROM	node:17-alpine3.14
+FROM node:lts
 
-RUN		npm i -g @nestjs/cli
+RUN apt-get update && \
+	apt-get -y --no-install-recommends install tzdata && \
+	ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime && \
+	echo "Europe/Paris" > /etc/timezone && \
+	dpkg-reconfigure -f noninteractive tzdata && \
+	apt-get autoremove -y && \
+	apt-get clean && \
+	rm -rf /var/lib/apt/lists/*
 
-WORKDIR	/app
+WORKDIR /app
 
-COPY	./package.json ./
-COPY	./package-lock.json ./
-COPY	./tsconfig* ./
+RUN yarn global add @nestjs/cli
 
-RUN		npm install --force
+EXPOSE 3000
 
-COPY	./ ./
-
-EXPOSE	5000
-
-CMD		npm run start:dev
+ENTRYPOINT [ "/bin/sh", "-c", "yarn install --non-interactive && yarn start:dev" ]

@@ -1,7 +1,7 @@
 version: '3.9'
 
 networks:
-  network:
+  backend:
 
 services:
 
@@ -11,23 +11,25 @@ services:
       context: ./back
     image: img_backend
     volumes:
-      - ./back/src:/app/src
+      - ./back:/app
     ports:
       - 5001:5000
+    env_file:
+      - ./dockerEnv/backend.env
     networks:
-      - network
+      - backend
     restart: unless-stopped
 
-  front:
-    container_name: frontend
-    build:
-      context: ./front
-    image: img_frontend
-    volumes:
-      - ./front/src:/app/src
-      - ./front/public:/app/public
-    ports:
-      - 3000:3000
-    networks:
-      - network
-    restart: unless-stopped
+  # front:
+  #   container_name: frontend
+  #   build:
+  #     context: ./front
+  #   image: img_frontend
+  #   volumes:
+  #     - ./front/src:/app/src
+  #     - ./front/public:/app/public
+  #   ports:
+  #     - 3000:3000
+  #   networks:
+  #     - network
+  #   restart: unless-stopped
