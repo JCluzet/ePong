@@ -1,18 +1,26 @@
 nav{
     height: 50px;
     width: 100%;
+    backdrop-filter: blur(10px);
     border: 1px solid #dfdfdf;
 }
 
 .div-header{
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    /* color: #fff; */
     align-items: center;
     height: 100%;
 }
 
 .logo-header{
-    top: 0px;
-    left:0px;
-    position: absolute;
+}
+
+.container-login{
+    
+}
+
+.container {
+    width: 1600px;
+    margin: auto;
 }

@@ -1,10 +1,6 @@
 import React from 'react';
-// import { ReactComponent as Home } from '../assets/images/headerLogo.svg';
 import { ReactComponent as Logo } from '../assets/images/logo.svg';
-// import { NavLink } from 'react-router-dom';
 import '../styles/header.css';
-// import React from 'react'
-import { Button } from 'semantic-ui-react'
 
 const Header = () => {
 
@@ -16,13 +12,11 @@ const Header = () => {
 
     return(
         <nav>
-            <div className='div-header'>
-                <div className='logo-header'>
-                    <Logo width="200px" height="50px" />
-                </div>
-                <div>
-                    {/* <NavLink to='/'><Home/></NavLink> */}
-                    <Button>Login</Button>
+            <div className="container">
+                <div className='div-header'>
+                    <div className='logo-header'>
+                        <Logo height="50px" />
+                    </div>
                 </div>
             </div>
         </nav>
