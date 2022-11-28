@@ -1,4 +1,4 @@
-export interface IUserProfil {
+export interface IUserProfile {
   login: string;
   nbWins: number;
   nbLoses: number;

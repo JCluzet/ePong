@@ -1,12 +1,4 @@
-import {
-  BadRequestException,
-  Controller,
-  Get,
-  Query,
-  Req,
-  UnauthorizedException,
-  UseGuards,
-} from '@nestjs/common';
+import { BadRequestException, Controller, Get, Query, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UsersService } from 'src/users/users.service';
 import { AuthService } from './auth.service';
@@ -15,15 +7,12 @@ import { IRefreshToken } from './interfaces/refreshToken.interface';
 
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private authService: AuthService,
-    private userService: UsersService,
-  ) {}
+  constructor(private authService: AuthService, private userService: UsersService) {}
 
   @Get('get_token')
   async getToken(@Query('code') code: string): Promise<ILoginSuccess> {
     try {
-      return await this.authService.get42Token(code);
+      return await this.authService.logReponseByCode(code, 'auto');
     } catch (err) {
       throw new BadRequestException(err);
     }
@@ -50,8 +39,7 @@ export class AuthController {
   async twofaGetToken(@Query('login') login: string, @Query('code') code: string): Promise<ILoginSuccess> {
     try {
       const goodTwofa = this.authService.checkTwoFaCode(login, code);
-      if (goodTwofa)
-        return await this.authService.logReponseByCode(login, 'no');
+      if (goodTwofa) return await this.authService.logReponseByCode(login, 'no');
       else throw new UnauthorizedException('Bad 2FA code');
     } catch (err) {
       throw new UnauthorizedException('Bad 2FA code');
