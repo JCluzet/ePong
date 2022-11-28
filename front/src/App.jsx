@@ -1,11 +1,11 @@
-import Header from "./components/Header";
-import { useState, useEffect } from "react";
+// import Header from "./components/Header";
+// import { useState, useEffect } from "react";
 import "semantic-ui-css/semantic.min.css";
-import Particle from "./components/Particle";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-import { Button } from "semantic-ui-react";
+// import ParticleBackground from "./particlesBackground/ParticleBackground";
+import NotFound from "./pages/NotFound";
 // import { GlobalProvider } from "./providers/GlobalProvider";
 
 export default function App() {
@@ -13,14 +13,14 @@ export default function App() {
 
   return (
     // classic url using browser
-    // <div>
+    <div>
       <Router>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Home />} />
+        <Route path="*" element={<NotFound />} />
         </Routes>
-
       </Router>
-    // </div>
+    </div>
   );
 }

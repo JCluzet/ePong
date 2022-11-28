@@ -1,15 +1,57 @@
 nav{
-    height: 50px;
+    height: 70px;
     width: 100%;
     backdrop-filter: blur(10px);
     border: 1px solid #dfdfdf;
 }
 
+.heart{
+    color: #ff0000;
+}
+
 .div-header{
+    display: flex;
+    justify-content: space-between;
+    /* height: 100px; */
+    align-items: center;
+    /* height: 100%; */
+}
+
+.h1-header{
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-left: 20px;
+}
+
+footer {
+    font-size: 14px;
+    position:fixed;
+    display:flex;
+    justify-content: flex-end;
+    left:0px;
+    bottom:0px;
+    height:20px;
+    width:100%;
+ }
+
+.footer-credits{
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 100%;
+}
+
+.logo-header{
+    height: 100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width: 130px;
+    margin-left: 10px;
+}
+
+.particles {
+    z-index: -1;
 }
 
 /* center this div in the middle of the page */
@@ -36,7 +78,6 @@ nav{
 
     flex-direction: column;
     justify-content: center;
-    /* background-color: rgb(93, 93, 93); */
 }
 
 .container {

@@ -1,26 +1,23 @@
-import React from 'react';
-import { ReactComponent as Logo } from '../assets/images/logo.svg';
-import '../styles/header.css';
+import React from "react";
+import { ReactComponent as Logo } from "../assets/images/logo.svg";
+import "../styles/header.css";
 
 const Header = () => {
+  // state
 
-    // state
+  // comportements
 
-    // comportements
+  // affichage
 
-    // affichage
-
-    return(
-        <nav>
-            <div className="container">
-                <div className='div-header'>
-                    <div className='logo-header'>
-                        <Logo height="50px" />
-                    </div>
-                </div>
-            </div>
-        </nav>
-    )
-}
+  return (
+    <nav>
+      <div className="container">
+        <div className="div-header">
+          <Logo className="logo-header" />
+        </div>
+      </div>
+    </nav>
+  );
+};
 
 export default Header;
