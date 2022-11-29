@@ -28,22 +28,26 @@ CYAN 		:= \033[1;36m
 RM		    := rm -f
 
 all:		
-			@echo "To launch the front part, install npx"
-			@echo "Then, $(GREEN)cd front/$(CLR_RMV)"
-			@echo "Install package with $(GREEN)npm install$(CLR_RMV)"
-			@echo "And launch with : $(GREEN)npm start$(CLR_RMV)"
+		@echo "$(YELLOW)command: $(CLR_RMV)"
+		@echo "	$(CYAN)make a$(CLR_RMV): $(GREEN)start container attach in terminal$(CLR_RMV)"
+		@echo "	$(CYAN)make d$(CLR_RMV): $(GREEN)start container detach in terminal$(CLR_RMV)"
+		@echo "	$(CYAN)make clean$(CLR_RMV): $(GREEN)down container$(CLR_RMV)"
+		@echo "	$(CYAN)make fclean$(CLR_RMV): $(GREEN)down container and purge docker$(CLR_RMV)"
+		@echo "	$(CYAN)make re$(CLR_RMV): $(GREEN)make fclean + make d$(CLR_RMV)"
+a: 
+			@docker compose up --build
 
-bonus:		all
+d:
+			@docker compose up --build -d
 
 clean:
-			@ ${RM} *.o */*.o */*/*.o
-			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)objs ✔️"
+			@docker compose down
 
 fclean:		clean
-			@ ${RM} ${NAME}
-			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)binary ✔️"
+			@docker system prune --volumes --all --force
+			@docker image prune --force
 
-re:			fclean all
+re:			fclean d
 
 .PHONY:		all clean fclean re
 
