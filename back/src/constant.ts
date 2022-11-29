@@ -12,7 +12,7 @@ export const APP_URL = HOST_NAME + ':3000';
 export const API_URL = HOST_NAME + ':5001';
 
 export const INTRA_API_URL = 'https://api.intra.42.fr';
-export const APP_LOGIN_REDIRECT = 'https://google.com';
+export const APP_LOGIN_REDIRECT = APP_URL;
 export const API_AVATAR_GET_URL = API_URL + '/users/avatars';
 export const TWOFA_LENGTH = 6;
 export const TWOFA_SALTS = 2;

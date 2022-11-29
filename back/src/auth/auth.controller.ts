@@ -1,4 +1,4 @@
-import { BadRequestException, Controller, Get, Query, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
+import { BadRequestException, Controller, Get, Logger, Query, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { UsersService } from 'src/users/users.service';
 import { AuthService } from './auth.service';
@@ -12,6 +12,7 @@ export class AuthController {
   @Get('get_token')
   async getToken(@Query('code') code: string): Promise<ILoginSuccess> {
     try {
+      Logger.log(`code: ${code}`);
       return await this.authService.logReponseByCode(code, 'auto');
     } catch (err) {
       throw new BadRequestException(err);
