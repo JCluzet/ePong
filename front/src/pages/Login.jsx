@@ -5,7 +5,8 @@ import ParticleBackground from "../particlesBackground/ParticleBackground";
 export default function Login() {
     // state
     const HandleLogin = () => {
-        window.location.href = "https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-1d4559a5c9eed7d22d690216c5a60ec70061478ee58ff92e422846672eed7ca6&redirect_uri=https%3A%2F%2Fpong.grademe.fr%2Fapi_callback&response_type=code";
+        const uid = "u-s4t2ud-b8671e1262fdfa3d6496559c9ff540b7fc6b2f04a49b80dc17edb3ea42e2638b";
+        window.location.href = "https://api.intra.42.fr/oauth/authorize?client_id=" + uid + "&redirect_uri=http%3A%2F%2Flocalhost:3000%2Fapi_callback&response_type=code";
         
         // if connexion ok => redirect to dashboard
         // else => error message
