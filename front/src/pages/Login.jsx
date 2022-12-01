@@ -23,14 +23,16 @@ export default function Login() {
       <div className="center">
         <div className="container-login">
           <img src={logo} alt="logo" className="logo" />
+
           <div className="btn-login">
-            <button className="button-85" onClick={HandleLogin}>
-              <div className="btn-login-btn">
+            <button className="button-shiny" onClick={HandleLogin}>
+              <div className="element-btn-login">
                 <img width={40} src={schoollogo} alt="" />
                 <div className="text-login">Login</div>
               </div>
             </button>
           </div>
+
         </div>
       </div>
         <Footer/>

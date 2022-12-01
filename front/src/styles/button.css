@@ -1,26 +1,42 @@
 /* CSS */
 
 .btn-login{
+    padding-top: 10px;
+    margin:auto;
 }
 
 .text-login{
     color: #fff;
     font-size: 20px;
-    padding-top: 10px;
     font-weight: 600;
     margin: 0;
     padding: 0;
 }
 
-.btn-login-btn{
+.element-btn-login{
     align-items: center;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
-.button-85 {
+.button {
+    padding: 0.6em 2em;
+    /* margin:auto; */
+    border: none;
+    outline: none;
+    color: rgb(255, 255, 255);
+    background: #111;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+
+.button-shiny {
   padding: 0.6em 2em;
-  width: 155px;
   border: none;
   outline: none;
   color: rgb(255, 255, 255);
@@ -34,7 +50,7 @@
   touch-action: manipulation;
 }
 
-.button-85:before {
+.button-shiny:before {
   content: "";
   background: linear-gradient(
     45deg,
@@ -57,12 +73,12 @@
   -webkit-filter: blur(5px);
   width: calc(100% + 4px);
   height: calc(100% + 4px);
-  animation: glowing-button-85 20s linear infinite;
+  animation: glowing-button-shiny 20s linear infinite;
   transition: opacity 0.3s ease-in-out;
   border-radius: 10px;
 }
 
-@keyframes glowing-button-85 {
+@keyframes glowing-button-shiny {
   0% {
     background-position: 0 0;
   }
@@ -74,7 +90,7 @@
   }
 }
 
-.button-85:after {
+.button-shiny:after {
   z-index: -1;
   content: "";
   position: absolute;

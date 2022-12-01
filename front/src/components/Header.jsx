@@ -4,6 +4,9 @@ import "../styles/header.css";
 
 const Header = () => {
   // state
+    const HomeClick = () => {
+        window.location.href = "/dashboard";
+    };
 
   // comportements
 
@@ -13,7 +16,8 @@ const Header = () => {
     <nav>
       <div className="container">
         <div className="div-header">
-          <Logo className="logo-header" />
+            {/* <img src={Logo} alt="logo" className="logo" /> */}
+          <Logo className="logo-header" onClick={HomeClick}/>
         </div>
       </div>
     </nav>

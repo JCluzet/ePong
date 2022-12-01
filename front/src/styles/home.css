@@ -1,0 +1,33 @@
+.text-play{
+    color: #fff;
+    font-size: 100px;
+    padding-top: 10px;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+}
+
+.text-social{
+    color: #fff;
+    font-size: 30px;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    /* margin:auto; */
+}
+
+.social-container{
+    display: flex;
+    margin-top: 30px;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+
+.container-home{
+    display: flex;
+    flex-direction: column;
+    /* background-color: #000; */
+}
