@@ -25,6 +25,8 @@ services:
       - ./front/public:/app/public
     ports:
       - 3000:3000
+    env_file:
+      - ./dockerEnv/frontend.env
     restart: unless-stopped
 
   db-server:
