@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { EUser } from './users/interfaces/user.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { AuthModule } from './auth/auth.module';
     }),
     UsersModule,
     AuthModule,
+    ChatModule,
   ],
   controllers: [AppController],
 })
