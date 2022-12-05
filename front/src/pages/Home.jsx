@@ -1,14 +1,27 @@
+import { useEffect } from "react";
 import Header from "../components/Header";
 import "../styles/home.css";
+// import { useSearchParams } from "react-router-dom";
 
 export default function Home() {
-  
+    // state
+
+    // comportements
+    useEffect (() => {
+        if(!localStorage.getItem("token")){
+            window.location.href = "/";
+        }
+    }, []);
+
+
     const SocialClick = () => {
         window.location.href = "/social";
     };
     const GameClick = () => {
         window.location.href = "/play";
     };
+
+    // affichage
   
     return (
     <div>

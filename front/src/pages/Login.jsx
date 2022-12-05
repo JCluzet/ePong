@@ -2,23 +2,22 @@ import logo from "../assets/images/logo.svg";
 import schoollogo from "../assets/images/schoollogo.png";
 import Footer from "../components/Footer";
 import ParticleBackground from "../particlesBackground/ParticleBackground";
+import useStoreToken from "../hooks/storeToken";
 
 
 export default function Login() {
     // state
     const HandleLogin = () => {
-        const uid = "u-s4t2ud-b8671e1262fdfa3d6496559c9ff540b7fc6b2f04a49b80dc17edb3ea42e2638b";
+        const uid = "u-s4t2ud-b59cc983f394e5955fd2958b140836f2b7da91861bbc9c153c5fa2bbaccd280d";
         window.location.href = "https://api.intra.42.fr/oauth/authorize?client_id=" + uid + "&redirect_uri=http%3A%2F%2Flocalhost%3A3000&response_type=code";
-        
-        // if connexion ok => redirect to dashboard
-        // else => error message
-        
     };
 
 
 
   return (
     <div>
+        {/* check if a token is already stored, if not, redirect to 42 login page */}
+        {useStoreToken()}
       <ParticleBackground/>
       <div className="center">
         <div className="container-login">
