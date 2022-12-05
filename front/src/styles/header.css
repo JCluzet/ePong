@@ -9,6 +9,35 @@ nav{
     color: #ff0000;
 }
 
+.profile-image{
+    /* fill the container, preserving aspect ratio, and cropping to fit */
+    background-size: cover;
+
+    /* center the image vertically and horizontally */
+    background-position: top center;
+
+    /* round the edges to a circle with border radius 1/2 container size */
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+
+}
+
+.div-profile-picture{
+        /* Rounded border */
+        border-radius: 50%;
+
+        /* Center the content */
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    
+        /* Size */
+        height: 4rem;
+        width: 4rem;
+     margin-left: 1100px;
+}
+
 .div-header{
     display: flex;
     justify-content: space-between;
@@ -49,6 +78,16 @@ footer {
     width: 130px;
     margin-left: 10px;
 }
+
+.text-logout{
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    /* margin:auto; */
+}
+
 
 .particles {
     z-index: -1;

@@ -1,27 +1,43 @@
 // import { useEffect } from "react";
 import axios from "../config/axios";
+import profilData from "./profilData";
 
 let saveToken = (token) => {
-    // alert("saveToken : " + token);
   localStorage.setItem("token", token);
-  // use axios to send token using get request to backend with /auth/get_token?code=token
-  // if response is 200, redirect to dashboard
-  console.log(token);
 
-  axios.get(`http://localhost:5001/auth/get_token?code=${token}`).then(
-    (response) => {
-      if (response.status === 200 || response.status === 201) {
-        // window.location.href = "/dashboard";
-        alert("You are logged in with Bearer token :" + response.data);
-        // store access_token in localStorage
-        localStorage.setItem("api_token", response.data.api_token);
-      }
-    },
-    (error) => {
+  var config = {
+    method: "get",
+    url: "/auth/get_token?code=" + token,
+    headers: {},
+  };
+
+  axios(config)
+    .then(function (response) {
+      localStorage.setItem("apiToken", response.data.apiToken);
+      localStorage.setItem("login", response.data.login);
+      window.location.href = "/dashboard";
+    })
+    .catch(function (error) {
       console.log(error);
-    }
-  );
+    });
+    profilData();
 };
+
+let userToken = () => {
+  return localStorage.getItem("apiToken");
+};
+
+let userLogin = () => {
+//   alert("userLogin : " + localStorage.getItem("login"));
+  return localStorage.getItem("login");
+};
+
+let userAvatarUrl = () => {
+    return localStorage.getItem("avatarUrl");
+};
+
+// let userAvatarUrl = () => {
+    // return localStorage.getItem("
 
 let logout = () => {
   localStorage.removeItem("token");
@@ -30,10 +46,14 @@ let logout = () => {
 
 let isLogged = () => {
   return localStorage.getItem("token") !== null;
+  //   window.location.href = "/das";
 };
 
 export const accountService = {
   saveToken,
   logout,
   isLogged,
+  userToken,
+  userAvatarUrl,
+  userLogin,
 };

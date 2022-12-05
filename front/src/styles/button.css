@@ -19,9 +19,16 @@
     justify-content: space-around;
 }
 
+.button:hover{
+    background-color: rgb(54, 54, 54);
+}
+
+.button-shiny:hover{
+    background-color: rgb(100, 100, 100);
+}
+
 .button {
     padding: 0.6em 2em;
-    /* margin:auto; */
     border: none;
     outline: none;
     color: rgb(255, 255, 255);

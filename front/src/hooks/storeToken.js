@@ -6,7 +6,7 @@ import { accountService } from "./account_service";
 export default function useStoreToken() {
   const [searchParams] = useSearchParams();
   const code = searchParams.get("code");
-  console.log(code);
+//   console.log(code);
   // if code is present in url, store it in localStorage using accountService
   if (code) {
     accountService.saveToken(code);
@@ -16,7 +16,7 @@ export default function useStoreToken() {
   // if there is no code in url, check if there is a token in localStorage
   // if there is no token in localStorage, redirect to login
   if (accountService.isLogged()) {
-    // window.location.href = "/dashboard";
+    window.location.href = "/dashboard";
     // if query contain error parameter, redirect to login
   }
   if (searchParams.get("error")) {
