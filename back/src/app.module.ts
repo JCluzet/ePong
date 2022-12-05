@@ -22,6 +22,7 @@ import { Etwofa } from './auth/interfaces/twofa.entity';
     }),
     UsersModule,
     AuthModule,
+    // ChatModule,
   ],
   controllers: [AppController],
 })
