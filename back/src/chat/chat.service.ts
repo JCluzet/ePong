@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Chat, ChatUser } from './chat.entity';
 
+// WORK IN PROGRESS!
+
 @Injectable()
 export class ChatService {
 constructor(
@@ -10,7 +12,6 @@ constructor(
     @InjectRepository(ChatUser) private readonly ChatUserRepository: Repository<ChatUser>,
     ) {}
 
-    // return table with all chats
     async getChatTable(){
         let result = await this.ChatRepository.find();
         return (result);
@@ -45,15 +46,13 @@ constructor(
 }
 
 /*
-marco 1
-Tatiana 2
+Hello 1
+World 2
 Channel 1
 Channel 2
 
-
 id  |   userId  |   chanId | userTpye
-1       1           1         Marco is in channel 1
-2       1           2         Marco is in channel 2
-3       2           2         Tatiana is in channel 2
-
+1       1           1         Hello is in channel 1
+2       1           2         Hello is in channel 2
+3       2           2         World is in channel 2
 */
