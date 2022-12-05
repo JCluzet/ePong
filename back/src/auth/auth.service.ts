@@ -27,44 +27,36 @@ export class AuthService {
   }
 
   async get42Token(authorization_code: string) {
-    Logger.log(`test1.1`);
     const requestUri: string = INTRA_API_URL + '/oauth/token';
-    Logger.log(`test1.2, POST to: ${requestUri}`);
-    Logger.log(`api_id: ${API_UID}`);
-    Logger.log(`api_secret: ${API_SECRET}`);
-    Logger.log(`api_redirect: ${APP_LOGIN_REDIRECT}`);
-    try {
-      const response = await axios.post(
-        requestUri,
-        {
-          grant_type: 'authorization_code',
-          client_id: API_UID,
-          client_secret: API_SECRET,
-          code: authorization_code,
-          scope: 'public',
-          redirect_uri: APP_LOGIN_REDIRECT,
+    const response = await axios.post(
+      requestUri,
+      {
+        grant_type: 'authorization_code',
+        client_id: API_UID,
+        client_secret: API_SECRET,
+        code: authorization_code,
+        scope: 'public',
+        redirect_uri: APP_LOGIN_REDIRECT,
+      },
+      {
+        headers: {
+          'Accept-Encoding': 'application/json',
         },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-      return response.data;
-    } catch (err) {
-      Logger.log(`Error => ${err.message}`);
-    }
-    Logger.log(`test1.3`);
+      },
+    );
+    return response.data;
   }
 
-  async get42LoginWithToken(Token: string): Promise<string> {
-    const reqUri: string = API_URL + '/v2/me';
-    const reponse = await axios.get(reqUri, {
+  async get42LoginWithToken(Token: string) {
+    const reqUri: string = INTRA_API_URL + '/v2/me';
+
+    const response = await axios.get(reqUri, {
       headers: {
         Authorization: 'Bearer ' + Token,
+        'Accept-Encoding': 'application/json',
       },
     });
-    return reponse.data.login;
+    return { login: response.data.login, picture: response.data.image.versions.medium };
   }
 
   deliverToken(login: string, role: Trole): string {
@@ -73,7 +65,7 @@ export class AuthService {
   }
 
   // eslint-disable-next-line prettier/prettier
-  async logReponseByLogin(login: string, twofa: 'yes' | 'no' | 'auto' = 'auto'): Promise<ILoginSuccess> {
+  async logReponseByLogin(login: string, picture: string, twofa: 'yes' | 'no' | 'auto' = 'auto'): Promise<ILoginSuccess> {
     let userCreate: boolean;
     let userRole: Trole;
     let userData: EUser;
@@ -87,7 +79,7 @@ export class AuthService {
         login: login,
         role: userRole,
         isTwoFa: false,
-        avatarUrl: '',
+        avatarUrl: picture,
         nbLoses: 0,
         nbWins: 0,
       };
@@ -120,17 +112,16 @@ export class AuthService {
       // eslint-disable-next-line prettier/prettier
       expDate: twofaChoice ? new Date(new Date().getTime() + 1000 * 600) : new Date(new Date().getTime() + 1000 * 3600),
     };
+    Logger.log(`logsuccess.apiToken: ${logSuccess.apiToken}`);
     return logSuccess;
   }
 
   // eslint-disable-next-line prettier/prettier
   async logReponseByCode(code: string, twofa: 'yes' | 'no' | 'auto' = 'auto'): Promise<ILoginSuccess> {
-    Logger.log(`test`);
     const ftTokens = await this.get42Token(code);
-    Logger.log(`test1`);
-    const userLogin = await this.get42LoginWithToken(ftTokens.access_token);
-    Logger.log(`test2`);
-    return await this.logReponseByLogin(userLogin, twofa);
+    const userData = await this.get42LoginWithToken(ftTokens.access_token);
+    Logger.log(`userData.login: ${userData.login}, userData.picture: ${userData.picture}`);
+    return await this.logReponseByLogin(userData.login, userData.picture, twofa);
   }
 
   async checkTwoFaCode(login: string, twoFaCode: string): Promise<boolean> {

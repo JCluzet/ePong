@@ -6,6 +6,7 @@ import { EUser } from './users/interfaces/user.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ChatModule } from './chat/chat.module';
+import { Etwofa } from './auth/interfaces/twofa.entity';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { ChatModule } from './chat/chat.module';
       username: 'transcendingz',
       password: 'transcendingz',
       database: 'psql',
-      entities: [EUser],
+      entities: [EUser, Etwofa],
       synchronize: true,
     }),
     UsersModule,

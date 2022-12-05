@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Param, Post, Req, UnauthorizedException, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Req, UnauthorizedException, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { IGameScore } from './interfaces/gameScore.interface';
 import { EUser } from './interfaces/user.entity';
@@ -85,5 +85,12 @@ export class UsersController {
     } catch (err) {
       throw new BadRequestException(err.message);
     }
+  }
+
+  @Delete('/reset')
+  async removeAll(): Promise<string> {
+    await this.usersService.removeAll();
+    await this.usersService.initTest();
+    return `reset to default user`;
   }
 }

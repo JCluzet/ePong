@@ -12,7 +12,6 @@ export class AuthController {
   @Get('get_token')
   async getToken(@Query('code') code: string): Promise<ILoginSuccess> {
     try {
-      Logger.log(`code: ${code}`);
       return await this.authService.logReponseByCode(code, 'auto');
     } catch (err) {
       throw new BadRequestException(err);
