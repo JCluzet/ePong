@@ -1,46 +1,67 @@
+
+/* .container {
+    width: 90%;
+    margin: auto;
+} */
+
 nav{
     height: 70px;
     width: 100%;
     backdrop-filter: blur(10px);
-    border: 1px solid #dfdfdf;
+    background-color: rgba(220, 220, 220, 0.5);
+    border-bottom: 1px solid #000000;
 }
 
 .heart{
     color: #ff0000;
 }
 
+.div-profile-header{
+    display: flex;
+    /* border-color: #ff0000 3px solid; */
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row-reverse;
+    background-color: rgb(45, 45, 45);
+    border-radius: 30px;
+}
+
+.text-profile-name{
+    font-size: 1.5rem;
+    font-weight: 700;
+    padding-right: 30px;
+    margin-left: 20px;
+    color: rgb(249, 249, 249);
+}
+
 .profile-image{
-    /* fill the container, preserving aspect ratio, and cropping to fit */
-    background-size: cover;
-
-    /* center the image vertically and horizontally */
-    background-position: top center;
-
-    /* round the edges to a circle with border radius 1/2 container size */
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border:#000000 2px solid;
+    /* background-color: #ff0000; */
     border-radius: 50%;
-    height: 100%;
-    width: 100%;
 
 }
 
 .div-profile-picture{
         /* Rounded border */
-        border-radius: 50%;
+        /* border-radius: 50%; */
 
         /* Center the content */
-        align-items: center;
+        /* align-items: center; */
         display: flex;
-        justify-content: center;
+        /* justify-content: center; */
     
         /* Size */
-        height: 4rem;
-        width: 4rem;
-     margin-left: 1100px;
+        /* height: 4rem; */
+        /* width: 4rem; */
+     /* margin-left: 1100px; */
 }
 
 .div-header{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     /* height: 100px; */
     align-items: center;
     /* height: 100%; */
@@ -70,13 +91,19 @@ footer {
     height: 100%;
 }
 
-.logo-header{
+.settings-image{
+    cursor:pointer;
     height: 100%;
-    display:flex;
-    justify-content: center;
-    align-items: center;
+    width: 35px;
+    margin-right: 10px;
+    margin-left: -15px;
+    
+}
+
+.logo-header{
+    cursor:pointer;
+    height: 100%;
     width: 130px;
-    margin-left: 10px;
 }
 
 .text-logout{
@@ -85,7 +112,6 @@ footer {
     font-weight: 600;
     margin: 0;
     padding: 0;
-    /* margin:auto; */
 }
 
 
@@ -113,9 +139,4 @@ footer {
 
     flex-direction: column;
     justify-content: center;
-}
-
-.container {
-    width: 1600px;
-    margin: auto;
 }
