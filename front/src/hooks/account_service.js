@@ -15,7 +15,7 @@ let saveToken = (token) => {
     .then(function (response) {
       localStorage.setItem("apiToken", response.data.apiToken);
       localStorage.setItem("login", response.data.login);
-      window.location.href = "/dashboard";
+      window.location.href = "/";
     })
     .catch(function (error) {
       console.log(error);

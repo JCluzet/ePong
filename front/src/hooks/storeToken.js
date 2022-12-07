@@ -8,15 +8,13 @@ export default function useStoreToken() {
   const code = searchParams.get("code");
   if (code) {
     accountService.saveToken(code);
-  }
-  if (accountService.isLogged()) {
-    window.location.href = "/dashboard";
+    window.location.href = "/";
   }
   if (searchParams.get("error")) {
       window.location.href = "/";
+      alert("You decline the access to your account, please try again");
       // sleep 1 second
     //
 
-      alert("You decline the access to your account, please try again");
   }
 }

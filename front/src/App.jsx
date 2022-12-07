@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Game from "./pages/Game";
 import Social from "./pages/Social";
+import { accountService } from "./hooks/account_service";
 // import { GlobalProvider } from "./providers/GlobalProvider";
 
 export default function App() {
@@ -18,11 +19,18 @@ export default function App() {
     <div>
       <Router>
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/dashboard" element={<Home />} />
-          <Route path="/play" element={<Game />} />
-          <Route path="/social" element={<Social />} />
-        <Route path="*" element={<NotFound />} />
+          <Route path="/" element={
+            accountService.isLogged() ? <Home /> : <Login />
+          } />
+          <Route path="/play" element={
+            accountService.isLogged() ? <Game /> : <Login />
+            } />
+          <Route path="/social" element={
+            accountService.isLogged() ? <Social /> : <Login />
+            } />
+        <Route path="*" element={
+            accountService.isLogged() ? <NotFound /> : <Login />
+            } />
         </Routes>
       </Router>
     </div>
