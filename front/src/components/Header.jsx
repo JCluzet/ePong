@@ -43,7 +43,7 @@ const Header = () => {
           <Logo className="logo-header" onClick={HomeClick} />
           {/* display image (getProfileImage()) */}
           <div className="div-profile-header-container-with-settings">
-            <div className="div-profile-header" onClick={SettingsOpen}>
+            <div className="div-profile-header">
               <img
                 onClick={SettingsOpen}
                 className="settings-image"
@@ -57,7 +57,6 @@ const Header = () => {
               </div>
               <div className="div-profile-picture">
                 <img
-                  onClick={SettingsOpen}
                   className="profile-image"
                   src={accountService.userAvatarUrl()}
                   alt="profilepicture"
