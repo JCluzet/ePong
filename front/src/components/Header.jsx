@@ -17,24 +17,10 @@ const Header = () => {
   const SettingsOpen = () => {
     if (settings === false) {
       setSettings(true);
-    }
-    else {
-        setSettings(false);
+    } else {
+      setSettings(false);
     }
   };
-  // if user has the mouse over the avatar, display another image ./assets/images/settings.png
-  // else display the avatar
-
-  // const avatarurl = accountService.userAvatarUrl();
-
-  // if (accountService.userAvatarUrl() === "./assets/images/avatar.png") {
-  //   accountService.userAvatarUrl("./assets/images/settings.png");
-  // }
-  //   };
-
-  // comportements
-
-  // affichage
 
   return (
     <nav>
@@ -63,11 +49,8 @@ const Header = () => {
                 />
               </div>
             </div>
-            {settings && <ProfilSettings />}
+              {settings && <ProfilSettings />}
           </div>
-          {/* <button className="button" onClick={accountService.logout}>
-            <div className="text-logout">LOGOUT</div>
-          </button> */}
         </div>
       </div>
     </nav>
