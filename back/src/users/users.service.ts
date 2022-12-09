@@ -1,6 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { find } from 'rxjs';
 import { test_user } from 'src/constant';
 import { Repository } from 'typeorm';
 import { IGameScore } from './interfaces/gameScore.interface';
@@ -36,7 +35,14 @@ export class UsersService {
   async findUserByLogin(login: string): Promise<EUser | undefined> {
     const ret = await this.usersRepository.find({ where: { login: login } });
     if (ret.length) return ret[0];
-    Logger.log(`User ${login} not found`);
+    Logger.log(`User login: ${login} not found`);
+    return undefined;
+  }
+
+  async findUserByName(name: string): Promise<EUser | undefined> {
+    const ret = await this.usersRepository.find({ where: { name: name } });
+    if (ret.length) return ret[0];
+    Logger.log(`User name: ${name} not found`);
     return undefined;
   }
 
@@ -111,6 +117,7 @@ export class UsersService {
     try {
       const user: EUser = await this.findUserByLogin(profileSettings.login);
       if (!user) return false;
+      user.name = profileSettings.name;
       user.isTwoFa = profileSettings.istwofa;
       user.avatarUrl = profileSettings.avatarUrl;
       await this.usersRepository.save(user);

@@ -59,7 +59,6 @@ export class AuthService {
     });
     const userData: IUserData = {
       login: response.data.login,
-      name: response.data.displayname,
       avatarUrl: response.data.image.versions.medium,
     };
     return userData;
@@ -83,7 +82,7 @@ export class AuthService {
       userCreate = true;
       userData = {
         login: apiUserData.login,
-        name: apiUserData.name,
+        name: apiUserData.login,
         role: userRole,
         isTwoFa: false,
         avatarUrl: apiUserData.avatarUrl,
