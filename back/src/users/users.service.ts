@@ -25,6 +25,7 @@ export class UsersService {
   async findAllPublicUser(): Promise<IUserPublicProfile[]> {
     const userPublicProfil: IUserPublicProfile[] = (await this.findAll()).map((element: EUser) => ({
       login: element.login,
+      name: element.name,
       nbWins: element.nbWins,
       nbLoses: element.nbLoses,
       avatarUrl: element.avatarUrl,
@@ -45,6 +46,7 @@ export class UsersService {
       if (!ret) return undefined;
       const userProfil: IUserProfile = {
         login: ret.login,
+        name: ret.name,
         nbWins: ret.nbWins,
         nbLoses: ret.nbLoses,
         isTwoFa: ret.isTwoFa,
@@ -63,6 +65,7 @@ export class UsersService {
       if (!ret) return undefined;
       const userPublicProfil: IUserPublicProfile = {
         login: ret.login,
+        name: ret.name,
         nbWins: ret.nbWins,
         nbLoses: ret.nbLoses,
         avatarUrl: ret.avatarUrl,

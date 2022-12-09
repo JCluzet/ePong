@@ -12,6 +12,7 @@ import { Repository } from 'typeorm';
 import { ILoginSuccess } from './interfaces/loginSuccess.interface';
 import { Etwofa } from './interfaces/twofa.entity';
 import * as bcrypt from 'bcrypt';
+import { IUserData } from './interfaces/userData.interface';
 
 @Injectable()
 export class AuthService {
@@ -47,7 +48,7 @@ export class AuthService {
     return response.data;
   }
 
-  async get42LoginWithToken(Token: string) {
+  async get42LoginWithToken(Token: string): Promise<IUserData> {
     const reqUri: string = INTRA_API_URL + '/v2/me';
 
     const response = await axios.get(reqUri, {
@@ -56,7 +57,12 @@ export class AuthService {
         'Accept-Encoding': 'application/json',
       },
     });
-    return { login: response.data.login, picture: response.data.image.versions.medium };
+    const userData: IUserData = {
+      login: response.data.login,
+      name: response.data.displayname,
+      avatarUrl: response.data.image.versions.medium,
+    };
+    return userData;
   }
 
   deliverToken(login: string, role: Trole): string {
@@ -65,21 +71,22 @@ export class AuthService {
   }
 
   // eslint-disable-next-line prettier/prettier
-  async logReponseByLogin(login: string, picture: string, twofa: 'yes' | 'no' | 'auto' = 'auto'): Promise<ILoginSuccess> {
+  async logReponseByLogin(apiUserData: IUserData, twofa: 'yes' | 'no' | 'auto' = 'auto'): Promise<ILoginSuccess> {
     let userCreate: boolean;
     let userRole: Trole;
     let userData: EUser;
-    if ((userData = await this.userService.findUserByLogin(login))) {
+    if ((userData = await this.userService.findUserByLogin(apiUserData.login))) {
       userRole = userData.role;
       userCreate = false;
     } else {
       userRole = 'user';
       userCreate = true;
       userData = {
-        login: login,
+        login: apiUserData.login,
+        name: apiUserData.name,
         role: userRole,
         isTwoFa: false,
-        avatarUrl: picture,
+        avatarUrl: apiUserData.avatarUrl,
         nbLoses: 0,
         nbWins: 0,
       };
@@ -108,7 +115,7 @@ export class AuthService {
       login: userData.login,
       userCreate: userCreate,
       twofa: twofaChoice,
-      apiToken: twofaChoice ? '' : this.deliverToken(login, userRole),
+      apiToken: twofaChoice ? '' : this.deliverToken(apiUserData.login, userRole),
       // eslint-disable-next-line prettier/prettier
       expDate: twofaChoice ? new Date(new Date().getTime() + 1000 * 600) : new Date(new Date().getTime() + 1000 * 3600),
     };
@@ -119,9 +126,9 @@ export class AuthService {
   // eslint-disable-next-line prettier/prettier
   async logReponseByCode(code: string, twofa: 'yes' | 'no' | 'auto' = 'auto'): Promise<ILoginSuccess> {
     const ftTokens = await this.get42Token(code);
-    const userData = await this.get42LoginWithToken(ftTokens.access_token);
-    Logger.log(`userData.login: ${userData.login}, userData.picture: ${userData.picture}`);
-    return await this.logReponseByLogin(userData.login, userData.picture, twofa);
+    const userData: IUserData = await this.get42LoginWithToken(ftTokens.access_token);
+    Logger.log(`userData.login: ${userData.login}, userData.picture: ${userData.avatarUrl}`);
+    return await this.logReponseByLogin(userData, twofa);
   }
 
   async checkTwoFaCode(login: string, twoFaCode: string): Promise<boolean> {

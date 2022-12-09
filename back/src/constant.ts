@@ -27,8 +27,9 @@ export const test_user: EUser[] = [
   {
     id: 1,
     login: 'jdamoise',
+    name: 'Jessy',
     role: 'admin',
-    avatarUrl: 'https://cdn.intra.42.fr/users/905c27be11c4773dad9ee9ec776fa673/medium_jdamoise.jpg',
+    avatarUrl: '',
     nbWins: 0,
     nbLoses: 0,
     isTwoFa: false,
@@ -36,6 +37,7 @@ export const test_user: EUser[] = [
   {
     id: 2,
     login: 'bmaudet',
+    name: 'Draak',
     role: 'admin',
     avatarUrl: '',
     nbWins: 0,
@@ -45,6 +47,7 @@ export const test_user: EUser[] = [
   {
     id: 3,
     login: 'jcluzet',
+    name: 'Joseph',
     role: 'admin',
     avatarUrl: '',
     nbWins: 0,
@@ -54,6 +57,7 @@ export const test_user: EUser[] = [
   {
     id: 4,
     login: 'tkomaris',
+    name: 'Tatiana',
     role: 'admin',
     avatarUrl: '',
     nbWins: 0,
@@ -63,6 +67,7 @@ export const test_user: EUser[] = [
   {
     id: 5,
     login: 'mwane',
+    name: 'Malick',
     role: 'admin',
     avatarUrl: '',
     nbWins: 0,
