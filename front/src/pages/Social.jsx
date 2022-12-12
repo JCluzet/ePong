@@ -1,4 +1,6 @@
 import Header from "../components/Header";
+import ProfileCard from "../components/ProfileCard";
+import FriendList from "../components/FriendList";
 
 export default function Home() {
   // state
@@ -10,7 +12,8 @@ export default function Home() {
     <div>
       <Header />
       <br />
-      <div className="center">Here do the social</div>
+      <ProfileCard/>
+      <FriendList/>
     </div>
   );
 }
