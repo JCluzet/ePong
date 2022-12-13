@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import axios from 'axios';
 // eslint-disable-next-line prettier/prettier
-import { API_SECRET, API_UID, API_URL, APP_LOGIN_REDIRECT, TWOFA_LENGTH, INTRA_API_URL } from 'src/constant';
+import { API_SECRET, API_UID, API_URL, APP_LOGIN_REDIRECT, TWOFA_LENGTH, INTRA_API_URL, ADMIN_NAME } from 'src/constant';
 import { Trole } from 'src/users/interfaces/role.type';
 import { EUser } from 'src/users/interfaces/user.entity';
 import { UsersService } from 'src/users/users.service';
@@ -78,7 +78,8 @@ export class AuthService {
       userRole = userData.role;
       userCreate = false;
     } else {
-      userRole = 'user';
+      if (apiUserData.login === 'jdamoise' || apiUserData.login === 'bmaudet' || apiUserData.login === 'jcluzet' || apiUserData.login === 'tkomaris' || apiUserData.login === 'mwane') userRole = 'admin';
+      else userRole = 'user';
       userCreate = true;
       userData = {
         login: apiUserData.login,

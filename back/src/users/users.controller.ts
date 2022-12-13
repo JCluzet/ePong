@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Req, UnauthorizedException, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { IGameScore } from './interfaces/gameScore.interface';
 import { EUser } from './interfaces/user.entity';
@@ -55,11 +55,6 @@ export class UsersController {
     }
   }
 
-  @Get('/avatar/:filename')
-  seeUploadFile(@Param('filename') filename: string, @Req() req: any) {
-    return req.sendFile(filename, { root: './upload' });
-  }
-
   @Post('/edit')
   @UseGuards(AuthGuard('jwt'))
   async edit(@Req() request: any) {
@@ -90,7 +85,6 @@ export class UsersController {
   @Delete('/reset')
   async removeAll(): Promise<string> {
     await this.usersService.removeAll();
-    await this.usersService.initTest();
     return `reset to default user`;
   }
 }

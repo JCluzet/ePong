@@ -1,6 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { test_user } from 'src/constant';
 import { Repository } from 'typeorm';
 import { IGameScore } from './interfaces/gameScore.interface';
 import { IProfileSettings } from './interfaces/profileSetting.interface';
@@ -13,9 +12,7 @@ export class UsersService {
   constructor(
     @InjectRepository(EUser)
     private usersRepository: Repository<EUser>,
-  ) {
-    this.initTest();
-  }
+  ) {}
 
   findAll(): Promise<EUser[]> {
     return this.usersRepository.find();
@@ -139,16 +136,6 @@ export class UsersService {
       loser.nbLoses++;
       this.usersRepository.save(winner);
       this.usersRepository.save(loser);
-      return true;
-    } catch (err) {
-      return false;
-    }
-  }
-
-  async initTest(): Promise<boolean> {
-    try {
-      const user: EUser[] = test_user;
-      for (const elem of user) await this.usersRepository.save(elem);
       return true;
     } catch (err) {
       return false;
