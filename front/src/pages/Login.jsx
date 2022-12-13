@@ -8,7 +8,7 @@ import useStoreToken from "../hooks/storeToken";
 export default function Login() {
     // state
     const HandleLogin = () => {
-        const uid = "u-s4t2ud-b59cc983f394e5955fd2958b140836f2b7da91861bbc9c153c5fa2bbaccd280d";
+        const uid = process.env.REACT_APP_UID_TOKEN;
         window.location.href = "https://api.intra.42.fr/oauth/authorize?client_id=" + uid + "&redirect_uri=http%3A%2F%2Flocalhost%3A3000&response_type=code";
     };
 

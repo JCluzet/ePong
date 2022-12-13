@@ -1,0 +1,14 @@
+.container-social {
+    display: flex;
+    /* flex-direction: row-reverse; */
+    align-items: center;
+    /* align-items: center; */
+    justify-content: space-between;
+    background-color: rgb(33, 33, 33);
+    color:white;
+    height: 100%;
+    border-radius: 5px;
+    box-shadow: inset 0 0 10px rgba(157, 157, 157, 0.5);
+    width: 100%;
+    /* margin-bottom: 10px; */
+}

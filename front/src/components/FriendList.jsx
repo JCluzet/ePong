@@ -11,11 +11,11 @@ const user = {
     size: 100,
     style : {
         marginTop: 20,
-        backgroundColor: 'black',
-        color: 'white',
-        width: "100%",
-        height: "100%",
-        borderRadius : 10,
+        // backgroundColor: 'black',
+        // color: 'white',
+        // width: "100%",
+        // height: "100%",
+        // borderRadius : 10,
     }
 };
 
@@ -23,7 +23,7 @@ const user = {
 export default function FriendList() {
     return(
         <div class="container">
-            <section className="button-shiny" style = {user.style}>
+            <section className="container-social" style = {user.style}>
             <div className="content">
             <div className="scrollable-div">
             <div >sidebar</div>

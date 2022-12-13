@@ -1,30 +1,34 @@
 // import { useEffect } from "react";
 import axios from "../config/axios";
-import profilData from "./profilData";
+import storeProfilData from "./storeProfilData";
 
-let saveToken = (token) => {
-  localStorage.setItem("token", token);
+let saveToken = (code) => {
+  localStorage.setItem("code", code);
 
   var config = {
     method: "get",
-    url: "/auth/get_token?code=" + token,
+    url: "/auth/get_token?code=" + code,
     headers: {},
   };
 
   axios(config)
     .then(function (response) {
-      localStorage.setItem("apiToken", response.data.apiToken);
+      localStorage.setItem("token", response.data.apiToken);
+      console.log("Token saved : " + response.data.apiToken);
       localStorage.setItem("login", response.data.login);
       window.location.href = "/";
     })
     .catch(function (error) {
-      console.log(error);
+        console.log("Token seems to be invalid, please try again");
+        console.log(error);
+        localStorage.removeItem("code");
+        window.location.href = "/";
     });
-    profilData();
+    storeProfilData();
 };
 
 let userToken = () => {
-  return localStorage.getItem("apiToken");
+  return localStorage.getItem("token");
 };
 
 let userLogin = () => {
@@ -40,12 +44,12 @@ let userAvatarUrl = () => {
     // return localStorage.getItem("
 
 let logout = () => {
-  localStorage.removeItem("token");
+  localStorage.removeItem("code");
   window.location.href = "/";
 };
 
 let isLogged = () => {
-  return localStorage.getItem("token") !== null;
+  return localStorage.getItem("code") !== null;
   //   window.location.href = "/das";
 };
 

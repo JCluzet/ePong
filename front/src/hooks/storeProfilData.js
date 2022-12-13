@@ -1,7 +1,7 @@
 import axios from "../config/axios";
 import { accountService } from "./account_service";
 
-let profilData = () => {
+let storeProfilData = () => {
   var config = {
     method: "get",
     url: "/users/profile/" + accountService.userLogin(),
@@ -10,12 +10,17 @@ let profilData = () => {
 
   axios(config)
     .then(function (response) {
-    //   console.log("HERE>" + response.data.avatarUrl);
       localStorage.setItem("avatarUrl", response.data.avatarUrl);
+      console.log("Avatar saved : " + response.data.avatarUrl);
+      // here store another data
+        
+    
+    
+    
     })
     .catch(function (error) {
-      console.log(error);
+    //   console.log("Erreur, impossible de get /user/profile > " . error);
     });
 };
 
-export default profilData;
+export default storeProfilData;

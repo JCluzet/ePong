@@ -1,6 +1,5 @@
 import { accountService } from "../hooks/account_service";
 import React from "react";
-import ChangeAvatar from "./ChangeAvatar";
 import returnBack from "../assets/images/return.png";
 import "../styles/input-file.css";
 
