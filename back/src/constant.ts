@@ -1,5 +1,3 @@
-import { EUser } from './users/interfaces/user.entity';
-
 export const JwtConstants = {
   secret: 'secretjwt',
 };
@@ -23,55 +21,4 @@ export const PASSWORD_MAX_LENGTH = 20;
 export const TIMESTAMP_MAX_LENGTH = 80;
 export const MESSAGE_MAX_LENGTH = 512;
 
-export const test_user: EUser[] = [
-  {
-    id: 1,
-    login: 'jdamoise',
-    name: 'Jessy',
-    role: 'admin',
-    avatarUrl: '',
-    nbWins: 0,
-    nbLoses: 0,
-    isTwoFa: false,
-  },
-  {
-    id: 2,
-    login: 'bmaudet',
-    name: 'Draak',
-    role: 'admin',
-    avatarUrl: '',
-    nbWins: 0,
-    nbLoses: 0,
-    isTwoFa: false,
-  },
-  {
-    id: 3,
-    login: 'jcluzet',
-    name: 'Joseph',
-    role: 'admin',
-    avatarUrl: '',
-    nbWins: 0,
-    nbLoses: 0,
-    isTwoFa: false,
-  },
-  {
-    id: 4,
-    login: 'tkomaris',
-    name: 'Tatiana',
-    role: 'admin',
-    avatarUrl: '',
-    nbWins: 0,
-    nbLoses: 0,
-    isTwoFa: false,
-  },
-  {
-    id: 5,
-    login: 'mwane',
-    name: 'Malick',
-    role: 'admin',
-    avatarUrl: '',
-    nbWins: 0,
-    nbLoses: 0,
-    isTwoFa: false,
-  },
-];
+export const ADMIN_NAME: string[] = ['jdamoise', 'bmaudet', 'jcluzet', 'tkomaris', 'mwane'];

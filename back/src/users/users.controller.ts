@@ -55,11 +55,6 @@ export class UsersController {
     }
   }
 
-  @Get('/avatar/:filename')
-  seeUploadFile(@Param('filename') filename: string, @Req() req: any) {
-    return req.sendFile(filename, { root: './upload' });
-  }
-
   @Post('/edit')
   @UseGuards(AuthGuard('jwt'))
   async edit(@Req() request: any) {
@@ -90,7 +85,6 @@ export class UsersController {
   @Delete('/reset')
   async removeAll(): Promise<string> {
     await this.usersService.removeAll();
-    await this.usersService.initTest();
     return `reset to default user`;
   }
 }
