@@ -33,21 +33,22 @@ all:
 		@echo "	$(CYAN)make d$(CLR_RMV): $(GREEN)start container detach in terminal$(CLR_RMV)"
 		@echo "	$(CYAN)make clean$(CLR_RMV): $(GREEN)down container$(CLR_RMV)"
 		@echo "	$(CYAN)make fclean$(CLR_RMV): $(GREEN)down container and purge docker$(CLR_RMV)"
-		@echo "	$(CYAN)make re$(CLR_RMV): $(GREEN)make fclean + make d$(CLR_RMV)"
-a: 
+		@echo "	$(CYAN)make re$(CLR_RMV): $(GREEN)make fclean + make a$(CLR_RMV)"
+a:
 			@docker compose up --build
 
 d:
 			@docker compose up --build -d
 
 clean:
-			@docker compose down
+			@docker compose down -v --rmi all --remove-orphans
 
 fclean:		clean
 			@docker system prune --volumes --all --force
+			@docker network prune --force
 			@docker image prune --force
 
-re:			fclean d
+re:			fclean a
 
 .PHONY:		all clean fclean re
 
