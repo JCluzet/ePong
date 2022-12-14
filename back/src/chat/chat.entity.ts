@@ -19,9 +19,10 @@ export class ChatUser {
     @PrimaryGeneratedColumn()
     id: number;
     @Column({ nullable: true })
-    chatId : number;
+    chatId: number;
     @Column({ nullable: true })
-    userId:number;
+    // to change to string?
+    userId: number;
     @Column({ nullable: true })
     userType: number;
 }

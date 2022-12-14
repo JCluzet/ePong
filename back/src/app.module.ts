@@ -24,7 +24,7 @@ import { FriendsModule } from './fiends/friends.module';
     UsersModule,
     AuthModule,
     FriendsModule,
-    // ChatModule,
+    ChatModule,
   ],
   controllers: [AppController],
 })
