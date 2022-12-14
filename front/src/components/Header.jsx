@@ -1,26 +1,60 @@
-import React from 'react';
-import { ReactComponent as Logo } from '../assets/images/logo.svg';
-import '../styles/header.css';
+import React from "react";
+import SettingsImg from "../assets/images/settings_white.png";
+import { ReactComponent as Logo } from "../assets/images/logo.svg";
+import "../styles/header.css";
+// import axios from "axios";
+import { accountService } from "../hooks/account_service";
+import ProfilSettings from "./ProfilSettings";
 
 const Header = () => {
+  // state
+  const HomeClick = () => {
+    window.location.href = "/";
+  };
 
-    // state
+  const [settings, setSettings] = React.useState(false);
 
-    // comportements
+  const SettingsOpen = () => {
+    if (settings === false) {
+      setSettings(true);
+    } else {
+      setSettings(false);
+    }
+  };
 
-    // affichage
-
-    return(
-        <nav>
-            <div className="container">
-                <div className='div-header'>
-                    <div className='logo-header'>
-                        <Logo height="50px" />
-                    </div>
+  return (
+    <nav>
+      <div className="container">
+        <div className="div-header">
+          <Logo className="logo-header" onClick={HomeClick} />
+          {/* display image (getProfileImage()) */}
+          <div className="div-profile-header-container-with-settings">
+            <div className="div-profile-header">
+              <img
+                onClick={SettingsOpen}
+                className="settings-image"
+                src={SettingsImg}
+                alt="settings"
+              />
+              <div className="div-profile-name">
+                <div className="text-profile-name">
+                  {accountService.userLogin()}
                 </div>
+              </div>
+              <div className="div-profile-picture">
+                <img
+                  className="profile-image"
+                  src={accountService.userAvatarUrl()}
+                  alt="profilepicture"
+                />
+              </div>
             </div>
-        </nav>
-    )
-}
+              {settings && <ProfilSettings />}
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
+};
 
 export default Header;

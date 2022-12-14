@@ -25,6 +25,8 @@ services:
       - ./front/public:/app/public
     ports:
       - 3000:3000
+    env_file:
+      - ./dockerEnv/frontend.env
     restart: unless-stopped
 
   db-server:
@@ -35,14 +37,15 @@ services:
     env_file:
       - ./dockerEnv/db-server.env
     volumes:
-      - ./db-data/:/var/lib/postgresql/data
+      # - ./db-data/:/var/lib/postgresql/data
+      - /goinfre/$USER/db-data/:/var/lib/postgresql/data
     restart: unless-stopped
 
   db-client:
     container_name: db-client
     image: img_db-client
     build:
-      context: ./db-server
+      context: ./db-client
     ports:
       - 5050:80
     env_file:

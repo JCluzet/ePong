@@ -1,5 +1,5 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = "https://jsonplaceholder.typicode.com/";
+axios.defaults.baseURL = "http://localhost:5001/";
 
 export default axios;

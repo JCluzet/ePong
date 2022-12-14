@@ -10,6 +10,9 @@ export class EUser {
   login: string;
 
   @Column()
+  name: string;
+
+  @Column()
   role: Trole;
 
   @Column()

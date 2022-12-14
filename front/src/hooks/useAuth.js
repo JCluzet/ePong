@@ -20,8 +20,6 @@ export default function useAuth() {
                 };
 
                 localStorage.setItem("user", JSON.stringify(user));
-                
-                // navigate("/dashboard");
             }
         }).catch((e) => {
             console.log(e);
