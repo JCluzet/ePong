@@ -61,7 +61,7 @@ const InitialState = () => {
     }
 }
 
-class App extends React.Component {
+class Pong extends React.Component {
     constructor(props) {
         super(props);
         this.state = InitialState();
@@ -218,4 +218,4 @@ class App extends React.Component {
 }
 
 
-export default App;
+export default Pong;
