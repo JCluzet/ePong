@@ -9,7 +9,7 @@ export default function Home() {
 
   // affichage
   return (
-    <div>
+    <div className="social-page">
       <Header />
       <br />
       <ProfileCard/>
