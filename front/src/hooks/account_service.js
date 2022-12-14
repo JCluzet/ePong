@@ -19,6 +19,7 @@ let saveToken = (code) => {
       window.location.href = "/";
     })
     .catch(function (error) {
+        alert("Backend still loading... Please wait")
         console.log("Token seems to be invalid, please try again");
         console.log(error);
         localStorage.removeItem("code");
