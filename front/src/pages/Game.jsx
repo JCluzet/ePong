@@ -1,4 +1,5 @@
 import Header from "../components/Header";
+import App from './App';
 
 export default function Game() {
   // state
@@ -9,8 +10,7 @@ export default function Game() {
   return (
     <div>
       <Header />
-      <br />
-      <div className="center">Here @Draak make the game</div>
+      <App />
     </div>
   );
 }

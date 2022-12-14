@@ -47,6 +47,8 @@ fclean:		clean
 			@docker system prune --volumes --all --force
 			@docker network prune --force
 			@docker image prune --force
+#			@rm -rf ./front/node_modules
+#			@rm -rf ./back/node_modules
 
 re:			fclean a
 
