@@ -9,26 +9,29 @@ export default function ProfilSettings() {
   const [avatar, setAvatar] = React.useState(false);
   const [menuSettings, setMenuSettings] = React.useState(true);
   const [tfa, setTfa] = React.useState(false);
+  const [checked, setChecked] = React.useState(accountService.isTwoFa());
   const [username, setUsername] = React.useState(accountService.userName());
   const [avatarUrl, setAvatarUrl] = React.useState(
     accountService.userAvatarUrl()
   );
 
-  const handleTfaChange = (e) => {
-    if (e.target.value === "true") {
-      accountService.ModifyTfa(true);
-    } else {
+  const handleTfaChange = () => {
+    setChecked(!checked);
+    if (checked === true) {
       accountService.ModifyTfa(false);
     }
+    if (checked === false) {
+        accountService.ModifyTfa(true);
+        }
   };
 
-  const valueIsTwoFactorAuth = () => {
-    if (accountService.userTwoFactorAuth() === true) {
-      return "true";
-    } else {
-      return "false";
-    }
-  };
+//   const valueIsTwoFactorAuth = () => {
+//     if (accountService.userTwoFactorAuth() === true) {
+//       return "true";
+//     } else {
+//       return "false";
+//     }
+//   };
 
   const booltfa = () => {
     if (tfa === false) {
@@ -134,12 +137,13 @@ export default function ProfilSettings() {
             <br/>
             <input
               id="checkbox"
-              class="switch-input"
+              className="switch-input"
               type="checkbox"
-              value={valueIsTwoFactorAuth}
-              onChange={handleTfaChange}
+              defaultChecked={checked}
+            //   value={valueIsTwoFactorAuth}
+              onChange={() => handleTfaChange(!checked)}
             />
-            <label for="checkbox" class="switch"></label>
+            <label htmlFor="checkbox" className="switch"></label>
 
             <img
               className="return-arrow"

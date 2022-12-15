@@ -48,6 +48,7 @@ let ModifyTfa = (tfa) => {
   axios(config)
     .then(function (response) {
       localStorage.setItem("isTwoFa", tfa);
+      console.log("Tfa modified : " + tfa)
       // refresh the window
     //   window.location.reload();
     })
