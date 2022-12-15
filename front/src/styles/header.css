@@ -46,7 +46,7 @@ nav{
 .settings-profil{
     display:flex;
     flex-direction: column;
-    margin-bottom: 4px;
+    margin-bottom: 14px;
 }
 
 .change-avatar-container{

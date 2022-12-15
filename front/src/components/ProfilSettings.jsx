@@ -7,11 +7,22 @@ export default function ProfilSettings() {
   // state
   const [avatar, setAvatar] = React.useState(true);
   const [username, setUsername] = React.useState(accountService.userName());
+  const [avatarUrl, setAvatarUrl] = React.useState(accountService.userAvatarUrl());
 
-
-    const handleChange = (e) => {
-        setUsername(e.target.value);
+  const onImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+        let img = event.target.files[0];
+        setAvatarUrl(URL.createObjectURL(img));
+        console.log(URL.createObjectURL(img));
     }
+    };
+
+  const handleChange = (e) => {
+    // if charactere is not more than 20
+    if (e.target.value.length <= 20) {
+      setUsername(e.target.value);
+    }
+  };
   // comportements
   const boolChangeAvatar = () => {
     if (avatar === false) {
@@ -23,8 +34,8 @@ export default function ProfilSettings() {
 
   const updateProfil = (e) => {
     e.preventDefault();
-    console.log(username);
     accountService.ModifyUsername(username);
+    // accountService.ModifyAvatar(avatarUrl);
   };
 
   // affichage
@@ -48,27 +59,23 @@ export default function ProfilSettings() {
 
       {/* avatar changement window */}
       {!avatar && (
-
-
         <form onSubmit={updateProfil}>
-
           <div className="change-avatar-container">
             <input
               type="text"
               placeholder="New username"
               value={username}
-            onChange={handleChange}
+              onChange={handleChange}
               className="newUsername-text-area"
-              />
+            />
             <div className="file-input">
-              <input type="file" accept="image/*" />
+              <input type="file" accept="image/*" onChange={onImageChange} />
             </div>
             <div className="button-change-container">
               <button className="button-change" type="submit">
                 <div className="text-change">SAVE</div>
               </button>
             </div>
-            <input type="submit" />
             <img
               className="return-arrow"
               src={returnBack}

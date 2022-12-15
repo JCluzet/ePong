@@ -2,12 +2,36 @@
 import axios from "../config/axios";
 import storeProfilData from "./storeProfilData";
 
+let ModifyAvatar = (avatarUrl) => {
+    var config = {
+        method: "post",
+        url: "/users/edit",
+        headers: { Authorization: "Bearer " + userToken(), "Content-Type": "application/json"},
+        data: JSON.stringify({
+            login: userLogin(),
+            name: userName(),
+            isTwoFa: isTwoFa(),
+            avatarUrl: avatarUrl,
+        }),
+    };
+
+    axios(config)
+        .then(function (response) {
+            localStorage.setItem("avatarUrl", avatarUrl);
+            // refresh the window
+            window.location.reload();
+        })
+        .catch(function (error) {
+            console.log("Erreur, impossible de modifier l'avatar > " + error);
+        });
+};
+
 let ModifyUsername = (username) => {
   var config = {
     method: "post",
     url: "/users/edit",
     headers: { Authorization: "Bearer " + userToken(), "Content-Type": "application/json"},
-    body: JSON.stringify({
+    data: JSON.stringify({
       login: userLogin(),
       name: "username",
       isTwoFa: isTwoFa(),
@@ -18,8 +42,9 @@ let ModifyUsername = (username) => {
 //   console.log("Username modified : " + username);
   axios(config)
     .then(function (response) {
-      console.log("Username modified : " + username);
       localStorage.setItem("username", username);
+      // refresh the window
+        window.location.reload();
     })
     .catch(function (error) {
       console.log("Erreur, impossible de modifier le username > " + error);
@@ -90,6 +115,7 @@ export const accountService = {
   isLogged,
   userToken,
   isTwoFa,
+  ModifyAvatar,
   userAvatarUrl,
   userLogin,
   userName,
