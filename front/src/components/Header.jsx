@@ -38,7 +38,7 @@ const Header = () => {
               />
               <div className="div-profile-name">
                 <div className="text-profile-name">
-                  {accountService.userLogin()}
+                  {accountService.userName()}
                 </div>
               </div>
               <div className="div-profile-picture">

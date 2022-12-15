@@ -6,7 +6,12 @@ import "../styles/input-file.css";
 export default function ProfilSettings() {
   // state
   const [avatar, setAvatar] = React.useState(true);
+  const [username, setUsername] = React.useState(accountService.userName());
 
+
+    const handleChange = (e) => {
+        setUsername(e.target.value);
+    }
   // comportements
   const boolChangeAvatar = () => {
     if (avatar === false) {
@@ -14,6 +19,12 @@ export default function ProfilSettings() {
     } else {
       setAvatar(false);
     }
+  };
+
+  const updateProfil = (e) => {
+    e.preventDefault();
+    console.log(username);
+    accountService.ModifyUsername(username);
   };
 
   // affichage
@@ -37,34 +48,35 @@ export default function ProfilSettings() {
 
       {/* avatar changement window */}
       {!avatar && (
-        // <div className="settings-profil">
-        //   <div className="settings-avatar">
-            <div className="change-avatar-container">
-              <input
-                type="text"
-                placeholder="New username"
-                className="newUsername-text-area"
+
+
+        <form onSubmit={updateProfil}>
+
+          <div className="change-avatar-container">
+            <input
+              type="text"
+              placeholder="New username"
+              value={username}
+            onChange={handleChange}
+              className="newUsername-text-area"
               />
-              {/* File-Input */}
-              {/* Upload Avatar Picture */}
-              <div className="file-input">
-                <input type="file" accept="image/*" />
-              </div>
-              <div className="button-change-container">
-              <button className="button-change">
-              <div className="text-change">SAVE</div>
-            </button>
+            <div className="file-input">
+              <input type="file" accept="image/*" />
             </div>
+            <div className="button-change-container">
+              <button className="button-change" type="submit">
+                <div className="text-change">SAVE</div>
+              </button>
+            </div>
+            <input type="submit" />
             <img
               className="return-arrow"
               src={returnBack}
               alt="return"
               onClick={boolChangeAvatar}
-              />
-              </div>
-        //    </div>
-        // </div>
-        // </div>
+            />
+          </div>
+        </form>
       )}
     </div>
   );

@@ -2,6 +2,30 @@
 import axios from "../config/axios";
 import storeProfilData from "./storeProfilData";
 
+let ModifyUsername = (username) => {
+  var config = {
+    method: "post",
+    url: "/users/edit",
+    headers: { Authorization: "Bearer " + userToken(), "Content-Type": "application/json"},
+    body: JSON.stringify({
+      login: userLogin(),
+      name: "username",
+      isTwoFa: isTwoFa(),
+      avatarUrl: userAvatarUrl(),
+    }),
+  };
+
+//   console.log("Username modified : " + username);
+  axios(config)
+    .then(function (response) {
+      console.log("Username modified : " + username);
+      localStorage.setItem("username", username);
+    })
+    .catch(function (error) {
+      console.log("Erreur, impossible de modifier le username > " + error);
+    });
+};
+
 let saveToken = (code) => {
   localStorage.setItem("code", code);
 
@@ -19,30 +43,35 @@ let saveToken = (code) => {
       window.location.href = "/";
     })
     .catch(function (error) {
-        alert("Backend still loading... Please wait")
-        console.log("Token seems to be invalid, please try again");
-        console.log(error);
-        localStorage.removeItem("code");
-        window.location.href = "/";
+      alert("Backend still loading... Please wait");
+      console.log("Token seems to be invalid, please try again");
+      console.log(error);
+      localStorage.removeItem("code");
+      window.location.href = "/";
     });
-    storeProfilData();
+  storeProfilData();
 };
 
 let userToken = () => {
   return localStorage.getItem("token");
 };
 
+let isTwoFa = () => {
+  return localStorage.getItem("isTwoFa");
+};
+
 let userLogin = () => {
-//   alert("userLogin : " + localStorage.getItem("login"));
+  //   alert("userLogin : " + localStorage.getItem("login"));
   return localStorage.getItem("login");
 };
 
-let userAvatarUrl = () => {
-    return localStorage.getItem("avatarUrl");
+let userName = () => {
+  return localStorage.getItem("username");
 };
 
-// let userAvatarUrl = () => {
-    // return localStorage.getItem("
+let userAvatarUrl = () => {
+  return localStorage.getItem("avatarUrl");
+};
 
 let logout = () => {
   localStorage.removeItem("code");
@@ -56,9 +85,12 @@ let isLogged = () => {
 
 export const accountService = {
   saveToken,
+  ModifyUsername,
   logout,
   isLogged,
   userToken,
+  isTwoFa,
   userAvatarUrl,
   userLogin,
+  userName,
 };
