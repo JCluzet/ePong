@@ -9,20 +9,20 @@ export default function ProfilSettings() {
   const [avatar, setAvatar] = React.useState(false);
   const [menuSettings, setMenuSettings] = React.useState(true);
   const [tfa, setTfa] = React.useState(false);
-  const [checked, setChecked] = React.useState(accountService.isTwoFa());
+  const [checked, setChecked] = React.useState(!accountService.isTwoFa());
   const [username, setUsername] = React.useState(accountService.userName());
   const [avatarUrl, setAvatarUrl] = React.useState(
     accountService.userAvatarUrl()
   );
 
   const handleTfaChange = () => {
-    setChecked(!checked);
-    if (checked === true) {
-      accountService.ModifyTfa(false);
-    }
-    if (checked === false) {
-        accountService.ModifyTfa(true);
+      if (checked === true) {
+          accountService.ModifyTfa(false);
         }
+        if (checked === false) {
+            accountService.ModifyTfa(true);
+        }
+        setChecked(!checked);
   };
 
 //   const valueIsTwoFactorAuth = () => {

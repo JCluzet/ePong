@@ -47,6 +47,12 @@ let ModifyTfa = (tfa) => {
 
   axios(config)
     .then(function (response) {
+        console.log(JSON.stringify({
+            login: userLogin(),
+            name: userName(),
+            isTwoFa: tfa,
+            avatarUrl: userAvatarUrl(),
+        }) )
       localStorage.setItem("isTwoFa", tfa);
       console.log("Tfa modified : " + tfa)
       // refresh the window
@@ -67,7 +73,7 @@ let ModifyUsername = (username) => {
     },
     data: JSON.stringify({
       login: userLogin(),
-      name: "username",
+      name: username,
       isTwoFa: isTwoFa(),
       avatarUrl: userAvatarUrl(),
     }),
