@@ -40,23 +40,16 @@ let ModifyTfa = (tfa) => {
     data: JSON.stringify({
       login: userLogin(),
       name: userName(),
-      isTwoFa: tfa,
+      // istwofa must be a boolean
+        isTwoFa: tfa === "true" ? true : false,
       avatarUrl: userAvatarUrl(),
     }),
   };
 
   axios(config)
     .then(function (response) {
-        console.log(JSON.stringify({
-            login: userLogin(),
-            name: userName(),
-            isTwoFa: tfa,
-            avatarUrl: userAvatarUrl(),
-        }) )
       localStorage.setItem("isTwoFa", tfa);
       console.log("Tfa modified : " + tfa)
-      // refresh the window
-    //   window.location.reload();
     })
     .catch(function (error) {
       console.log("Erreur, impossible de modifier le tfa > " + error);

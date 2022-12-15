@@ -101,20 +101,20 @@ export default function FriendList() {
                 })}
             </div>
             <div className="main">
-                <div class="row">
-                    <div class="column">
+                <div className="row">
+                    <div className="column">
                         <img src={Img} alt={'profile picture'} className="circle-img" style= {{height: 100 ,width: 100}}/>
                     </div>
-                    <div class="column">
+                    <div className="column">
                     <button className="social-button">Historic</button>
                     </div>
-                    <div class="column">
+                    <div className="column">
                         {Online
                         ? <button className="social-button">Challenge</button>
                         : <p></p>
                         }
                     </div>
-                    <div class="column">
+                    <div className="column">
                         {Online
                         ? <button className="social-button">Chat</button>
                         : <p></p>
