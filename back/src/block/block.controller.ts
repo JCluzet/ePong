@@ -4,7 +4,6 @@ import { EUser } from 'src/users/interfaces/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { ConnectionNotFoundError } from 'typeorm';
 import { BlockService } from './block.service';
-import { EBlock } from './interface/bock.entity';
 
 @Controller('block')
 export class BlockController {

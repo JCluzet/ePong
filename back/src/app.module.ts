@@ -30,6 +30,6 @@ import { EBlock } from './block/interface/bock.entity';
     ChatModule,
     BlockModule,
   ],
-  controllers: [AppController, BlockController],
+  controllers: [AppController],
 })
 export class AppModule {}
