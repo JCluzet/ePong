@@ -1,10 +1,16 @@
-import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Req, Res, UnauthorizedException, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { randString } from 'src/utils/utils';
+import { extname } from 'path';
 import { IGameScore } from './interfaces/gameScore.interface';
 import { EUser } from './interfaces/user.entity';
 import { IUserProfile } from './interfaces/userProfile.interface';
 import { IUserPublicProfile } from './interfaces/userPublicProfile.interface';
 import { UsersService } from './users.service';
+import { API_AVATAR_GET_URL } from 'src/constant';
+import { IProfileSettings } from './interfaces/profileSetting.interface';
 
 @Controller('users')
 export class UsersController {
@@ -80,6 +86,47 @@ export class UsersController {
     } catch (err) {
       throw new BadRequestException(err.message);
     }
+  }
+
+  @Post('/uploadAvatar')
+  @UseGuards(AuthGuard('jwt'))
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './upload',
+        // eslint-disable-next-line @typescript-eslint/ban-types
+        filename: (req: any, file, callback: Function) => {
+          const extension: string = extname(file.originalname);
+          const newFilename: string = req.user.sub + randString(3) + extension;
+          callback(null, newFilename);
+        },
+      }),
+      // eslint-disable-next-line @typescript-eslint/ban-types
+      fileFilter: (req: any, file, callback: Function) => {
+        if (file.mimetype.substring(0, 5) !== 'image' && !file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) callback(new BadRequestException('Invalid file type'), false);
+        callback(null, true);
+      },
+    }),
+  )
+  async uploadImage(@Req() request: any, @UploadedFile() file: Express.Multer.File) {
+    try {
+      const user = await this.usersService.findUserProfile(request.user.sub);
+      if (!user) throw new BadRequestException('User not found');
+      const userSetting: IProfileSettings = {
+        login: user.login,
+        name: user.name,
+        istwofa: user.isTwoFa,
+        avatarUrl: API_AVATAR_GET_URL + '/' + file.filename,
+      };
+      this.usersService.editWithSetting(userSetting);
+    } catch (err) {
+      throw new BadRequestException(err.message);
+    }
+  }
+
+  @Get('/avatars/:filename')
+  seeUploadedFile(@Param('filename') filename, @Res() res: any) {
+    return res.sendFile(filename, { root: './upload' });
   }
 
   @Delete('/reset')
