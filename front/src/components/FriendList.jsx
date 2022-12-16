@@ -60,7 +60,7 @@ const items = [
 export default function FriendList() {
     const [Name, setName] = useState('');
     const [Msg, setMsg] = useState('');
-    const [Img, setImg] = useState('');
+    const [Img, setImg] = useState(user.imgUrl);
     const [Online, setStatus] = useState(false);
 
     useEffect(() => {
