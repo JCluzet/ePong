@@ -53,6 +53,9 @@ Users:
 
   - POST Address_backend + /users/game : header { Authorization: 'Bearer + apiToken'}, Body { winnerLogin: string, loserLogin : string }
           update game score
+
+  - POST Address_backend + /users/uploadAvatar : header { Authorization: 'Bearer + apiToken', }
+          upload Avatar image to backend
   
   - DELETE Address_backend + /users/delete:
             delete all User_entity 

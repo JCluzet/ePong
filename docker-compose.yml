@@ -37,7 +37,7 @@ services:
     env_file:
       - ./dockerEnv/db-server.env
     volumes:
-      # - ./db-data/:/var/lib/postgresql/data
+      #- ./db-data/:/var/lib/postgresql/data
       - /goinfre/$USER/db-data/:/var/lib/postgresql/data
     restart: unless-stopped
 

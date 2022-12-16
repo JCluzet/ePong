@@ -17,11 +17,11 @@ export default function ProfileCard() {
         <div className="container">
             {/* j'ai creer une class container-social dans le css qui contient direct tout le style */}
             <section className="container-shiny">
-                <div class="row">
-                    <div class="column">
+                <div className="row">
+                    <div className="column">
                         <img src={user.imgUrl} alt={'profile picture'} style= {{height: 100 ,width: 100}}/>
                     </div>
-                    <div class="column">
+                    <div className="column">
                     <button className="social-button">Historic</button>
                     </div>
                 </div>

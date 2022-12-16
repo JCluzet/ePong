@@ -3,48 +3,81 @@ import axios from "../config/axios";
 import storeProfilData from "./storeProfilData";
 
 let ModifyAvatar = (avatarUrl) => {
-    var config = {
-        method: "post",
-        url: "/users/edit",
-        headers: { Authorization: "Bearer " + userToken(), "Content-Type": "application/json"},
-        data: JSON.stringify({
-            login: userLogin(),
-            name: userName(),
-            isTwoFa: isTwoFa(),
-            avatarUrl: avatarUrl,
-        }),
-    };
+  var config = {
+    method: "post",
+    url: "/users/edit",
+    headers: {
+      Authorization: "Bearer " + userToken(),
+      "Content-Type": "application/json",
+    },
+    data: JSON.stringify({
+      login: userLogin(),
+      name: userName(),
+      isTwoFa: isTwoFa(),
+      avatarUrl: avatarUrl,
+    }),
+  };
 
-    axios(config)
-        .then(function (response) {
-            localStorage.setItem("avatarUrl", avatarUrl);
-            // refresh the window
-            window.location.reload();
-        })
-        .catch(function (error) {
-            console.log("Erreur, impossible de modifier l'avatar > " + error);
-        });
+  axios(config)
+    .then(function (response) {
+      localStorage.setItem("avatarUrl", avatarUrl);
+      // refresh the window
+      window.location.reload();
+    })
+    .catch(function (error) {
+      console.log("Erreur, impossible de modifier l'avatar > " + error);
+    });
+};
+
+let ModifyTfa = (tfa) => {
+  var config = {
+    method: "post",
+    url: "/users/edit",
+    headers: {
+      Authorization: "Bearer " + userToken(),
+      "Content-Type": "application/json",
+    },
+    data: JSON.stringify({
+      login: userLogin(),
+      name: userName(),
+      // istwofa must be a boolean
+        isTwoFa: tfa === "true" ? true : false,
+      avatarUrl: userAvatarUrl(),
+    }),
+  };
+
+  axios(config)
+    .then(function (response) {
+      localStorage.setItem("isTwoFa", tfa);
+      console.log("Tfa modified : " + tfa)
+    })
+    .catch(function (error) {
+      console.log("Erreur, impossible de modifier le tfa > " + error);
+    });
 };
 
 let ModifyUsername = (username) => {
   var config = {
     method: "post",
     url: "/users/edit",
-    headers: { Authorization: "Bearer " + userToken(), "Content-Type": "application/json"},
+    headers: {
+      Authorization: "Bearer " + userToken(),
+      "Content-Type": "application/json",
+    },
     data: JSON.stringify({
       login: userLogin(),
-      name: "username",
+      name: username,
       isTwoFa: isTwoFa(),
       avatarUrl: userAvatarUrl(),
     }),
   };
 
-//   console.log("Username modified : " + username);
+  //   console.log("Username modified : " + username);
   axios(config)
     .then(function (response) {
       localStorage.setItem("username", username);
       // refresh the window
-        window.location.reload();
+      window.location.reload();
     })
     .catch(function (error) {
       console.log("Erreur, impossible de modifier le username > " + error);
@@ -62,10 +95,10 @@ let saveToken = (code) => {
 
   axios(config)
     .then(function (response) {
+      window.location.href = "/";
       localStorage.setItem("token", response.data.apiToken);
       console.log("Token saved : " + response.data.apiToken);
       localStorage.setItem("login", response.data.login);
-      window.location.href = "/";
     })
     .catch(function (error) {
       alert("Backend still loading... Please wait");
@@ -113,6 +146,7 @@ export const accountService = {
   ModifyUsername,
   logout,
   isLogged,
+  ModifyTfa,
   userToken,
   isTwoFa,
   ModifyAvatar,
