@@ -87,22 +87,17 @@ let ModifyTfa = (tfa) => {
       login: userLogin(),
       name: userName(),
       // istwofa must be a boolean
-        isTwoFa: tfa === "true" ? true : false,
+        isTwoFa: tfa,
       avatarUrl: userAvatarUrl(),
     }),
   };
 
-  console.log("tfa received: " + tfa);
+  console.log("tfa change: " + tfa);
 
   axios(config)
     .then(function (response) {
-      if (tfa === "true") {
-        localStorage.setItem("isTwoFa", true);
-        } else {
-        localStorage.setItem("isTwoFa", false);
-        }
-    console.log("Tfa modigggfied : " + accountService.isTwoFa())
-      console.log("Tfa modified : " + tfa)
+        localStorage.setItem("isTwoFa", tfa);
+        console.log("isTwoFa modified : " + accountService.isTwoFa());
     })
     .catch(function (error) {
       console.log("Erreur, impossible de modifier le tfa > " + error);
@@ -185,12 +180,12 @@ let userAvatarUrl = () => {
 };
 
 let logout = () => {
-  localStorage.removeItem("code");
+  localStorage.removeItem("token");
   window.location.href = "/";
 };
 
 let isLogged = () => {
-  return localStorage.getItem("code") !== null;
+  return localStorage.getItem("token") !== null;
   //   window.location.href = "/das";
 };
 

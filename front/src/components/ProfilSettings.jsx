@@ -15,10 +15,8 @@ export default function ProfilSettings() {
     accountService.userAvatarUrl()
   );
 
-    console.log("istwofa??", accountService.isTwoFa());
+    // console.log("istwofa??", accountService.isTwoFa());
   const handleTfaChange = (checked) => {
-      // setChecked(checked);
-      console.log("checked1", checked);
       setChecked(checked);
       accountService.ModifyTfa(checked);
     };
