@@ -2,31 +2,77 @@
 import axios from "../config/axios";
 import storeProfilData from "./storeProfilData";
 
-let ModifyAvatar = (avatarUrl) => {
-  var config = {
-    method: "post",
-    url: "/users/edit",
-    headers: {
-      Authorization: "Bearer " + userToken(),
-      "Content-Type": "application/json",
-    },
-    data: JSON.stringify({
-      login: userLogin(),
-      name: userName(),
-      isTwoFa: isTwoFa(),
-      avatarUrl: avatarUrl,
-    }),
-  };
+// let ModifyAvatar = (avatarUrl) => {
+//   var config = {
+//     method: "post",
+//     url: "/users/edit",
+//     headers: {
+//       Authorization: "Bearer " + userToken(),
+//       "Content-Type": "application/json",
+//     },
+//     data: JSON.stringify({
+//       login: userLogin(),
+//       name: userName(),
+//       isTwoFa: isTwoFa(),
+//       avatarUrl: avatarUrl,
+//     }),
+//   };
 
-  axios(config)
-    .then(function (response) {
-      localStorage.setItem("avatarUrl", avatarUrl);
-      // refresh the window
-      window.location.reload();
-    })
-    .catch(function (error) {
-      console.log("Erreur, impossible de modifier l'avatar > " + error);
-    });
+//   axios(config)
+//     .then(function (response) {
+//       localStorage.setItem("avatarUrl", avatarUrl);
+//       // refresh the window
+//       window.location.reload();
+//     })
+//     .catch(function (error) {
+//       console.log("Erreur, impossible de modifier l'avatar > " + error);
+//     });
+// };
+
+let majAvatar = () => {
+    var config = {
+        method: "get",
+        url: "/users/profile/" + userLogin(),
+        headers: { Authorization: "Bearer " + userToken() },
+    };
+
+    axios(config)
+        .then(function (response) {
+            localStorage.setItem("avatarUrl", response.data.avatarUrl);
+            console.log("Avatar saved : " + response.data.avatarUrl);
+        })
+        .catch(function (error) {
+            console.log("Erreur, impossible de get /user/profile > " + error);
+        });
+};
+
+
+let ModifyAvatar = (formData) => {
+    var config = {
+        method: "post",
+        url: "/users/edit",
+        headers: {
+            Authorization: "Bearer " + userToken(),
+            "Content-Type": "application/json",
+        },
+        data: JSON.stringify({
+            login: userLogin(),
+            name: userName(),
+            isTwoFa: isTwoFa() === "true" ? true : false,
+            avatarUrl: formData,
+        }),
+    };
+
+    axios(config)
+        .then(function (response) {
+            majAvatar();
+            // refresh the window
+            console.log("Avatar modified : " + formData);
+            window.location.reload();
+        })
+        .catch(function (error) {
+            console.log("Erreur, impossible de modifier l'avatar > " + error);
+        });
 };
 
 let ModifyTfa = (tfa) => {
@@ -46,9 +92,16 @@ let ModifyTfa = (tfa) => {
     }),
   };
 
+  console.log("tfa received: " + tfa);
+
   axios(config)
     .then(function (response) {
-      localStorage.setItem("isTwoFa", tfa);
+      if (tfa === "true") {
+        localStorage.setItem("isTwoFa", true);
+        } else {
+        localStorage.setItem("isTwoFa", false);
+        }
+    console.log("Tfa modigggfied : " + accountService.isTwoFa())
       console.log("Tfa modified : " + tfa)
     })
     .catch(function (error) {
@@ -115,7 +168,7 @@ let userToken = () => {
 };
 
 let isTwoFa = () => {
-  return localStorage.getItem("isTwoFa");
+  return (localStorage.getItem("isTwoFa") === "true" ? true : false);
 };
 
 let userLogin = () => {

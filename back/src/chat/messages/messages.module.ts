@@ -10,15 +10,16 @@ import { MessagesService } from './messages.service';
 import { AuthService } from 'src/auth/auth.service';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Message]),
-        AuthModule,
-        UsersModule,
-        JwtModule.register({
-            signOptions: { expiresIn: '1d'},
-            secret: JwtConstants.secret,
-        }),
-    ],
-    providers: [MessagesService, AuthService],
-    controllers: [MessagesController],
+  imports: [
+    TypeOrmModule.forFeature([Message]),
+    AuthModule,
+    UsersModule,
+    JwtModule.register({
+      signOptions: { expiresIn: '1d' },
+      secret: JwtConstants.secret,
+    }),
+  ],
+  providers: [MessagesService, AuthService],
+  controllers: [MessagesController],
 })
 export class MessagesModule {}

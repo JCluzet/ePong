@@ -9,21 +9,19 @@ export default function ProfilSettings() {
   const [avatar, setAvatar] = React.useState(false);
   const [menuSettings, setMenuSettings] = React.useState(true);
   const [tfa, setTfa] = React.useState(false);
-  const [checked, setChecked] = React.useState(!accountService.isTwoFa());
+  const [checked, setChecked] = React.useState(accountService.isTwoFa());
   const [username, setUsername] = React.useState(accountService.userName());
-  const [avatarUrl, setAvatarUrl] = React.useState(
+  const [formData, setFormData] = React.useState(
     accountService.userAvatarUrl()
   );
 
-  const handleTfaChange = () => {
-      if (checked === true) {
-          accountService.ModifyTfa(false);
-        }
-        if (checked === false) {
-            accountService.ModifyTfa(true);
-        }
-        setChecked(!checked);
-  };
+    console.log("istwofa??", accountService.isTwoFa());
+  const handleTfaChange = (checked) => {
+      // setChecked(checked);
+      console.log("checked1", checked);
+      setChecked(checked);
+      accountService.ModifyTfa(checked);
+    };
 
 //   const valueIsTwoFactorAuth = () => {
 //     if (accountService.userTwoFactorAuth() === true) {
@@ -45,9 +43,10 @@ export default function ProfilSettings() {
 
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
-      let img = event.target.files[0];
-      setAvatarUrl(URL.createObjectURL(img));
-      console.log(URL.createObjectURL(img));
+      let formdata = new FormData();
+        formdata.append("file", event.target.files[0]);
+        setFormData(formdata);
+        // accountService.ModifyAvatar(formdata);
     }
   };
 
@@ -78,7 +77,17 @@ export default function ProfilSettings() {
 
   const updateProfil = (e) => {
     e.preventDefault();
-    accountService.ModifyUsername(username);
+    if (formData && username) {
+      accountService.ModifyAvatar(formData);
+      accountService.ModifyUsername(username);
+    }
+    else if (username) {
+        accountService.ModifyUsername(username);
+    }
+    else if (formData) {
+      accountService.ModifyAvatar(formData);
+    }
+    // accountService.ModifyAvatar(formData);
     // accountService.ModifyAvatar(avatarUrl);
   };
 
@@ -135,15 +144,20 @@ export default function ProfilSettings() {
           <div className="change-avatar-container">
             <div className="tfa-text">Two Factor Auth</div>
             <br/>
+
+
+
             <input
               id="checkbox"
               className="switch-input"
               type="checkbox"
               defaultChecked={checked}
-            //   value={valueIsTwoFactorAuth}
               onChange={() => handleTfaChange(!checked)}
             />
             <label htmlFor="checkbox" className="switch"></label>
+
+
+
 
             <img
               className="return-arrow"
