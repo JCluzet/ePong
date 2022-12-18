@@ -115,7 +115,7 @@ export class UsersController {
       const userSetting: IProfileSettings = {
         login: user.login,
         name: user.name,
-        istwofa: user.isTwoFa,
+        isTwoFa: user.isTwoFa,
         avatarUrl: API_AVATAR_GET_URL + '/' + file.filename,
       };
       this.usersService.editWithSetting(userSetting);
