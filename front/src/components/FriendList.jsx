@@ -2,6 +2,8 @@ import React from "react";
 import { accountService } from "../hooks/account_service";
 import {useEffect, useState} from 'react';
 import "../styles/list.css";
+import ChatBox from "../components/ChatBox";
+
 
 const user = {
     name: accountService.userLogin(),
@@ -16,6 +18,7 @@ const user = {
         borderRadius : 10,
     }
 };
+
 
 
 const items = [
@@ -56,12 +59,13 @@ const items = [
     }
 ]
 
-
 export default function FriendList() {
+
     const [Name, setName] = useState('');
     const [Msg, setMsg] = useState('');
     const [Img, setImg] = useState(user.imgUrl);
     const [Online, setStatus] = useState(false);
+    const [isToggled, setIsToggled] = useState(false);
 
     useEffect(() => {
     }, [Name, Msg, Img, Online]);
@@ -72,6 +76,9 @@ export default function FriendList() {
         setImg(image);
         setStatus(online);
     };
+
+    const onToggle = () => setIsToggled(!isToggled);
+
     return(
         <div className="container">
             <section className="container-shiny" style = {user.style}>
@@ -116,13 +123,20 @@ export default function FriendList() {
                     </div>
                     <div className="column">
                         {Online
-                        ? <button className="social-button">Chat</button>
+                        ? <button className="social-button" onClick={onToggle}>Chat</button>
                         : <p></p>
                         }
                     </div>
                 </div>
                 <h2> {Name} </h2>
-                <div > {Msg} </div>
+                <p>{Msg}</p>
+            <div>
+                {
+                    isToggled ? <ChatBox/> : <p></p>
+                }
+            </div>
+                <div>
+                </div>
             </div>
             </div>
             </section>

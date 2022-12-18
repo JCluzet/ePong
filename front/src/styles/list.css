@@ -9,8 +9,8 @@ body {
 }
 
 .scrollable-div {
-    height: 350px;
-    width: 200px;
+    height: auto;
+    width: auto;
     overflow: auto;
     margin: 20px;
     text-align: justify;
@@ -32,8 +32,8 @@ body {
     flex: 1;
     overflow: auto;
     text-align: center;
-    height: 350px;
-    margin: 20px;
+    height: auto;
+    margin: auto;
     text-align: justify;
-    padding: 20px;
+    padding : 1.5em;
 }
