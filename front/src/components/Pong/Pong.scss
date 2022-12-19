@@ -1,0 +1,74 @@
+@use "../../styles/variables";
+
+#currentGame {
+  width: 60%;
+  margin-top: 5%;
+  padding: 10px;
+  border-radius: 1rem;
+  background-color: white !important;
+}
+
+#game-title {
+  margin-top: 25px;
+  color: white !important;
+  font-size: 40px !important;
+}
+
+#main > * {
+  color: white !important;
+}
+
+.canvas-score
+{
+  color: white !important;
+}
+
+#canvas {
+  background: black !important;
+  padding: 50px !important;
+  border-radius: variables.$border-radius-big;
+  border: .4rem solid white;
+  position: sticky;
+  margin-bottom: 50px;
+  transition-duration: 1s;
+  width: 75% !important;
+  height: 100% !important;
+  // padding-top: 50% !important;
+}
+
+#form-select, #search-button, #search-button2 {
+  width: 35% !important;
+  text-align: center !important;
+  position: sticky;
+  font-weight: 900 !important;
+}
+
+#scores > * {
+  font-size: 34px !important;
+  font-weight: 900 !important;
+  font-family: variables.$basic-font !important;
+  font-style: normal !important;
+}
+
+.form--label {
+  font-size: 24px !important;
+  text-align: center !important;
+  font-family: variables.$basic-font !important;
+}
+
+// PONG CSS BELOW:
+.game--li {
+  display: inline-block;
+}
+
+#victoryMessage {
+  color: white !important;
+  font-size: 8vh !important;
+  font-weight: bold;
+}
+
+#offline {
+  color: rgb(255, 0, 0) !important;
+  font-size: 8vh !important;
+  font-weight: bold;
+}
