@@ -8,6 +8,11 @@
     width: 25%;
 }
 
+.column-stats {
+  float: left;
+  width: 50%;
+}
+
 .column-profile {
     float: left;
     width: 33%;

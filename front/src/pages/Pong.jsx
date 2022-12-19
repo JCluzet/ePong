@@ -5,8 +5,8 @@ const ROW_SIZE = 16
 const COL_SIZE = 32
 const PADDLE_BOARD_SIZE = 3;
 const PADDLE_EDGE_SPACE = 0;
-const PLAYER_UP   = 38
-const PLAYER_DOWN = 40
+const PLAYER_UP   = 38.0
+const PLAYER_DOWN = 40.0
 const PAUSE       = 32
  
 const inner = {
@@ -50,7 +50,7 @@ const InitialState = () => {
         player: paddle.map(x => (x * COL_SIZE) + PADDLE_EDGE_SPACE),
         opponent: paddle.map(x => ((x+1) * COL_SIZE)-(PADDLE_EDGE_SPACE+1)),
         ball: Math.round((ROW_SIZE * COL_SIZE)/2)+ ROW_SIZE,
-        ballSpeed: 75,
+        ballSpeed: 75.4,
         deltaY: -COL_SIZE,
         deltaX: -1,
         pause: true,
