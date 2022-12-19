@@ -11,6 +11,9 @@ import { FriendsModule } from './fiends/friends.module';
 import { BlockController } from './block/block.controller';
 import { BlockModule } from './block/block.module';
 import { EBlock } from './block/interface/bock.entity';
+import { GameHistoryController } from './gameHistory/gameHistory.controller';
+import { GameHistoryModule } from './gameHistory/gameHistory.module';
+import { EGameHistory } from './gameHistory/interface/gameHistory.entity';
 
 @Module({
   imports: [
@@ -21,7 +24,7 @@ import { EBlock } from './block/interface/bock.entity';
       username: 'transcendingz',
       password: 'transcendingz',
       database: 'psql',
-      entities: [EUser, Etwofa, EFriend, EBlock],
+      entities: [EUser, Etwofa, EFriend, EBlock, EGameHistory],
       synchronize: true,
     }),
     UsersModule,
@@ -29,7 +32,8 @@ import { EBlock } from './block/interface/bock.entity';
     FriendsModule,
     ChatModule,
     BlockModule,
+    GameHistoryModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, GameHistoryController],
 })
 export class AppModule {}
