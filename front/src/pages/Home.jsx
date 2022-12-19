@@ -8,9 +8,9 @@ export default function Home() {
 
     // comportements
     useEffect (() => {
-        if(localStorage.getItem("token")){
-            window.location.href = "/";
-        }
+        // if(localStorage.getItem("token")){
+        //     window.location.href = "/";
+        // }
     }, []);
 
 
