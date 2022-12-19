@@ -1,6 +1,7 @@
 import Header from "../components/Header";
 import ProfileCard from "../components/ProfileCard";
 import FriendList from "../components/FriendList";
+import ChatBox from "../components/ChatBox";
 
 export default function Home() {
   // state
@@ -14,6 +15,7 @@ export default function Home() {
       <br />
       <ProfileCard/>
       <FriendList/>
+      <ChatBox/>
     </div>
   );
 }

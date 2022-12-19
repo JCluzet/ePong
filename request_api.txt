@@ -21,6 +21,11 @@ interface:
     - Friends_entity = { id: number, sender: string, receiver: string, status: 'none'/'pending'/'accepted' };
     - Friends_invite = { sender: string, receiver: string, status: 'none'/'pending'/'accepted' };
 
+  GameHistory:
+
+    - GameHistory_entity = { id: number, winner: string, loser: string, winnerScore: number, loserScore: number, timeStamp: string }
+    - GameHistory_DTO (Data transfer object) =  { winner: string, loser: string, winnerScore: number, loserScore: number, timeStamp: string, }
+}
 Authentification:
 
   - GET Address_backend + /auth/get_token : Query { code=accessToken }
@@ -88,3 +93,27 @@ Friends:
   
   -  DELETE Address_backend + /friends
               delete all Friends_entity
+
+Block:
+
+  - GET Address_backend + /block/:login: header { Authorization: 'Bearer + apiToken'}
+          :login is user login
+          return string table with the names of the blockers by user
+
+  - POST Address_backend + /block/block: header { Authorization: 'Bearer + apiToken'}, Query { to=userLogin }
+          send request to block user (user = to)
+  
+  - POST Address_backend + /block/unblock: header { Authorization: 'Bearer + apiToken'}, Query { to=userLogin }
+          send request to unblock user (user = to)
+  
+GameHistory:
+
+  - GET Address_backend + /game-history/history: header { Authorization: 'Bearer + apiToken'}
+          return GameHistory_entity table or undifine 
+
+  - GET Address_backend + /game-history/history/:login: header { Authorization: 'Bearer + apiToken'}
+          :login is user login
+          return GameHistory_entity table of the user
+
+  - POST Address_backend + /game-history/newGame: header { Authorization: 'Bearer + apiToken'}, Body { GameHistory_DTO }
+          send new game to history

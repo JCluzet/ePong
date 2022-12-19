@@ -1,6 +1,8 @@
 import React from "react";
 import { accountService } from "../hooks/account_service";
 import "../styles/social.css"
+import Statscard from "./StatsCard";
+import Historic from "./HistoricCard";
 
 
 // faire un composent "carte profile" avec login, si en ligne, image de login
@@ -18,20 +20,15 @@ export default function ProfileCard() {
             {/* j'ai creer une class container-social dans le css qui contient direct tout le style */}
             <section className="container-shiny">
                 <div className="row">
-                    <div className="column">
+                    <div className="column-stats">
                         <img src={user.imgUrl} alt={'profile picture'} style= {{height: 100 ,width: 100}}/>
+                        <h1>{user.name}</h1>
+                        <Statscard/>
                     </div>
-                    <div className="column">
-                    <button className="social-button">Historic</button>
+                    <div className="column-stats">
+                        <Historic/>
                     </div>
                 </div>
-                    <h1>{user.name}</h1>
-                <h2> Info </h2>
-                <ul>
-                    <li>template</li>
-                    <li>template</li>
-                    <li>template</li>
-                </ul>
             </section>
         </div>
     )

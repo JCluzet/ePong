@@ -1,7 +1,6 @@
 import React from "react";
 import "../styles/list.css";
 import {useState} from 'react';
-import {items} from '../components/FriendList'
 import "../styles/chatbox.css"
 
 
