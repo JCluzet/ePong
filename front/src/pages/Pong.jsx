@@ -18,7 +18,7 @@ const inner = {
 const outer = {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "justify", 
+    justifyContent: "justify",
     marginTop: "9em",
     marginLeft: "25em",
     Text: "100px",
