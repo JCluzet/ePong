@@ -60,7 +60,7 @@ export default function Pong() {
 			})
 	}
 	var SearchText = "Rechercher une partie"
-	var socket = io(url_begin.concat(":3000/game"), { query: { username: username } });
+	var socket = io(url_begin.concat(":3000/play"), { query: { username: username } });
 	var socket2 = io(url_begin.concat(":3000/chat"), { query: { username: username } });
 
 	function removeInvit() {
@@ -89,7 +89,7 @@ export default function Pong() {
 	socket.on("roundStartLIVE", (...args) => {
 		if (live !== null && (document.querySelector('#player-score').textContent === "5" ||
 			document.querySelector('#player2-score').textContent === "5") && joueur !== joueur2 && joueur !== joueur1)
-			window.top.location = url_begin.concat(":3030/live");
+			window.top.location = url_begin.concat(":3000/live");
 
 		if (live !== null || joueur === joueur2) {
 			const b = args[0].split(':');
@@ -317,7 +317,7 @@ export default function Pong() {
 	});
 
 	function acceptInvitePlay() {
-		window.top.location = url_begin.concat(":3030/game?vs=").concat(selectedUser);;
+		window.top.location = url_begin.concat(":3000/play?vs=").concat(selectedUser);;
 	}
 
 	const InvitetoPlay = () => {
@@ -456,7 +456,7 @@ export default function Pong() {
 
 	function clearDataGame() {
 		if (live !== null)
-			window.top.location = url_begin.concat(":3030/live");
+			window.top.location = url_begin.concat(":3000/live");
 		joueur1 = null;
 		joueur2 = null;
 		// adversaire = null;

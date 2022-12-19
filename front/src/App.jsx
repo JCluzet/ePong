@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 // import ParticleBackground from "./particlesBackground/ParticleBackground";
 import NotFound from "./pages/NotFound";
 import Game from "./pages/Game";
+import Live from "./components/Live/Live"
 import Social from "./pages/Social";
 import { accountService } from "./hooks/account_service";
 // import { GlobalProvider } from "./providers/GlobalProvider";
@@ -21,12 +22,15 @@ export default function App() {
         <Routes>
           <Route path="/" element={
             accountService.isLogged() ? <Home /> : <Login />
-          } />
+            } />
           <Route path="/play" element={
             accountService.isLogged() ? <Game /> : <Login />
             } />
           <Route path="/social" element={
             accountService.isLogged() ? <Social /> : <Login />
+            } />
+          <Route path="/live" element={
+            accountService.isLogged() ? <Live /> : <Login />
             } />
         <Route path="*" element={
             accountService.isLogged() ? <NotFound /> : <Login />
