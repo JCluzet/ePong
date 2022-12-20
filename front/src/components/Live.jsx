@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import './Live.scss';
-import Header from "../Header";
+import '../../styles/Live.scss';
+import Header from "./Header";
 import io from "socket.io-client";
 
 var game = [];

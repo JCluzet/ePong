@@ -1,4 +1,4 @@
-@use "../../styles/variables";
+@use "./variables";
 
 #currentGame {
   width: 60%;
@@ -20,7 +20,7 @@
 
 .canvas-score
 {
-  color: white !important;
+  color: black !important;
 }
 
 #canvas {
@@ -54,6 +54,7 @@
   font-size: 24px !important;
   text-align: center !important;
   font-family: variables.$basic-font !important;
+  color: black !important;
 }
 
 // PONG CSS BELOW:
@@ -62,7 +63,7 @@
 }
 
 #victoryMessage {
-  color: white !important;
+  color: black !important;
   font-size: 8vh !important;
   font-weight: bold;
 }

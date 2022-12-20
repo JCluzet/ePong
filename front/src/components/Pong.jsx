@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import './Pong.scss';
+import '../../styles/Pong.scss';
 import useWindowDimensions from "./useWindowDimensions"
 import io from "socket.io-client";
 import axios from "axios";
@@ -40,7 +40,7 @@ export default function Pong() {
 
 	const [username, setUsername] = React.useState("");
 	function getUser() {
-		let url = url_begin.concat(":3000/api/auth/");
+		let url = url_begin.concat(":5001/api/auth/");
 		let username = "";
 		axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 		axios.defaults.withCredentials = true;
@@ -60,8 +60,8 @@ export default function Pong() {
 			})
 	}
 	var SearchText = "Rechercher une partie"
-	var socket = io(url_begin.concat(":3000/play"), { query: { username: username } });
-	var socket2 = io(url_begin.concat(":3000/chat"), { query: { username: username } });
+	var socket = io(url_begin.concat(":5001/play"), { query: { username: username } });
+	var socket2 = io(url_begin.concat(":5001/chat"), { query: { username: username } });
 
 	function removeInvit() {
 		setActive2(false);
@@ -73,17 +73,17 @@ export default function Pong() {
 		if (joueur) {
 			isSearching = isSearching ? false : true;
 			if (isSearching) {
-				SearchText = "Annuler la recherche"
+				SearchText = "Annuler le matchmaking"
 				socket.emit('search', gameMode);
 			}
 			else {
-				SearchText = "Rechercher une partie à nouveau"
+				SearchText = "Relancer le matchmaking"
 				socket.emit('search', "STOPSEARCH-" + gameMode);
 			}
 			document.querySelector('#search-button').textContent = SearchText;
 		}
 		else
-			document.querySelector('#search-button').textContent = "Impossible de te connecter !"
+			document.querySelector('#search-button').textContent = "Impossible de lancer le matchmaking"
 	}
 
 	socket.on("roundStartLIVE", (...args) => {
@@ -499,10 +499,10 @@ export default function Pong() {
 												<Form.Label className="form--label">Choose game option</Form.Label>
 												<Form.Select id="form-select" aria-label="Modes de jeux:" defaultValue="original" onChange={e => chanScopeSet(e.target.value)}>
 													<option>Modes de jeux:</option>
-													<option value="original">Original (1972)</option>
-													<option value="bigball">Big Ball (Facile)</option>
-													<option value="blitz">Blitz (Balle Rapide)</option>
-													<option value="cube">Cube World (All is cubic)</option>
+													<option value="original">Classic Pong</option>
+													<option value="bigball">Big Ball</option>
+													<option value="blitz">Fast</option>
+													<option value="cube">Cubic</option>
 												</Form.Select>
 											</div>
 										</Form.Group>
