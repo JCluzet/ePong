@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Req, Res, UnauthorizedException, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Logger, Param, Post, Req, Res, UnauthorizedException, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -118,7 +118,9 @@ export class UsersController {
         isTwoFa: user.isTwoFa,
         avatarUrl: API_AVATAR_GET_URL + '/' + file.filename,
       };
+      Logger.log(`usersettings.avatar ${userSetting.avatarUrl}`)
       this.usersService.editWithSetting(userSetting);
+      return;
     } catch (err) {
       throw new BadRequestException(err.message);
     }

@@ -120,6 +120,7 @@ export class UsersService {
       user.isTwoFa = profileSettings.isTwoFa;
       user.avatarUrl = profileSettings.avatarUrl;
       await this.usersRepository.save(user);
+      Logger.log(`User ${user.avatarUrl} edited`);
       return true;
     } catch (err) {
       // eslint-disable-next-line prettier/prettier
