@@ -10,7 +10,6 @@ import { EFriend } from './fiends/interface/friend.entity';
 import { FriendsModule } from './fiends/friends.module';
 import { BlockModule } from './block/block.module';
 import { EBlock } from './block/interface/bock.entity';
-import { GameHistoryController } from './gameHistory/gameHistory.controller';
 import { GameHistoryModule } from './gameHistory/gameHistory.module';
 import { EGameHistory } from './gameHistory/interface/gameHistory.entity';
 
