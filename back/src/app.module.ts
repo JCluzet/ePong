@@ -8,7 +8,6 @@ import { ChatModule } from './chat/chat.module';
 import { Etwofa } from './auth/interfaces/twofa.entity';
 import { EFriend } from './fiends/interface/friend.entity';
 import { FriendsModule } from './fiends/friends.module';
-import { BlockController } from './block/block.controller';
 import { BlockModule } from './block/block.module';
 import { EBlock } from './block/interface/bock.entity';
 import { GameHistoryController } from './gameHistory/gameHistory.controller';
@@ -34,6 +33,6 @@ import { EGameHistory } from './gameHistory/interface/gameHistory.entity';
     BlockModule,
     GameHistoryModule,
   ],
-  controllers: [AppController, GameHistoryController],
+  controllers: [AppController],
 })
 export class AppModule {}
