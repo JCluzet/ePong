@@ -94,7 +94,6 @@ export class UsersController {
     FileInterceptor('file', {
       storage: diskStorage({
         destination: './upload',
-        // eslint-disable-next-line @typescript-eslint/ban-types
         filename: (req: any, file, callback: Function) => {
           const extension: string = extname(file.originalname);
           const newFilename: string = req.user.sub + randString(3) + extension;
@@ -110,6 +109,7 @@ export class UsersController {
   )
   async uploadImage(@Req() request: any, @UploadedFile() file: Express.Multer.File) {
     try {
+      Logger.log(`check modif image`);
       const user = await this.usersService.findUserProfile(request.user.sub);
       if (!user) throw new BadRequestException('User not found');
       const userSetting: IProfileSettings = {
@@ -118,9 +118,8 @@ export class UsersController {
         isTwoFa: user.isTwoFa,
         avatarUrl: API_AVATAR_GET_URL + '/' + file.filename,
       };
-      Logger.log(`usersettings.avatar ${userSetting.avatarUrl}`)
+      Logger.log(`avartrUrl ${userSetting.avatarUrl}`);
       this.usersService.editWithSetting(userSetting);
-      return;
     } catch (err) {
       throw new BadRequestException(err.message);
     }

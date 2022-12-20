@@ -41,10 +41,8 @@ export default function ProfilSettings() {
 
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
-        console.log("event", event.target.files[0])
       let formdata = new FormData();
         formdata.append("file", event.target.files[0]);
-        console.log("formdata", formdata)
         setFormData(formdata);
         // accountService.ModifyAvatar(formdata);
     }
@@ -77,14 +75,18 @@ export default function ProfilSettings() {
 
   const updateProfil = (e) => {
     e.preventDefault();
-    if (username !== "") {
+    if (formData && username) {
+      accountService.ModifyAvatar(formData);
       accountService.ModifyUsername(username);
-      console.log("username changed send to server");
     }
-    if (formData !== "") {
-        accountService.ModifyAvatar(formData);
-        console.log("avatar changed send to server");
+    else if (username) {
+        accountService.ModifyUsername(username);
     }
+    else if (formData) {
+      accountService.ModifyAvatar(formData);
+    }
+    // accountService.ModifyAvatar(formData);
+    // accountService.ModifyAvatar(avatarUrl);
   };
 
   // affichage

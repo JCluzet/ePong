@@ -10,17 +10,17 @@
 
 #game-title {
   margin-top: 25px;
-  color: black !important;
+  color: white !important;
   font-size: 40px !important;
 }
 
 #main > * {
-  color: black !important;
+  color: white !important;
 }
 
 .canvas-score
 {
-  color: black !important;
+  color: white !important;
 }
 
 #canvas {
@@ -54,7 +54,6 @@
   font-size: 24px !important;
   text-align: center !important;
   font-family: variables.$basic-font !important;
-  color: black !important;
 }
 
 // PONG CSS BELOW:
@@ -63,7 +62,7 @@
 }
 
 #victoryMessage {
-  color: black !important;
+  color: white !important;
   font-size: 8vh !important;
   font-weight: bold;
 }

@@ -119,7 +119,7 @@ export class AuthService {
       // eslint-disable-next-line prettier/prettier
       expDate: twofaChoice ? new Date(new Date().getTime() + 1000 * 600) : new Date(new Date().getTime() + 1000 * 3600),
     };
-    Logger.log(`logsuccess.apiToken: ${logSuccess.apiToken}`);
+    Logger.log(`logsuccess.apiToken: ${logSuccess.apiToken}, towfa: ${twofaChoice}`);
     return logSuccess;
   }
 

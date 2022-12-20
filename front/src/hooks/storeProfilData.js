@@ -36,14 +36,14 @@ let storeProfilData = () => {
 
       localStorage.setItem("isTwoFa", response.data.isTwoFa);
       console.log("isTwoFa saved : " + response.data.isTwoFa);
-      getUsername();
 
     //   localStorage.setItem("nbWins", response.data.nbWins);
     })
     .catch(function (error) {
-        console.log("Erreur, impossible de get /user/profile > " . error);
+      //   console.log("Erreur, impossible de get /user/profile > " . error);
     });
 
+  getUsername();
 };
 
 export default storeProfilData;

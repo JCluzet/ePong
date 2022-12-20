@@ -46,20 +46,21 @@ let majAvatar = () => {
         });
 };
 
-// export async function postCustomAvatar(formData) {
-    // const storedData = JSON.parse(localStorage.getItem("user"));
-
 
 let ModifyAvatar = (formData) => {
-    console.log("Modify Avatar...");
     var config = {
         method: "post",
-        url: "/users/uploadAvatar",
+        url: "/users/edit",
         headers: {
             Authorization: "Bearer " + userToken(),
-            "Content-Type": "multipart/form-data"
+            "Content-Type": "application/json",
         },
-        data: {formData}
+        data: JSON.stringify({
+            login: userLogin(),
+            name: userName(),
+            isTwoFa: isTwoFa() === "true" ? true : false,
+            avatarUrl: formData,
+        }),
     };
 
     axios(config)
@@ -124,7 +125,6 @@ let ModifyUsername = (username) => {
     .then(function (response) {
       localStorage.setItem("username", username);
       // refresh the window
-      console.log("Username modified : " + username);
       window.location.reload();
     })
     .catch(function (error) {
@@ -147,7 +147,6 @@ let saveToken = (code) => {
       localStorage.setItem("token", response.data.apiToken);
       console.log("Token saved : " + response.data.apiToken);
       localStorage.setItem("login", response.data.login);
-      storeProfilData();
     })
     .catch(function (error) {
       alert("Backend still loading... Please wait");
@@ -156,6 +155,7 @@ let saveToken = (code) => {
       localStorage.removeItem("code");
       window.location.href = "/";
     });
+  storeProfilData();
 };
 
 let userToken = () => {
