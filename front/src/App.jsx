@@ -7,7 +7,7 @@ import Home from "./pages/Home";
 // import ParticleBackground from "./particlesBackground/ParticleBackground";
 import NotFound from "./pages/NotFound";
 import Game from "./pages/Game";
-import Live from "./components/Live/Live"
+import Live from "./components/Live"
 import Social from "./pages/Social";
 import { accountService } from "./hooks/account_service";
 // import { GlobalProvider } from "./providers/GlobalProvider";

@@ -1,5 +1,5 @@
 import Header from "../components/Header";
-import Pong from "../components/Pong/Pong";
+import Pong from "../components/Pong";
 
 export default function Game() {
   // state
