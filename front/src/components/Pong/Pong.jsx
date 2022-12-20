@@ -496,13 +496,13 @@ export default function Pong() {
 									<Form>
 										<Form.Group>
 											<div className="row d-flex justify-content-center text-center">
-												<Form.Label className="form--label">Choose game option</Form.Label>
+												<Form.Label className="form--label">Choose game option : </Form.Label>
 												<Form.Select id="form-select" aria-label="Modes de jeux:" defaultValue="original" onChange={e => chanScopeSet(e.target.value)}>
 													<option>Modes de jeux:</option>
-													<option value="original">Original (1972)</option>
-													<option value="bigball">Big Ball (Facile)</option>
-													<option value="blitz">Blitz (Balle Rapide)</option>
-													<option value="cube">Cube World (All is cubic)</option>
+													<option value="original">Classic</option>
+													<option value="bigball">Big Ball</option>
+													<option value="blitz">Fast</option>
+													<option value="cube">Cubic</option>
 												</Form.Select>
 											</div>
 										</Form.Group>
