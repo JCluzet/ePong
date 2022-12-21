@@ -8,9 +8,15 @@
     width: 25%;
 }
 
-.column-stats {
+.column-stats1 {
   float: left;
-  width: 50%;
+  width: 25%;
+}
+
+.column-stats2 {
+  float: left;
+  width: 75%;
+  align-items: center;
 }
 
 .column-profile {

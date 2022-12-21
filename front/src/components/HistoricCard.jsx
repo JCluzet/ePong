@@ -1,5 +1,10 @@
 import React from "react";
 import "../styles/historic.css"
+import "../styles/social.css"
+import {useEffect, useState} from 'react';
+import Trophy from "../assets/images/trophy.png";
+import Modal from "./HistoricModal";
+
 
 const historic = [
     {
@@ -68,41 +73,62 @@ const historic = [
 ]
 
 export default function Historic() {
+    const [isToggled, setIsToggled] = useState(false);
+
+    const onToggle = () => setIsToggled(!isToggled);
     return (
         <div className="main">
             {historic.map(({playerOne, playerTwo, scoreP1, scoreP2, date, winner}) => {
                 return (
-                    <div className="row">
-                            <div className="column-profile">
-                               {winner ? 
-                                <div className="winner">
-                                    <p>{playerOne}</p>
-                                    <p>{scoreP1}</p>
-                                    </div> 
-                                    : 
-                                    <div className="loser">
-                                    <p>{playerOne}</p>
-                                    <p>{scoreP1}</p>
-                                    </div> 
-                                    }
-                                </div>
+                    <dir>
+                        <div className="container-shiny" onClick={onToggle}>
+                            <div className="row">
                                 <div className="column-profile">
-                                {winner ? 
-                                    <div className="loser">
-                                        <p>{playerTwo}</p>
-                                        <p>{scoreP2}</p>
-                                    </div> 
-                                    :
-                                    <div className="winner">
-                                        <p>{playerTwo}</p>
-                                        <p>{scoreP2}</p>
-                                    </div> 
-                                }
-                            </div>
-                            <div className="column-profile" style={{textAlign : 'center'}}>
+                                {winner ?
+                                        <div >
+                                        <p>{playerOne}</p>
+                                    <div className="winnerp1">
+                                        <p>{scoreP1}</p>
+                                        </div>
+                                        <img src={Trophy} alt="pict" className="imagep1" />
+                                        </div>
+                                        :
+                                        <div>
+                                        <p>{playerOne}</p>
+                                        <div className="loserp1">
+                                        <p>{scoreP1}</p>
+                                        </div> 
+                                        </div> 
+                                        }
+                                    </div>
+                                    <div className="column-profile">
+                                    {winner ?
+                                        <div>
+                                            <p>{playerTwo}</p>
+                                        <div className="loserp2">
+                                            <p>{scoreP2}</p>
+                                        </div>
+                                        </div>
+                                        :
+                                        <div>
+                                            <p>{playerTwo}</p>
+                                        <div className="winnerp2">
+                                            <p>{scoreP2}</p>
+                                        </div>
+                                        <img src={Trophy} alt="pict" className="imagep2" />
+                                        </div>
+                                    }
+                                    </div>
+                                </div>
+                            <div className="date">
                                 {date}
                             </div>
-                        </div>
+                            <Modal show={isToggled} onClose={onToggle}>
+                                
+                                
+                            </Modal>
+                            </div>
+                        </dir>
                     );
                 })}
         </div>

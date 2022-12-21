@@ -13,7 +13,6 @@ class StatsCard extends React.Component {
     render ()
     {
         return (
-
             <div>
             <h2> Stats </h2>
                 <ul>
