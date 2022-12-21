@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
 import { Trole } from './role.type';
+import { Game } from "src/game/entity/game.entity";
 
 @Entity('users')
 export class EUser {
@@ -26,4 +27,17 @@ export class EUser {
 
   @Column()
   avatarUrl: string;
+
+  @Column({ nullable: true, default: "offline" })
+  status: string;
+
+  @Column({ nullable: true, default: 0 })
+  total_games: number;
+
+  @Column({ nullable: true, type: 'decimal', precision: 5, scale: 2, default: 0 })
+  win_loss_ratio: number;
+
+  // @ManyToMany(() => Game, (game) => game.players)
+  // @JoinTable()
+  // games: Game[]
 }

@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { IGameScore } from './interfaces/gameScore.interface';
@@ -33,8 +33,15 @@ export class UsersService {
     const ret = await this.usersRepository.find({ where: { login: login } });
     if (ret.length) return ret[0];
     Logger.log(`User login: ${login} not found`);
-    return undefined;
+    throw new HttpException('User not found', HttpStatus.NOT_FOUND);
   }
+
+	async findUserById(id: number): Promise<EUser | undefined> {
+		const ret = await this.usersRepository.find({ where: { id: id }});
+		if (ret.length) return ret[0];
+    Logger.log(`User id: ${id} not found`);
+		throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+	}
 
   async findUserByName(name: string): Promise<EUser | undefined> {
     const ret = await this.usersRepository.find({ where: { name: name } });
@@ -144,4 +151,9 @@ export class UsersService {
       return false;
     }
   }
+
+  async updateStatus(login: string, s: string) {
+		return this.usersRepository.update({ login }, { status: s });
+	}
+
 }

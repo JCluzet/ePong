@@ -13,6 +13,7 @@ import { ILoginSuccess } from './interfaces/loginSuccess.interface';
 import { Etwofa } from './interfaces/twofa.entity';
 import * as bcrypt from 'bcrypt';
 import { IUserData } from './interfaces/userData.interface';
+import { Game } from "src/game/entity/game.entity";
 
 @Injectable()
 export class AuthService {
@@ -89,6 +90,10 @@ export class AuthService {
         avatarUrl: apiUserData.avatarUrl,
         nbLoses: 0,
         nbWins: 0,
+        status: "offline",
+        total_games: 0,
+        win_loss_ratio: 0,
+        // games: null,
       };
       await this.userService.createUser(userData);
     }

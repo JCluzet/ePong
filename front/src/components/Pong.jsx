@@ -8,6 +8,7 @@ import Confetti from 'react-confetti';
 import { Offline, Online } from "react-detect-offline";
 import "/node_modules/react-rain-animation/lib/style.css";
 import { toast } from "react-toastify";
+import { accountService } from "../hooks/account_service";
 
 var adversaire;
 var joueur;
@@ -40,27 +41,19 @@ export default function Pong() {
 
 	const [username, setUsername] = React.useState("");
 	function getUser() {
-		let url = url_begin.concat(":5001/api/auth/");
-		let username = "";
 		axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 		axios.defaults.withCredentials = true;
-		axios.get(url)
-			.then(res => {
-				username = res.data.login;
-				joueur = username;
-				setUsername(username);
-				if (vs !== null && !vshisto) {
-					setActive(false);
-					socket.emit('versus', joueur + ":" + vs)
-					setActive2(true);
-					vshisto = true;
-				}
-			})
-			.catch((err) => {
-			})
+		joueur = accountService.userName();
+		setUsername(joueur);
+		if (vs !== null && !vshisto) {
+			setActive(false);
+			socket.emit('versus', joueur + ":" + vs)
+			setActive2(true);
+			vshisto = true;
+		}
 	}
 	var SearchText = "Rechercher une partie"
-	var socket = io(url_begin.concat(":5001/play"), { query: { username: username } });
+	var socket = io(url_begin.concat(":5001/game"), { query: { username: username } });
 	var socket2 = io(url_begin.concat(":5001/chat"), { query: { username: username } });
 
 	function removeInvit() {
