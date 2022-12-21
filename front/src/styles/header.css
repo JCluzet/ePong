@@ -204,6 +204,7 @@ footer {
     font-size: 14px;
     position:fixed;
     display:flex;
+    color: black;
     justify-content: flex-end;
     left:0px;
     bottom:0px;
