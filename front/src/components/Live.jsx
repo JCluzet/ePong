@@ -6,7 +6,7 @@ import io from "socket.io-client";
 var game = [];
 
 let url_begin = "";
-if (process.env.REACT_APP_IP == "" || process.env.REACT_APP_IP == undefined)
+if (process.env.REACT_APP_IP === "" || process.env.REACT_APP_IP === undefined)
 	url_begin = "http://localhost";
 else
 	url_begin = "http://".concat(process.env.REACT_APP_IP);
@@ -20,9 +20,9 @@ export default function Live() {
 	const [load, setLoad] = React.useState(false);
 
 	function display_no() {
-		if (displayedNo == false) {
+		if (displayedNo === false) {
 			let check = document.getElementsByClassName("nogame");
-			if (check.length == 0) {
+			if (check.length === 0) {
 				let nogame = document.createElement("div");
 				nogame.className = "nogame";
 				let parent = document.getElementById("list");
@@ -40,7 +40,7 @@ export default function Live() {
 		todelete.forEach(del => {
 			del.remove();
 		});
-		if (displayedNo == true)
+		if (displayedNo === true)
 			setDisplayedNo(false);
 	}
 
@@ -56,7 +56,7 @@ export default function Live() {
 				parent = document.getElementById("list");
 				if (parent) {
 					exists = document.getElementById("div_".concat(joueur).concat("_").concat(adversaire));
-					if (!exists || exists == null || exists == undefined) {
+					if (!exists || exists == null || exists === undefined) {
 						newdiv = document.createElement("div");
 						newdiv.id = "div_".concat(joueur).concat("_").concat(adversaire);
 						newdiv.className = "game";
@@ -79,11 +79,8 @@ export default function Live() {
 	}
 
 	useEffect(() => {
-		let isMounted = true;
 		setLoad(true);
-		// if (displayedNo == false)
-			display_no();
-		// return () => { isMounted = false }; 
+		display_no();
 		return () => { setLoad(false)};
 	}, []);
 
@@ -115,15 +112,12 @@ export default function Live() {
 	}
 
 	socket.on("roundStartLIVE", (...args) => {
-
-		let len;
 		let i = 0;
-		len = args.length;
 
 		if (args) {
 			if (args[i]) {
 				let check = args[i].split(':');
-				if (check[1] == "null") {
+				if (check[1] === "null") {
 					display_null();
 				}
 			}
@@ -133,8 +127,8 @@ export default function Live() {
 	socket.on("ballMoveBack", (body) => {
 		// Update Paddle position in real time
 		const b = body.split(':');
-		if (joueurs.indexOf(b[0]) == -1 && adversaires.indexOf(b[0]) == -1
-			&& joueurs.indexOf(b[1]) == -1 && adversaires.indexOf(b[1])) {
+		if (joueurs.indexOf(b[0]) === -1 && adversaires.indexOf(b[0]) === -1
+			&& joueurs.indexOf(b[1]) === -1 && adversaires.indexOf(b[1])) {
 			joueurs.push(b[0]);
 			adversaires.push(b[1]);
 			display(body);
@@ -153,7 +147,7 @@ export default function Live() {
 						<div className="live--div">
 							{/* { load == true ?  */}
 							{/* <> */}
-								<p id="titre">📺 Watch games live</p>
+							<p id="titre">📺 Watch games live</p>
 								<div id="content">
 									<div id="box">
 										<ul id="list">
