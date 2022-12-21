@@ -30,49 +30,48 @@ import storeProfilData from "./storeProfilData";
 // };
 
 let majAvatar = () => {
-    var config = {
-        method: "get",
-        url: "/users/profile/" + userLogin(),
-        headers: { Authorization: "Bearer " + userToken() },
-    };
+  var config = {
+    method: "get",
+    url: "/users/profile/" + userLogin(),
+    headers: { Authorization: "Bearer " + userToken() },
+  };
 
-    axios(config)
-        .then(function (response) {
-            localStorage.setItem("avatarUrl", response.data.avatarUrl);
-            console.log("Avatar saved : " + response.data.avatarUrl);
-        })
-        .catch(function (error) {
-            console.log("Erreur, impossible de get /user/profile > " + error);
-        });
+  axios(config)
+    .then(function (response) {
+      localStorage.setItem("avatarUrl", response.data.avatarUrl);
+      console.log("Avatar saved : " + response.data.avatarUrl);
+    })
+    .catch(function (error) {
+      console.log("Erreur, impossible de get /user/profile > " + error);
+    });
 };
 
-
 let ModifyAvatar = (formData) => {
-    var config = {
-        method: "post",
-        url: "/users/edit",
-        headers: {
-            Authorization: "Bearer " + userToken(),
-            "Content-Type": "application/json",
-        },
-        data: JSON.stringify({
-            login: userLogin(),
-            name: userName(),
-            isTwoFa: isTwoFa() === "true" ? true : false,
-            avatarUrl: formData,
-        }),
-    };
+  var config = {
+    method: "post",
+    url: "/users/edit",
+    headers: {
+      Authorization: "Bearer " + userToken(),
+      "Content-Type": "application/json",
+    },
+    data: JSON.stringify({
+      login: userLogin(),
+      name: userName(),
+      isTwoFa: isTwoFa() === "true" ? true : false,
+      avatarUrl: formData,
+    }),
+  };
 
-    axios(config)
-        .then(function (response) {
-            majAvatar();
-            // refresh the window
-            console.log("Avatar modified : " + formData);
-            window.location.reload();
-        })
-        .catch(function (error) {
-            console.log("Erreur, impossible de modifier l'avatar > " + error);
-        });
+  axios(config)
+    .then(function (response) {
+      majAvatar();
+      // refresh the window
+      console.log("Avatar modified : " + formData);
+      window.location.reload();
+    })
+    .catch(function (error) {
+      console.log("Erreur, impossible de modifier l'avatar > " + error);
+    });
 };
 
 let ModifyTfa = (tfa) => {
@@ -87,7 +86,7 @@ let ModifyTfa = (tfa) => {
       login: userLogin(),
       name: userName(),
       // istwofa must be a boolean
-        isTwoFa: tfa,
+      isTwoFa: tfa,
       avatarUrl: userAvatarUrl(),
     }),
   };
@@ -96,8 +95,8 @@ let ModifyTfa = (tfa) => {
 
   axios(config)
     .then(function (response) {
-        localStorage.setItem("isTwoFa", tfa);
-        console.log("isTwoFa modified : " + accountService.isTwoFa());
+      localStorage.setItem("isTwoFa", tfa);
+      console.log("isTwoFa modified : " + accountService.isTwoFa());
     })
     .catch(function (error) {
       console.log("Erreur, impossible de modifier le tfa > " + error);
@@ -132,8 +131,19 @@ let ModifyUsername = (username) => {
     });
 };
 
+let handleTwoFa = (isTwoFa) => {
+  localStorage.setItem("isTwoFa", isTwoFa);
+  if (isTwoFa === true) {
+    localStorage.setItem("NeedTwoFa", true);
+  } else {
+    localStorage.setItem("NeedTwoFa", false);
+  }
+  console.log("isTwoFa saved : " + isTwoFa);
+};
+
 let saveToken = (code) => {
   localStorage.setItem("code", code);
+  console.log("Code saved : " + code);
 
   var config = {
     method: "get",
@@ -144,9 +154,16 @@ let saveToken = (code) => {
   axios(config)
     .then(function (response) {
       window.location.href = "/";
+      console.log("TwoFa: " + response.data.twofa);
+      handleTwoFa(response.data.twofa);
+      if (localStorage.getItem("NeedTwoFa") === "true") {
+        return;
+      }
+
       localStorage.setItem("token", response.data.apiToken);
       console.log("Token saved : " + response.data.apiToken);
       localStorage.setItem("login", response.data.login);
+      storeProfilData();
     })
     .catch(function (error) {
       alert("Backend still loading... Please wait");
@@ -155,15 +172,37 @@ let saveToken = (code) => {
       localStorage.removeItem("code");
       window.location.href = "/";
     });
-  storeProfilData();
 };
+
+// DEV ONLY
+
+let ResetUser = () => {
+  var config = {
+    method: "delete",
+    url: "/users/reset",
+    headers: {},
+  };
+
+  axios(config)
+    .then(function (response) {
+      alert("User reset & Tfa disabled ✅");
+      window.location.href = "/";
+      localStorage.removeItem("NeedTwoFa");
+      // console.log("Us");
+    })
+    .catch(function (error) {
+      console.log("Erreur, impossible de delete l'user > " + error);
+    });
+};
+
+//
 
 let userToken = () => {
   return localStorage.getItem("token");
 };
 
 let isTwoFa = () => {
-  return (localStorage.getItem("isTwoFa") === "true" ? true : false);
+  return localStorage.getItem("isTwoFa") === "true" ? true : false;
 };
 
 let userLogin = () => {
@@ -199,6 +238,7 @@ export const accountService = {
   isTwoFa,
   ModifyAvatar,
   userAvatarUrl,
+  ResetUser,
   userLogin,
   userName,
 };

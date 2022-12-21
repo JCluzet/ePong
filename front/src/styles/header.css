@@ -12,6 +12,14 @@ nav{
     border-bottom: 1px solid #000000;
 }
 
+.return-arrow-tfa{
+    cursor:pointer;
+    width: 20px;
+    margin-top:20px;
+    margin-left: 80%;
+    margin-bottom:4px;
+}
+
 .return-arrow{
     cursor:pointer;
     width: 20px;
