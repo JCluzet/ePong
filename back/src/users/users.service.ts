@@ -33,14 +33,14 @@ export class UsersService {
     const ret = await this.usersRepository.find({ where: { login: login } });
     if (ret.length) return ret[0];
     Logger.log(`User login: ${login} not found`);
-    throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    return undefined;
   }
 
 	async findUserById(id: number): Promise<EUser | undefined> {
 		const ret = await this.usersRepository.find({ where: { id: id }});
 		if (ret.length) return ret[0];
     Logger.log(`User id: ${id} not found`);
-		throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+		return undefined;
 	}
 
   async findUserByName(name: string): Promise<EUser | undefined> {
