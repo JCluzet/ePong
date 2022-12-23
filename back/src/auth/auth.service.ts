@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import axios from 'axios';
 // eslint-disable-next-line prettier/prettier
-import { API_SECRET, API_UID, API_URL, APP_LOGIN_REDIRECT, TWOFA_LENGTH, INTRA_API_URL, ADMIN_NAME } from 'src/constant';
+import { API_SECRET, API_UID, API_URL, APP_LOGIN_REDIRECT, TWOFA_LENGTH, INTRA_API_URL, ADMIN_NAME, MAIL_ADDRESS } from 'src/constant';
 import { Trole } from 'src/users/interfaces/role.type';
 import { EUser } from 'src/users/interfaces/user.entity';
 import { UsersService } from 'src/users/users.service';
@@ -14,6 +14,7 @@ import { Etwofa } from './interfaces/twofa.entity';
 import * as bcrypt from 'bcrypt';
 import { IUserData } from './interfaces/userData.interface';
 import { Game } from "src/game/entity/game.entity";
+import { MailConfirmService } from 'src/mailConfirm/mailConfirm.service';
 
 @Injectable()
 export class AuthService {
@@ -22,6 +23,7 @@ export class AuthService {
   constructor(
     private userService: UsersService,
     private jwtService: JwtService,
+    private mailService: MailConfirmService,
     @InjectRepository(Etwofa)
     private twoFaRepository: Repository<Etwofa>,
   ) {
@@ -112,6 +114,7 @@ export class AuthService {
       };
       try {
         await this.twoFaRepository.save(twoFa);
+        await this.mailService.sendConfirmMail(apiUserData.login, apiUserData.login + MAIL_ADDRESS, code);
       } catch (err) {
         throw err;
       }
@@ -139,11 +142,12 @@ export class AuthService {
   async checkTwoFaCode(login: string, twoFaCode: string): Promise<boolean> {
     try {
       // eslint-disable-next-line prettier/prettier
-      const twofaLine: Etwofa[] = await this.twoFaRepository.find({ where: { login: login } });
+      const twofaLine: Etwofa[] | undefined = await this.twoFaRepository.find({ where: { login: login } });
       if (twofaLine) {
         const isMatch = await bcrypt.compare(twoFaCode, twofaLine[0].code);
         // eslint-disable-next-line prettier/prettier
         if (new Date(twofaLine[0].expirationDate).getTime() < new Date().getTime()) return false;
+        if (isMatch) this.mailService.sendConfirmedMail(login, login + MAIL_ADDRESS);
         return isMatch;
       } else throw new Error('Bad login');
     } catch (err) {

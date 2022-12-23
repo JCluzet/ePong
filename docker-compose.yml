@@ -10,6 +10,7 @@ services:
     volumes:
       - ./back/src:/app/src
       - ./back/upload:/app/upload
+      - ./back/templates:/app/templates
     ports:
       - 5001:5000
     env_file:

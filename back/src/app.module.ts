@@ -12,6 +12,7 @@ import { BlockModule } from './block/block.module';
 import { EBlock } from './block/interface/bock.entity';
 import { GameHistoryModule } from './gameHistory/gameHistory.module';
 import { EGameHistory } from './gameHistory/interface/gameHistory.entity';
+import { MailConfirmModule } from './mailConfirm/mailConfirm.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { EGameHistory } from './gameHistory/interface/gameHistory.entity';
     ChatModule,
     BlockModule,
     GameHistoryModule,
+    MailConfirmModule,
   ],
   controllers: [AppController],
 })
