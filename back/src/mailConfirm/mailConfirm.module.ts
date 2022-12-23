@@ -10,8 +10,8 @@ import { MailConfirmService } from "./mailConfirm.service";
 			transport: {
 				host:'smtp.sendgrid.net',
 				auth: {
-					user: 'apikey',
-					pass: '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',
+					user: process.env.MAIL_ID,
+					pass: process.env.MAIL_PASS,
 				}
 			},
 			template: {

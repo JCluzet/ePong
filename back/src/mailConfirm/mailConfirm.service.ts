@@ -23,17 +23,16 @@ export class MailConfirmService {
   }
   async sendConfirmMail(username: string, email: string, code: string) {
     try {
-      await this.mailerService
-        .sendMail({
-          from: "jessydamoiseau@gmail.com",
-          to: 'jesscraft.gaming@gmail.com',
-          subject: "Confirm connexion !",
-          template: "confirm",
-          context: {
-            username,
-            code,
-          },
-        });
+      await this.mailerService.sendMail({
+        from: "jessydamoiseau@gmail.com",
+        to: email,
+        subject: "Confirm connexion !",
+        template: "confirm",
+        context: {
+          username,
+          code,
+        },
+      });
     } catch (err) {
       throw err;
     }
