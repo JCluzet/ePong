@@ -2,33 +2,6 @@
 import axios from "../config/axios";
 import storeProfilData from "./storeProfilData";
 
-// let ModifyAvatar = (avatarUrl) => {
-//   var config = {
-//     method: "post",
-//     url: "/users/edit",
-//     headers: {
-//       Authorization: "Bearer " + userToken(),
-//       "Content-Type": "application/json",
-//     },
-//     data: JSON.stringify({
-//       login: userLogin(),
-//       name: userName(),
-//       isTwoFa: isTwoFa(),
-//       avatarUrl: avatarUrl,
-//     }),
-//   };
-
-//   axios(config)
-//     .then(function (response) {
-//       localStorage.setItem("avatarUrl", avatarUrl);
-//       // refresh the window
-//       window.location.reload();
-//     })
-//     .catch(function (error) {
-//       console.log("Erreur, impossible de modifier l'avatar > " + error);
-//     });
-// };
-
 let majAvatar = () => {
   var config = {
     method: "get",
@@ -176,6 +149,32 @@ let saveToken = (code) => {
 
 // DEV ONLY
 
+let LoginWithTFA = (code) => {
+    var config = {
+        method: "get",
+        url: "/auth/twofa/get_token?login=" + userLogin() + "&code=" + code,
+        headers: {},
+    };
+
+    axios(config)
+        .then(function (response) {
+            // window.location.href = "/";
+            console.log("TwoFa is Good!");
+            localStorage.setItem("token", response.data.apiToken);
+            console.log("Token saved : " + response.data.apiToken);
+            localStorage.setItem("NeedTwoFa", false);
+            localStorage.setItem("IncorrectTfa", false);
+            return true;
+        })
+        .catch(function (error) {
+            localStorage.setItem("NeedTwoFa", true);
+            localStorage.setItem("IncorrectTfa", true);
+            // localStorage.setItem("IncorrectTfa", true);
+            console.log("TwoFa is incorrect");
+            return false;
+        });
+};
+
 let ResetUser = () => {
   var config = {
     method: "delete",
@@ -240,5 +239,6 @@ export const accountService = {
   userAvatarUrl,
   ResetUser,
   userLogin,
+  LoginWithTFA,
   userName,
 };

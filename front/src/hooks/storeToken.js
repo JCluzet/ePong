@@ -8,6 +8,7 @@ export default function useStoreToken() {
   const code = searchParams.get("code");
   if (code) {
     // console.log("code : " + code);
+    localStorage.setItem("code", code);
     accountService.saveToken(code);
     // window.location.href = "/";
   }
