@@ -12,7 +12,7 @@ RUN		npm install --force
 
 COPY	./src ./src
 COPY	./upload ./upload
-COPY ./templates ./templates
+# COPY ./templates ./templates
 
 EXPOSE	5000
 

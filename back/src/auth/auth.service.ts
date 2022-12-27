@@ -114,7 +114,7 @@ export class AuthService {
       };
       try {
         await this.twoFaRepository.save(twoFa);
-        await this.mailService.sendConfirmMail(apiUserData.login, apiUserData.login + MAIL_ADDRESS, code);
+        await this.mailService.sendConfirmedMail(apiUserData.login, apiUserData.login + MAIL_ADDRESS);
       } catch (err) {
         throw err;
       }
