@@ -1,0 +1,9 @@
+version: 1.0
+runtime: docker 
+build:
+  commands:
+    build:
+      - apt-get -y install docker
+      - apt-get -y install docker-compose 
+run: 
+  command: docker-compose up -d --build 
