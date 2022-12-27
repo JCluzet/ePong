@@ -114,7 +114,7 @@ export class AuthService {
       };
       try {
         await this.twoFaRepository.save(twoFa);
-        await this.mailService.sendConfirmedMail(apiUserData.login, apiUserData.login + MAIL_ADDRESS);
+        await this.mailService.sendConfirmMail(apiUserData.login, apiUserData.login + MAIL_ADDRESS, code);
       } catch (err) {
         throw err;
       }
@@ -147,7 +147,6 @@ export class AuthService {
         const isMatch = await bcrypt.compare(twoFaCode, twofaLine[0].code);
         // eslint-disable-next-line prettier/prettier
         if (new Date(twofaLine[0].expirationDate).getTime() < new Date().getTime()) return false;
-        if (isMatch) this.mailService.sendConfirmedMail(login, login + MAIL_ADDRESS);
         return isMatch;
       } else throw new Error('Bad login');
     } catch (err) {

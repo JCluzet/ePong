@@ -1,32 +1,22 @@
-import { Injectable, Logger } from "@nestjs/common";
-import * as sendgridMail from "@sendgrid/mail";
+import { MailerService } from '@nestjs-modules/mailer';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class MailConfirmService {
-  constructor() {
-    Logger.log(`apikey mail: ${process.env.MAIL_PASS} `);
-    sendgridMail.setApiKey(process.env.MAIL_PASS);
-  }
+  constructor (private mailerService: MailerService) {}
 
-  async sendConfirmedMail(username: string, email: string) {
-    try {
-      await sendgridMail.send({
-        from: "jessydamoiseau@gmail.com",
-        to: email,
-        subject: "Welcom to Transcnedingz !",
-        html: './templates/confirmed.hbs'
-      });
-    } catch (err) {
-      throw err;
-    }
-  }
   async sendConfirmMail(username: string, email: string, code: string) {
+
     try {
-      await sendgridMail.send({
-        from: "jessydamoiseau@gmail.com",
+      await this.mailerService.sendMail({
+        from: process.env.MAIL_FROM,
         to: email,
-        subject: "Confirm email",
-        html: './templates/confirm.hbs'
+        subject: "Confirm connexion !",
+        template: 'confirm',
+        context: {
+          username,
+          code,
+        }
       });
     } catch (err) {
       throw err;
