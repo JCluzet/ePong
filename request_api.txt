@@ -34,7 +34,7 @@ Authentification:
   - GET Address_backend + /auth/refresh_token: header { Authorization: 'Bearer + apiToken'}
           return refresh_token
 
-  - GET Address_backend + /twofa/get_token: Query { login=userLogin, code=TwofaCode }
+  - GET Address_backend + auth/twofa/get_token: Query { login=userLogin, code=TwofaCode }
           return login_success by checking twofa
 
 Users:
