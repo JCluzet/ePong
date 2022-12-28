@@ -92,8 +92,8 @@ let ModifyUsername = (username, reload) => {
   axios(config)
     .then(function (response) {
        // storeprofil a remplacer a la place de setItem
-        // storeProfilData();
-      localStorage.setItem("username", username);
+       localStorage.setItem("username", username);
+       storeProfilData();
       if (!reload)
         window.location.reload();
     })
@@ -110,6 +110,32 @@ let handleTwoFa = (isTwoFa) => {
     localStorage.setItem("NeedTwoFa", false);
   }
   console.log("isTwoFa saved : " + isTwoFa);
+};
+
+let checkBackend = () => {
+    var config = {
+        method: "get",
+        url: "/"
+    };
+    axios(config)
+        .then(function (response) {
+            console.log("Backend is up");
+            localStorage.setItem("BackendDown", false);
+            // window.location.href = "/";
+            // return false;
+        })
+        .catch(function (error) {
+            console.log("Backend is down");
+            localStorage.setItem("BackendDown", true);
+            // alert("Backend is down, please wait");
+            setTimeout(checkBackend, 2000);
+            // window.location.reload();
+            // return true;
+        });
+};
+
+let isBackendDown = () => {
+    return localStorage.getItem("BackendDown");
 };
 
 let saveToken = (code) => {
@@ -137,7 +163,7 @@ let saveToken = (code) => {
       storeProfilData();
     })
     .catch(function (error) {
-      alert("Backend still loading... Please wait");
+    //   alert("Backend still loading... Please wait");
       console.log("Token seems to be invalid, please try again");
       console.log(error);
       localStorage.removeItem("code");
@@ -230,6 +256,8 @@ export const accountService = {
   ModifyUsername,
   logout,
   isLogged,
+  isBackendDown,
+  checkBackend,
   ModifyTfa,
   userToken,
   isTwoFa,

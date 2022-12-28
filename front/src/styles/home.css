@@ -31,3 +31,40 @@
     flex-direction: column;
     /* background-color: #000; */
 }
+
+.container-down{
+    display: flex;
+    flex-direction: column;
+    background-color: #000;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    padding-left: 40px;
+    padding-right: 40px;
+    border-radius: 70px;
+    align-items: center;
+    /* justify-content: space-around; */
+    height: 100%;
+    /* margin-left: 100px; */
+    width: 100%;
+}
+
+.h1-header{
+    color: #fff;
+    font-size: 50px;
+    padding-top: 100px;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    /* margin:auto; */
+}
+
+.h2-header{
+    color: #fff;
+    font-size: 50px;
+    /* margin-top: 100px; */
+    /* margin-bottom: 100px; */
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    /* margin:auto; */
+}
