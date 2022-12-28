@@ -18,11 +18,9 @@ export default function EditProfil() {
       if (username !== accountService.userName()) {
         accountService.ModifyUsername(username, formData !== null);
       }
-      // wait for 4 seconds
   };
 
   const handleChange = (e) => {
-    // if charactere is not more than 20
     if (e.target.value.length <= 20) {
       setUsername(e.target.value);
     }

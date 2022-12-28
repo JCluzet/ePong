@@ -91,6 +91,8 @@ let ModifyUsername = (username, reload) => {
 
   axios(config)
     .then(function (response) {
+       // storeprofil a remplacer a la place de setItem
+        // storeProfilData();
       localStorage.setItem("username", username);
       if (!reload)
         window.location.reload();
