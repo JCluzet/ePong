@@ -1,11 +1,11 @@
 import axios from "../config/axios";
-import { accountService } from "./account_service";
+// import { accountService } from "./account_service";
 
-let storeProfilData = () => {
+let storeProfilData = (token, login) => {
   var config = {
     method: "get",
-    url: "/users/profile/" + accountService.userLogin(),
-    headers: { Authorization: "Bearer " + accountService.userToken() },
+    url: "/users/profile/" + login,
+    headers: { Authorization: "Bearer " + token },
   };
   console.log("storeProfilData");
 

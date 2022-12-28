@@ -108,7 +108,7 @@ let handleTwoFa = (isTwoFa) => {
   } else {
     localStorage.setItem("NeedTwoFa", false);
   }
-  console.log("isTwoFa saved : " + isTwoFa);
+//   console.log("isTwoFa saved : " + isTwoFa);
 };
 
 let isBackendDown = () => {
@@ -137,7 +137,7 @@ let saveToken = (code) => {
       localStorage.setItem("token", response.data.apiToken);
       console.log("Token saved : " + response.data.apiToken);
       localStorage.setItem("login", response.data.login);
-      storeProfilData();
+      storeProfilData(response.data.apiToken, response.data.login);
     })
     .catch(function (error) {
       //   alert("Backend still loading... Please wait");
