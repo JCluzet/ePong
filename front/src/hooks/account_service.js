@@ -93,7 +93,7 @@ let ModifyUsername = (username, reload) => {
     .then(function (response) {
       // storeprofil a remplacer a la place de setItem
       localStorage.setItem("username", username);
-      storeProfilData();
+      storeProfilData(userToken(), userLogin());
       if (!reload) window.location.reload();
     })
     .catch(function (error) {
