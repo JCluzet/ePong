@@ -6,7 +6,6 @@ export default function NotFound() {
             <Header />
             <br/>
             <div class="h1-header">404 Not Found</div>
-            {/* <p>Here os</p> */}
         </div>
     )
 }
