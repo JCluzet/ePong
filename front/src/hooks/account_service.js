@@ -19,30 +19,27 @@ let majAvatar = () => {
     });
 };
 
-let ModifyAvatar = (formData) => {
+async function ModifyAvatar(formData) {
   var config = {
     method: "post",
-    url: "/users/edit",
+    url: "/users/uploadAvatar",
     headers: {
       Authorization: "Bearer " + userToken(),
-      "Content-Type": "application/json",
+      "Content-Type": "multipart/form-data",
     },
-    data: JSON.stringify({
-      login: userLogin(),
-      name: userName(),
-      isTwoFa: isTwoFa() === "true" ? true : false,
-      avatarUrl: formData,
-    }),
+    data: formData,
   };
 
   axios(config)
     .then(function (response) {
-      majAvatar();
-      // refresh the window
-      console.log("Avatar modified : " + formData);
-      window.location.reload();
+        // refresh the window
+        console.log("OK MODIFY AVATAR");
+        console.log("Avatar modified : " + formData);
+        window.location.reload();
+        majAvatar();
     })
     .catch(function (error) {
+          console.log("KO MODIFY AVATAR");
       console.log("Erreur, impossible de modifier l'avatar > " + error);
     });
 };
