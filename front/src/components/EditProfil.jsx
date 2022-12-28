@@ -1,6 +1,5 @@
 import React from "react";
 import { accountService } from "../hooks/account_service";
-import "../styles/temp.css";
 
 export default function EditProfil() {
   // state
