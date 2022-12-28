@@ -17,6 +17,7 @@ let majAvatar = () => {
     })
     .catch(function (error) {
       console.log("Erreur, impossible de get /user/profile > " + error);
+      logout();
     });
 };
 
@@ -41,6 +42,7 @@ async function ModifyAvatar(formData) {
     .catch(function (error) {
       console.log("KO MODIFY AVATAR");
       console.log("Erreur, impossible de modifier l'avatar > " + error);
+      logout();
     });
 }
 
@@ -70,6 +72,7 @@ let ModifyTfa = (tfa) => {
     })
     .catch(function (error) {
       console.log("Erreur, impossible de modifier le tfa > " + error);
+      logout();
     });
 };
 
@@ -98,17 +101,8 @@ let ModifyUsername = (username, reload) => {
     })
     .catch(function (error) {
       console.log("Erreur, impossible de modifier le username > " + error);
+      logout();
     });
-};
-
-let handleTwoFa = (isTwoFa) => {
-  localStorage.setItem("isTwoFa", isTwoFa);
-  if (isTwoFa === true) {
-    localStorage.setItem("NeedTwoFa", true);
-  } else {
-    localStorage.setItem("NeedTwoFa", false);
-  }
-//   console.log("isTwoFa saved : " + isTwoFa);
 };
 
 let isBackendDown = () => {
@@ -129,8 +123,8 @@ let saveToken = (code) => {
     .then(function (response) {
       window.location.href = "/";
       console.log("TwoFa: " + response.data.twofa);
-      handleTwoFa(response.data.twofa);
-      if (localStorage.getItem("NeedTwoFa") === "true") {
+      localStorage.setItem("NeedTwoFa", response.data.twofa);
+      if (response.data.twofa) {
         return;
       }
 
@@ -140,7 +134,6 @@ let saveToken = (code) => {
       storeProfilData(response.data.apiToken, response.data.login);
     })
     .catch(function (error) {
-      //   alert("Backend still loading... Please wait");
       console.log("Token seems to be invalid, please try again");
       console.log(error);
       localStorage.removeItem("code");
