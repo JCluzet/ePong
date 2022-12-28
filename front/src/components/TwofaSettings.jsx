@@ -12,7 +12,6 @@ export default function TwofaSettings() {
   };
 
   // affichage
-
   return (
     <div className="change-avatar-container">
       <div className="tfa-text">Two Factor Auth</div>

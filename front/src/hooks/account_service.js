@@ -13,6 +13,7 @@ let majAvatar = () => {
     .then(function (response) {
       localStorage.setItem("avatarUrl", response.data.avatarUrl);
       console.log("Avatar saved : " + response.data.avatarUrl);
+      window.location.reload();
     })
     .catch(function (error) {
       console.log("Erreur, impossible de get /user/profile > " + error);
@@ -35,7 +36,6 @@ async function ModifyAvatar(formData) {
         // refresh the window
         console.log("OK MODIFY AVATAR");
         console.log("Avatar modified : " + formData);
-        window.location.reload();
         majAvatar();
     })
     .catch(function (error) {
@@ -73,7 +73,7 @@ let ModifyTfa = (tfa) => {
     });
 };
 
-let ModifyUsername = (username) => {
+let ModifyUsername = (username, reload) => {
   var config = {
     method: "post",
     url: "/users/edit",
@@ -89,12 +89,11 @@ let ModifyUsername = (username) => {
     }),
   };
 
-  //   console.log("Username modified : " + username);
   axios(config)
     .then(function (response) {
       localStorage.setItem("username", username);
-      // refresh the window
-      window.location.reload();
+      if (!reload)
+        window.location.reload();
     })
     .catch(function (error) {
       console.log("Erreur, impossible de modifier le username > " + error);

@@ -1,5 +1,6 @@
 import React from "react";
 import { accountService } from "../hooks/account_service";
+import "../styles/temp.css";
 
 export default function EditProfil() {
   // state
@@ -10,13 +11,14 @@ export default function EditProfil() {
   // comportements
 
   const updateProfil = (e) => {
-    e.preventDefault();
-    if (formData !== null) {
-      accountService.ModifyAvatar(formData);
-    }
-    if (username !== accountService.userName()) {
-      accountService.ModifyUsername(username);
-    }
+      e.preventDefault();
+      if (formData !== null) {
+        accountService.ModifyAvatar(formData);
+      }
+      if (username !== accountService.userName()) {
+        accountService.ModifyUsername(username, formData !== null);
+      }
+      // wait for 4 seconds
   };
 
   const handleChange = (e) => {
@@ -31,13 +33,12 @@ export default function EditProfil() {
       let formdata = new FormData();
       formdata.append("file", event.target.files[0]);
       setFormData(formdata);
-      // accountService.ModifyAvatar(formdata);
     }
   };
 
   // affichage
-
   return (
+<div>
     <form onSubmit={updateProfil}>
       <div className="change-avatar-container">
         <input
@@ -46,7 +47,7 @@ export default function EditProfil() {
           value={username}
           onChange={handleChange}
           className="newUsername-text-area"
-        />
+          />
         <div className="file-input">
           <input type="file" accept="image/*" onChange={onImageChange} />
         </div>
@@ -57,5 +58,6 @@ export default function EditProfil() {
         </div>
       </div>
     </form>
+          </div>
   );
 }

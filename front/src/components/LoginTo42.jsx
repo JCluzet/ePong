@@ -1,4 +1,5 @@
 import schoollogo from "../assets/images/schoollogo.png";
+import useStoreToken from "../hooks/storeToken";
 import logo from "../assets/images/logo.svg";
 
 export default function LoginTo42() {
@@ -19,6 +20,7 @@ export default function LoginTo42() {
 
   return(
   <div>
+          {useStoreToken()}
     <div className="container-login">
       <img src={logo} alt="logo" className="logo" />
       <div className="btn-login">

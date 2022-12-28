@@ -10,7 +10,6 @@ import { accountService } from "../hooks/account_service";
 export default function Login() {
   return (
     <div>
-      {useStoreToken()}
       <ParticleBackground />
       <div className="center">
         {localStorage.getItem("NeedTwoFa") === "true" ? <Twofa/> : <LoginTo42/>}

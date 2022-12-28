@@ -24,9 +24,11 @@ let storeProfilData = () => {
     url: "/users/profile/" + accountService.userLogin(),
     headers: { Authorization: "Bearer " + accountService.userToken() },
   };
+  console.log("storeProfilData");
 
   axios(config)
     .then(function (response) {
+        console.log("OK!");
       localStorage.setItem("avatarUrl", response.data.avatarUrl);
       console.log("Avatar saved : " + response.data.avatarUrl);
       // here store another data
@@ -40,8 +42,10 @@ let storeProfilData = () => {
     //   localStorage.setItem("nbWins", response.data.nbWins);
     })
     .catch(function (error) {
-      //   console.log("Erreur, impossible de get /user/profile > " . error);
+        console.log("KO!");
+        console.log("Erreur, impossible de get /user/profile > " . error);
     });
+    console.log("fin storeProfilData");
 
   getUsername();
 };
