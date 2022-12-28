@@ -1,17 +1,22 @@
 import schoollogo from "../assets/images/schoollogo.png";
 import useStoreToken from "../hooks/storeToken";
 import logo from "../assets/images/logo.svg";
+import Alert from "./Alert";
 
 export default function LoginTo42() {
 
     // state
   const HandleLogin = () => {
+    if (localStorage.getItem("BackendDown") === "true") {
+        // alert("Backend is down, please try again later");
+        localStorage.setItem("Alert", "Backend is down, please try again later");
+        return;
+    }
     const uid = process.env.REACT_APP_UID_TOKEN;
     window.location.href =
       "https://api.intra.42.fr/oauth/authorize?client_id=" +
       uid +
       "&redirect_uri=http%3A%2F%2Flocalhost%3A3000&response_type=code";
-    // useStoreToken();
   };
 
   // comportements
@@ -19,7 +24,8 @@ export default function LoginTo42() {
   // affichage
 
   return(
-  <div>
+      <div>
+
           {useStoreToken()}
     <div className="container-login">
       <img src={logo} alt="logo" className="logo" />
@@ -30,6 +36,7 @@ export default function LoginTo42() {
             <div className="text-login">Login</div>
           </div>
         </button>
+    <Alert />
       </div>
     </div>
   </div>

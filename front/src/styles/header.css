@@ -216,9 +216,106 @@ footer {
     justify-content: flex-end;
     left:0px;
     bottom:0px;
-    height:20px;
+    /* height:20px; */
     width:100%;
  }
+
+ .alert-container{
+    /* position:fixed; */
+    /* display:flex; */
+    /* margin-left: 1000px; */
+    /* margin-left: 2 */
+    /* color: rgb(110, 107, 107); */
+    font-size: 15px;
+    font-weight: 600;
+    /* background-color: #ffffff; */
+    margin: 0;
+    margin-top: 410px;
+
+    /* padding-left: 100px; */
+    /* box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2); */
+    padding: 0;
+    border-radius: 5px;
+    /* margin-right: 1px; */
+ }
+
+ .alert{
+    /* position:fixed; */
+    display:flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    /* margin-left: 1000px; */
+    /* margin-left: 2 */
+    color: rgb(255, 5, 5);
+    font-size: 15px;
+    /* padding-left: 100px; */
+    font-weight: 600;
+    /* background-color: #fffff; */
+    margin: 0;
+    /* box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2); */
+    padding: 0;
+    border-radius: 5px;
+    /* box-shadow: #000000 0px 0px 10px 0px; */
+    /* margin-top: 100px; */
+    /* margin-left: 10px; */
+    /* margin-right: 1px; */
+ }
+
+ .warning-icon{
+    width: 40px;
+    height: 40px;
+    /* color: rgb(255, 5, 5); */
+    /* margin-right: 10px; */
+    /* margin-left: 10px; */
+    margin-top: 5px;
+    fill:#ff0000;
+ }
+
+ .status{
+    position:fixed;
+    display:flex;
+    /* margin-left: 1000px; */
+    /* margin-left: 2 */
+    /* color: rgb(110, 107, 107); */
+    font-size: 15px;
+    font-weight: 600;
+    background-color: #ffffff;
+    margin: 0;
+    /* box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2); */
+    padding: 0;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.status-circle-down{
+    background-color: #ff0000;
+    border-radius: 50%;
+    width: 10px;
+    margin-top: 5px;
+    height: 10px;
+    margin-right: 10px;
+}
+
+.status-circle-up{
+    background-color: #00ff00;
+    border-radius: 50%;
+    width: 10px;
+    margin-top: 5px;
+    /* margin-left: 5px; */
+    height: 10px;
+    margin-right: 10px;
+}
+
+.status-text{
+    color: rgb(0, 0, 0);
+    font-size: 15px;
+    font-weight: 600;
+    /* padding-left: 10px; */
+    margin: 0;
+    padding: 0;
+    margin-right: 10px;
+}
 
 .footer-credits{
     display: flex;

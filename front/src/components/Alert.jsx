@@ -1,0 +1,39 @@
+import { useState } from "react";
+import {ReactComponent as Warning } from "../assets/images/warning.svg";
+
+export default function Alert () {
+
+    // state
+    const [error, setError] = useState(localStorage.getItem("Alert"));
+    // comportements
+
+    const HandleError = () => {
+        if (localStorage.getItem("Alert") != null) {
+            setError(localStorage.getItem("Alert"));
+            localStorage.removeItem("Alert");
+            console.log("alert");
+            setTimeout(() => {
+                setError(null);
+                console.log("alert removed");
+            }, 2000);
+        }
+        setTimeout(HandleError, 100);
+    }
+
+    // affichage
+
+    return (
+        <div>
+            {HandleError()}
+            <br/>
+            <div className="center">
+                <div className="alert-container">
+
+            {error && <div className="alert">
+                <Warning className="warning-icon"/>
+                {error}</div>}
+        </div>
+        </div>
+        </div>
+    )
+}

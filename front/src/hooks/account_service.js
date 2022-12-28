@@ -33,16 +33,16 @@ async function ModifyAvatar(formData) {
 
   axios(config)
     .then(function (response) {
-        // refresh the window
-        console.log("OK MODIFY AVATAR");
-        console.log("Avatar modified : " + formData);
-        majAvatar();
+      // refresh the window
+      console.log("OK MODIFY AVATAR");
+      console.log("Avatar modified : " + formData);
+      majAvatar();
     })
     .catch(function (error) {
-          console.log("KO MODIFY AVATAR");
+      console.log("KO MODIFY AVATAR");
       console.log("Erreur, impossible de modifier l'avatar > " + error);
     });
-};
+}
 
 let ModifyTfa = (tfa) => {
   var config = {
@@ -91,11 +91,10 @@ let ModifyUsername = (username, reload) => {
 
   axios(config)
     .then(function (response) {
-       // storeprofil a remplacer a la place de setItem
-       localStorage.setItem("username", username);
-       storeProfilData();
-      if (!reload)
-        window.location.reload();
+      // storeprofil a remplacer a la place de setItem
+      localStorage.setItem("username", username);
+      storeProfilData();
+      if (!reload) window.location.reload();
     })
     .catch(function (error) {
       console.log("Erreur, impossible de modifier le username > " + error);
@@ -112,30 +111,8 @@ let handleTwoFa = (isTwoFa) => {
   console.log("isTwoFa saved : " + isTwoFa);
 };
 
-let checkBackend = () => {
-    var config = {
-        method: "get",
-        url: "/"
-    };
-    axios(config)
-        .then(function (response) {
-            console.log("Backend is up");
-            localStorage.setItem("BackendDown", false);
-            // window.location.href = "/";
-            // return false;
-        })
-        .catch(function (error) {
-            console.log("Backend is down");
-            localStorage.setItem("BackendDown", true);
-            // alert("Backend is down, please wait");
-            setTimeout(checkBackend, 2000);
-            // window.location.reload();
-            // return true;
-        });
-};
-
 let isBackendDown = () => {
-    return localStorage.getItem("BackendDown");
+  return localStorage.getItem("BackendDown");
 };
 
 let saveToken = (code) => {
@@ -163,7 +140,7 @@ let saveToken = (code) => {
       storeProfilData();
     })
     .catch(function (error) {
-    //   alert("Backend still loading... Please wait");
+      //   alert("Backend still loading... Please wait");
       console.log("Token seems to be invalid, please try again");
       console.log(error);
       localStorage.removeItem("code");
@@ -174,29 +151,29 @@ let saveToken = (code) => {
 // DEV ONLY
 
 let LoginWithTFA = (code) => {
-    var config = {
-        method: "get",
-        url: "/auth/twofa/get_token?login=" + userLogin() + "&code=" + code,
-        headers: {},
-    };
+  var config = {
+    method: "get",
+    url: "/auth/twofa/get_token?login=" + userLogin() + "&code=" + code,
+    headers: {},
+  };
 
-    axios(config)
-        .then(function (response) {
-            // window.location.href = "/";
-            console.log("TwoFa is Good!");
-            localStorage.setItem("token", response.data.apiToken);
-            console.log("Token saved : " + response.data.apiToken);
-            localStorage.setItem("NeedTwoFa", false);
-            localStorage.setItem("IncorrectTfa", false);
-            return true;
-        })
-        .catch(function (error) {
-            localStorage.setItem("NeedTwoFa", true);
-            localStorage.setItem("IncorrectTfa", true);
-            // localStorage.setItem("IncorrectTfa", true);
-            console.log("TwoFa is incorrect");
-            return false;
-        });
+  axios(config)
+    .then(function (response) {
+      // window.location.href = "/";
+      console.log("TwoFa is Good!");
+      localStorage.setItem("token", response.data.apiToken);
+      console.log("Token saved : " + response.data.apiToken);
+      localStorage.setItem("NeedTwoFa", false);
+      localStorage.setItem("IncorrectTfa", false);
+      return true;
+    })
+    .catch(function (error) {
+      localStorage.setItem("NeedTwoFa", true);
+      localStorage.setItem("IncorrectTfa", true);
+      // localStorage.setItem("IncorrectTfa", true);
+      console.log("TwoFa is incorrect");
+      return false;
+    });
 };
 
 let ResetUser = () => {
@@ -257,7 +234,6 @@ export const accountService = {
   logout,
   isLogged,
   isBackendDown,
-  checkBackend,
   ModifyTfa,
   userToken,
   isTwoFa,

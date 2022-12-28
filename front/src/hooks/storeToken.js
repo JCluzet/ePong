@@ -13,8 +13,8 @@ export default function useStoreToken() {
     // window.location.href = "/";
   }
   if (searchParams.get("error")) {
+      localStorage.setItem("Alert", "You decline access to your account, please try again");
       window.location.href = "/";
-      alert("You decline the access to your account, please try again");
       // sleep 1 second
     //
 
