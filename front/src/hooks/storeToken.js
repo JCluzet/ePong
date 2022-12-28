@@ -13,8 +13,9 @@ export default function useStoreToken() {
     // window.location.href = "/";
   }
   if (searchParams.get("error")) {
-      localStorage.setItem("Alert", "You decline access to your account, please try again");
       window.location.href = "/";
+      localStorage.setItem("Alert", "You decline access to your account, please try again");
+      console.log("You decline access to your account, please try again");
       // sleep 1 second
     //
 

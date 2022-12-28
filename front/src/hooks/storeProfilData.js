@@ -9,9 +9,10 @@ let storeProfilData = (token, login) => {
   };
   console.log("storeProfilData");
 
+  // wait until axios is available, then make the request
   axios(config)
     .then(function (response) {
-      console.log("OK!");
+      console.log("OK! STORE PROFIL DATA");
 
       localStorage.setItem("avatarUrl", response.data.avatarUrl);
       console.log("Avatar saved : " + response.data.avatarUrl);
@@ -23,7 +24,7 @@ let storeProfilData = (token, login) => {
       console.log("Username saved : " + response.data.name);
     })
     .catch(function (error) {
-      console.log("KO!");
+      console.log("KO STORE DATAPROFIL!");
       console.log("Erreur, impossible de get /user/profile > ".error);
     });
  // print what is the response status code by making a new request

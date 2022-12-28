@@ -23,6 +23,14 @@ export default function ProfilSettings() {
     }
   };
 
+  const HandleLogout = () => {
+  localStorage.removeItem("token");
+  
+  localStorage.setItem("Popup", "Successfull logout ✅");
+  console.log("logout");
+  window.location.href = "/";
+    };
+
   const boolProfilEditing = () => {
     if (profilEditing === false) {
       setProfilEditing(true);
@@ -44,7 +52,7 @@ export default function ProfilSettings() {
           <button className="button" onClick={boolTfaEditing}>
             <div className="text-logout">TWO FACTOR AUTH</div>
           </button>
-          <button className="button" onClick={accountService.logout}>
+          <button className="button" onClick={HandleLogout}>
             <div className="text-logout">LOGOUT</div>
           </button>
         </div>
