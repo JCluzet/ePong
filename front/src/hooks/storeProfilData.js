@@ -26,6 +26,7 @@ let storeProfilData = (token, login) => {
       console.log("KO!");
       console.log("Erreur, impossible de get /user/profile > ".error);
     });
+ // print what is the response status code by making a new request
   console.log("fin storeProfilData");
 };
 

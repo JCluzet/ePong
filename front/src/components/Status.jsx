@@ -1,6 +1,5 @@
 import { useState } from "react";
 import axios from "../config/axios";
-import { accountService } from "../hooks/account_service";
 
 export default function Status() {
   // state
