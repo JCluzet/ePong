@@ -22,6 +22,7 @@ export default function Alert() {
       setError(localStorage.getItem("Alert"));
       localStorage.removeItem("Alert");
       console.log("alert");
+    //   console.log(error);
       setTimeout(() => {
         setError(null);
         console.log("alert removed");
@@ -40,7 +41,7 @@ export default function Alert() {
       <br />
       <div className="center">
         <div className="alert-container">
-          {error && (
+          {error != null && (
             <div className="alert">
               <Warning className="warning-icon" />
               {error}
