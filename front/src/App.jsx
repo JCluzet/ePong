@@ -10,6 +10,8 @@ import Game from "./pages/Game";
 import Live from "./components/Live"
 import Social from "./pages/Social";
 import { accountService } from "./hooks/account_service";
+import { Toaster } from 'react-hot-toast';
+
 // import { GlobalProvider } from "./providers/GlobalProvider";
 
 export default function App() {
@@ -18,6 +20,11 @@ export default function App() {
   return (
     // classic url using browser
     <div>
+{/* Same as */}
+<Toaster
+  position="bottom-left"
+  reverseOrder={false}
+/>
       <Router>
         <Routes>
           <Route path="/" element={

@@ -1,4 +1,7 @@
 import React from "react";
+import { toast } from "react-hot-toast";
+
+
 import { accountService } from "../hooks/account_service";
 
 export default function EditProfil() {
@@ -20,6 +23,7 @@ export default function EditProfil() {
         accountService.ModifyUsername(username, formData !== null);
       }
     }
+    // toast.success("Hello World");
   };
 
   const handleChange = (e) => {

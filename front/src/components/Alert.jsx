@@ -19,13 +19,13 @@ export default function Alert() {
     }
 
     if (localStorage.getItem("Alert") != null) {
-      setError(localStorage.getItem("Alert"));
-      localStorage.removeItem("Alert");
-      console.log("alert");
-    //   console.log(error);
-      setTimeout(() => {
-        setError(null);
-        console.log("alert removed");
+        setError(localStorage.getItem("Alert"));
+        localStorage.removeItem("Alert");
+        console.log("alert");
+        //   console.log(error);
+        setTimeout(() => {
+            setError(null);
+            console.log("alert removed");
       }, 2000);
     }
 

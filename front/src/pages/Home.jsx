@@ -1,29 +1,29 @@
 import { useEffect } from "react";
 import Header from "../components/Header";
+import { ToastContainer } from "react-toastify";
 import "../styles/home.css";
 // import { useSearchParams } from "react-router-dom";
 
 export default function Home() {
-    // state
+  // state
 
-    // comportements
-    useEffect (() => {
-        // if(localStorage.getItem("token")){
-        //     window.location.href = "/";
-        // }
-    }, []);
+  // comportements
+  useEffect(() => {
+    // if(localStorage.getItem("token")){
+    //     window.location.href = "/";
+    // }
+  }, []);
 
+  const SocialClick = () => {
+    window.location.href = "/social";
+  };
+  const GameClick = () => {
+    window.location.href = "/play";
+  };
 
-    const SocialClick = () => {
-        window.location.href = "/social";
-    };
-    const GameClick = () => {
-        window.location.href = "/play";
-    };
+  // affichage
 
-    // affichage
-  
-    return (
+  return (
     <div>
       <Header />
       <br />

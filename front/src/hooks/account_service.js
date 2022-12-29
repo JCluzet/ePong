@@ -1,4 +1,5 @@
 // import { useEffect } from "react";
+import { toast } from "react-hot-toast";
 import axios from "../config/axios";
 import storeProfilData from "./storeProfilData";
 
@@ -216,6 +217,7 @@ let userAvatarUrl = () => {
 let logout = () => {
   localStorage.removeItem("token");
   window.location.href = "/";
+    console.log("Logout");
 };
 
 let isLogged = () => {

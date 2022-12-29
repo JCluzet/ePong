@@ -1,4 +1,5 @@
 import { useSearchParams } from "react-router-dom";
+import { toast } from "react-hot-toast";
 import { accountService } from "./account_service";
 
 // import * as SecureStore from 'expo-secure-store';
@@ -13,11 +14,8 @@ export default function useStoreToken() {
     // window.location.href = "/";
   }
   if (searchParams.get("error")) {
-      console.log("You decline access to your account, please try again");
       window.location.href = "/";
       localStorage.setItem("Alert", "You decline access to your account, please try again");
-      // sleep 1 second
-    //
-
+      console.log("You decline access to your account, please try again");
   }
 }
