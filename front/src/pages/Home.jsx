@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import Header from "../components/Header";
-import { ToastContainer } from "react-toastify";
 import "../styles/home.css";
 // import { useSearchParams } from "react-router-dom";
 
