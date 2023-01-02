@@ -37,6 +37,8 @@ export class EUser {
   @Column({ nullable: true, type: 'decimal', precision: 5, scale: 2, default: 0 })
   win_loss_ratio: number;
 
+  @Column({ nullable: true})
+  userType?: number;
   // @ManyToMany(() => Game, (game) => game.players)
   // @JoinTable()
   // games: Game[]

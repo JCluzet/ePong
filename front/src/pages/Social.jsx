@@ -1,13 +1,14 @@
 import Header from "../components/Header";
 import ProfileCard from "../components/ProfileCard";
 import FriendList from "../components/FriendList";
-import ChatBox from "../components/ChatBox";
 
-export default function Home() {
+export default function Social() {
   // state
 
   // comportements
-
+  const ChatClick = () => {
+    window.location.href = "/social/chat";
+  };
   // affichage
   return (
     <div className="social-page">
@@ -15,7 +16,9 @@ export default function Home() {
       <br />
       <ProfileCard/>
       <FriendList/>
-      <ChatBox/>
+      <button className="button" onClick={ChatClick}> 
+         <div className="text-social">Chat</div>
+      </button> 
     </div>
-  );
+  );  
 }

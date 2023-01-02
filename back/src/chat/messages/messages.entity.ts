@@ -7,17 +7,17 @@ export class Message {
   @Column({ nullable: true })
   chanId: Number;
   @Column({ nullable: true })
-  senderId: Number;
+  senderId: string;
   @Column({ nullable: true })
-  content: String;
+  content: string;
   @Column({ nullable: true })
-  timestamp: String;
+  timestamp: string;
 }
 
 export type MessageModel = {
   id: Number;
   chanId: Number;
-  senderId: Number;
-  content: String;
-  timestamp: String;
+  senderName: string;
+  content: string;
+  timestamp: string;
 };

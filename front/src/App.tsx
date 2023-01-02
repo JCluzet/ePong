@@ -11,6 +11,12 @@ import Live from "./components/Live"
 import Social from "./pages/Social";
 import { accountService } from "./hooks/account_service";
 import { Toaster } from 'react-hot-toast';
+import Chat from "./pages/Chat";
+import { CreateConv } from "./components/chatComponents/CreateConv/CreateConv";
+import { CreateDirectConv } from "./components/chatComponents/CreateConv/CreateDirectConv";
+import { CreateGroupConv } from "./components/chatComponents/CreateConv/CreateGroupConv";
+import { JoinConversation } from "./components/chatComponents/CreateConv/JoinConversation";
+import { AdminPanel } from "./components/chatComponents/ChatFeed/AdminPanel";
 
 // import { GlobalProvider } from "./providers/GlobalProvider";
 
@@ -20,11 +26,11 @@ export default function App() {
   return (
     // classic url using browser
     <div>
-{/* Same as */}
-<Toaster
-  position="bottom-left"
-  reverseOrder={false}
-/>
+      {/* Same as */}
+      <Toaster
+        position="bottom-left"
+        reverseOrder={false}
+      />
       <Router>
         <Routes>
           <Route path="/" element={
@@ -35,6 +41,24 @@ export default function App() {
             } />
           <Route path="/social" element={
             accountService.isLogged() ? <Social /> : <Login />
+            } />
+          <Route path="/social/chat" element={
+            accountService.isLogged() ? <Chat /> : <Login />
+            } />
+          <Route path="/social/chat/createconv" element={
+            accountService.isLogged() ? <CreateConv /> : <Login />
+            } />
+          <Route path="/social/chat/createDirectConv" element={
+            accountService.isLogged() ? <CreateDirectConv /> : <Login />
+            } />
+          <Route path="/social/chat/createGroupConv" element={
+            accountService.isLogged() ? <CreateGroupConv /> : <Login />
+            } />
+          <Route path="/social/chat/joinConversation" element={
+            accountService.isLogged() ? <JoinConversation /> : <Login />
+            } />
+          <Route path="/social/chat/adminpanel" element={
+            accountService.isLogged() ? <AdminPanel /> : <Login />
             } />
           <Route path="/live" element={
             accountService.isLogged() ? <Live /> : <Login />

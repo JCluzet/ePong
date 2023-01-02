@@ -10,7 +10,7 @@ export class BlockController {
   constructor(private blockService: BlockService, private userService: UsersService) {}
 
   @Get('/:login')
-  @UseGuards(AuthGuard('jwt'))
+  // @UseGuards(AuthGuard('jwt'))
   async getBlockByLogin(@Param('login') login: string): Promise<string[] | undefined> {
     try {
       const userblocks: string[] | undefined = await this.blockService.getBlocked(login);

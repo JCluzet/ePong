@@ -143,7 +143,7 @@ let saveToken = (code) => {
       console.log(error);
       localStorage.removeItem("code");
       window.location.href = "/";
-      localStorage.setItem("Alert", "Cannot get_token, please check email API");
+      localStorage.setItem("Alert", "API Key (MAIL) seems to be invalid");
     });
 };
 

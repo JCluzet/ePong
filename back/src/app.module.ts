@@ -13,6 +13,10 @@ import { EBlock } from './block/interface/bock.entity';
 import { GameHistoryModule } from './gameHistory/gameHistory.module';
 import { EGameHistory } from './gameHistory/interface/gameHistory.entity';
 import { MailConfirmModule } from './mailConfirm/mailConfirm.module';
+import { MessagesModule } from './chat/messages/messages.module';
+import { Chat, ChatUser } from './chat/chat.entity';
+import { Message } from './chat/messages/messages.entity';
+import { ChatGatewayModule } from './chat/chat.gateway.module';
 
 @Module({
   imports: [
@@ -23,16 +27,18 @@ import { MailConfirmModule } from './mailConfirm/mailConfirm.module';
       username: 'transcendingz',
       password: 'transcendingz',
       database: 'psql',
-      entities: [EUser, Etwofa, EFriend, EBlock, EGameHistory],
+      entities: [EUser, Etwofa, EFriend, EBlock, EGameHistory, ChatUser, Chat, Message],
       synchronize: true,
     }),
     UsersModule,
     AuthModule,
     FriendsModule,
     ChatModule,
+    MessagesModule,
     BlockModule,
     GameHistoryModule,
     MailConfirmModule,
+    ChatGatewayModule,
   ],
   controllers: [AppController],
 })

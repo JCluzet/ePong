@@ -1,3 +1,4 @@
+import { Trole } from 'src/users/interfaces/role.type';
 import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('chat')
@@ -21,8 +22,7 @@ export class ChatUser {
   @Column({ nullable: true })
   chatId: number;
   @Column({ nullable: true })
-  // to change to string?
-  userId: number;
+  userName: string;
   @Column({ nullable: true })
   userType: number;
 }
