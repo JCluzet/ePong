@@ -19,7 +19,7 @@ export default function ProfileCard() {
         <div className="container">
             {/* j'ai creer une class container-social dans le css qui contient direct tout le style */}
             <section className="container-shiny">
-                {alert(user.imgUrl)}
+                // {alert(user.imgUrl)}
                 <div className="row">
                     <div className="column-stats1">
                         <img src={user.imgUrl} alt={'profile picture'} style= {{height: 100 ,width: 100}}/>
