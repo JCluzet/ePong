@@ -16,9 +16,15 @@ import { IProfileSettings } from './interfaces/profileSetting.interface';
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
+  
   @Get()
   async findUsersPublic(): Promise<IUserPublicProfile[]> {
     return this.usersService.findAllPublicUser();
+  }
+  
+  @Get("all")
+  async findAdll(): Promise<EUser[]> {
+    return this.usersService.findAll();
   }
 
   @Get('/admin')
@@ -49,7 +55,7 @@ export class UsersController {
   }
 
   @Get('/public/:login')
-  @UseGuards(AuthGuard('jwt'))
+  // @UseGuards(AuthGuard('jwt'))
   async findUserPublic(@Param('login') login: string): Promise<IUserPublicProfile> {
     try {
       if (!login) throw new BadRequestException(`Miss Login`);

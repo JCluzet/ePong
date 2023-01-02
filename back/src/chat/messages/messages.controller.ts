@@ -7,19 +7,19 @@ import { MessagesService } from './messages.service';
 export class MessagesController {
   constructor(private messagesService: MessagesService) {}
 
-  @UseGuards(AuthGuard('jwt'))
+  // @UseGuards(AuthGuard('jwt'))
   @Get('all')
   async all(): Promise<Message[]> {
     return await this.messagesService.all();
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  // @UseGuards(AuthGuard('jwt'))
   @Post('newMessage')
   async newMessage(@Body() data: MessageModel) {
     return await this.messagesService.createChanMessage(data);
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  // @UseGuards(AuthGuard('jwt'))
   @Post('getOldMessages')
   async getChanOldMessages(@Body() body): Promise<Message[]> {
     return await this.messagesService.findChanMessages(body.chanId);

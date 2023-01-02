@@ -32,18 +32,19 @@ export class ChatService {
   }
   async getChatUserByChatId(id: number) {
     let res = await this.ChatUserRepository.find();
-    let ret: number[] = [];
+    let ret: string[] = [];
     res.map((chat: ChatUser) => {
-      if (chat.chatId === id) ret.push(chat.userId);
+      if (chat.chatId === id)
+        ret.push(chat.userName);
     });
     return ret;
   }
 
-  async getChatUserByUserId(id: number) {
+  async getChatUserByUserId(userName: string) {
     let res = await this.ChatUserRepository.find();
     let ret: number[] = [];
     res.map((chat: ChatUser) => {
-      if (chat.userId === id) ret.push(chat.chatId);
+      if (chat.userName === userName) ret.push(chat.chatId);
     });
     return ret;
   }
@@ -53,14 +54,14 @@ export class ChatService {
     return res;
   }
 
-  async getChatAdminByAdminId(id: number) {
-    let res = await this.ChatUserRepository.findOne({ where: { userId: id, userType: 0 } });
+  async getChatAdminByAdminId(userName: string) {
+    let res = await this.ChatUserRepository.findOne({ where: { userName: userName, userType: 0 } });
     return res;
   }
 
-  async getUserType(chanId: number, userId: number) {
+  async getUserType(chanId: number, userName: string) {
     try {
-      let res = await this.ChatUserRepository.findOne({ where: { userId: userId, chatId: chanId } });
+      let res = await this.ChatUserRepository.findOne({ where: { userName: userName, chatId: chanId } });
       return res.userType;
     } catch (error) {
       console.log("Couldn't fetch user type");
@@ -121,10 +122,10 @@ export class ChatService {
     return res;
   }
 
-  async insertChatUser(chatId: number, userId: number, userType: number) {
+  async insertChatUser(chatId: number, userName: string, userType: number) {
     let chatUser = new ChatUser();
     chatUser.chatId = chatId;
-    chatUser.userId = userId;
+    chatUser.userName = userName;
     chatUser.userType = userType;
     await this.ChatUserRepository.save(chatUser);
     return chatUser;
@@ -137,9 +138,9 @@ export class ChatService {
     await this.ChatRepository.save(res);
   }
 
-  async deletChatUserByUserId(userId: number) {
+  async deletChatUserByUserId(userName: string) {
     let res = await this.ChatUserRepository.findOneBy({
-      userId: userId,
+      userName: userName,
     });
     await this.ChatUserRepository.remove(res);
   }
@@ -151,27 +152,27 @@ export class ChatService {
     await this.ChatUserRepository.remove(res);
   }
 
-  async deleteUserFromChat(chanId: number, userId: number) {
-    let res = await this.ChatUserRepository.findOne({ where: { chatId: chanId, userId: userId } });
+  async deleteUserFromChat(chanId: number, userName: string) {
+    let res = await this.ChatUserRepository.findOne({ where: { chatId: chanId, userName: userName } });
     if (res) await this.ChatUserRepository.remove(res);
   }
 
-  async updateUserStatus(userId: number, status: number, chanId: number) {
+  async updateUserStatus(userName: string, status: number, chanId: number) {
     let allUsers = await this.ChatUserRepository.find();
     allUsers.forEach((user: ChatUser) => {
-      if (user.userId === userId && user.chatId === chanId) {
+      if (user.userName === userName && user.chatId === chanId) {
         user.userType = status;
       }
     });
     this.ChatUserRepository.save(allUsers);
   }
 
-  async addUser(chanId: number, userId: number) {
-    let userChans: number[] = await this.getChatUserByUserId(userId);
+  async addUser(chanId: number, userName: string) {
+    let userChans: number[] = await this.getChatUserByUserId(userName);
     for (let i = 0; i < userChans.length; i++) {
       if (userChans[i] == chanId) return false;
     }
-    await this.insertChatUser(chanId, userId, 1);
+    await this.insertChatUser(chanId, userName, 1);
     return true;
   }
 }

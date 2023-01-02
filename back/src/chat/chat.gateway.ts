@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 import { OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Socket, Server } from 'ws';
 
-@WebSocketGateway(8000, { cors: 'http://localhost:3001/social/chat' })
+@WebSocketGateway({ cors: 'http://localhost:5001/social/chat' })
 export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('ChatGateway');
@@ -17,7 +17,8 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     this.server.emit('message', { chanId: ret.chanId, senderId: ret.senderId, content: ret.content, timestamp: ret.timestamp });
   }
 
-  handleConnection(client: Socket, ...args: any[]) {}
+  handleConnection(client: Socket, ...args: any[]) {
+  }
 
   handleDisconnect(client: Socket) {}
 }
