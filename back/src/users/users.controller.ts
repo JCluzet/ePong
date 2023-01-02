@@ -22,11 +22,6 @@ export class UsersController {
     return this.usersService.findAllPublicUser();
   }
   
-  @Get("all")
-  async findAdll(): Promise<EUser[]> {
-    return this.usersService.findAll();
-  }
-
   @Get('/admin')
   @UseGuards(AuthGuard('jwt'))
   async findUserAll(@Req() request: any): Promise<EUser[]> {
