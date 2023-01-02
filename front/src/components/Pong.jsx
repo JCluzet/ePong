@@ -43,7 +43,7 @@ export default function Pong() {
 	function getUser() {
 		axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 		axios.defaults.withCredentials = true;
-		joueur = accountService.userName();
+		joueur = accountService.userLogin();
 		setUsername(joueur);
 		if (vs !== null && !vshisto) {
 			setActive(false);
@@ -53,8 +53,7 @@ export default function Pong() {
 		}
 	}
 	var SearchText = "Rechercher une partie"
-	var socket = io(url_begin.concat(":5001/game"), { query: { username: username } });
-	var socket2 = io(url_begin.concat(":5001/chat"), { query: { username: username } });
+	var socket = io(url_begin.concat(":3000/game"), { query: { username: username } });
 
 	function removeInvit() {
 		setActive2(false);
@@ -114,8 +113,6 @@ export default function Pong() {
 		document.querySelector('#waitingPlayer').textContent = "";
 		joueur1 = args[0];
 		joueur2 = args[1];
-		socket2.emit("update", joueur1 + ":ingame");
-		socket2.emit("update", joueur2 + ":ingame");
 		gm = args[2];
 		initParty();
 		if (joueur1 !== adversaire && joueur1 === joueur && game) {
@@ -442,9 +439,6 @@ export default function Pong() {
 		// Reset speed
 		game.ball.speed.x = 0;
 		game.ball.speed.y = 0;
-
-		socket2.emit("update", joueur1 + ":online");
-		socket2.emit("update", joueur2 + ":online");
 	}
 
 	function clearDataGame() {
