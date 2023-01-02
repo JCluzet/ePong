@@ -80,7 +80,7 @@ export const UserBuble = (props: UserBubleProps) => {
 
     return (
         <Card hoverable style={{ width: 260}} cover={<img alt='avatar' src={props.avatar}/>} actions={actions}>
-            <Meta title={props.senderId} />
+            <Meta title={name} />
         </Card>
     )
 }
@@ -112,7 +112,7 @@ export const ChatMessage = (props: ChatMessageProps) => {
             try {
                 const {data} = await axios.get('users/public/' + props.msg.senderId);
                 if (bool) {
-                    setUserName(data.login);
+                    setUserName(data.name);
                     setAvatar(data.avatarUrl);
                 }
             }
