@@ -20,7 +20,7 @@ export const CreateDirectConv = () => {
         let bool = true;
         const getAllUsers = async () => {
             try {
-                const {data} = await axios.get('users/all');
+                const {data} = await axios.get('users');
                 if (bool)
                     setAllUsers(data);
             }
