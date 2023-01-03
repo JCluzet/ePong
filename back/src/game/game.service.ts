@@ -12,7 +12,7 @@ export class GameService {
 		@InjectRepository(Game)
 		private gameRepository: Repository<Game>,
 		@InjectRepository(EUser)
-		private userRepository: Repository<EUser>,
+		// private userRepository: Repository<EUser>,
 		private userService: UsersService,
 	) { }
 

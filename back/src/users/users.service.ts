@@ -123,7 +123,11 @@ export class UsersService {
       if (!user) return false;
       Logger.log(`twofa: ${profileSettings.isTwoFa}`);
       if (profileSettings.name === '') user.name = user.login;
-      else user.name = profileSettings.name;
+      else{
+        const sameUser = await this.findUserByName( profileSettings.name );
+			  if ( sameUser && sameUser.login !== user.login ) return false;
+        user.name = profileSettings.name;
+      } 
       user.isTwoFa = profileSettings.isTwoFa;
       user.avatarUrl = profileSettings.avatarUrl;
       await this.usersRepository.save(user);
