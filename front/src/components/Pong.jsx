@@ -62,6 +62,7 @@ export default function Pong() {
 	}
 
 	function sendSearch() {
+		console.log('check search game');
 		if (joueur) {
 			isSearching = isSearching ? false : true;
 			if (isSearching) {

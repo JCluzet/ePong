@@ -13,7 +13,7 @@ import { ILoginSuccess } from './interfaces/loginSuccess.interface';
 import { Etwofa } from './interfaces/twofa.entity';
 import * as bcrypt from 'bcrypt';
 import { IUserData } from './interfaces/userData.interface';
-import { Game } from "src/game/entity/game.entity";
+import { EGame } from "src/game/entity/game.entity";
 import { MailConfirmService } from 'src/mailConfirm/mailConfirm.service';
 
 @Injectable()

@@ -18,7 +18,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect, On
 	constructor(
 		private readonly gameService: GameService,
 		private readonly userService: UsersService
-	) { }
+	) { Logger.log(`test connection`);}
 
 	afterInit(server: Server) {
 		this.logger.log("game socket init !");
@@ -32,6 +32,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect, On
 
 	@SubscribeMessage('search')
 	async messageMessage(@ConnectedSocket() socket: Socket, @MessageBody() body: string) {
+		Logger.log(`check search game`);
 		let gameMode = 0;
 		let isSearching = true
 		if (body.includes("bigball"))

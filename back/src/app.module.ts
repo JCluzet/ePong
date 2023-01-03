@@ -17,6 +17,8 @@ import { MessagesModule } from './chat/messages/messages.module';
 import { Chat, ChatUser } from './chat/chat.entity';
 import { Message } from './chat/messages/messages.entity';
 import { ChatGatewayModule } from './chat/chat.gateway.module';
+import { GameModule } from './game/game.module';
+import { EGame } from './game/entity/game.entity';
 
 @Module({
   imports: [
@@ -27,7 +29,7 @@ import { ChatGatewayModule } from './chat/chat.gateway.module';
       username: 'transcendingz',
       password: 'transcendingz',
       database: 'psql',
-      entities: [EUser, Etwofa, EFriend, EBlock, EGameHistory, ChatUser, Chat, Message],
+      entities: [EUser, Etwofa, EFriend, EBlock, EGameHistory, ChatUser, Chat, Message, EGame],
       synchronize: true,
     }),
     UsersModule,
@@ -39,6 +41,7 @@ import { ChatGatewayModule } from './chat/chat.gateway.module';
     GameHistoryModule,
     MailConfirmModule,
     ChatGatewayModule,
+    GameModule,
   ],
   controllers: [AppController],
 })

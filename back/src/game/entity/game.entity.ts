@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, CreateDateColumn, Column, ManyToMany } 
 import { EUser } from 'src/users/interfaces/user.entity'
 
 @Entity('game')
-export class Game {
+export class EGame {
     @PrimaryGeneratedColumn()
     id?: number;
 
