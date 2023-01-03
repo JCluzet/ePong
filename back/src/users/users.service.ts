@@ -138,12 +138,14 @@ export class UsersService {
 
   async editGameScore(gameScore: IGameScore): Promise<boolean> {
     try {
-      // eslint-disable-next-line prettier/prettier
       const winner = await this.usersRepository.createQueryBuilder('user').where({ login: gameScore.winner }).getOne();
-      // eslint-disable-next-line prettier/prettier
       const loser = await this.usersRepository.createQueryBuilder('user').where({ login: gameScore.loser }).getOne();
       winner.nbWins++;
       loser.nbLoses++;
+      winner.total_games++;
+      loser.total_games++;
+      winner.win_loss_ratio = (winner.nbWins) / (winner.total_games) * 100;
+      loser.win_loss_ratio = (loser.nbWins) / (loser.total_games) * 100;
       this.usersRepository.save(winner);
       this.usersRepository.save(loser);
       return true;

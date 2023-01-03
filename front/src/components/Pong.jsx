@@ -53,7 +53,7 @@ export default function Pong() {
 		}
 	}
 	var SearchText = "Rechercher une partie"
-	var socket = io(url_begin.concat(":3000/game"), { query: { username: username } });
+	var socket = io(url_begin.concat(":5001/game"), { query: { username: username } });
 
 	function removeInvit() {
 		setActive2(false);

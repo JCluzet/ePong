@@ -20,19 +20,11 @@ export class GameService {
 		return this.gameRepository.find();
 	}
 
-	async updateStats(user: EUser, hasWon: boolean) {
-		hasWon ? user.nbWins += 1 : user.nbLoses += 1;
-		user.total_games += 1;
-		user.win_loss_ratio = (user.nbWins) / (user.total_games) * 100;
-		await this.userRepository.save(user);
-	}
-
 	async createGame(winner_login: number, loser_login: number, winner_points: number, loser_points: number, gm: number) {
 		const winner = await this.userService.findUserById(winner_login);
 		const loser = await this.userService.findUserById(loser_login);
 
-		await this.updateStats(winner, true);
-		await this.updateStats(loser, false);
+		await this.userService.editGameScore({winner: winner.login, loser: loser.login});
 
 		if (winner && loser) {
 			const newGame = await this.gameRepository.create({
