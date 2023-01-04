@@ -2,7 +2,42 @@
 import axios from "../config/axios";
 import storeProfilData from "./storeProfilData";
 
-let majAvatar = () => {
+let ModifyUsername = async (username) => {
+  var config = {
+    method: "post",
+    url: "/users/edit",
+    headers: {
+      Authorization: "Bearer " + userToken(),
+      "Content-Type": "application/json",
+    },
+    data: JSON.stringify({
+      login: userLogin(),
+      name: username,
+      isTwoFa: isTwoFa(),
+      avatarUrl: userAvatarUrl(),
+    }),
+  };
+
+  axios(config)
+    .then(function (response) {
+        console.log("je viens de modif username dans le back par "+ username);
+        // output on console the exact time in milliseconds
+        console.log("houfdfdfdr : " + Date.now());
+      localStorage.setItem("username", username);
+    //   storeProfilData(userToken(), userLogin());
+    //wait 1 second before return response;
+    //   if (!reload) window.location.reload();
+      return response;
+    //   if (!reload) window.location.reload();
+    })
+    .catch(function (error) {
+      console.log("Erreur, impossible de modifier le username > " + error);
+      logout();
+      localStorage.setItem("Alert", "You have been disconnected for inactivity");
+    });
+};
+
+let majAvatar = async () => {
   var config = {
     method: "get",
     url: "/users/profile/" + userLogin(),
@@ -13,7 +48,7 @@ let majAvatar = () => {
     .then(function (response) {
       localStorage.setItem("avatarUrl", response.data.avatarUrl);
       console.log("Avatar saved : " + response.data.avatarUrl);
-      window.location.reload();
+    //   window.location.reload();
     })
     .catch(function (error) {
       console.log("Erreur, impossible de get /user/profile > " + error);
@@ -22,31 +57,59 @@ let majAvatar = () => {
     });
 };
 
+// create a async function that modify avatar 
 async function ModifyAvatar(formData) {
-  var config = {
-    method: "post",
-    url: "/users/uploadAvatar",
-    headers: {
-      Authorization: "Bearer " + userToken(),
-      "Content-Type": "multipart/form-data",
-    },
-    data: formData,
-  };
+    var config = {
+        method: "post",
+        url: "/users/uploadAvatar",
+        headers: {
+            Authorization: "Bearer " + userToken(),
+            "Content-Type": "multipart/form-data",
+        },
+        data: formData,
+    };
 
-  axios(config)
-    .then(function (response) {
-      // refresh the window
-      console.log("OK MODIFY AVATAR");
-      console.log("Avatar modified : " + formData);
-      majAvatar();
-    })
-    .catch(function (error) {
-      console.log("KO MODIFY AVATAR");
-      console.log("Erreur, impossible de modifier l'avatar > " + error);
-      logout();
-      localStorage.setItem("Alert", "You have been disconnected for inactivity");
-    });
+    try {
+        const response = await axios(config);
+        console.log("response : " + response);
+        await majAvatar();
+        return response;
+    } catch (error) {
+        console.log("KO MODIFY AVATAR");
+        console.log("Erreur, impossible de modifier l'avatar > " + error);
+        logout();
+        localStorage.setItem("Alert", "You have been disconnected for inactivity");
+    }
 }
+
+
+
+
+// function ModifyAvatar(formData) {
+//   var config = {
+//     method: "post",
+//     url: "/users/uploadAvatar",
+//     headers: {
+//       Authorization: "Bearer " + userToken(),
+//       "Content-Type": "multipart/form-data",
+//     },
+//     data: formData,
+//   };
+
+//   axios(config)
+//     .then(function (response) {
+//       // refresh the window
+//       console.log("OK MODIFY AVATAR");
+//       console.log("Avatar modified : " + formData);
+//       majAvatar();
+//     })
+//     .catch(function (error) {
+//       console.log("KO MODIFY AVATAR");
+//       console.log("Erreur, impossible de modifier l'avatar > " + error);
+//       logout();
+//       localStorage.setItem("Alert", "You have been disconnected for inactivity");
+//     });
+// }
 
 let ModifyTfa = (tfa) => {
   var config = {
@@ -59,7 +122,6 @@ let ModifyTfa = (tfa) => {
     data: JSON.stringify({
       login: userLogin(),
       name: userName(),
-      // istwofa must be a boolean
       isTwoFa: tfa,
       avatarUrl: userAvatarUrl(),
     }),
@@ -79,35 +141,6 @@ let ModifyTfa = (tfa) => {
     });
 };
 
-let ModifyUsername = (username, reload) => {
-  var config = {
-    method: "post",
-    url: "/users/edit",
-    headers: {
-      Authorization: "Bearer " + userToken(),
-      "Content-Type": "application/json",
-    },
-    data: JSON.stringify({
-      login: userLogin(),
-      name: username,
-      isTwoFa: isTwoFa(),
-      avatarUrl: userAvatarUrl(),
-    }),
-  };
-
-  axios(config)
-    .then(function (response) {
-      // storeprofil a remplacer a la place de setItem
-      localStorage.setItem("username", username);
-      storeProfilData(userToken(), userLogin());
-      if (!reload) window.location.reload();
-    })
-    .catch(function (error) {
-      console.log("Erreur, impossible de modifier le username > " + error);
-      logout();
-      localStorage.setItem("Alert", "You have been disconnected for inactivity");
-    });
-};
 
 let isBackendDown = () => {
   return localStorage.getItem("BackendDown");
@@ -125,7 +158,7 @@ let saveToken = (code) => {
 
   axios(config)
     .then(function (response) {
-      window.location.href = "/";
+    //   window.location.href = "/";
       console.log("TwoFa: " + response.data.twofa);
       localStorage.setItem("NeedTwoFa", response.data.twofa);
       if (response.data.twofa) {
@@ -135,7 +168,7 @@ let saveToken = (code) => {
       localStorage.setItem("token", response.data.apiToken);
       console.log("Token saved : " + response.data.apiToken);
       localStorage.setItem("login", response.data.login);
-      storeProfilData(response.data.apiToken, response.data.login);
+      storeProfilData(response.data.apiToken, response.data.login, () => window.location.href="/");
     })
     .catch(function (error) {
       console.log("Token seems to be invalid, please try again");

@@ -1,5 +1,9 @@
 import React from "react";
+// import toastify
+import { toast } from "react-toastify";
+
 import { accountService } from "../hooks/account_service";
+import storeProfilData from "../hooks/storeProfilData";
 
 export default function EditProfil() {
   // state
@@ -8,19 +12,24 @@ export default function EditProfil() {
 
   // comportements
 
-  const updateProfil = (e) => {
+  const updateProfil = async (e) => {
     e.preventDefault();
     if (formData !== null) {
-      accountService.ModifyAvatar(formData);
+      await accountService.ModifyAvatar(formData);
     }
     if (username !== accountService.userName()) {
-      if (username.length === 0) {
-        accountService.ModifyUsername(accountService.userLogin(), formData !== null);
-      } else {
-        accountService.ModifyUsername(username, formData !== null);
-      }
+      const response = await accountService.ModifyUsername(username);
+      console.log("username changed");
     }
-    // toast.success("Hello World");
+    // wait for 3 seconds
+    // await new Promise((resolve) => setTimeout(resolve, 100));
+    if (username !== accountService.userName() || formData !== null) {
+      const response = await storeProfilData(
+        accountService.userToken(),
+        accountService.userLogin(),
+        () => window.location.reload()
+      );
+    }
   };
 
   const handleChange = (e) => {
