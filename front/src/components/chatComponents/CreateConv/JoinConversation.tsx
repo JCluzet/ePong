@@ -1,7 +1,7 @@
 import axios from "axios";
 import { SyntheticEvent, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
-import { Button, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { Chan } from "../Models/chan";
 import { Divider } from "antd";
 import Header from "../../Header";
@@ -11,7 +11,6 @@ export const JoinConversation = () => {
     const navigate = useNavigate();
     const [channels, setChannels] = useState<Array<Chan>>([]);
     const [userName, setUserName] = useState("");
-    const [avatar, setAvatar] = useState("");
     const [redi, setRedi] = useState(false);
     const [password, setPassword] = useState("");
 
@@ -21,8 +20,6 @@ export const JoinConversation = () => {
         const getUser = async () => {
             if (bool) {
                 const log = accountService.userLogin() as string;
-                const av = accountService.userAvatarUrl() as string;
-                setAvatar(av);
                 setUserName(log);
             }
         }

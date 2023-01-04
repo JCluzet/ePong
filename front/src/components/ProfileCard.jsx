@@ -22,6 +22,7 @@ export default function ProfileCard() {
                 {/* {alert(user.imgUrl)} */}
                 <div className="row">
                     <div className="column-stats1">
+                        {/* eslint-disable-next-line */}
                         <img src={user.imgUrl} alt={'profile picture'} style= {{height: 100 ,width: 100}}/>
                         <h1>{user.name}</h1>
                         <Statscard/>

@@ -9,7 +9,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
 import BlockIcon from '@mui/icons-material/Block';
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import SendIcon from '@mui/icons-material/Send';
 import { io } from "socket.io-client";
 import "./chatFeed.css"
@@ -135,7 +135,7 @@ export const ChatMessage = (props: ChatMessageProps) => {
         }
         getIsBlocked();
         return () => {bool = false};
-    }, [props.msg.senderId]);
+    }, [props.msg.senderId, props.userName]);
 
 
     useEffect(() => {

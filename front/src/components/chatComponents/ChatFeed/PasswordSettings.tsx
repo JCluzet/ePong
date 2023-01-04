@@ -15,15 +15,12 @@ export const PasswordSettings = (props: PasswordSettingsProps) => {
     const [newPassword, setNewPassword] = useState('');
     const [render, setRender] = useState(false);
     const [userName, setUserName] = useState("");
-    const [avatar, setAvatar] = useState("");
 
     useEffect(() => {
         let bool = true;
         const getUser = async () => {
             if (bool) {
                 const log = accountService.userLogin() as string;
-                const av = accountService.userAvatarUrl() as string;
-                setAvatar(av);
                 setUserName(log);
             }
         }

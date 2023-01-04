@@ -2,22 +2,9 @@
 #  |  |     ) |  |\/ |   _  |  |  /   _ 
 # ___ __|  __/   |   |  (   |    <    __/ 
 #    _|  _____| _|  _| \__,_| _|\_\ \___|
-#                              by jcluzet
-################################################################################
-#                                     CONFIG                                   #
-################################################################################
+
 
 # NAME        := transcendance
- 
-################################################################################
-#                                 PROGRAM'S SRCS                               #
-################################################################################
-
-
-################################################################################
-#                                  Makefile  objs                              #
-################################################################################
-
 
 CLR_RMV		:= \033[0m
 RED		    := \033[1;31m
@@ -25,7 +12,7 @@ GREEN		:= \033[1;32m
 YELLOW		:= \033[1;33m
 BLUE		:= \033[1;34m
 CYAN 		:= \033[1;36m
-RM		    := rm -f
+RM		    := rm -rf
 
 all:		
 		@echo "$(YELLOW)command: $(CLR_RMV)"
@@ -35,23 +22,22 @@ all:
 		@echo "	$(CYAN)make fclean$(CLR_RMV): $(GREEN)down container and purge docker$(CLR_RMV)"
 		@echo "	$(CYAN)make re$(CLR_RMV): $(GREEN)make fclean + make a$(CLR_RMV)"
 a:
-			@docker compose up --build
+		@docker compose up --build
 
 d:
-			@docker compose up --build -d
+		@docker compose up --build -d
 
 clean:
-			@docker compose down -v --rmi all --remove-orphans
+		@docker compose down -v --rmi all --remove-orphans
 
-fclean:		clean
-			@docker system prune --volumes --all --force
-			@docker network prune --force
-			@docker image prune --force
-#			@rm -rf ./front/node_modules
-#			@rm -rf ./back/node_modules
+fclean:	clean
+		@docker system prune --volumes --all --force
+		@docker network prune --force
+		@docker image prune --force
+		@$(RM) /goinfre/$USER/db-data/*
+		@$(RM) ./db-data/*
+rec:	clean a
 
-re:			fclean a
+re:		fclean a
 
-.PHONY:		all clean fclean re
-
-
+.PHONY:	all clean fclean re rec a d
