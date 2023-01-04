@@ -1,7 +1,4 @@
 import React from "react";
-import { toast } from "react-hot-toast";
-
-
 import { accountService } from "../hooks/account_service";
 
 export default function EditProfil() {
@@ -17,7 +14,7 @@ export default function EditProfil() {
       accountService.ModifyAvatar(formData);
     }
     if (username !== accountService.userName()) {
-      if (username.length == 0) {
+      if (username.length === 0) {
         accountService.ModifyUsername(accountService.userLogin(), formData !== null);
       } else {
         accountService.ModifyUsername(username, formData !== null);

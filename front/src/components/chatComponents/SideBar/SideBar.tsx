@@ -2,10 +2,7 @@ import { Col, Divider, Row } from "antd";
 import axios from "axios";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { Chan } from "../Models/chan";
-import LockIcon from '@mui/icons-material/Lock';
 import { Link } from "react-router-dom";
-import AddIcon from '@mui/icons-material/Add';
-import { Button } from "@mui/material";
 
 type SideBarChannelsProps = {
     setCurrentChannelId: Function;
@@ -106,7 +103,7 @@ const RenderDirectConvs = (props: RenderDirectConvsProps) => {
                         if (u.login !== props.userName)
                             setName(u.name);
                     });               
-                    if (i != 2)
+                    if (i !== 2)
                         setName("");
                 }
             }

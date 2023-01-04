@@ -17,6 +17,7 @@ export default function Live() {
 
 	let socket = io(url_begin.concat(":3000/play"));
 	const [displayedNo, setDisplayedNo] = React.useState(false);
+	// eslint-disable-next-line
 	const [load, setLoad] = React.useState(false);
 
 	function display_no() {
@@ -74,11 +75,13 @@ export default function Live() {
 					}
 				}
 				initParty(adversaires.indexOf(adversaire));
+				return () => {};
 			})
+			return () => {};
 		})
 	}
 
-	useEffect(() => {
+	useEffect((display_no) => {
 		setLoad(true);
 		display_no();
 		return () => { setLoad(false)};

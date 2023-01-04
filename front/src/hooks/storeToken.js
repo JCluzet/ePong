@@ -1,5 +1,4 @@
 import { useSearchParams } from "react-router-dom";
-import { toast } from "react-hot-toast";
 import { accountService } from "./account_service";
 
 // import * as SecureStore from 'expo-secure-store';

@@ -230,9 +230,8 @@ export default function Pong() {
 	}
 
 	useEffect(() => {
-		let isMounted = true;
-		// First page loading event (only one time)
 		getUser();
+		// eslint-disable-next-line
 		canvas = document.getElementById('canvas');
 		initParty();
 		if (live == null)
@@ -242,7 +241,7 @@ export default function Pong() {
 			setActive(false);
 			setActive2(false);
 		}
-		return () => { isMounted = false };
+		return () => {};
 	}, []);
 
 	window.addEventListener('resize', function (event) {
@@ -270,7 +269,7 @@ export default function Pong() {
 				game.player.y = mouseLocation - PLAYER_HEIGHT / 2;
 			}
 			if (joueur && game.player.y && adversaire)
-				socket.emit('playerMove', joueur + ":" + game.player.y + ":" + adversaire + ":" + "gauche" + ":" + gm);
+				socket.emit("playerMove", `${joueur}:${game.player.y}:${adversaire}:gauche:${gm}`);
 		} else if (joueur === joueur2) {
 			game.player2.y = mouseLocation - PLAYER_HEIGHT / 2;
 			if (mouseLocation < PLAYER_HEIGHT / 2) {
@@ -281,7 +280,7 @@ export default function Pong() {
 				game.player2.y = mouseLocation - PLAYER_HEIGHT / 2;
 			}
 			if (joueur && game.player.y && adversaire)
-				socket.emit('playerMove', joueur + ":" + game.player2.y + ":" + adversaire + ":" + "droit" + ":" + gm);
+				socket.emit('playerMove', `${joueur}:${game.player2.y}:${adversaire}:droit:${gm}`);
 		}
 	}
 
@@ -507,7 +506,7 @@ export default function Pong() {
 										<em className="canvas-score" id="joueur1"></em>
 										<em className="canvas-score" id="player-score">0</em> - <em id="joueur2"></em>
 										<em className="canvas-score" id="player2-score">0</em></p>
-									<canvas id="canvas" width={500} height={500}></canvas>
+									<canvas id="canvas" width={500} height={400}></canvas>
 								</main>
 							</div>
 						</div>

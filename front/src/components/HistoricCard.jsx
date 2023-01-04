@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/historic.css"
 import "../styles/social.css"
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import Trophy from "../assets/images/trophy.png";
 import Modal from "./HistoricModal";
 
