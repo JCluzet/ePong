@@ -1,7 +1,7 @@
 import axios from "../config/axios";
 // import { accountService } from "./account_service";
 
-let storeProfilData = (token, login) => {
+let storeProfilData = async (token, login, callback) => {
   var config = {
     method: "get",
     url: "/users/profile/" + login,
@@ -12,7 +12,9 @@ let storeProfilData = (token, login) => {
   // wait until axios is available, then make the request
   axios(config)
     .then(function (response) {
-      console.log("OK! STORE PROFIL DATA");
+      console.log("OK! STORE PROFIL DATA : " + response.data.name);
+      console.log("hour : " + Date.now());
+
 
       localStorage.setItem("avatarUrl", response.data.avatarUrl);
       console.log("Avatar saved : " + response.data.avatarUrl);
@@ -22,12 +24,16 @@ let storeProfilData = (token, login) => {
 
       localStorage.setItem("username", response.data.name);
       console.log("Username saved : " + response.data.name);
+      if (typeof callback === "function"){
+          callback();
+      } 
+        return response;
     })
     .catch(function (error) {
-      console.log("KO STORE DATAPROFIL!");
-      console.log("Erreur, impossible de get /user/profile > ".error);
+        console.log("KO STORE DATAPROFIL!");
+        console.log("Erreur, impossible de get /user/profile > ".error);
     });
- // print what is the response status code by making a new request
+  // print what is the response status code by making a new request
   console.log("fin storeProfilData");
 };
 
