@@ -34,8 +34,8 @@ fclean:	clean
 		@docker system prune --volumes --all --force
 		@docker network prune --force
 		@docker image prune --force
-		@$(RM) /goinfre/$USER/db-data/*
-		@$(RM) ./db-data/*
+#		@$(RM) /goinfre/${USER}/db-data/*
+#		@$(RM) ./db-data/*
 rec:	clean a
 
 re:		fclean a

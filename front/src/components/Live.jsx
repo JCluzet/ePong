@@ -81,10 +81,11 @@ export default function Live() {
 		})
 	}
 
-	useEffect((display_no) => {
+	useEffect(() => {
 		setLoad(true);
 		display_no();
 		return () => { setLoad(false)};
+		// eslint-disable-next-line
 	}, []);
 
 	//Initialisation de variables
