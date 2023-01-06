@@ -1,6 +1,6 @@
 import React from "react";
 // import toastify
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 
 import { accountService } from "../hooks/account_service";
 import storeProfilData from "../hooks/storeProfilData";
@@ -18,13 +18,13 @@ export default function EditProfil() {
       await accountService.ModifyAvatar(formData);
     }
     if (username !== accountService.userName()) {
-      const response = await accountService.ModifyUsername(username);
+      await accountService.ModifyUsername(username);
       console.log("username changed");
     }
     // wait for 3 seconds
     // await new Promise((resolve) => setTimeout(resolve, 100));
     if (username !== accountService.userName() || formData !== null) {
-      const response = await storeProfilData(
+      await storeProfilData(
         accountService.userToken(),
         accountService.userLogin(),
         () => window.location.reload()

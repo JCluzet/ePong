@@ -11,6 +11,7 @@ import { IUserPublicProfile } from './interfaces/userPublicProfile.interface';
 import { UsersService } from './users.service';
 import { API_AVATAR_GET_URL } from 'src/constant';
 import { IProfileSettings } from './interfaces/profileSetting.interface';
+import * as fs from 'fs';
 
 @Controller('users')
 export class UsersController {
@@ -110,16 +111,20 @@ export class UsersController {
   )
   async uploadImage(@Req() request: any, @UploadedFile() file: Express.Multer.File) {
     try {
-      Logger.log(`check modif image`);
       const user = await this.usersService.findUserProfile(request.user.sub);
       if (!user) throw new BadRequestException('User not found');
+      
+
+      const avatarsTab = user.avatarUrl.split("/");
+      await fs.unlink(`./upload/${avatarsTab[avatarsTab.length - 1]}`, (err) => {});
+      
       const userSetting: IProfileSettings = {
         login: user.login,
-        name: user.name,
+        name: request.body.name,
         isTwoFa: user.isTwoFa,
         avatarUrl: API_AVATAR_GET_URL + '/' + file.filename,
       };
-      Logger.log(`avartrUrl ${userSetting.avatarUrl}`);
+      Logger.log(`avartrUrl ${userSetting.avatarUrl}, name ${userSetting.name}`);
       this.usersService.editWithSetting(userSetting);
     } catch (err) {
       throw new BadRequestException(err.message);
