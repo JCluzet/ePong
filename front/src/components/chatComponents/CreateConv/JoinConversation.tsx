@@ -45,38 +45,38 @@ export const JoinConversation = () => {
 
     const tryJoin = async(e:  SyntheticEvent, chanId: Number, userId: string) => {
         try {
-            const chan = await axios.post("chat/getChanById", {chanId: chanId});
-            if (chan.data.isPrivate) {
-                const pwd = await axios.post("chat/checkPassword", {chanId: chanId, password: password})
-                if (pwd.data === false) {
-                    alert("Wrong password");
-                    setPassword("");
-                    window.location.reload();
-                }
-                else {
-                    const ret = await axios.post("chat/addUser", {chanId: chanId, userId: userId});
-                    if (ret.data === true) {
-                        alert("You successfully joined a channel");
-                        setRedi(true);
+                var config = { method: "post", url: "chat/getChanById", headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", }, data: JSON.stringify({ chanId: chanId }), };
+                axios(config)
+                .then(function (response: any) {
+                    if (response.data.isPrivate)
+                    {
+                        var config = { method: "post", url: "chat/checkPassword", headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", }, data: JSON.stringify({chanId: chanId, password: password }), };
+                        axios(config)
+                        .then(function (response: any) {
+                            if (response.data === false) {
+                                alert("Wrong password");
+                                setPassword("");
+                                window.location.reload();
+                            }
+                        })
+                        .catch(function (error: any) {} );
                     }
-                    else if (ret.data === false) {
-                        alert("You are already in this channel");
-                        window.location.reload();
-                    }    
-                }
+                    var config = { method: "post", url: "chat/addUser", headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", }, data: JSON.stringify({ chanId: chanId, userId: userId }), };
+                    axios(config)
+                    .then(function (response: any) {
+                        if (response.data === true) {
+                            alert("You successfully joined a channel");
+                            setRedi(true);
+                        }
+                        else if (response.data === false) {
+                            alert("You are already in this channel");
+                            window.location.reload();
+                        }    
+                    })
+                    .catch(function (error: any) {});
+                })
+                .catch(function (error: any) {});
             }
-            else {
-                const ret = await axios.post("chat/addUser", {chanId: chanId, userId: userId});
-                if (ret.data === true) {
-                    alert("You successfully joined a channel");
-                    setRedi(true);
-                }
-                else if (ret.data === false) {
-                    alert("You are already in this channel");
-                    window.location.reload();
-                }
-            }
-        }
         catch (error) {
             console.log("Couldn't join the channel");
         }
