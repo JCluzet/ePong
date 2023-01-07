@@ -27,10 +27,10 @@ export default function App() {
     // classic url using browser
     <div>
       {/* Same as */}
-      <Toaster
+      {/* <Toaster
         position="bottom-left"
         reverseOrder={false}
-      />
+      /> */}
       <Router>
         <Routes>
           <Route path="/" element={

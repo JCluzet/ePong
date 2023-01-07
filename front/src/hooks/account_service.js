@@ -132,6 +132,7 @@ let ModifyTfa = (tfa) => {
   axios(config)
     .then(function (response) {
       localStorage.setItem("isTwoFa", tfa);
+    //   localStorage.setItem("NeedTwoFa", tfa);
       console.log("isTwoFa modified : " + accountService.isTwoFa());
     })
     .catch(function (error) {
@@ -162,8 +163,11 @@ let saveToken = (code) => {
       console.log("TwoFa: " + response.data.twofa);
       localStorage.setItem("NeedTwoFa", response.data.twofa);
       if (response.data.twofa) {
+        window.location.href = "/";
         return;
       }
+      console.log("UserCreate: " + response.data.userCreate);
+      localStorage.setItem("firstlogin", response.data.userCreate);
 
       localStorage.setItem("token", response.data.apiToken);
       console.log("Token saved : " + response.data.apiToken);
@@ -253,6 +257,10 @@ let logout = () => {
 };
 
 let isLogged = () => {
+    if (userLogin == "")
+        return false;
+    if (localStorage.getItem("firstlogin") == "true")
+        return false;
   return localStorage.getItem("token") !== null;
 };
 

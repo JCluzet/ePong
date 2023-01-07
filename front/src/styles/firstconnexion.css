@@ -1,0 +1,30 @@
+.container_firstconnexion {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 250px;
+    border-radius: 10px;
+    width: 300px;
+    background-color: #000000;
+}
+
+.firstconnexion_text {
+    color: #ffffff;
+    font-size: 13px;
+    /* font-weight: bold; */
+    font-weight: bold;
+    text-align: center;
+    /* margin-top: 2px; */
+    /* background-color: #000000; */
+}
+
+.firstlogin-text {
+    color: #ffffff;
+    font-size: 10px;
+    /* font-weight: bold; */
+    /* font-weight: bold; */
+    text-align: center;
+    /* margin-top: 2px; */
+    /* background-color: #000000; */
+}

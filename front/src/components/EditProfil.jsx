@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { accountService } from "../hooks/account_service";
 import storeProfilData from "../hooks/storeProfilData";
 
-export default function EditProfil() {
+export default function EditProfil(firstlogin) {
   // state
   const [username, setUsername] = React.useState(accountService.userName());
   const [formData, setFormData] = React.useState(null);
@@ -30,6 +30,14 @@ export default function EditProfil() {
         () => window.location.reload()
       );
     }
+    // if username is not already taken
+
+    if (firstlogin) {
+      if (username !== "")
+      localStorage.setItem("firstlogin", "false");
+        window.location.href = "/";
+    }
+
   };
 
   const handleChange = (e) => {
@@ -61,6 +69,11 @@ export default function EditProfil() {
           <div className="file-input">
             <input type="file" accept="image/*" onChange={onImageChange} />
           </div>
+          {localStorage.getItem("firstlogin") === true && (
+            <div className="firstlogin-text">
+                Default avatar is your 42 profil picture 
+            </div>
+          )}
           <div className="button-change-container">
             <button className="button-change" type="submit">
               <div className="text-change">SAVE</div>

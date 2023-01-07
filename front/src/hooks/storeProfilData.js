@@ -22,6 +22,10 @@ let storeProfilData = async (token, login, callback) => {
       localStorage.setItem("isTwoFa", response.data.isTwoFa);
       console.log("isTwoFa saved : " + response.data.isTwoFa);
 
+    //   console.log("userCreate : " + response.data.userCreate);
+      //first login check here
+        // localStorage.setItem("userCreate", response.data.userCreate);
+
       localStorage.setItem("username", response.data.name);
       console.log("Username saved : " + response.data.name);
       if (typeof callback === "function"){
