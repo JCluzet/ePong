@@ -5,7 +5,7 @@ import React from "react";
 import { accountService } from "../hooks/account_service";
 import storeProfilData from "../hooks/storeProfilData";
 
-export default function EditProfil(firstlogin) {
+export default function EditProfil({firstlogin}) {
   // state
   const [username, setUsername] = React.useState(accountService.userName());
   const [formData, setFormData] = React.useState(null);
@@ -14,29 +14,36 @@ export default function EditProfil(firstlogin) {
 
   const updateProfil = async (e) => {
     e.preventDefault();
-    if (formData !== null) {
-      await accountService.ModifyAvatar(formData);
-    }
-    if (username !== accountService.userName()) {
-      await accountService.ModifyUsername(username);
-      console.log("username changed");
-    }
-    // wait for 3 seconds
-    // await new Promise((resolve) => setTimeout(resolve, 100));
-    if (username !== accountService.userName() || formData !== null) {
-      await storeProfilData(
-        accountService.userToken(),
-        accountService.userLogin(),
-        () => window.location.reload()
-      );
-    }
-    // if username is not already taken
+    if (formData !== null || username !== accountService.userName()) {
+      const response = await accountService.editAll(formData, username, accountService.isTwoFa());
+      // wait 1000 ms 
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      storeProfilData(accountService.userToken(), accountService.userLogin(), () => window.location.reload());
 
-    if (firstlogin) {
-      if (username !== "")
-      localStorage.setItem("firstlogin", "false");
-        window.location.href = "/";
     }
+    // if (formData !== null) {
+    //   await accountService.ModifyAvatar(formData);
+    // }
+    // if (username !== accountService.userName()) {
+    //   await accountService.ModifyUsername(username);
+    //   console.log("username changed");
+    // }
+    // // wait for 3 seconds
+    // // await new Promise((resolve) => setTimeout(resolve, 100));
+    // if (username !== accountService.userName() || formData !== null) {
+    //   await storeProfilData(
+    //     accountService.userToken(),
+    //     accountService.userLogin(),
+    //     () => window.location.reload()
+    //   );
+    // }
+    // // if username is not already taken
+
+    // if (firstlogin) {
+    //   if (username !== "")
+    //   localStorage.setItem("firstlogin", "false");
+    //     window.location.href = "/";
+    // }
 
   };
 
@@ -69,7 +76,7 @@ export default function EditProfil(firstlogin) {
           <div className="file-input">
             <input type="file" accept="image/*" onChange={onImageChange} />
           </div>
-          {localStorage.getItem("firstlogin") === true && (
+          {firstlogin === "true" && (
             <div className="firstlogin-text">
                 Default avatar is your 42 profil picture 
             </div>

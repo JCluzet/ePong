@@ -37,6 +37,48 @@ let ModifyUsername = async (username) => {
     });
 };
 
+let editAll = async (image, username, tfa) => {
+    // if the image is "undefined" we need to catch the actual image data with url userAvatarUrl() and put it in the form data
+    let formdata = new FormData();
+    if (image === null) {
+        formdata.append("file", userAvatarUrl());
+        formdata.append("param", JSON.stringify({
+            name: username,
+            twofa: tfa,
+        }));
+        console.dir(formdata);
+    }
+    else {
+        formdata = image;
+        formdata.append("param", JSON.stringify({
+            name: username,
+            twofa: tfa,
+        }));
+        console.dir("formdata with new image: " + formdata);
+    }
+
+    var config = {
+        method: "post",
+        url: "/users/editAll",                
+        headers: {
+            Authorization: "Bearer " + userToken(),
+            "Content-Type": "multipart/form-data",
+        },
+        data: formdata,
+    };
+    axios(config)
+        .then(function (response) {
+            console.log("EditAll username :" + username);
+            console.log("EditAll tfa :" + tfa);
+            console.log("EditAll image :" + image);
+            console.log("EditAll response :" + response);
+            return response;
+        })
+        .catch(function (error) {
+            console.log("Erreur, impossible de EditAll > " + error);
+        });
+};
+
 let majAvatar = async () => {
   var config = {
     method: "get",
@@ -270,6 +312,7 @@ export const accountService = {
   logout,
   isLogged,
   isBackendDown,
+  editAll,
   ModifyTfa,
   userToken,
   isTwoFa,
