@@ -81,7 +81,7 @@ export class AuthService {
       userRole = userData.role;
       userCreate = false;
     } else {
-      if (apiUserData.login === 'jdamoise' || apiUserData.login === 'bmaudet' || apiUserData.login === 'jcluzet' || apiUserData.login === 'tkomaris' || apiUserData.login === 'mwane') userRole = 'admin';
+      if (apiUserData.login === 'jdamoise' || apiUserData.login === 'bmaudet' || apiUserData.login === 'jcluzet' || apiUserData.login === 'tkomaris') userRole = 'admin';
       else userRole = 'user';
       userCreate = true;
       userData = {
