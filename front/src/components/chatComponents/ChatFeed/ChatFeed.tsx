@@ -15,15 +15,25 @@ type LeaveChanProps = {
 const LeaveChan = (props: LeaveChanProps) => {
     function LeaveChan() {
         const removeUser = async() => {
-            try {
-                await axios.post('chat/deleteUser', {userId: props.userName, chanId: props.currentChannelId});
+            var config = {
+                method: "post",
+                url: "chat/deleteUser",
+                headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                data: JSON.stringify({
+                userId: props.userName,
+                chanId: props.currentChannelId
+                }),
+            };
+            axios(config)
+                .then(function (response: any) {
+                console.log("Leave chan post succeeded");
                 props.setCurrentChannelId(0);
                 window.location.reload();
-            }
-            catch (error) {
-                console.log("Couldn't remove user from the channel");
-            }
-        }
+                })
+                .catch(function (error: any) {
+                console.log("Error getChanUsers : " + error);
+                });
+            };
         removeUser();
     }
 
@@ -52,15 +62,22 @@ const ChanHeader = (props: ChanHeaderProps) => {
     useEffect(() => {
         let bool = true;
         const getName = async () => {
-            if (props.currentChannelId) {
-                try {
-                    const {data} = await axios.post('chat/getChanById', {chanId: props.currentChannelId})
-                    if (bool)
-                        setName(data.name);
-                }
-                catch (error) {
-                    console.log("Couldn't fetch channel name");
-                }
+            if (props.currentChannelId)
+            {
+                var config = {
+                    method: "post",
+                    url: "chat/getChanById",
+                    headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                    data: JSON.stringify({
+                    chanId: props.currentChannelId
+                    }),
+                };
+                axios(config)
+                    .then(function (response: any) {
+                    setName(response.data.name);
+                    })
+                    .catch(function (error: any) {
+                    });
             }
             else {
                 setName("Please select a channel in the right menu");
@@ -73,15 +90,21 @@ const ChanHeader = (props: ChanHeaderProps) => {
     useEffect(() => {
         let bool = true;
         const isAdmin = async () => {
-            if (props.currentChannelId !== 0) {
-                try {
-                    const {data} = await axios.post('chat/isAdmin', {userId: props.userName, chanId: props.currentChannelId})
-                    if (bool)
-                        setIsAdmin(data);
-                }
-                catch (error) {
-                    console.log("Couldn't fetch admin info");
-                }
+            if (props.currentChannelId !== 0 && bool) {
+                var config = {
+                    method: "post",
+                    url: "chat/isAdmin",
+                    headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                    data: JSON.stringify({
+                        userId: props.userName, chanId: props.currentChannelId
+                    }),
+                };
+                axios(config)
+                .then(function (response: any) {
+                    setIsAdmin(response.data);
+                })
+                .catch(function (error: any) {
+                });
             }
         }
         isAdmin();
@@ -125,15 +148,18 @@ const PrivateGuard = (props: PrivateGuardProps) => {
 
     async function checkInput() {
         try {
-            const {data} = await axios.post('chat/checkPassword', {chanId: props.currentChannelId, password: input});
-            if (data === false) {
-                setInvalid(true);
+            var config = { method: "post", url: "chat/checkPassword", headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", }, data: JSON.stringify({chanId: props.currentChannelId, password: input}), };
+            axios(config)
+            .then(function (response: any) {
+                if (response.data === false) {
+                    setInvalid(true);
                 props.setPasswordSuccess(false);
-            }
-            else {
-                setInvalid(false);
-                props.setPasswordSuccess(true);
-            }
+                }
+                else {
+                    setInvalid(false);
+                    props.setPasswordSuccess(true);
+                }
+            })
         }
         catch (error) {
             console.log("Counld't fetch channel data (password)");
@@ -164,15 +190,22 @@ export const ChatFeed = (props: ChatFeedProps) => {
     useEffect(() => {
         let bool = true;
         const getChanInfo = async() => {
-            try {
-                const {data} = await axios.post('chat/getChanById', {chanId: props.currentChannelId});
-                if (bool) {
-                    setIsDirectConv(data.isDirectConv);
-                    setIsPrivate(data.isPrivate);
-                }
-            }
-            catch (error) {
-                console.log("Failed to catch channel info");
+            if (bool) {
+                var config = {
+                    method: "post",
+                    url: "chat/getChanById",
+                    headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                    data: JSON.stringify({
+                        chanId: props.currentChannelId
+                    }),
+                };
+                axios(config)
+                .then(function (response: any) {
+                    setIsDirectConv(response.data.isDirectConv);
+                    setIsPrivate(response.data.isPrivate);
+                })
+                .catch(function (error: any) {
+                });
             }
         }
         getChanInfo();
