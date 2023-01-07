@@ -32,13 +32,21 @@ export const PasswordSettings = (props: PasswordSettingsProps) => {
     useEffect(() => {
         let bool = true;
         const isPrivate = async () => {
-            try {
-                const {data} = await axios.post('chat/getChanById', {chanId: props.currentChanId});
-                if (bool)
-                    setIsPrivate(data.isPrivate);
-            }
-            catch (error) {
-                console.log("Counldn't fetch channel info")
+            if (bool) {
+                var config = {
+                    method: "post",
+                    url: "chat/getChanById",
+                    headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                    data: JSON.stringify({
+                        chanId: props.currentChanId
+                    }),
+                };
+                axios(config)
+                .then(function (response: any) {
+                    setIsPrivate(response.data.isPrivate);
+                })
+                .catch(function (error: any) {
+                });
             }
         }
         isPrivate();
@@ -48,22 +56,45 @@ export const PasswordSettings = (props: PasswordSettingsProps) => {
     let checkInput = async(event: SyntheticEvent) => {
         event.preventDefault();
         try {
-            const check = await axios.post('chat/isAdmin', {userId: userName, chanId: props.currentChanId})
-            if (check.data === false) {
-                alert("You are not an admin anymore");
-                window.location.reload();
-            }
-            else {
-                const {data} = await axios.post('chat/checkPassword', {password: input, chanId: props.currentChanId});
-                console.log(data)
-                if (data === true) {
-                    setSuccess(true);
-                    setFail(false);
+            var config = {
+                method: "post",
+                url: "chat/isAdmin",
+                headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                data: JSON.stringify({
+                    userId: userName, chanId: props.currentChanId
+                }),
+            };
+            axios(config)
+            .then(function (response: any) {
+                if (response.data === false) {
+                    alert("You are not an admin anymore");
+                    window.location.reload();
                 }
                 else {
-                    setFail(true);
+                    var config = {
+                        method: "post",
+                        url: "chat/checkPassword",
+                        headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                        data: JSON.stringify({
+                            password: input, chanId: props.currentChanId
+                        }),
+                    };
+                    axios(config)
+                    .then(function (response: any) {
+                        if (response.data === true) {
+                            setSuccess(true);
+                            setFail(false);
+                        }
+                        else {
+                            setFail(true);
+                        }
+                    })
+                    .catch(function (error: any) {
+                    });
                 }
-            }
+            })
+            .catch(function (error: any) {
+            });
         }
         catch (error) {
             console.log("Couldn't check channel password");
@@ -72,16 +103,40 @@ export const PasswordSettings = (props: PasswordSettingsProps) => {
 
     async function removePassword() {
         try {
-            const check = await axios.post('chat/isAdmin', {userId: userName, chanId: props.currentChanId})
-            if (check.data === false) {
-                alert("You are not an admin anymore");
-                window.location.reload();
-            }
-            else {
-                await axios.post('chat/changePassword', {newPassword: "", chanId: props.currentChanId});
-                alert("Password has successfully been removed")
-                window.location.reload();
-            }
+            var config = {
+                method: "post",
+                url: "chat/isAdmin",
+                headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                data: JSON.stringify({
+                    userId: userName, chanId: props.currentChanId
+                }),
+            };
+            axios(config)
+            .then(function (response: any) {
+                if (response.data === false) {
+                    alert("You are not an admin anymore");
+                    window.location.reload();
+                }
+                else {
+                    var config = {
+                        method: "post",
+                        url: "chat/changePassword",
+                        headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                        data: JSON.stringify({
+                            newPassword: "", chanId: props.currentChanId
+                        }),
+                    };
+                    axios(config)
+                    .then(function (response: any) {
+                        alert("Password has successfully been removed")
+                        window.location.reload();
+                    })
+                    .catch(function (error: any) {
+                    });
+                }
+            })
+            .catch(function (error: any) {
+            });
         }
         catch (error) {
             console.log("Couldn't remove channel password");
@@ -91,19 +146,43 @@ export const PasswordSettings = (props: PasswordSettingsProps) => {
     let submit = async (event: SyntheticEvent) => {
         event.preventDefault();
         try {
-            const check = await axios.post('chat/isAdmin', {userId: userName, chanId: props.currentChanId})
-            if (check.data === false) {
-                alert("You are not an admin anymore");
-                window.location.reload();
-            }
-            else {
-                await axios.post('chat/changePassword', {newPassword: newPassword, chanId: props.currentChanId});
-                alert("Password has successfully been updated")
-                window.location.reload();
-            }
+            var config = {
+                method: "post",
+                url: "chat/isAdmin",
+                headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                data: JSON.stringify({
+                    userId: userName, chanId: props.currentChanId
+                }),
+            };
+            axios(config)
+            .then(function (response: any) {
+                if (response.data === false) {
+                    alert("You are not an admin anymore");
+                    window.location.reload();
+                }
+                else {
+                    var config = {
+                        method: "post",
+                        url: "chat/changePassword",
+                        headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                        data: JSON.stringify({
+                            newPassword: newPassword, chanId: props.currentChanId
+                        }),
+                    };
+                    axios(config)
+                    .then(function (response: any) {
+                        alert("Password has successfully been removed")
+                        window.location.reload();
+                    })
+                    .catch(function (error: any) {
+                    });
+                }
+            })
+            .catch(function (error: any) {
+            });
         }
         catch (error) {
-            console.log("Couldn't change channel password");
+            console.log("Couldn't remove channel password");
         }
     }
 
