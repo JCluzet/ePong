@@ -52,13 +52,24 @@ export const CreateDirectConv = () => {
     }, [allUsers, userId]);
 
     const submit = async(event: SyntheticEvent) => {
-
         event.preventDefault();
         if (success) {
             try {
-                await axios.post('chat/newChan', {name: "Direct Conversation", isPrivate: false, isDirectConv: true, adminId: userId, users: chanUsers, password: ""}); 
-                setRedirection(true);
-            }
+                var config = {
+                    method: "post",
+                    url: "chat/newChan",
+                    headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                    data: JSON.stringify({
+                        name: "Direct Conversation", isPrivate: false, isDirectConv: true, adminId: userId, users: chanUsers, password: ""
+                    }),
+                };
+                axios(config)
+                .then(function (response: any) {
+                    setRedirection(true);
+                })
+                .catch(function (error: any) {
+                });
+            }                    
             catch (error) {
                 console.log("Failed to create a direct conversation");
             }
