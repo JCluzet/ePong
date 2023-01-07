@@ -25,6 +25,9 @@ export class UsersService {
       nbWins: element.nbWins,
       nbLoses: element.nbLoses,
       avatarUrl: element.avatarUrl,
+      kda: element.win_loss_ratio,
+      status: element.status,
+      totalGame: element.total_games,
     }));
     return userPublicProfil;
   }
@@ -58,6 +61,9 @@ export class UsersService {
         nbLoses: ret.nbLoses,
         isTwoFa: ret.isTwoFa,
         avatarUrl: ret.avatarUrl,
+        kda: ret.win_loss_ratio,
+        totalGame: ret.total_games,
+        status: ret.status,
       };
       return userProfil;
     } catch (err) {
@@ -76,6 +82,9 @@ export class UsersService {
         nbWins: ret.nbWins,
         nbLoses: ret.nbLoses,
         avatarUrl: ret.avatarUrl,
+        kda: ret.win_loss_ratio,
+        status: ret.status,
+        totalGame: ret.total_games,
       };
       return userPublicProfil;
     } catch (err) {

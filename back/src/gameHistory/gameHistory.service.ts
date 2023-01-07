@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { gameHistoryDto } from './interface/gameHistory.dto';
@@ -39,6 +39,18 @@ export class GameHistoryService {
       await this.gameHistoryRepository.save(newGame);
     } catch (err) {
       throw new BadRequestException(err);
+    }
+  }
+
+  async removeAll(): Promise<boolean> {
+    try {
+      const ids = (await this.getAllGameHistory()).map((element) => element.id);
+      if (ids.length) this.gameHistoryRepository.delete(ids);
+      Logger.log(`gameHistory db removed`);
+      return true;
+    } catch (err) {
+      Logger.log(`Error: gameHistory db remove failled.`);
+      return false;
     }
   }
 }

@@ -15,7 +15,7 @@ export default function EditProfil({firstlogin}) {
   const updateProfil = async (e) => {
     e.preventDefault();
     if (formData !== null || username !== accountService.userName()) {
-      const response = await accountService.editAll(formData, username, accountService.isTwoFa());
+      await accountService.editAll(formData, username, accountService.isTwoFa());
       // wait 1000 ms 
         await new Promise((resolve) => setTimeout(resolve, 100));
       storeProfilData(accountService.userToken(), accountService.userLogin(), () => window.location.reload());

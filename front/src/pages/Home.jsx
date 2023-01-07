@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import Header from "../components/Header";
 import "../styles/home.css";
+import storeProfilData from "../hooks/storeProfilData";
+import { accountService } from "../hooks/account_service";
 // import { useSearchParams } from "react-router-dom";
 
 export default function Home() {
@@ -12,6 +14,11 @@ export default function Home() {
     //     window.location.href = "/";
     // }
   }, []);
+
+  async function updateProfil() {
+    await storeProfilData(accountService.userToken(), accountService.userLogin(), null);
+  }
+  updateProfil();
 
   const SocialClick = () => {
     window.location.href = "/social";

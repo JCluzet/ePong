@@ -114,15 +114,26 @@ export class UsersController {
       const user = await this.usersService.findUserProfile(request.user.sub);
       if (!user) throw new BadRequestException('User not found');
       
-      const param = request.body.param;
-      const avatarsTab = user.avatarUrl.split("/");
-      await fs.unlink(`./upload/${avatarsTab[avatarsTab.length - 1]}`, (err) => {});
+      console.log(`name`);
+      console.log(request.body.name);
+      console.log(`twofa`);
+      console.log(request.body.twofa);
+      let newtwofa : boolean;
+      request.body.twofa === "true" ? newtwofa = true : newtwofa = false;
+      
+      console.log(`file`);
+      console.log(file);
+      
+      if (file){
+        const avatarsTab = user.avatarUrl.split("/");
+        await fs.unlink(`./upload/${avatarsTab[avatarsTab.length - 1]}`, (err) => {});
+      }
       
       const userSetting: IProfileSettings = {
         login: user.login,
-        name: param.name,
-        isTwoFa: param.twofa,
-        avatarUrl: API_AVATAR_GET_URL + '/' + file.filename,
+        name: request.body.name,
+        isTwoFa: newtwofa,
+        avatarUrl: file ? API_AVATAR_GET_URL + '/' + file.filename : user.avatarUrl,
       };
       Logger.log(`avartrUrl ${userSetting.avatarUrl}, name ${userSetting.name}`);
       this.usersService.editWithSetting(userSetting);

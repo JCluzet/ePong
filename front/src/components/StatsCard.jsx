@@ -1,29 +1,26 @@
-import React from "react";
+import React from 'react';
+import { accountService } from "../hooks/account_service";
 
-class StatsCard extends React.Component {
-    constructor() {
-        super()
-        this.state = {
-            totalgames: 10,
-            winrate: 50,
-            rank: 4,
-            level: 2
-        }
-    }
-    render ()
-    {
-        return (
-            <div>
+export default function StatsCard() {
+    const [kda, setKda] = React.useState(accountService.userKda());
+    const [nbWins, setNbWins] = React.useState(accountService.userNbWins());
+    const [nbLoses, setNbLoses] = React.useState(accountService.userNbLoses());
+    const [totalGame, setTotalGame]  = React.useState(accountService.userTotalGame());
+    if (!kda) setKda("0");
+    if (!nbLoses) setNbLoses("0");
+    if (!nbWins) setNbWins("0");
+    if (!totalGame) setTotalGame("0");
+
+    console.log(`kda: ${kda}, nbLoses: ${nbLoses}, nbWins: ${nbWins}, totalGame: ${totalGame}`);
+    return (
+        <div>
             <h2> Stats </h2>
                 <ul>
-                    <p>winrate : {this.state.winrate}</p>
-                    <p>rank : {this.state.rank}</p>
-                    <p>level : {this.state.level}</p>
-                    <p>total game : {this.state.totalgames}</p>
+                    <p>winrate : {kda}</p>
+                    <p>Nb Wins : {nbWins}</p>
+                    <p>Nb Loses : {nbLoses}</p>
+                    <p>total game : {totalGame}</p>
                 </ul>
         </div>
-        )
-    }
+    );
 }
-
-export default StatsCard

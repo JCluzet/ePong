@@ -1,10 +1,15 @@
 import Header from "../components/Header";
 import ProfileCard from "../components/ProfileCard";
 import FriendList from "../components/FriendList";
+// import storeProfilData from "../hooks/storeProfilData";
+// import { accountService } from "../hooks/account_service";
 
 export default function Social() {
   // state
-
+  // async function updateProfil() {
+  //   await storeProfilData(accountService.userToken(), accountService.userLogin(), null);
+  // }
+  // updateProfil();
   // comportements
   const ChatClick = () => {
     window.location.href = "/social/chat";

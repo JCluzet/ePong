@@ -10,7 +10,7 @@ import Game from "./pages/Game";
 import Live from "./components/Live"
 import Social from "./pages/Social";
 import { accountService } from "./hooks/account_service";
-import { Toaster } from 'react-hot-toast';
+// import { Toaster } from 'react-hot-toast';
 import Chat from "./pages/Chat";
 import { CreateConv } from "./components/chatComponents/CreateConv/CreateConv";
 import { CreateDirectConv } from "./components/chatComponents/CreateConv/CreateDirectConv";

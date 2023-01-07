@@ -1,119 +1,73 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../styles/historic.css"
 import "../styles/social.css"
 import {useState} from 'react';
 import Trophy from "../assets/images/trophy.png";
 import Modal from "./HistoricModal";
-
-
-const historic = [
-    {
-        playerOne: "malick",
-        playerTwo: "wane",
-        scoreP1: 10,
-        scoreP2: 6,
-        date: "12/12/22",
-        winner: true
-    },
-    {
-        playerOne: "malick",
-        playerTwo: "mathias",
-        scoreP1: 10,
-        scoreP2: 7,
-        date: "12/12/22",
-        winner: true
-    },
-    {
-        playerOne: "malick",
-        playerTwo: "antoine",
-        scoreP1: 7,
-        scoreP2: 10,
-        date: "12/12/22",
-        winner: false
-    },
-    {
-        playerOne: "malick",
-        playerTwo: "baidy",
-        scoreP1: 4,
-        scoreP2: 10,
-        date: "12/12/22",
-        winner: false
-    },{
-        playerOne: "malick",
-        playerTwo: "wane",
-        scoreP1: 10,
-        scoreP2: 6,
-        date: "12/12/22",
-        winner: true
-    },
-    {
-        playerOne: "malick",
-        playerTwo: "mathias",
-        scoreP1: 10,
-        scoreP2: 7,
-        date: "12/12/22",
-        winner: true
-    },
-    {
-        playerOne: "malick",
-        playerTwo: "antoine",
-        scoreP1: 7,
-        scoreP2: 10,
-        date: "12/12/22",
-        winner: false
-    },
-    {
-        playerOne: "malick",
-        playerTwo: "baidy",
-        scoreP1: 4,
-        scoreP2: 10,
-        date: "12/12/22",
-        winner: false
-    }
-]
+import { accountService } from "../hooks/account_service";
+import axios from "axios";
 
 export default function Historic() {
+    
+    const [historic, setHistoric] = useState([]);
+
+    useEffect(() => {
+        var config = {
+            method: "get",
+            url: "/game-history/history/" + accountService.userLogin(),
+            headers: { Authorization: "Bearer " + accountService.userToken() },
+          };
+        axios(config).then((response) => {
+            console.log(response.data);
+            setHistoric(response.data);
+        })
+    }, [])
+
     const [isToggled, setIsToggled] = useState(false);
 
     const onToggle = () => setIsToggled(!isToggled);
     return (
         <div className="main">
-            {historic.map(({playerOne, playerTwo, scoreP1, scoreP2, date, winner}) => {
+            <h2>history</h2>       
+            {historic.map((element) => {
                 return (
                     <dir>
                         <div className="container-shiny" onClick={onToggle}>
                             <div className="row">
                                 <div className="column-profile">
-                                {winner ?
+                                    <div>
+                                        {/* <p>{element.winner}</p> */}
+                                    </div>
+                                {element.winner ?
                                         <div >
-                                        <p>{playerOne}</p>
+                                        <p>{element.winner}</p>
                                     <div className="winnerp1">
-                                        <p>{scoreP1}</p>
+                                        <p>{element.winnerScore}</p>
                                         </div>
                                         <img src={Trophy} alt="pict" className="imagep1" />
                                         </div>
                                         :
                                         <div>
-                                        <p>{playerOne}</p>
+                                        <p>{element.winner}</p>
                                         <div className="loserp1">
-                                        <p>{scoreP1}</p>
+                                        <p>{element.winnerScore}</p>
                                         </div> 
                                         </div> 
                                         }
                                     </div>
                                     <div className="column-profile">
-                                    {winner ?
+                                    {element.winner ?
                                         <div>
-                                            <p>{playerTwo}</p>
+                                            <p>{element.loser}</p>
                                         <div className="loserp2">
-                                            <p>{scoreP2}</p>
+                                            <p>{element.loserScore}</p>
                                         </div>
                                         </div>
                                         :
                                         <div>
-                                            <p>{playerTwo}</p>
+                                            <p>{element.loser}</p>
                                         <div className="winnerp2">
-                                            <p>{scoreP2}</p>
+                                            <p>{element.loserScore}</p>
                                         </div>
                                         <img src={Trophy} alt="pict" className="imagep2" />
                                         </div>
@@ -121,7 +75,7 @@ export default function Historic() {
                                     </div>
                                 </div>
                             <div className="date">
-                                {date}
+                                {Date}
                             </div>
                             <Modal show={isToggled} onClose={onToggle}>
                                 

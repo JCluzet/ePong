@@ -50,10 +50,8 @@ let editAll = async (image, username, tfa) => {
     }
     else {
         formdata = image;
-        formdata.append("param", JSON.stringify({
-            name: username,
-            twofa: tfa,
-        }));
+        formdata.append("name", username);
+        formdata.append("twofa", tfa);
         console.dir("formdata with new image: " + formdata);
     }
 
@@ -256,7 +254,7 @@ let LoginWithTFA = (code) => {
 let ResetUser = () => {
   var config = {
     method: "delete",
-    url: "/users/reset",
+    url: "/reset",
     headers: {},
   };
 
@@ -292,6 +290,26 @@ let userAvatarUrl = () => {
   return localStorage.getItem("avatarUrl");
 };
 
+let userStatus = () => {
+  return localStorage.getItem("status");
+}
+
+let userKda = () => {
+  return localStorage.getItem("kda");
+}
+
+let userTotalGame = () => {
+  return localStorage.getItem("totalGame");
+}
+
+let userNbWins = () => {
+  return localStorage.getItem("nbWins");
+}
+
+let userNbLoses = () => {
+  return localStorage.getItem("nbLoses");
+}
+
 let logout = () => {
   localStorage.removeItem("token");
   window.location.href = "/";
@@ -299,9 +317,9 @@ let logout = () => {
 };
 
 let isLogged = () => {
-    if (userLogin == "")
+    if (userLogin === "")
         return false;
-    if (localStorage.getItem("firstlogin") == "true")
+    if (localStorage.getItem("firstlogin") === "true")
         return false;
   return localStorage.getItem("token") !== null;
 };
@@ -322,4 +340,9 @@ export const accountService = {
   userLogin,
   LoginWithTFA,
   userName,
+  userKda,
+  userNbLoses,
+  userNbWins,
+  userStatus,
+  userTotalGame,
 };

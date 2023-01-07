@@ -1,9 +1,31 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Delete, Get } from "@nestjs/common";
+import { FriendsService } from "./fiends/friends.service";
+import { GameService } from "./game/game.service";
+import { GameHistoryService } from "./gameHistory/gameHistory.service";
+import { UsersService } from "./users/users.service";
 
 @Controller()
 export class AppController {
+  constructor(
+    private userService: UsersService,
+    private friendService: FriendsService,
+    private gameService: GameService, 
+    private gameHistoryService: GameHistoryService) {}
+  
   @Get()
   async home() {
     return 'ACCUEIL<br/><br/><br/>Nestjs';
+  }
+
+  @Delete("/reset")
+  async Allreset() {
+    try{
+      await this.userService.removeAll();
+      await this.friendService.removeAll();
+      await this.gameService.removeAll();
+      await this.gameHistoryService.removeAll();
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 }

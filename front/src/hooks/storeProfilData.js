@@ -16,18 +16,22 @@ let storeProfilData = async (token, login, callback) => {
       console.log("hour : " + Date.now());
 
 
+      // console.log("Avatar saved : " + response.data.avatarUrl);
+      // console.log("Username saved : " + response.data.name);
+      // console.log("isTwoFa saved : " + response.data.isTwoFa);
       localStorage.setItem("avatarUrl", response.data.avatarUrl);
-      console.log("Avatar saved : " + response.data.avatarUrl);
-
       localStorage.setItem("isTwoFa", response.data.isTwoFa);
-      console.log("isTwoFa saved : " + response.data.isTwoFa);
-
+      localStorage.setItem("status", response.data.status);
+      localStorage.setItem("kda", response.data.kda);
+      localStorage.setItem("totalGame", response.data.totalGame.toString());
+      console.log(`nbWins: ${response.data.nbWins}`);
+      localStorage.setItem("nbWins", response.data.nbWins.toString());
+      localStorage.setItem("nbLoses", response.data.nbLoses.toString());
+      localStorage.setItem("username", response.data.name);
     //   console.log("userCreate : " + response.data.userCreate);
       //first login check here
         // localStorage.setItem("userCreate", response.data.userCreate);
 
-      localStorage.setItem("username", response.data.name);
-      console.log("Username saved : " + response.data.name);
       if (typeof callback === "function"){
           callback();
       } 

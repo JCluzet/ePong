@@ -3,5 +3,8 @@ export interface IUserPublicProfile {
   name: string;
   nbWins: number;
   nbLoses: number;
+  totalGame: number;
+  kda: number;
+  status: string;
   avatarUrl: string;
 }

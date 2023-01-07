@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IUserPublicProfile } from 'src/users/interfaces/userPublicProfile.interface';
 import { UsersService } from 'src/users/users.service';
@@ -139,8 +139,10 @@ export class FriendsService {
     try {
       const all = (await this.getAll()).map((element) => element.id);
       if (all.length) this.friendsRepository.delete(all);
+      Logger.log(`friend db removed`);
       return true;
     } catch (err) {
+      Logger.log(`Error: friend db remove failled.`);
       return false;
     }
   }

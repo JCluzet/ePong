@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { EGame } from 'src/game/entity/game.entity';
 import { UsersService } from '../users/users.service';
 import { EUser } from 'src/users/interfaces/user.entity'
+import { GameHistoryService } from 'src/gameHistory/gameHistory.service';
 
 
 @Injectable()
@@ -14,6 +15,7 @@ export class GameService {
 		@InjectRepository(EUser)
 		private userRepository: Repository<EUser>,
 		private userService: UsersService,
+		private gameHistoricService: GameHistoryService,
 	) { }
 
 	getAllGames() {
@@ -26,6 +28,7 @@ export class GameService {
 
 		Logger.log(`check after find user`);
 		await this.userService.editGameScore({winner: winner.login, loser: loser.login});
+		await this.gameHistoricService.createNewGame({winner: winner.login, loser: loser.login, winnerScore: winner_points, loserScore: loser_points, timeStamp: new Date().toJSON().slice(0, 10)})
 		Logger.log(`check after editGameScore`);
 		if (winner && loser) {
 			const newGame : EGame = {
@@ -51,4 +54,16 @@ export class GameService {
 	// 	});
 	// 	return user.games.reverse();
 	// }
+
+	async removeAll(): Promise<boolean> {
+    try {
+      const ids = (await this.getAllGames()).map((element) => element.id);
+      if (ids.length) this.gameRepository.delete(ids);
+      Logger.log(`game db removed`);
+      return true;
+    } catch (err) {
+      Logger.log(`Error: game db remove failled.`);
+      return false;
+    }
+  }
 }
