@@ -1,10 +1,4 @@
 export default function Footer() {
-  // state
-
-  // comportements
-
-  // affichage
-
   return (
     <footer>
       <div className="footer">
