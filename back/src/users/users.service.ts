@@ -165,7 +165,14 @@ export class UsersService {
   }
 
   async updateStatus(login: string, s: string) {
-		return this.usersRepository.update({ login }, { status: s });
+    try{
+      const user: EUser = await this.findUserByLogin(login);
+      if (!user) throw new Error(`User ${login} not found`);
+      user.status = s;
+      await this.usersRepository.save(user);
+    } catch (err) {
+      return ;
+    }
 	}
 
   async checkNameIsValid(login:string, name: string): Promise<boolean>{

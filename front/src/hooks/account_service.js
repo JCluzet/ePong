@@ -122,7 +122,20 @@ async function ModifyAvatar(formData) {
     }
 }
 
-
+async function ChangeStatus(newStatus) {
+  var config = {
+    method: 'post',
+    url: '/users/changeStatus',
+    headers: {
+      Authorization: "Bearer " + userToken(),
+      "Content-Type": "application/json",
+    },
+    data: JSON.stringify({
+      status: newStatus,
+    }),
+  };
+  await axios(config);
+}
 
 
 // function ModifyAvatar(formData) {
@@ -310,7 +323,12 @@ let userNbLoses = () => {
   return localStorage.getItem("nbLoses");
 }
 
+let friendName = () => {
+  return localStorage.getItem("friendName");
+}
+
 let logout = () => {
+  ChangeStatus('offline');
   localStorage.removeItem("token");
   window.location.href = "/";
     console.log("Logout");
@@ -345,4 +363,5 @@ export const accountService = {
   userNbWins,
   userStatus,
   userTotalGame,
+  friendName,
 };

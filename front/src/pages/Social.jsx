@@ -11,9 +11,9 @@ export default function Social() {
   // }
   // updateProfil();
   // comportements
-  const ChatClick = () => {
-    window.location.href = "/social/chat";
-  };
+  // const ChatClick = () => {
+  //   window.location.href = "/social/chat";
+  // };
   // affichage
   return (
     <div className="social-page">
@@ -21,9 +21,9 @@ export default function Social() {
       <br />
       <ProfileCard/>
       <FriendList/>
-      <button className="button" onClick={ChatClick}> 
+      {/* <button className="button" onClick={ChatClick}> 
          <div className="text-social">Chat</div>
-      </button> 
+      </button>  */}
     </div>
   );  
 }

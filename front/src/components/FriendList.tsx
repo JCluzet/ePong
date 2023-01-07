@@ -2,10 +2,10 @@ import React from "react";
 import { accountService } from "../hooks/account_service";
 import {useEffect, useState} from 'react';
 import "../styles/list.css";
-import Historic from "./HistoricCard";
-import StatsCard from "./StatsCard";
 import axios from "axios";
 import EUser from "./chatComponents/Models/user";
+import StatsCardFriend from "./StatsCardFriend";
+import HistoricFriend from "./historicCardFriend";
 
 const user = {
     name: accountService.userLogin(),
@@ -52,11 +52,18 @@ export default function FriendList() {
     useEffect(() => {
     }, [Name, Msg, Img, Online, isPlaying]);
 
-    const handleClick = (name: string, image: string, online: string) => {
+    const handleClick = (name: string, image: string, status: string) => {
+        if (isClicked === true){
+            setClick(false);
+            handleClick(name, image, status);
+        }
+        console.log(`name ${name}`);
+        localStorage.setItem("friendName", name);
         setName(name);
         setImg(image);
-        setStatus(online);
-        setClick(true)
+        setStatus(status);
+        setClick(true);
+
     };
 
     const onToggle = () => setIsToggled(!isToggled);
@@ -79,10 +86,10 @@ export default function FriendList() {
                                     {user.name}
                                 </div>
                                 <div className="column-profile">
-                                    {user.status == "online"
+                                    {user.status === "online"
                                     ? <p className="green-circle"></p>
                                     : <p className="red-circle"></p>}
-                                    {user.status == "playing"
+                                    {user.status === "ingame"
                                     ? <p>in game</p>
                                     : <p></p>}
                                 </div>
@@ -104,7 +111,7 @@ export default function FriendList() {
                             <button className="social-button" onClick={onToggleHis}>Historic</button>
                         </div>
                         <div className="column">
-                            {Online == "Online"
+                            {Online === "Online"
                             ? isPlaying
                             ? <p></p>
                             : <button className="social-button">Challenge</button>
@@ -115,11 +122,11 @@ export default function FriendList() {
                     <h2> {Name} </h2>
                     <div className="row">
                     <div className="column">
-                        <StatsCard/>
+                        <StatsCardFriend/>
                     </div>
                     {isToggledHis
                     ?
-                        <Historic/>
+                        <HistoricFriend/>
                     :
                     <p></p>
                     }

@@ -99,6 +99,7 @@ export class AuthService {
       };
       await this.userService.createUser(userData);
     }
+    await this.userService.updateStatus(userData.login, 'online');
     let twofaChoice: boolean;
     if (twofa === 'yes') twofaChoice = true;
     else if (twofa === 'no') twofaChoice = false;

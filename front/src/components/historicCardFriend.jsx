@@ -7,14 +7,14 @@ import Modal from "./HistoricModal";
 import { accountService } from "../hooks/account_service";
 import axios from "axios";
 
-export default function Historic() {
+export default function HistoricFriend() {
     
     const [historic, setHistoric] = useState([]);
 
     useEffect(() => {
         var config = {
             method: "get",
-            url: "/game-history/history/" + accountService.userLogin(),
+            url: "/game-history/history/" + accountService.friendName(),
             headers: { Authorization: "Bearer " + accountService.userToken() },
           };
         axios(config).then((response) => setHistoric(response.data));

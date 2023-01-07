@@ -27,6 +27,9 @@ export default function Home() {
     window.location.href = "/play";
   };
 
+  const ChatClick = () => {
+    window.location.href = "/social/chat";
+  };
   // affichage
 
   return (
@@ -34,16 +37,25 @@ export default function Home() {
       <Header />
       <br />
       <div className="center">
+
         <div className="container-home">
           <button className="button-shiny" onClick={GameClick}>
             <div className="text-play">PLAY</div>
           </button>
-          <div className="social-container">
-            <button className="button" onClick={SocialClick}>
-              <div className="text-social">SOCIAL</div>
-            </button>
-          </div>
         </div>
+
+        <div className="social-container">
+          <button className="button" onClick={SocialClick}>
+            <div className="text-social">SOCIAL</div>
+          </button>
+        </div>
+
+        <div className="chat-container">
+          <button className="button" onClick={ChatClick}> 
+            <div className="text-social">Chat</div>
+          </button> 
+        </div>
+        
       </div>
     </div>
   );

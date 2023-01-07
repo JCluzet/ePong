@@ -10,8 +10,6 @@ export default function StatsCard() {
     if (!nbLoses) setNbLoses("0");
     if (!nbWins) setNbWins("0");
     if (!totalGame) setTotalGame("0");
-
-    console.log(`kda: ${kda}, nbLoses: ${nbLoses}, nbWins: ${nbWins}, totalGame: ${totalGame}`);
     return (
         <div>
             <h2> Stats </h2>

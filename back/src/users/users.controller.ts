@@ -12,6 +12,7 @@ import { UsersService } from './users.service';
 import { API_AVATAR_GET_URL } from 'src/constant';
 import { IProfileSettings } from './interfaces/profileSetting.interface';
 import * as fs from 'fs';
+import { IChangeStatus } from './interfaces/changeStatus.interface';
 
 @Controller('users')
 export class UsersController {
@@ -51,7 +52,7 @@ export class UsersController {
   }
 
   @Get('/public/:login')
-  // @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'))
   async findUserPublic(@Param('login') login: string): Promise<IUserPublicProfile> {
     try {
       if (!login) throw new BadRequestException(`Miss Login`);
@@ -87,6 +88,17 @@ export class UsersController {
       await this.usersService.editGameScore(score);
     } catch (err) {
       throw new BadRequestException(err.message);
+    }
+  }
+
+  @Post('/changeStatus')
+  @UseGuards(AuthGuard('jwt'))
+  async changeStatus(@Req() request: any, @Body() status: IChangeStatus): Promise<boolean> {
+    try {
+      await this.usersService.updateStatus(request.user.sub, status.status);
+      return true;
+    } catch (err){
+      return false;
     }
   }
 
