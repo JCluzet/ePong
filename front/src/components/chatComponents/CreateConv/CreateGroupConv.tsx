@@ -58,9 +58,21 @@ export const CreateGroupConv = () => {
         event.preventDefault();
         if (success) {
             try {
-                await axios.post('chat/newChan', {name: chanName, isPrivate: isPrivate, isDirectConv: false, adminId: userId, users: chanUsers, password: password}); 
-                setRedirection(true);
-            }
+                var config = {
+                    method: "post",
+                    url: "chat/newChan",
+                    headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                    data: JSON.stringify({
+                        name: chanName, isPrivate: isPrivate, isDirectConv: false, adminId: userId, users: chanUsers, password: password
+                    }),
+                };
+                axios(config)
+                .then(function (response: any) {
+                    setRedirection(true);
+                })
+                .catch(function (error: any) {
+                });
+            }                    
             catch (error) {
                 console.log("Failed to create a direct conversation");
             }
