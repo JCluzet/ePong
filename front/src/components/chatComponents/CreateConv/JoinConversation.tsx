@@ -30,13 +30,17 @@ export const JoinConversation = () => {
     useEffect(() => {
         let bool = true;
         const getAllChan = async () => {
-            try {
-                const {data} = await axios.get('chat/all');
-                if (bool)
-                    setChannels(data);
-            }
-            catch (error) {
-                console.log("Failed to fetch all channels");
+            if (bool) {
+                var config = {
+                    method: "get", url: "chat/all",
+                    headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                    data: JSON.stringify({}),
+                };
+                axios(config)
+                .then(function (response: any) {
+                    setChannels(response.data);
+                })
+                .catch(function (error: any) {} );
             }
         }
         getAllChan();
