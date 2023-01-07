@@ -6,6 +6,7 @@ import { EUser } from "../Models/user";
 import { PasswordSettings } from "./PasswordSettings";
 import "./chatFeed.css"
 import Header from "../../Header";
+import { accountService } from "../../../hooks/account_service";
 
 type AdminPanelProps = {
     currentChannelId: number;
@@ -25,14 +26,25 @@ export const AdminPanel = (props: any) => {
     useEffect(() => {
         let bool = true;
         const getChanUsers = async() => {
-            try {
-                const {data} = await axios.post('chat/getChanUsers', {chanId: chanId});
-                if (bool)
-                    setChanUsers(data)
-            }
-            catch (error) {
-                console.log("Couldn't fetch channel users");
-            }
+            async function getChanUsers() {
+                var config = {
+                  method: "post",
+                  url: "chat/getChanUsers",
+                  headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                  data: JSON.stringify({
+                    chanId: chanId,
+                  }),
+                };
+                axios(config)
+                  .then(function (response: any) {
+                    console.log("getChanUsers post succeeded");
+                    setChanUsers(response.data);
+                  })
+                  .catch(function (error: any) {
+                    console.log("Error getChanUsers : " + error);
+                  });
+              };
+            getChanUsers();
         }
         getChanUsers();
         return () => {bool = false};
@@ -58,21 +70,46 @@ export const AdminPanel = (props: any) => {
 
     async function updateUserStatus(userId: string, status: number) {
         try {
-            const {data} = await axios.post('chat/isAdmin', {userId: props.userId, chanId: props.currentChannelId})
-            if (data.data === false) {
-                alert("You are not an admin anymore");
+            var config = {
+                method: "post",
+                url: "chat/isAdmin",
+                headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                data: JSON.stringify({
+                    userId: props.userId, chanId: props.currentChannelId
+                }),
+            };
+            axios(config)
+            .then(function (response: any) {
+                if (response.data === false) {
+                    alert("You are not an admin anymore");
+                    window.location.reload();
+                }
+            })
+            .catch(function (error: any) {
+            });
+
+            var config = {
+                method: "post",
+                url: "chat/updateUserStatus",
+                headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                data: JSON.stringify({
+                    userId: userId, status: status, chanId: chanId
+                }),
+            };
+            axios(config)
+            .then(function (response: any) {
+                if (status === 0)
+                    alert("User is now an admin on this channel")
+                else if (status === 1)
+                    alert("User is now a normal user")
+                else if (status === 2)
+                    alert("User is now muted, you can unmute him wheneven you want");
+                else if (status === 3)
+                    alert("User is now banned, you can unban him wheneven you want")
                 window.location.reload();
-            }
-            await axios.post('chat/updateUserStatus', {userId: userId, status: status, chanId: chanId});
-            if (status === 0)
-                alert("User is now an admin on this channel")
-            else if (status === 1)
-                alert("User is now a normal user")
-            else if (status === 2)
-                alert("User is now muted, you can unmute him wheneven you want");
-            else if (status === 3)
-                alert("User is now banned, you can unban him wheneven you want")
-            window.location.reload();
+            })
+            .catch(function (error: any) {
+            });            
         }
         catch (error) {
             console.log("Couldn't update user status");
