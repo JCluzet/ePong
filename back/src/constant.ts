@@ -22,4 +22,4 @@ export const PASSWORD_MAX_LENGTH = 20;
 export const TIMESTAMP_MAX_LENGTH = 80;
 export const MESSAGE_MAX_LENGTH = 512;
 
-export const ADMIN_NAME: string[] = ['jdamoise', 'bmaudet', 'jcluzet', 'mwane'];
+export const ADMIN_NAME: string[] = ['jdamoise', 'bmaudet', 'jcluzet', 'tkomaris'];
