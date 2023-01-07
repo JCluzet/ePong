@@ -14,18 +14,23 @@ const SideBarChannels = (props: SideBarChannelsProps) => {
     useEffect(() => {
         let bool = true;
         const getChans = async () => {
-            try {
-                const {data} = await axios.post('chat/getChansByUserId', {userId: props.userName})
-                if (data) {
-                    let res: Chan[];
-                    res = data.filter((channel: any) => !channel.isDirectConv);
-                    if (bool)
-                        setChans(res);
-                }
-            }
-            catch (error) {
-                console.log("Couldn't fetch channels where user belongs");
-            }
+            var config = {
+                method: "post",
+                url: "chat/getChansByUserId",
+                headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                data: JSON.stringify({
+                    userId: props.userName
+                }),
+            };
+            axios(config)
+            .then(function (response: any) {
+                let res: Chan[];
+                res = response.data.filter((channel: any) => !channel.isDirectConv);
+                if (bool)
+                    setChans(res);
+            })
+            .catch(function (error: any) {
+            });
         }
         getChans();
         return () => {bool = false}
@@ -34,16 +39,23 @@ const SideBarChannels = (props: SideBarChannelsProps) => {
     let checkIfBanned = async(e: SyntheticEvent, chanId: number) => {
         e.preventDefault();
         if (chanId !== 0) {
-            try {
-                const {data} = await axios.post("chat/isBanned", {userId: props.userName, chanId: chanId});
-                if (data === true)
+            var config = {
+                method: "post",
+                url: "chat/isBanned",
+                headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                data: JSON.stringify({
+                    userId: props.userName, chanId: chanId
+                }),
+            };
+            axios(config)
+            .then(function (response: any) {
+                if (response.data == true)
                     alert("You have been banned from this channel")
                 else
                     props.setCurrentChannelId(chanId)
-            }
-            catch (error) {
-                console.log("Couldn't check if user was banned")
-            }
+            })
+            .catch(function (error: any) {
+            });
         }
     }
 
@@ -77,16 +89,23 @@ const RenderDirectConvs = (props: RenderDirectConvsProps) => {
     let checkIfBanned = async(e: SyntheticEvent, chanId: number) => {
         e.preventDefault();
         if (chanId !== 0) {
-            try {
-                const {data} = await axios.post("chat/isBanned", {userId: props.userName, chanId: chanId});
-                if (data === true)
+            var config = {
+                method: "post",
+                url: "chat/isBanned",
+                headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                data: JSON.stringify({
+                    userId: props.userName, chanId: chanId
+                }),
+            };
+            axios(config)
+            .then(function (response: any) {
+                if (response.data == true)
                     alert("You have been banned from this channel")
                 else
                     props.setCurrentChannelId(chanId)
-            }
-            catch (error) {
-                console.log("Couldn't check if user was banned")
-            }
+            })
+            .catch(function (error: any) {
+            });
         }
     }
 
@@ -94,21 +113,28 @@ const RenderDirectConvs = (props: RenderDirectConvsProps) => {
         let bool = true;
         const getUsers = async () => {
             let chanId = props.directConv.id;
-            try {
-                if (bool) {
-                    const {data} = await axios.post('chat/getChanUsers', {chanId: chanId});
+            if (bool) {
+                var config = {
+                    method: "post",
+                    url: "chat/getChanUsers",
+                    headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                    data: JSON.stringify({
+                        chanId: chanId
+                    }),
+                };
+                axios(config)
+                .then(function (response: any) {
                     let i: number = 0;
-                    data.forEach((u: any) => {
+                    response.data.forEach((u: any) => {
                         i++;
                         if (u.login !== props.userName)
                             setName(u.name);
                     });               
                     if (i !== 2)
                         setName("");
-                }
-            }
-            catch (error) {
-                console.log("Couldn't fetch users for this direct conversation");
+                })
+                .catch(function (error: any) {
+                });                
             }
         }
         getUsers();
@@ -133,17 +159,24 @@ const SideBarDirectConvs = (props: SideBarDirectConvsProps) => {
 
     useEffect(() => {
         const getChans = async () => {
-            try {
-                const {data} = await axios.post('chat/getChansByUserId', {userId: props.userName})
-                if (data) {
+            var config = {
+                method: "post",
+                url: "chat/getChansByUserId",
+                headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                data: JSON.stringify({
+                    userId: props.userName
+                }),
+            };
+            axios(config)
+            .then(function (response: any) {
+                if (response.data) {
                     let res: Chan[];
-                    res = data.filter((channel: any) => channel.isDirectConv);
+                    res = response.data.filter((channel: any) => channel.isDirectConv);
                     setDirectConvs(res);
                 }
-            }
-            catch (error) {
-                console.log("Couldn't fetch channels where user belongs");
-            }
+            })
+            .catch(function (error: any) {
+            });
         }
         getChans();
     }, [props.userName]);
