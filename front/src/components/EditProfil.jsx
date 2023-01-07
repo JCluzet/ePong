@@ -39,11 +39,11 @@ export default function EditProfil({firstlogin}) {
     // }
     // // if username is not already taken
 
-    // if (firstlogin) {
-    //   if (username !== "")
-    //   localStorage.setItem("firstlogin", "false");
-    //     window.location.href = "/";
-    // }
+    if (firstlogin) {
+      if (username !== "")
+      localStorage.setItem("firstlogin", "false");
+        window.location.href = "/";
+    }
 
   };
 
