@@ -53,14 +53,24 @@ Users:
           :login is user login
           return User_public interface
 
+  - GET Address_backend + /users/checkName : header { Authorization: 'Bearer + apiToken'}, Query {name=XXX}
+      return boolean
+
   - POST Address_backend + /users/edit: header { Authorization: 'Bearer + apiToken'}, Body {User_profile_setting}
           edit profil parameter
 
   - POST Address_backend + /users/game : header { Authorization: 'Bearer + apiToken'}, Body { winnerLogin: string, loserLogin : string }
           update game score
 
-  - POST Address_backend + /users/uploadAvatar : header { Authorization: 'Bearer + apiToken', }
-          upload Avatar image to backend
+  - POST Address_backend + /users/editAll : header { Authorization: 'Bearer + apiToken', }
+      requirement : form-data {
+        file: image,
+        param: {
+          name: string,
+          twofa: boolean,
+        }
+      }
+          upload All param
   
   - DELETE Address_backend + /users/delete:
             delete all User_entity 

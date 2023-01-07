@@ -90,7 +90,7 @@ export class UsersController {
     }
   }
 
-  @Post('/uploadAvatar')
+  @Post('/editAll')
   @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(
     FileInterceptor('file', {
@@ -114,14 +114,14 @@ export class UsersController {
       const user = await this.usersService.findUserProfile(request.user.sub);
       if (!user) throw new BadRequestException('User not found');
       
-
+      const param = request.body.param;
       const avatarsTab = user.avatarUrl.split("/");
       await fs.unlink(`./upload/${avatarsTab[avatarsTab.length - 1]}`, (err) => {});
       
       const userSetting: IProfileSettings = {
         login: user.login,
-        name: request.body.name,
-        isTwoFa: user.isTwoFa,
+        name: param.name,
+        isTwoFa: param.twofa,
         avatarUrl: API_AVATAR_GET_URL + '/' + file.filename,
       };
       Logger.log(`avartrUrl ${userSetting.avatarUrl}, name ${userSetting.name}`);
