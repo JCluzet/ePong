@@ -32,10 +32,20 @@ export const UserBuble = (props: UserBubleProps) => {
         const getUser = async() => {
             try {
                 if (bool) {
-                    const {data} = await axios.get('users/public/'+ props.senderId);
-                    setName(data.name);
-                    setLogin(data.login);
-                }
+                    var config = {
+                        method: "get",
+                        url: "users/public/" + props.senderId,
+                        headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                        data: JSON.stringify({}),
+                    };
+                    axios(config)
+                        .then(function (response: any) {
+                            setName(response.data.name);
+                            setLogin(response.data.login);
+                        })
+                        .catch(function (error: any) {
+                        });
+                    };                    
             }
             catch (error) {
                 console.log("Couldn't fetch user data");
@@ -46,18 +56,32 @@ export const UserBuble = (props: UserBubleProps) => {
     }, [props.senderId]);
 
     async function addFriend(event: SyntheticEvent) {
-        event.preventDefault();
         // INSERT CALL TO ADD SOMEONE AS A FRIEND
     }
 
-    const sendInvite = async (e: SyntheticEvent, id: string) => {
-        e.preventDefault();
-        // INSERT CALL TO INVITE SOMEONE TO A PONG GAME
-    }
+    // const sendInvite = async (e: SyntheticEvent, id: string) => {
+    //     e.preventDefault();
+    //     // INSERT CALL TO INVITE SOMEONE TO A PONG GAME
+    // }
 
     const blockUser = async (e: SyntheticEvent, id: string) => {
-        e.preventDefault();
-        // INSERT CALL TO BLOCK SOMEONE
+        // e.preventDefault();
+        // var config = {
+        //     method: "post",
+        //     url: "block/block",
+        //     headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+        //     query: JSON.stringify({
+        //         to: id,
+        //     }),
+        // };
+        // axios(config)
+        // .then(function (response: any) {
+        //     alert("User blocked");
+        //     window.location.reload();
+        // })
+        // .catch(function (error: any) {
+        // });
+        // THIS IS NOT WORKING NEEDS REVIEW
     }
 
     let actions: JSX.Element[];
@@ -68,10 +92,11 @@ export const UserBuble = (props: UserBubleProps) => {
     }
     else {
         actions = [
-            <Link to={"/social/publicprofile/" + login} type="button" className="customButton">
+            // THIS LINK IS NOT LINKED TO THE PROFILES PAGES BUT MAYBE WE DONT NEED IT
+            <Link to={"/social/publicprofile/" + login} type="button" className="customButton"> 
                 <button className="buttonSmall"><AccountCircleIcon/></button>,
             </Link>,
-            <button className="buttonSmall" onClick={(e) => {sendInvite(e, props.senderId)}}><VideogameAssetIcon/></button>,
+            // <button className="buttonSmall" onClick={(e) => {sendInvite(e, props.senderId)}}><VideogameAssetIcon/></button>,
             <button className="buttonSmall" onClick={addFriend}><PersonAddIcon/></button>,
             <button className="buttonSmall" onClick={(e) => {blockUser(e, props.senderId)}}><BlockIcon/></button>,
             <button className="buttonSmall"><CloseIcon/></button>
@@ -110,11 +135,21 @@ export const ChatMessage = (props: ChatMessageProps) => {
         let bool = true;
         const getUser = async() => {
             try {
-                const {data} = await axios.get('users/public/' + props.msg.senderId);
                 if (bool) {
-                    setUserName(data.name);
-                    setAvatar(data.avatarUrl);
-                }
+                    var config = {
+                        method: "get",
+                        url: "users/public/" + props.msg.senderId,
+                        headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                        data: JSON.stringify({}),
+                    };
+                    axios(config)
+                        .then(function (response: any) {
+                            setUserName(response.data.name);
+                            setAvatar(response.data.avatarUrl);
+                        })
+                        .catch(function (error: any) {
+                        });
+                };
             }
             catch (error) {
                 console.log("Couldn't fetch user data");
@@ -127,11 +162,23 @@ export const ChatMessage = (props: ChatMessageProps) => {
     useEffect(() => {
         let bool = true;
         const getIsBlocked = async () => {
-            const {data} = await axios.get('block/' + props.userName);
-            data.forEach((user: User) => {
-                if (bool && user.login === props.msg.senderId)
-                    setIsBlocked(true);                
-            });
+            if (bool) {
+                var config = {
+                    method: "get",
+                    url: "block/" + props.userName,
+                    headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                    data: JSON.stringify({}),
+                };
+                axios(config)
+                    .then(function (response: any) {
+                        response.data.forEach((user: User) => {
+                            if (user.login === props.msg.senderId)
+                                setIsBlocked(true);                
+                        });
+                    })
+                    .catch(function (error: any) {
+                    });
+            };
         }
         getIsBlocked();
         return () => {bool = false};
@@ -142,15 +189,22 @@ export const ChatMessage = (props: ChatMessageProps) => {
         let bool = true;
         const getUserType = async() => {
             if (props.msg.chanId !== 0) {
-                try {
-                    const {data} = await axios.post('chat/getUserType', {userId: props.msg.senderId, chanId: props.msg.chanId});
-                    if (bool && data === 3) {
+                var config = {
+                    method: "post",
+                    url: "chat/getUserType",
+                    headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                    data: JSON.stringify({
+                        userId: props.msg.senderId, chanId: props.msg.chanId
+                    }),
+                };
+                axios(config)
+                .then(function (response: any) {
+                    if (bool && response.data === 3) {
                         setIsMute(true);
                     }
-                }
-                catch (error) {
-                    console.log("Couldn't fetch user state");
-                }
+                })
+                .catch(function (error: any) {
+                });
             }
         }
         getUserType();
@@ -190,14 +244,21 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
     useEffect(() => {
         let bool = true;
         const getOldMessages = async () => {
-            try {
-                const {data} = await axios.post('messages/getOldMessages', {chanId: props.currentChannelId});
+            var config = {
+                method: "post",
+                url: "messages/getOldMessages",
+                headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                data: JSON.stringify({
+                    chanId: props.currentChannelId
+                }),
+            };
+            axios(config)
+            .then(function (response: any) {
                 if (bool)
-                    setOldMessages(data);
-            }
-            catch (error) {
-                console.log("Counldn't fetch old messages for this channel");
-            }
+                    setOldMessages(response.data);
+            })
+            .catch(function (error: any) {
+            });
         }
         getOldMessages();
         return () => {bool = false};
@@ -221,37 +282,68 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
     }, [props.currentChannelId]);
 
     let checkIfBanned = async(chanId: number) => {
-        try {
-            const {data} = await axios.post("chat/isBanned", {userId: props.userName, chanId: chanId});
-            if (data === true) {
+        var config = {
+            method: "post",
+            url: "chat/isBanned",
+            headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+            data: JSON.stringify({
+                userId: props.userName, chanId: chanId
+            }),
+        };
+        axios(config)
+        .then(function (response: any) {
+            if (response.data) {
                 alert("You have been banned from this channel")
                 props.setCurrentChannelId(0);
             }
-        }
-        catch (error) {
-            console.log("Couldn't check if user was banned")
-        }
+        })
+        .catch(function (error: any) {
+        });
     }
 
     async function submit(e: SyntheticEvent) {
         e.preventDefault();
         checkIfBanned(props.currentChannelId)
         if (content !== "") {
-            const {data} = await axios.post("chat/isMuted", {userId: props.userName, chanId: props.currentChannelId});
-            if (data === false) {
-                try {
-                    setTimestamp(new Date().toLocaleString());
-                    await axios.post('messages/newMessage', {chanId: props.currentChannelId, senderId: props.userName, content: content, timestamp: timestamp});
+            var config = {
+                method: "post",
+                url: "chat/isMuted",
+                headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                data: JSON.stringify({
+                    userId: props.userName, chanId: props.currentChannelId
+                }),
+            };
+            axios(config)
+            .then(function (response: any) {
+                if (response.data == false) {
+                    try {
+                        setTimestamp(new Date().toLocaleString());
+                        var config = {
+                            method: "post",
+                            url: "messages/newMessage",
+                            headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+                            data: JSON.stringify({
+                                chanId: props.currentChannelId, senderId: props.userName, content: content, timestamp: timestamp
+                            }),
+                        };
+                        axios(config)
+                        .then(function (response: any) {
+                        })
+                        .catch(function (error: any) {
+                        });
+                    }
+                    catch (error) {
+                        console.log("Counldn't send a message");
+                    }
+                    let websock2 = io(`http://localhost:5001`);
+                    websock2.emit("message", {chanId: props.currentChannelId, senderId: props.userName, content: content, timestamp: timestamp});
                 }
-                catch (error) {
-                    console.log("Counldn't send a message");
-                }
-                let websock2 = io(`http://localhost:5001`);
-                websock2.emit("message", {chanId: props.currentChannelId, senderId: props.userName, content: content, timestamp: timestamp});
-            }
-            else
-                alert("You are currently muted on this channel")
-            setContent('');
+                else
+                    alert("You are currently muted on this channel")
+                setContent('');
+            })
+            .catch(function (error: any) {
+            });
         }
     }
 
