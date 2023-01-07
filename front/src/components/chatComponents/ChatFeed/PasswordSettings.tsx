@@ -171,7 +171,7 @@ export const PasswordSettings = (props: PasswordSettingsProps) => {
                     };
                     axios(config)
                     .then(function (response: any) {
-                        alert("Password has successfully been removed")
+                        alert("Password has successfully been changed")
                         window.location.reload();
                     })
                     .catch(function (error: any) {
