@@ -32,21 +32,18 @@ export class UsersService {
   async findUserByLogin(login: string): Promise<EUser | undefined> {
     const ret = await this.usersRepository.find({ where: { login: login } });
     if (ret.length) return ret[0];
-    Logger.log(`User login: ${login} not found`);
     return undefined;
   }
 
 	async findUserById(id: number): Promise<EUser | undefined> {
 		const ret = await this.usersRepository.find({ where: { id: id }});
 		if (ret.length) return ret[0];
-    Logger.log(`User id: ${id} not found`);
 		return undefined;
 	}
 
   async findUserByName(name: string): Promise<EUser | undefined> {
     const ret = await this.usersRepository.find({ where: { name: name } });
     if (ret.length) return ret[0];
-    Logger.log(`User name: ${name} not found`);
     return undefined;
   }
 
@@ -162,4 +159,16 @@ export class UsersService {
 		return this.usersRepository.update({ login }, { status: s });
 	}
 
+  async checkNameIsValid(login:string, name: string): Promise<boolean>{
+    try{
+      const user: EUser = await this.findUserByLogin(login);
+      if (!user) throw new Error(`User ${login} not found`);
+      const sameUser = await this.findUserByName(name);
+      if ( sameUser && sameUser.login !== user.login ) return false;
+      return true;
+    } catch (err){
+      throw new Error(err);
+    }
+      
+  }
 }

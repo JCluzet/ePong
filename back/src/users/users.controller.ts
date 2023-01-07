@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Get, Logger, Param, Post, Req, Res, UnauthorizedException, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Logger, Param, Post, Query, Req, Res, UnauthorizedException, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -134,6 +134,17 @@ export class UsersController {
   @Get('/avatars/:filename')
   seeUploadedFile(@Param('filename') filename, @Res() res: any) {
     return res.sendFile(filename, { root: './upload' });
+  }
+
+  @Get('/checkName')
+  @UseGuards(AuthGuard('jwt'))
+  async checkName(@Req() request: any, @Query('name') name: string): Promise<boolean>{
+    try{
+      if (!name) return true;
+      return await this.usersService.checkNameIsValid(request.user.sub, name);
+    } catch (err) {
+      throw new BadRequestException(err.message);
+    }
   }
 
   @Delete('/reset')
