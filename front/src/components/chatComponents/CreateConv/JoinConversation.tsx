@@ -62,10 +62,8 @@ export const JoinConversation = () => {
                                 setPassword("");
                                 window.location.reload();
                             }
-                        })
-                        .catch(function (error: any) {} );
-                    }
-                    var config = { method: "post", url: "chat/addUser", headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", }, data: JSON.stringify({ chanId: chanId, userId: userId }), };
+                            else {
+                                var config = { method: "post", url: "chat/addUser", headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", }, data: JSON.stringify({ chanId: chanId, userId: userId }), };
                     axios(config)
                     .then(function (response: any) {
                         if (response.data === true) {
@@ -78,6 +76,25 @@ export const JoinConversation = () => {
                         }    
                     })
                     .catch(function (error: any) {});
+                            }
+                        })
+                        .catch(function (error: any) {} );
+                    }
+                    else {
+                        var config = { method: "post", url: "chat/addUser", headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", }, data: JSON.stringify({ chanId: chanId, userId: userId }), };
+                        axios(config)
+                        .then(function (response: any) {
+                            if (response.data === true) {
+                                alert("You successfully joined a channel");
+                                setRedi(true);
+                            }
+                            else if (response.data === false) {
+                                alert("You are already in this channel");
+                                window.location.reload();
+                            }    
+                        })
+                        .catch(function (error: any) {});
+                    }
                 })
                 .catch(function (error: any) {});
             }
