@@ -9,7 +9,19 @@ import storeProfilData from "../hooks/storeProfilData";
 
 
 // create a function that return false if username is already taken and true if not
-const checkUsername = async (username) => {
+
+    // return true;
+
+
+export default function EditProfil({firstlogin}) {
+  // state
+  const [username, setUsername] = React.useState(accountService.userName());
+  const [formData, setFormData] = React.useState(undefined);
+  const [nameIsGood, setNameIsGood] = React.useState(false);
+ // comportements
+
+
+  let checkUsername = async (username) => {
     // do a get at /users/checkName with username as param
     // if response is 200 return true
     // else return false
@@ -24,24 +36,13 @@ const checkUsername = async (username) => {
     axios(config)
         .then((response) => {
             console.log("checkName responseGood: " + response.data);
-            return true;
+            setNameIsGood(true);
         })
         .catch((error) => {
             console.log("Erreur de checkNameFalse!" + error);
-            return false;
+            setNameIsGood(false);
         });
 };
-    // return true;
-
-
-export default function EditProfil({firstlogin}) {
-  // state
-  const [username, setUsername] = React.useState(accountService.userName());
-  const [formData, setFormData] = React.useState(undefined);
-  // comportements
-
-
-
 
 
   const updateProfil = async (e) => {
@@ -49,13 +50,14 @@ export default function EditProfil({firstlogin}) {
 
     // if 
     if (formData !== undefined || username !== accountService.userName()) {
-        const nameAvailable = await checkUsername(username);
+        await checkUsername(username);
+        console.log(`nameIsGood: ${nameIsGood}`);
         if (username === "") {
             // toastify
             toast.error("Username can't be empty");
             return;
         }
-        if (nameAvailable === false) {
+        if (nameIsGood === false) {
             // toastify
             toast.error("Username already taken");
             return;
