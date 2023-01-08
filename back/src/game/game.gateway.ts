@@ -65,6 +65,8 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect, On
 			if (index > -1) {
 				MatchMaking[gameMode].splice(index, 1);
 			}
+			await this.userService.updateStatus(String(socket.handshake.query.username), "ingame");
+			await this.userService.updateStatus(String(adversaire), "ingame");
 			this.server.emit('gameStart', socket.handshake.query.username, adversaire, gameMode);
 
 		}
@@ -127,7 +129,6 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect, On
 	async playerMove(@ConnectedSocket() socket: Socket, @MessageBody() body: string) {
 		const b = body.split(':');
 		this.server.emit('playerMove', body);
-		this.userService.updateStatus(String(socket.handshake.query.username), "ingame");
 	}
 
 	@SubscribeMessage('roundStart')

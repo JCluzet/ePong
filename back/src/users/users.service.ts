@@ -171,7 +171,7 @@ export class UsersService {
       user.status = s;
       await this.usersRepository.save(user);
     } catch (err) {
-      return ;
+      Logger.log(err);
     }
 	}
 

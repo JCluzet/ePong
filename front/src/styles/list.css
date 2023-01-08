@@ -2,6 +2,10 @@ body {
     margin: 0;
 }
 
+.back-button {
+    position: relative;
+}
+
 .container {
     height: 30;
     display: flex;
