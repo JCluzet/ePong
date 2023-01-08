@@ -2,6 +2,7 @@ import returnBack from "../assets/images/return.png";
 import { useState } from "react";
 import { accountService } from "../hooks/account_service";
 import "../styles/two-fa.css";
+import { toast } from "react-toastify";
 
 export default function Twofa() {
   // state
@@ -20,32 +21,42 @@ export default function Twofa() {
   function HandleTFA() {
     console.log("tfa => ", tfa);
     if (!tfa.match(/^[0-9]+$/)) {
-      setError(true);
-      setErrorType("Error: Code must be only digits");
+    //   setError(true);
+    //   setErrorType("Error: Code must be only digits");
+    toast.error("Error: Code must be only digits")
       return;
     }
     if (tfa.length !== 6 || isNaN(tfa)) {
-      setError(true);
-      setErrorType("Error: Code must be 6 digits");
+    //   setError(true);
+    //   setErrorType("Error: Code must be 6 digits");
+    toast.error("Error: Code must be 6 digits")
       return;
     }
     if (tfa.length === 6) {
-      setError(false);
-      setErrorType("");
+
+
+    const id = toast.loading("Checking code...")
+
+
+
+    //   setError(false);
+    //   setErrorType("");
         accountService.LoginWithTFA(tfa);
         // wait for the response
-        setError(true);
-        setErrorType("Connexion...");
+        // setError(true);
+        // setErrorType("Connexion...");
         setTimeout(() => {
             if (localStorage.getItem("IncorrectTfa") === "true") {
-                setError(true);
-                setErrorType("Error: Incorrect code");
-                localStorage.setItem("IncorrectTfa", false);
+                // setError(true);
+                toast.update(id, { render: "Error: Incorrect code", type: "error", isLoading: false });
+                // setErrorType("Error: Incorrect code");
+                // localStorage.setItem("IncorrectTfa", false);
             } else {
+                toast.update(id, { render: "All is good", type: "success", isLoading: false });
                 window.location.href = "/";
             }
-        }, 1000);
-        console.log("incorrecttfa -> ", localStorage.getItem("IncorrectTfa"));
+        }, 1500);
+        // console.log("incorrecttfa -> ", localStorage.getItem("IncorrectTfa"));
     }
     // accountService.
   }
