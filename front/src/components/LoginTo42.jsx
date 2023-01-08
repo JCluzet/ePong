@@ -2,6 +2,7 @@ import schoollogo from "../assets/images/schoollogo.png";
 import useStoreToken from "../hooks/storeToken";
 import logo from "../assets/images/logo.svg";
 import Alert from "./Alert";
+import { toast } from "react-toastify";
 
 export default function LoginTo42() {
 
@@ -9,7 +10,7 @@ export default function LoginTo42() {
   const HandleLogin = () => {
     if (localStorage.getItem("BackendDown") === "true") {
         // alert("Backend is down, please try again later");
-        localStorage.setItem("Alert", "Backend is down, please try again later");
+        toast.error("Backend is down, please try again later");
         return;
     }
     const uid = process.env.REACT_APP_UID_TOKEN;
