@@ -315,7 +315,7 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
             };
             axios(config)
             .then(function (response: any) {
-                if (response.data == false) {
+                if (response.data === false) {
                     try {
                         setTimestamp(new Date().toLocaleString());
                         var config = {

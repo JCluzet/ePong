@@ -1,7 +1,7 @@
 // import Header from "./components/Header";
 // import { useState, useEffect } from "react";
 import "semantic-ui-css/semantic.min.css";
-import { toast, ToastContainer } from 'react-toastify';  
+import { /*toast,*/ ToastContainer } from 'react-toastify';  
 import "react-toastify/dist/ReactToastify.css";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import Login from "./pages/Login";
