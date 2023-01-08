@@ -49,7 +49,7 @@ const SideBarChannels = (props: SideBarChannelsProps) => {
             };
             axios(config)
             .then(function (response: any) {
-                if (response.data == true)
+                if (response.data === true)
                     alert("You have been banned from this channel")
                 else
                     props.setCurrentChannelId(chanId)
