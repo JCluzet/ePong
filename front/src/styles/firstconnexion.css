@@ -9,6 +9,15 @@
     background-color: #000000;
 }
 
+.text-princ-welcome{
+    color: #ffffff;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 5px;
+    /* background-color: #000000; */
+}
+
 .firstconnexion_text {
     color: #ffffff;
     font-size: 13px;

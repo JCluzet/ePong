@@ -1,6 +1,8 @@
 // import Header from "./components/Header";
 // import { useState, useEffect } from "react";
 import "semantic-ui-css/semantic.min.css";
+import { toast, ToastContainer } from 'react-toastify';  
+import "react-toastify/dist/ReactToastify.css";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
@@ -31,6 +33,18 @@ export default function App() {
         position="bottom-left"
         reverseOrder={false}
       /> */}
+            <ToastContainer
+position="bottom-right"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+/>
       <Router>
         <Routes>
           <Route path="/" element={

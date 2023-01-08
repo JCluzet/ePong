@@ -40,12 +40,10 @@ let ModifyUsername = async (username) => {
 let editAll = async (image, username, tfa) => {
     // if the image is "undefined" we need to catch the actual image data with url userAvatarUrl() and put it in the form data
     let formdata = new FormData();
-    if (image === null) {
-        formdata.append("file", userAvatarUrl());
-        formdata.append("param", JSON.stringify({
-            name: username,
-            twofa: tfa,
-        }));
+    if (image === undefined) {
+        formdata.append("file", undefined);
+        formdata.append("name", username);
+        formdata.append("twofa", tfa);
         console.dir(formdata);
     }
     else {
