@@ -1,97 +1,65 @@
 import React from "react";
 import axios from "../config/axios";
-// import toastify
-import { toast } from 'react-toastify';
-// import { toast } from ""
-
+import { toast } from "react-toastify";
 import { accountService } from "../hooks/account_service";
 import storeProfilData from "../hooks/storeProfilData";
 
-
-// create a function that return false if username is already taken and true if not
-
-    // return true;
-
-
-export default function EditProfil({firstlogin}) {
-  // state
-  const [username, setUsername] = React.useState(accountService.userName());
-  const [formData, setFormData] = React.useState(undefined);
-  const [nameIsGood, setNameIsGood] = React.useState(false);
- // comportements
-
-
-  let checkUsername = async (username) => {
-    // do a get at /users/checkName with username as param
-    // if response is 200 return true
-    // else return false
-    // return false;
-    var config = {
-        method: "get",
-        url: "/users/checkName?=" + username,
-        headers: {
-            'Authorization': 'Bearer ' + accountService.userToken(),
-        }
-    }
-    axios(config)
-        .then((response) => {
-            console.log("checkName responseGood: " + response.data);
-            setNameIsGood(true);
-        })
-        .catch((error) => {
-            console.log("Erreur de checkNameFalse!" + error);
-            setNameIsGood(false);
-        });
+const checkUsername = async (username) => {
+  let isAvailable = 0;
+  var config = {
+    method: "get",
+    url: "/users/checkName?name=" + username,
+    headers: {
+      Authorization: "Bearer " + accountService.userToken(),
+    },
+  };
+  await axios(config)
+    .then((response) => {
+      console.log("checkName responseGood: " + response.data);
+      isAvailable = 1;
+    })
+    .catch((error) => {
+      console.log("Username deja pris" + error);
+      isAvailable = 0;
+    });
+  return isAvailable;
 };
 
+export default function EditProfil({ firstlogin }) {
+  const [username, setUsername] = React.useState(accountService.userName());
+  const [formData, setFormData] = React.useState(undefined);
 
   const updateProfil = async (e) => {
     e.preventDefault();
 
-    // if 
     if (formData !== undefined || username !== accountService.userName()) {
-        await checkUsername(username);
-        console.log(`nameIsGood: ${nameIsGood}`);
-        if (username === "") {
-            // toastify
-            toast.error("Username can't be empty");
-            return;
-        }
-        if (nameIsGood === false) {
-            // toastify
-            toast.error("Username already taken");
-            return;
-        }
-        await accountService.editAll(formData, username, accountService.isTwoFa());
-        // wait 1000 ms 
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        const response = await storeProfilData(accountService.userToken(), accountService.userLogin(), () => window.location.reload());
-
+      if (username === "") {
+        toast.error("Username can't be empty");
+        return;
+      }
+      if ((await checkUsername(username)) === 0) {
+        toast.error(username + " is already taken");
+        return;
+      }
+      await accountService.editAll(
+        formData,
+        username,
+        accountService.isTwoFa()
+      );
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      const response = await storeProfilData(
+        accountService.userToken(),
+        accountService.userLogin(),
+        () => window.location.reload()
+      );
+    } else {
+      toast.info("Nothing to change");
     }
-    // if (formData !== null) {
-    //   await accountService.ModifyAvatar(formData);
-    // }
-    // if (username !== accountService.userName()) {
-    //   await accountService.ModifyUsername(username);
-    //   console.log("username changed");
-    // }
-    // // wait for 3 seconds
-    // // await new Promise((resolve) => setTimeout(resolve, 100));
-    // if (username !== accountService.userName() || formData !== null) {
-    //   await storeProfilData(
-    //     accountService.userToken(),
-    //     accountService.userLogin(),
-    //     () => window.location.reload()
-    //   );
-    // }
-    // // if username is not already taken
 
     if (firstlogin === "true") {
-      if (username !== "")
-      localStorage.setItem("firstlogin", "false");
-        window.location.href = "/";
+      if (username !== "") localStorage.setItem("firstlogin", "false");
+      window.location.href = "/";
     }
-
   };
 
   const handleChange = (e) => {
@@ -108,10 +76,8 @@ export default function EditProfil({firstlogin}) {
     }
   };
 
-  // affichage
   return (
     <div>
-        {/* <ToastContainer /> */}
       <form onSubmit={updateProfil}>
         <div className="change-avatar-container">
           <input
@@ -126,7 +92,7 @@ export default function EditProfil({firstlogin}) {
           </div>
           {firstlogin === "true" && (
             <div className="firstlogin-text">
-                Default avatar is your 42 profil picture 
+              Default avatar is your 42 profil picture
             </div>
           )}
           <div className="button-change-container">
