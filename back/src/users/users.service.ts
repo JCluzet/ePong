@@ -180,7 +180,7 @@ export class UsersService {
       const user: EUser = await this.findUserByLogin(login);
       if (!user) throw new Error(`User ${login} not found`);
       const sameUser = await this.findUserByName(name);
-      if ( sameUser && sameUser.login !== user.login ) return false;
+      if ( sameUser && sameUser.login !== user.login ) throw new Error(`User ${name} already exist`);
       return true;
     } catch (err){
       throw new Error(err);

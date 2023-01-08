@@ -10,7 +10,7 @@ export default function FirstConnexion() {
   
     return (
           <div className="container_firstconnexion">
-            <h1>Welcome to PONG 🏓</h1>
+            <div className="text-princ-welcome">Welcome to PONG 🏓</div>
             <div className="firstconnexion_text">
                Choose your avatar or/and username,
                <br/>
