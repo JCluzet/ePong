@@ -6,6 +6,8 @@ import axios from "axios";
 import EUser from "./chatComponents/Models/user";
 import StatsCardFriend from "./StatsCardFriend";
 import HistoricFriend from "./historicCardFriend";
+import AcceptFriendList from "./AcceptFriendList";
+import AddFriendList from "./AddFriendList";
 
 const user = {
     name: accountService.userLogin(),
@@ -28,10 +30,13 @@ export default function FriendList() {
     const [Img, setImg] = useState('');
     const [Online, setStatus] = useState('');
     const [isToggled, setIsToggled] = useState(false);
-    const [isToggledHis, setIsToggledHis] = useState(false);
+    const [isgoHistoric, setIsgoHistoric] = useState(false);
+    const [isGoChat, setIsGoChat] = useState(false);
     const [isPlaying, setPlay] = useState(false);
     const [isClicked, setClick] = useState(false);
     const [allUsers, setAllUsers] = useState<Array<EUser>>([]);
+    const [acceptList, setAcceptList] = useState(false);
+    const [isGoAdd, setIsGoAdd] = useState(false);
 
     useEffect(() => {
         getUserInfo();
@@ -39,13 +44,20 @@ export default function FriendList() {
 
     const getUserInfo = async () => {
         try {
-            await axios.get('users').then(function (response) {
+            var config = {
+                method: "get",
+                url: "/friends",
+                headers: { Authorization: "Bearer " + accountService.userToken() },
+              };
+            await axios(config).then(function (response) {
                 setAllUsers(response.data);
             });
         }
         catch (error) {
             console.log("Failed to fetch all users");
         }
+        console.log(allUsers);
+        
         setTimeout(getUserInfo, 10000);
     }
 
@@ -65,25 +77,63 @@ export default function FriendList() {
 
     const goBack = () => setClick(false);
 
-    const onToggleHis = () => setIsToggledHis(!isToggledHis);
+    const goAcceptList = () => setAcceptList(true);
+    
+    const goFriendList = () => {
+        setAcceptList(false);
+        setIsGoAdd(false);
+    }
+
+    const goAdd = () => setIsGoAdd(true);
+
+    const goHistoric = () => {
+        setIsgoHistoric(!isgoHistoric);
+        setIsGoChat(false);
+    }
+
+    const goChat = () => {
+        setIsGoChat(!isGoChat);
+        setIsgoHistoric(false);
+    }
 
     return(
         <div className="container">
             <section className="container-shiny" style = {user.style}>
-            <h2>Friend List</h2>
+            {
+                acceptList || isGoAdd ?
+                acceptList ? 
+                <h2>Accept List</h2>
+                :
+                <h2>Add List</h2>
+                :
+                <h2>Friend List</h2>}
             {
                 isClicked ?
                 <div className="back-button">
                             <button className="social-button" onClick={goBack}>back</button>
                 </div>
                 :
-                <p></p> 
+                acceptList || isGoAdd ? 
+                    <div className="back-button">
+                        <button className="social-button" onClick={goFriendList}>Friend List</button>
+                    </div>
+                :
+                    <><div className="back-button">
+                                <button className="social-button" onClick={goAcceptList}>Accept List</button>
+                            </div><div className="back-button">
+                                    <button className="social-button" onClick={goAdd}>Add</button>
+                                </div></>
             }
+            
             <div className="content">
             <div className="scrollable-div" style = {{padding: 10}}>
                 {
                     isClicked ? <p></p>
                     :
+                    acceptList ? <AcceptFriendList/>
+                    :
+                    isGoAdd ? <AddFriendList/>
+                    : 
                     allUsers.map((user: EUser) =>
                             <div className="container-social" onClick={() => handleClick(user.login, user.name, user.avatarUrl, user.status)}>
                                 <div className="row">
@@ -116,7 +166,10 @@ export default function FriendList() {
                         <img src={Img} alt={'profile picture'} className="circle-img" style= {{height: 100 ,width: 100}}/>
                         </div>
                         <div className="column">
-                            <button className="social-button" onClick={onToggleHis}>Historic</button>
+                            <button className="social-button" onClick={goHistoric}>Historic</button>
+                        </div>
+                        <div className="column">
+                            <button className="social-button" onClick={goChat}>chat</button>
                         </div>
                         <div className="column">
                             {Online === "Online"
@@ -132,12 +185,8 @@ export default function FriendList() {
                     <div className="column">
                         <StatsCardFriend/>
                     </div>
-                    {isToggledHis
-                    ?
-                        <HistoricFriend/>
-                    :
-                    <p></p>
-                    }
+                    {isgoHistoric ? <HistoricFriend/> : <p></p> }
+                    {isGoChat ? <p>chat</p> : <p></p> }
                     </div>
                     </div>
                     :

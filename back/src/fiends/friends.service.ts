@@ -38,7 +38,7 @@ export class FriendsService {
         ],
       });
       const friendString: string[] = friendsRaw.map((element) => {
-        if (element.sender === login) return element.sender;
+        if (element.sender !== login) return element.sender;
         else return element.receiver;
       });
       return [...new Set(friendString)];
@@ -93,17 +93,23 @@ export class FriendsService {
     try {
       const prevRelation: EFriend = await this.getByPair(from, to);
       let relation: EFriend;
-      if (prevRelation == undefined || prevRelation.status === 'pending') return false;
-      if (prevRelation) {
-        relation = prevRelation;
-        relation.sender = from;
-        relation.receiver = to;
-        relation.status = 'pending';
-      } else {
-        relation.sender = from;
-        relation.receiver = to;
-        relation.status = 'pending';
-      }
+      Logger.log(`check error1 ${prevRelation}`);
+      console.log(prevRelation);
+      
+      if ((prevRelation !== undefined && prevRelation.status === 'pending') || (prevRelation !== undefined && prevRelation.status === 'accepted')) return false;
+      else if ( prevRelation ) {
+				relation = prevRelation;
+				relation.sender = from;
+				relation.receiver = to;
+				relation.status = 'pending';
+			} else {
+				relation = {
+					sender: from,
+					receiver: to,
+					status: 'pending',
+				};
+			}
+      Logger.log(`check error2`);
       await this.friendsRepository.save(relation);
       return true;
     } catch (err) {
