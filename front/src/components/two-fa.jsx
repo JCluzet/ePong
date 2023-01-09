@@ -21,14 +21,11 @@ export default function Twofa() {
   function HandleTFA() {
     console.log("tfa => ", tfa);
     if (!tfa.match(/^[0-9]+$/)) {
-    //   setError(true);
     //   setErrorType("Error: Code must be only digits");
     toast.error("Error: Code must be only digits")
       return;
     }
     if (tfa.length !== 6 || isNaN(tfa)) {
-    //   setError(true);
-    //   setErrorType("Error: Code must be 6 digits");
     toast.error("Error: Code must be 6 digits")
       return;
     }

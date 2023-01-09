@@ -1,24 +1,40 @@
-import React from 'react';
+import React from "react";
 import { accountService } from "../hooks/account_service";
 
 export default function StatsCard() {
-    const [kda, setKda] = React.useState(accountService.userKda());
-    const [nbWins, setNbWins] = React.useState(accountService.userNbWins());
-    const [nbLoses, setNbLoses] = React.useState(accountService.userNbLoses());
-    const [totalGame, setTotalGame]  = React.useState(accountService.userTotalGame());
-    if (!kda) setKda("0");
-    if (!nbLoses) setNbLoses("0");
-    if (!nbWins) setNbWins("0");
-    if (!totalGame) setTotalGame("0");
-    return (
-        <div>
-            <h2> Stats </h2>
-                <ul>
-                    <p>winrate : {kda}</p>
-                    <p>Nb Wins : {nbWins}</p>
-                    <p>Nb Loses : {nbLoses}</p>
-                    <p>total game : {totalGame}</p>
-                </ul>
+  const [kda, setKda] = React.useState(accountService.userKda());
+  const [nbWins, setNbWins] = React.useState(accountService.userNbWins());
+  const [nbLoses, setNbLoses] = React.useState(accountService.userNbLoses());
+  const [totalGame, setTotalGame] = React.useState(
+    accountService.userTotalGame()
+  );
+  if (!kda) setKda("0");
+  if (!nbLoses) setNbLoses("0");
+  if (!nbWins) setNbWins("0");
+  if (!totalGame) setTotalGame("0");
+  return (
+    <div>
+      <div className="container-stats">
+        {/* <div className="title-stats">Stats</div> */}
+        <div className="container-stats-content">
+          <div className="stat-uniq">
+            Winrate
+            <div className="stat-uniq-number">{kda}</div>
+          </div>
+          <div className="stat-uniq">
+            Nb Wins
+            <div className="stat-uniq-number">{nbWins}</div>
+          </div>
+          <div className="stat-uniq">
+            Nb Loses
+            <div className="stat-uniq-number">{nbLoses}</div>
+          </div>
+          <div className="stat-uniq">
+            Total Game
+            <div className="stat-uniq-number">{totalGame}</div>
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 }
