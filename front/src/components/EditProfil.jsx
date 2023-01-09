@@ -53,7 +53,14 @@ export default function EditProfil({ firstlogin }) {
         () => window.location.reload()
       );
     } else {
-      toast.info("Nothing to change");
+        if(firstlogin !== "true")
+            toast.info("Nothing to change");
+        else{
+            if ((await checkUsername(username)) === 0) {
+                toast.error(username + " is already taken");
+                return;
+              }
+        }
     }
 
     if (firstlogin === "true") {
