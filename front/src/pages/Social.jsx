@@ -10,7 +10,7 @@ export default function Social() {
       <Header />
       <br />
       <ProfileCard/>
-      <FriendList/>
+      {/* <FriendList/> */}
     </div>
   );  
 }

@@ -13,14 +13,14 @@ const user = {
     name: accountService.userLogin(),
     imgUrl: accountService.userAvatarUrl(),
     size: 50,
-    style : {
-        marginTop: 20,
-        backgroundColor: 'black',
-        color: 'white',
-        width: "100%",
-        height: "100%",
-        borderRadius : 10,
-    }
+    // style : {
+    //     marginTop: 20,
+    //     backgroundColor: 'black',
+    //     color: 'white',
+    //     width: "100%",
+    //     height: "100%",
+    //     borderRadius : 10,
+    // }
 };
 
 export default function FriendList() {
@@ -98,33 +98,34 @@ export default function FriendList() {
 
     return(
         <div className="container">
-            <section className="container-shiny" style = {user.style}>
+            <div className="container-stats-friendlist">
+            {/* <section> */}
             {
                 acceptList || isGoAdd ?
                 acceptList ? 
-                <h2>Accept List</h2>
+                <h2>Pending Request</h2>
                 :
-                <h2>Add List</h2>
+                <h2>Friends List</h2>
                 :
-                <h2>Friend List</h2>}
+                <div className="text-title-container">Your Friends</div>}
             {
                 isClicked ?
                 <div className="back-button">
-                            <button className="social-button" onClick={goBack}>back</button>
+                            <button className="button-friendlist" onClick={goBack}>back</button>
                 </div>
                 :
                 acceptList || isGoAdd ? 
                     <div className="back-button">
-                        <button className="social-button" onClick={goFriendList}>Friend List</button>
+                        <button className="button-friendlist" onClick={goFriendList}>Back</button>
                     </div>
                 :
                     <><div className="back-button">
-                                <button className="social-button" onClick={goAcceptList}>Accept List</button>
+                                <button className="button-friendlist" onClick={goAcceptList}>Pending Request</button>
                             </div><div className="back-button">
-                                    <button className="social-button" onClick={goAdd}>Add</button>
+                                    <button className="button-friendlist" onClick={goAdd}>Friends List</button>
                                 </div></>
             }
-            
+            {/* {acceptList || isGoAdd ? */}
             <div className="content">
             <div className="scrollable-div" style = {{padding: 10}}>
                 {
@@ -135,7 +136,7 @@ export default function FriendList() {
                     isGoAdd ? <AddFriendList/>
                     : 
                     allUsers.map((user: EUser) =>
-                            <div className="container-social" onClick={() => handleClick(user.login, user.name, user.avatarUrl, user.status)}>
+                    <div className="container-social" onClick={() => handleClick(user.login, user.name, user.avatarUrl, user.status)}>
                                 <div className="row">
                                     <div className="column">
                                         <img src={user.avatarUrl} className="circle-img" alt={user.name} />
@@ -156,6 +157,7 @@ export default function FriendList() {
                         )
                 }
             </div>
+            {/* } */}
             <div className="main">
                 {
                     isClicked
@@ -166,16 +168,16 @@ export default function FriendList() {
                         <img src={Img} alt={'profile picture'} className="circle-img" style= {{height: 100 ,width: 100}}/>
                         </div>
                         <div className="column">
-                            <button className="social-button" onClick={goHistoric}>Historic</button>
+                            <button className="button-friendlist" onClick={goHistoric}>Historic</button>
                         </div>
                         <div className="column">
-                            <button className="social-button" onClick={goChat}>chat</button>
+                            <button className="button-friendlist" onClick={goChat}>chat</button>
                         </div>
                         <div className="column">
                             {Online === "Online"
                             ? isPlaying
                             ? <p></p>
-                            : <button className="social-button">Challenge</button>
+                            : <button className="button-friendlist">Challenge</button>
                             : <p></p>
                             }
                         </div>
@@ -194,7 +196,8 @@ export default function FriendList() {
                 }
             </div>
             </div>
-            </section>
+            {/* </section> */}
+        </div>
         </div>
     )
 }

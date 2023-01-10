@@ -52,7 +52,7 @@ export default function Home() {
 
         <div className="chat-container">
           <button className="button" onClick={ChatClick}> 
-            <div className="text-social">Chat</div>
+            <div className="text-social">CHAT</div>
           </button> 
         </div>
         

@@ -93,14 +93,14 @@ export default function AcceptFriendList() {
         </div> 
         :
         <><div className='receive-friend'>
-            <h2>receiveLst</h2>
+            <h2>Receive</h2>
             {receiveLst.map((element: data) => <div className="container-social" onClick={() => handleClick(element.sender, true)}>
               <p>{element.sender}</p>
               <p>{element.status}</p>
             </div>
             )}
           </div><div className='sending-friend'>
-              <h2>SendingLst</h2>
+              <h2>Send</h2>
               {sendingLst.map((element: data) => <div className="container-social" onClick={() => handleClick(element.receiver, false)}>
                 <p>{element.receiver}</p>
                 <p>{element.status}</p>

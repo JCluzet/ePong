@@ -37,7 +37,7 @@ export default function EditProfil({ firstlogin }) {
         toast.error("Username can't be empty");
         return;
       }
-      if ((await checkUsername(username)) === 0) {
+      if (username !== accountService.userName() && (await checkUsername(username)) === 0) {
         toast.error(username + " is already taken");
         return;
       }

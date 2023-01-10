@@ -3,6 +3,7 @@ import { accountService } from "../hooks/account_service";
 import "../styles/social.css";
 import Statscard from "./StatsCard";
 import Historic from "./HistoricCard";
+import FriendList from "./FriendList";
 
 // faire un composent "carte profile" avec login, si en ligne, image de login
 
@@ -33,7 +34,11 @@ export default function ProfileCard() {
 
         <section className="container-profilCard">
           <Historic />
+          </section>
+        <section className="container-profilCard">
+      <FriendList/>
         </section>
+
       </div>
     </div>
   );
