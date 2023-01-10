@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/Pong.scss';
 import useWindowDimensions from "./useWindowDimensions"
 import io from "socket.io-client";
-import axios from "axios";
 import { Form } from 'react-bootstrap'
 import Confetti from 'react-confetti';
 import { Offline, Online } from "react-detect-offline";
@@ -11,7 +10,7 @@ import { toast } from "react-toastify";
 import { accountService } from "../hooks/account_service";
 
 var adversaire;
-var joueur;
+var joueur = accountService.userLogin();
 let joueur1;
 let joueur2;
 var isSearching = false;
@@ -19,32 +18,42 @@ var gm = 0;
 
 let url_begin = "";
 if (process.env.REACT_APP_IP === "" || process.env.REACT_APP_IP === undefined)
-	url_begin = "http://localhost";
+url_begin = "http://localhost";
 else
 	url_begin = "http://".concat(process.env.REACT_APP_IP);
-let selectedUser = "";
-
+	let selectedUser = "";
+	
 export default function Pong() {
-
+	
 	const { height, width } = useWindowDimensions();
-
-	const [isActive, setActive] = React.useState(true);
-	const [isActive2, setActive2] = React.useState(false);
-	const [isWin, setWin] = React.useState(false);
-	const [gameMode, chanScopeSet] = React.useState("original");
-
+	
+	const [isActive, setActive] = useState(true);
+	const [isActive2, setActive2] = useState(false);
+	const [isWin, setWin] = useState(false);
+	const [gameMode, chanScopeSet] = useState("original");
+	const [username, setUsername] = useState(joueur);
+	
 	const queryParams = new URLSearchParams(window.location.search);
 	const vs = queryParams.get('vs');
 	const live = queryParams.get('live');
-
 	let vshisto = false;
+	var SearchText = "Rechercher une partie";
 
-	const [username, setUsername] = React.useState("");
+	useEffect(() => {
+		getUser();
+		canvas = document.getElementById('canvas');
+		initParty();
+		if (live == null)
+			canvas.addEventListener('mousemove', playerMove);
+	
+		if (live !== null) {
+			setActive(false);
+			setActive2(false);
+		}
+		return () => {};
+	}, []);
+		
 	function getUser() {
-		axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-		axios.defaults.withCredentials = true;
-		joueur = accountService.userLogin();
-		setUsername(joueur);
 		if (vs !== null && !vshisto) {
 			setActive(false);
 			socket.emit('versus', joueur + ":" + vs)
@@ -52,15 +61,18 @@ export default function Pong() {
 			vshisto = true;
 		}
 	}
-	var SearchText = "Rechercher une partie"
+	
+	console.log(`USERNAME: ${username}`);
 	var socket = io(url_begin.concat(":5001/game"), { query: { username: username } });
-
+	console.log(`SOCKET:`);
+	console.log(socket);
+	
 	function removeInvit() {
 		setActive2(false);
 		socket.emit('removeInvit', true)
 		setActive(true);
 	}
-
+	
 	function sendSearch() {
 		console.log('check search game');
 		if (joueur) {
@@ -121,22 +133,21 @@ export default function Pong() {
 			document.querySelector('#joueur1').textContent = joueur1 + ": ";
 			document.querySelector('#joueur2').textContent = joueur2 + ": ";
 			cancelAnimationFrame(anim);
+			setGameMode(gm);
 			play();
 			setActive(false);
 			setActive2(false);
-			setGameMode(gm);
 		}
 		else if (joueur2 !== adversaire && joueur2 === joueur && game) {
 			adversaire = joueur1;
 			document.querySelector('#joueur1').textContent = joueur1 + ": ";
 			document.querySelector('#joueur2').textContent = joueur2 + ": ";
 			cancelAnimationFrame(anim);
+			setGameMode(gm);
 			play();
 			setActive(false);
 			setActive2(false);
-			setGameMode(gm);
 		}
-
 	});
 
 	function setGameMode(g) {
@@ -160,12 +171,6 @@ export default function Pong() {
 			BALL_ACCELERATE = true;
 		} else if (g === 3) {
 			PLAYER_HEIGHT = 80;
-			PLAYER_WIDTH = 10;
-			BALL_HEIGHT = 10;
-			BALL_SPEED = 0.5;
-			BALL_ACCELERATE = false;
-		} else if (g === 4) {
-			PLAYER_HEIGHT = 80;
 			PLAYER_WIDTH = 80;
 			BALL_HEIGHT = 10;
 			BALL_SPEED = 2;
@@ -174,11 +179,10 @@ export default function Pong() {
 	}
 
 
-	// PONG CODE BELOW
 	var canvas;
 	var game;
 	var anim;
-	// On peut changer les dimensions de la balle et des joueurs, ex: autres modes de jeux
+	// On peut changer les dimensions de la balle et des joueurs
 	var PLAYER_HEIGHT = 80;
 	var PLAYER_WIDTH = 10;
 	var BALL_HEIGHT = 10;
@@ -229,22 +233,8 @@ export default function Pong() {
 		}
 	}
 
-	useEffect(() => {
-		getUser();
-		// eslint-disable-next-line
-		canvas = document.getElementById('canvas');
-		initParty();
-		if (live == null)
-			canvas.addEventListener('mousemove', playerMove);
 
-		if (live !== null) {
-			setActive(false);
-			setActive2(false);
-		}
-		return () => {};
-	}, []);
-
-	window.addEventListener('resize', function (event) {
+	window.addEventListener('resize', function () {
 		draw();
 	}, true);
 
@@ -307,7 +297,7 @@ export default function Pong() {
 	});
 
 	function acceptInvitePlay() {
-		window.top.location = url_begin.concat(":3000/play?vs=").concat(selectedUser);;
+		window.top.location = url_begin.concat(":3000/play?vs=").concat(selectedUser);
 	}
 
 	const InvitetoPlay = () => {
@@ -350,7 +340,7 @@ export default function Pong() {
 			// Ball progressive speed
 			game.ball.x += game.ball.speed.x;
 			game.ball.y += game.ball.speed.y;
-			socket.emit('ballMoveFront', joueur1 + ":" + joueur2 + ":" + game.ball.x + ":" + game.ball.y + ":" + game.ball.speed.x + ":" + game.ball.speed.y);
+			socket.emit('ballMoveFront', `${joueur1}:${joueur2}:${game.ball.x}:${game.ball.y}:${game.ball.speed.x}:${game.ball.speed.y}`);
 		}
 	}
 

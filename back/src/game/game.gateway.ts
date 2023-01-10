@@ -39,10 +39,8 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect, On
 			gameMode = 1;
 		else if (body.includes("blitz"))
 			gameMode = 2;
-		else if (body.includes("slow"))
-			gameMode = 3;
 		else if (body.includes("cube"))
-			gameMode = 4;
+			gameMode = 3;
 		if (body.includes("STOPSEARCH"))
 			isSearching = false;
 
@@ -68,7 +66,6 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect, On
 			await this.userService.updateStatus(String(socket.handshake.query.username), "ingame");
 			await this.userService.updateStatus(String(adversaire), "ingame");
 			this.server.emit('gameStart', socket.handshake.query.username, adversaire, gameMode);
-
 		}
 	}
 
