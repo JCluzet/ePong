@@ -37,7 +37,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect, On
 		let isSearching = true
 		if (body.includes("bigball"))
 			gameMode = 1;
-		else if (body.includes("blitz"))
+		else if (body.includes("fast"))
 			gameMode = 2;
 		else if (body.includes("cube"))
 			gameMode = 3;
@@ -116,8 +116,8 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect, On
 			let looser = await this.userService.findUserByLogin(b[1]);
 			this.gameService.createGame(winner.id, looser.id, Number(b[2]), Number(b[3]), Number(b[4]));
 			this.server.emit('stopGame', b[0], b[1]);
-			//this.userService.updateStatus(String(b[0]), "online");
-			//this.userService.updateStatus(String(b[1]), "online");
+			this.userService.updateStatus(String(b[0]), "online");
+			this.userService.updateStatus(String(b[1]), "online");
 		}
 
 	}

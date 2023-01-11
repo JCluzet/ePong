@@ -4,7 +4,7 @@ import useWindowDimensions from "./useWindowDimensions"
 import io from "socket.io-client";
 import { Form } from 'react-bootstrap'
 import Confetti from 'react-confetti';
-import { Offline, Online } from "react-detect-offline";
+// import { Offline, Online } from "react-detect-offline";
 import "/node_modules/react-rain-animation/lib/style.css";
 import { toast } from "react-toastify";
 import { accountService } from "../hooks/account_service";
@@ -30,7 +30,7 @@ export default function Pong() {
 	const [isActive, setActive] = useState(true);
 	const [isActive2, setActive2] = useState(false);
 	const [isWin, setWin] = useState(false);
-	const [gameMode, chanScopeSet] = useState("original");
+	const [gameMode, setGM] = useState("original");
 	const [username, setUsername] = useState(joueur);
 	
 	const queryParams = new URLSearchParams(window.location.search);
@@ -86,6 +86,7 @@ export default function Pong() {
 				socket.emit('search', "STOPSEARCH-" + gameMode);
 			}
 			document.querySelector('#search-button').textContent = SearchText;
+			setGM("original");
 		}
 		else
 			document.querySelector('#search-button').textContent = "Impossible de lancer le matchmaking"
@@ -127,13 +128,13 @@ export default function Pong() {
 		joueur1 = args[0];
 		joueur2 = args[1];
 		gm = args[2];
+		setGameMode(gm);
 		initParty();
 		if (joueur1 !== adversaire && joueur1 === joueur && game) {
 			adversaire = joueur2;
 			document.querySelector('#joueur1').textContent = joueur1 + ": ";
 			document.querySelector('#joueur2').textContent = joueur2 + ": ";
 			cancelAnimationFrame(anim);
-			setGameMode(gm);
 			play();
 			setActive(false);
 			setActive2(false);
@@ -143,7 +144,6 @@ export default function Pong() {
 			document.querySelector('#joueur1').textContent = joueur1 + ": ";
 			document.querySelector('#joueur2').textContent = joueur2 + ": ";
 			cancelAnimationFrame(anim);
-			setGameMode(gm);
 			play();
 			setActive(false);
 			setActive2(false);
@@ -178,7 +178,6 @@ export default function Pong() {
 		}
 	}
 
-
 	var canvas;
 	var game;
 	var anim;
@@ -188,6 +187,7 @@ export default function Pong() {
 	var BALL_HEIGHT = 10;
 	var BALL_SPEED = 2;
 	var BALL_ACCELERATE = true;
+
 	function draw() {
 		// Draw Canvas
 		if (canvas) {
@@ -464,28 +464,28 @@ export default function Pong() {
 	return (
 		<>
 			<div>
-				<Online>
+				{/* <Online> */}
 					<div id="game-root">
 						<div className="container">
-							<div className="row d-flex justify-content-center text-center">
+							<div className="row-game d-flex justify-content-center text-center">
 								{isWin ? <Confetti width={width} height={height} /> : ""}
 								{isActive ?
 									<Form>
 										<Form.Group>
-											<div className="row d-flex justify-content-center text-center">
+											<div className="row-game d-flex justify-content-center text-center">
 												<Form.Label className="form--label">Choose game option</Form.Label>
-												<Form.Select id="form-select" aria-label="Modes de jeux:" defaultValue="original" onChange={e => chanScopeSet(e.target.value)}>
+												<Form.Select id="form-select" aria-label="Modes de jeux:" defaultValue="original" onChange={e => setGM(e.target.value)}>
 													<option>Modes de jeux:</option>
 													<option value="original">Classic Pong</option>
 													<option value="bigball">Big Ball</option>
-													<option value="blitz">Fast</option>
+													<option value="fast">Fast</option>
 													<option value="cube">Cubic</option>
 												</Form.Select>
 											</div>
 										</Form.Group>
 									</Form>
 									: ""}
-								<div className="row d-flex justify-content-center text-center">
+								<div className="row-game d-flex justify-content-center text-center">
 									{isActive ? <button type="button" className="btn btn-outline-light" id="search-button" onClick={() => sendSearch()}>{SearchText}</button> : ""}
 									{isActive2 ? <button type="button" className="btn btn-outline-light" id="search-button2" onClick={() => removeInvit()}>Annuler l'invitation</button> : ""}
 								</div>
@@ -501,10 +501,10 @@ export default function Pong() {
 							</div>
 						</div>
 					</div>
-				</Online>
+				{/* </Online>
 				<Offline>
 					<div id="offline">Vous n'êtes pas connecté à internet !</div>
-				</Offline>
+				</Offline> */}
 			</div>
 		</>
 	);

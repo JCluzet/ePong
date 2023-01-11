@@ -26,12 +26,10 @@ export class GameService {
 		const winner = await this.userService.findUserById(winner_login);
 		const loser = await this.userService.findUserById(loser_login);
 
-		Logger.log(`check after find user`);
 		await this.userService.updateStatus(winner.login, "online");
 		await this.userService.updateStatus(loser.login, "online");
 		await this.userService.editGameScore({winner: winner.login, loser: loser.login});
 		await this.gameHistoricService.createNewGame({winner: winner.login, loser: loser.login, winnerScore: winner_points, loserScore: loser_points, timeStamp: new Date().toJSON().slice(0, 10)})
-		Logger.log(`check after editGameScore`);
 		if (winner && loser) {
 			const newGame : EGame = {
 				winner: winner_login,
