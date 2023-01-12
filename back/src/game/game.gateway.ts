@@ -115,28 +115,22 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect, On
 			let winner = await this.userService.findUserByLogin(b[0]);
 			let looser = await this.userService.findUserByLogin(b[1]);
 			this.gameService.createGame(winner.id, looser.id, Number(b[2]), Number(b[3]), Number(b[4]));
-			this.server.emit('stopGame', b[0], b[1]);
-			this.userService.updateStatus(String(b[0]), "online");
-			this.userService.updateStatus(String(b[1]), "online");
+			// this.server.emit('stopGame', b[0], b[1]);
 		}
-
 	}
 
 	@SubscribeMessage('playerMove')
 	async playerMove(@ConnectedSocket() socket: Socket, @MessageBody() body: string) {
-		const b = body.split(':');
 		this.server.emit('playerMove', body);
 	}
 
 	@SubscribeMessage('roundStart')
 	async roundStart(@ConnectedSocket() socket: Socket, @MessageBody() body: string) {
-		const b = body.split(':');
 		this.server.emit('roundStartLIVE', body);
 	}
 
 	@SubscribeMessage('ballMoveFront')
 	async ballMoveEmit(@ConnectedSocket() socket: Socket, @MessageBody() body: string) {
-		// const b = body.split(':');
 		this.server.emit('ballMoveBack', body);
 	}
 

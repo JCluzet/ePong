@@ -40,7 +40,9 @@ export default function Pong() {
 	var SearchText = "Rechercher une partie";
 
 	useEffect(() => {
-		getUser();
+		setUsername(joueur);
+		doVersus();
+		// eslint-disable-next-line
 		canvas = document.getElementById('canvas');
 		initParty();
 		if (live == null)
@@ -53,7 +55,7 @@ export default function Pong() {
 		return () => {};
 	}, []);
 		
-	function getUser() {
+	function doVersus() {
 		if (vs !== null && !vshisto) {
 			setActive(false);
 			socket.emit('versus', joueur + ":" + vs)
@@ -370,7 +372,7 @@ export default function Pong() {
 				game.ball.speed.x = BALL_SPEED * -1;
 				// Update score
 				game.player2.score++;
-				socket.emit('roundStart', 0 + ":" + joueur1 + ":" + joueur2 + ":" + game.player.score + ":" + game.player2.score + ":right");
+				socket.emit('roundStart', `${0}:${joueur1}:${joueur2}:${game.player.score}:${game.player2.score}:right`);
 				document.querySelector('#player2-score').textContent = game.player2.score;
 				if (game.player2.score === 5 || document.querySelector('#player2-score').textContent === "5") {
 					stop();
@@ -381,7 +383,7 @@ export default function Pong() {
 				game.ball.speed.x = BALL_SPEED;
 				// Update score
 				game.player.score++;
-				socket.emit('roundStart', 0 + ":" + joueur1 + ":" + joueur2 + ":" + game.player.score + ":" + game.player2.score + ":left");
+				socket.emit('roundStart', `${0}:${joueur1}:${joueur2}:${game.player.score}:${game.player2.score}:left`);
 				document.querySelector('#player-score').textContent = game.player.score;
 				if (game.player.score === 5 || document.querySelector('#player-score').textContent === "5") {
 					stop();
@@ -408,11 +410,11 @@ export default function Pong() {
 	function stop() {
 		// console.log("username: ", joueur, ", adversaire: ", adversaire, ", score player 1: ", game.player.score, ", score player 2: ", game.player.score, ", gameMode: ", gm)
 		if (game !== undefined && game.player.score > game.player2.score && joueur1 && joueur2 && joueur1 === joueur) {
-			socket.emit('gameEnd', joueur1 + ":" + joueur2 + ":" + game.player.score + ":" + game.player2.score + ":" + gm);
+			socket.emit('gameEnd', `${joueur1}:${joueur2}:${game.player.score}:${game.player2.score}:${gm}`);
 			document.querySelector('#victoryMessage').textContent = "Victory";
 		}
 		if (game !== undefined && game.player.score < game.player2.score && joueur1 && joueur2 && joueur2 === joueur) {
-			socket.emit('gameEnd', joueur2 + ":" + joueur1 + ":" + game.player2.score + ":" + game.player.score + ":" + gm);
+			socket.emit('gameEnd', `${joueur2}:${joueur1}:${game.player2.score}:${game.player.score}:${gm}`);
 			document.querySelector('#victoryMessage').textContent = "Victory";
 		}
 		if (document.querySelector('#victoryMessage').textContent !== "Victory")
@@ -420,8 +422,8 @@ export default function Pong() {
 		else
 			setWin(true);
 		cancelAnimationFrame(anim);
+		
 		// Set ball and players to the center
-
 		game.ball.x = canvas.width / 2 - BALL_HEIGHT / 2;
 		game.ball.y = canvas.height / 2 - BALL_HEIGHT / 2;
 		game.player.y = canvas.height / 2 - PLAYER_HEIGHT / 2;
@@ -457,7 +459,6 @@ export default function Pong() {
 		isSearching = false;
 		setActive(true);
 		setActive2(false);
-		// document.querySelector('#search-button').textContent = "Refaire une partie";
 		SearchText = "Refaire une partie";
 	}
 
