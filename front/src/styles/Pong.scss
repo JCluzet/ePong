@@ -16,6 +16,8 @@
 
 #main > * {
   color: white !important;
+  width: 80%;
+  height: 100%;
 }
 
 .canvas-score
@@ -25,15 +27,14 @@
 
 #canvas {
   background: black !important;
-  padding: 50px !important;
+  padding-left: 2%;
+  padding-right: 2%;
   border-radius: variables.$border-radius-big;
   border: .4rem solid white;
   position: sticky;
-  margin-bottom: 50px;
   transition-duration: 1s;
-  width: 75% !important;
-  height: 100% !important;
-  // padding-top: 50% !important;
+  width: 60%;
+  height: 120%;
 }
 
 #form-select, #search-button, #search-button2 {

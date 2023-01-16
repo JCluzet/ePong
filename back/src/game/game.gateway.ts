@@ -39,11 +39,8 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect, On
 			gameMode = 1;
 		else if (body.includes("fast"))
 			gameMode = 2;
-		else if (body.includes("cube"))
-			gameMode = 3;
 		if (body.includes("STOPSEARCH"))
 			isSearching = false;
-
 		if (socket.handshake.query.username && isSearching) {
 			MatchMaking[gameMode].push(socket.handshake.query.username);
 		} else if (socket.handshake.query.username && !isSearching) {

@@ -56,14 +56,14 @@ export class GameService {
 	// }
 
 	async removeAll(): Promise<boolean> {
-    try {
-      const ids = (await this.getAllGames()).map((element) => element.id);
-      if (ids.length) this.gameRepository.delete(ids);
-      Logger.log(`game db removed`);
-      return true;
-    } catch (err) {
-      Logger.log(`Error: game db remove failled.`);
-      return false;
-    }
-  }
+		try {
+		const ids = (await this.getAllGames()).map((element) => element.id);
+		if (ids.length) this.gameRepository.delete(ids);
+		Logger.log(`game db removed`);
+		return true;
+		} catch (err) {
+		Logger.log(`Error: game db remove failled.`);
+		return false;
+		}
+	}
 }

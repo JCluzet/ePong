@@ -1,5 +1,6 @@
 import Header from "../components/Header";
-import Pong from "../components/Pong";
+// import Pong from "../components/Pong";
+import PongCanvas from "../components/PongCanvas";
 
 export default function Game() {
   // state
@@ -11,7 +12,7 @@ export default function Game() {
     <div>
       <Header />
       <br />
-      <Pong />
+      <PongCanvas />
     </div>
   );
 }

@@ -15,15 +15,10 @@ let joueur1;
 let joueur2;
 var isSearching = false;
 var gm = 0;
-
-let url_begin = "";
-if (process.env.REACT_APP_IP === "" || process.env.REACT_APP_IP === undefined)
-url_begin = "http://localhost";
-else
-	url_begin = "http://".concat(process.env.REACT_APP_IP);
-	let selectedUser = "";
+let selectedUser = "";
+let url_begin = "http://localhost";
 	
-export default function Pong() {
+export default function PongCanvas() {
 	
 	const { height, width } = useWindowDimensions();
 	
@@ -45,8 +40,8 @@ export default function Pong() {
 		// eslint-disable-next-line
 		canvas = document.getElementById('canvas');
 		initParty();
-		if (live == null)
-			window.addEventListener('mousemove', playerMove);
+		// if (live == null)
+		// 	window.addEventListener('mousemove', playerMove);
 		if (live !== null) {
 			setActive(false);
 			setActive2(false);
@@ -63,10 +58,7 @@ export default function Pong() {
 		}
 	}
 	
-	console.log(`USERNAME: ${username}`);
 	var socket = io(url_begin.concat(":5001/game"), { query: { username: username } });
-	console.log(`SOCKET:`);
-	console.log(socket);
 	
 	function removeInvit() {
 		setActive2(false);
@@ -97,7 +89,6 @@ export default function Pong() {
 		if (live !== null && (document.querySelector('#player-score').textContent === "5" ||
 			document.querySelector('#player2-score').textContent === "5") && joueur !== joueur2 && joueur !== joueur1)
 			window.top.location = url_begin.concat(":3000/live");
-
 		if (live !== null || joueur === joueur2) {
 			const b = args[0].split(':');
 			document.querySelector('#joueur1').textContent = b[1] + ": ";
@@ -111,11 +102,6 @@ export default function Pong() {
 			if (game) {
 				game.player.score = b[3];
 				game.player2.score = b[4];
-			}
-			if ((document.querySelector('#player-score').textContent === "5" ||
-				document.querySelector('#player2-score').textContent === "5") && live == null) {
-				stop();
-				clearDataGame();
 			}
 		}
 	});
@@ -221,45 +207,13 @@ export default function Pong() {
 		}
 	}
 
-
 	window.addEventListener('resize', function () {
 		draw();
 	}, true);
 
 	function play() {
 		draw();
-		ballMove();
 		anim = requestAnimationFrame(play);
-	}
-
-	function playerMove(event) {
-		// Get the mouse location in the canvas
-		var canvasLocation = canvas.getBoundingClientRect();
-		var mouseLocation = event.clientY - canvasLocation.y;
-		// Emit socket player position
-		if (joueur === joueur1) {
-			game.player.y = mouseLocation - PLAYER_HEIGHT / 2;
-			if (mouseLocation < PLAYER_HEIGHT / 2) {
-				game.player.y = 0;
-			} else if (mouseLocation > canvas.height - PLAYER_HEIGHT / 2) {
-				game.player.y = canvas.height - PLAYER_HEIGHT;
-			} else {
-				game.player.y = mouseLocation - PLAYER_HEIGHT / 2;
-			}
-			if (joueur && game.player.y && adversaire)
-				socket.emit("playerMove", `${joueur}:${game.player.y}:${adversaire}:gauche:${gm}`);
-		} else if (joueur === joueur2) {
-			game.player2.y = mouseLocation - PLAYER_HEIGHT / 2;
-			if (mouseLocation < PLAYER_HEIGHT / 2) {
-				game.player2.y = 0;
-			} else if (mouseLocation > canvas.height - PLAYER_HEIGHT / 2) {
-				game.player2.y = canvas.height - PLAYER_HEIGHT;
-			} else {
-				game.player2.y = mouseLocation - PLAYER_HEIGHT / 2;
-			}
-			if (joueur && game.player.y && adversaire)
-				socket.emit('playerMove', `${joueur}:${game.player2.y}:${adversaire}:droit:${gm}`);
-		}
 	}
 
 	socket.on("playerMove", (body) => {
@@ -314,24 +268,6 @@ export default function Pong() {
 		});
 	});
 
-	function ballMove() {
-		// Rebounds on top and bottom
-		if (joueur === joueur1 && live === null) {
-			if (game.ball.y + BALL_SIDE > canvas.height || game.ball.y < 0) {
-				game.ball.speed.y *= -1;
-			}
-			if (game.ball.x + BALL_SIDE > canvas.width - PLAYER_WIDTH) {
-				collide(game.player2);
-			} else if (game.ball.x < PLAYER_WIDTH) {
-				collide(game.player);
-			}
-			// Ball progressive speed
-			game.ball.x += game.ball.speed.x;
-			game.ball.y += game.ball.speed.y;
-			socket.emit('ballMoveFront', `${joueur1}:${joueur2}:${game.ball.x}:${game.ball.y}:${game.ball.speed.x}:${game.ball.speed.y}`);
-		}
-	}
-
 	socket.on("ballMoveBack", (body) => {
 		const b = body.split(':');
 		if (game !== undefined)
@@ -343,61 +279,12 @@ export default function Pong() {
 			}
 	});
 
-	function collide(player) {
-		// The player does not hit the ball
-		var bottom;
-		bottom = Number(player.y) + Number(PLAYER_HEIGHT);
-		if (game.ball.y < player.y || game.ball.y > bottom) {
-			// Set ball and players to the center
-			game.ball.x = canvas.width / 2 - BALL_SIDE / 2;
-			game.ball.y = canvas.height / 2 - BALL_SIDE / 2;
-			game.ball.speed.y = BALL_SPEED;
-
-			if (player === game.player) {
-				// Change ball direction + reset speed
-				game.ball.speed.x = BALL_SPEED * -1;
-				// Update score
-				game.player2.score++;
-				socket.emit('roundStart', `${0}:${joueur1}:${joueur2}:${game.player.score}:${game.player2.score}:right`);
-				document.querySelector('#player2-score').textContent = game.player2.score;
-				if (game.player2.score === 5 || document.querySelector('#player2-score').textContent === "5") {
-					stop();
-					clearDataGame();
-				}
-			} else {
-				// Change ball direction + reset speed
-				game.ball.speed.x = BALL_SPEED;
-				// Update score
-				game.player.score++;
-				socket.emit('roundStart', `${0}:${joueur1}:${joueur2}:${game.player.score}:${game.player2.score}:left`);
-				document.querySelector('#player-score').textContent = game.player.score;
-				if (game.player.score === 5 || document.querySelector('#player-score').textContent === "5") {
-					stop();
-					clearDataGame();
-				}
-			}
-		} else {
-			// Increase speed and change direction
-			game.ball.speed.x *= -1.2;
-			changeDirection(player.y);
-		}
-	}
-
-	function changeDirection(playerY) {
-		// Ball bounce
-		var impact = game.ball.y - playerY - PLAYER_HEIGHT / 2;
-		var ratio = 100 / (PLAYER_HEIGHT / 2);
-		game.ball.speed.y = Math.round(impact * ratio / 10);
-	}
-
-	function stop() {
+	socket.on("stop", (body) => {
 		// console.log("username: ", joueur, ", adversaire: ", adversaire, ", score player 1: ", game.player.score, ", score player 2: ", game.player.score, ", gameMode: ", gm)
 		if (game !== undefined && game.player.score > game.player2.score && joueur1 && joueur2 && joueur1 === joueur) {
-			socket.emit('gameEnd', `${joueur1}:${joueur2}:${game.player.score}:${game.player2.score}:${gm}`);
 			document.querySelector('#victoryMessage').textContent = "Victory";
 		}
 		if (game !== undefined && game.player.score < game.player2.score && joueur1 && joueur2 && joueur2 === joueur) {
-			socket.emit('gameEnd', `${joueur2}:${joueur1}:${game.player2.score}:${game.player.score}:${gm}`);
 			document.querySelector('#victoryMessage').textContent = "Victory";
 		}
 		if (document.querySelector('#victoryMessage').textContent !== "Victory")
@@ -406,19 +293,6 @@ export default function Pong() {
 			setWin(true);
 		cancelAnimationFrame(anim);
 		
-		// Set ball and players to the center
-		game.ball.x = canvas.width / 2 - BALL_SIDE / 2;
-		game.ball.y = canvas.height / 2 - BALL_SIDE / 2;
-		game.player.y = canvas.height / 2 - PLAYER_HEIGHT / 2;
-		game.player2.y = canvas.height / 2 - PLAYER_HEIGHT / 2;
-		// Reset speed
-		game.ball.speed.x = 0;
-		game.ball.speed.y = 0;
-	}
-
-	function clearDataGame() {
-		if (live !== null)
-			window.top.location = url_begin.concat(":3000/live");
 		joueur1 = null;
 		joueur2 = null;
 		// adversaire = null;
@@ -438,17 +312,15 @@ export default function Pong() {
 				}
 			}
 		}
-		cancelAnimationFrame(anim);
 		isSearching = false;
 		setActive(true);
 		setActive2(false);
 		SearchText = "Refaire une partie";
-	}
+	});
 
 	return (
 		<>
 			<div>
-				{/* <Online> */}
 					<div id="game-root">
 						<div className="container">
 							<div className="row-game d-flex justify-content-center text-center">
@@ -484,10 +356,6 @@ export default function Pong() {
 							</div>
 						</div>
 					</div>
-				{/* </Online>
-				<Offline>
-					<div id="offline">Vous n'êtes pas connecté à internet !</div>
-				</Offline> */}
 			</div>
 		</>
 	);
