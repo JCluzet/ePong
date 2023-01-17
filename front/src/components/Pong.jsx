@@ -20,8 +20,12 @@ let url_begin = "";
 if (process.env.REACT_APP_IP === "" || process.env.REACT_APP_IP === undefined)
 url_begin = "http://localhost";
 else
-	url_begin = "http://".concat(process.env.REACT_APP_IP);
-	let selectedUser = "";
+url_begin = "http://".concat(process.env.REACT_APP_IP);
+let selectedUser = "";
+
+var socket = io(url_begin.concat(":5001/game"), { query: { username: joueur } });
+console.log(`SOCKET:`);
+console.log(socket);
 	
 export default function Pong() {
 	
@@ -63,10 +67,6 @@ export default function Pong() {
 		}
 	}
 	
-	console.log(`USERNAME: ${username}`);
-	var socket = io(url_begin.concat(":5001/game"), { query: { username: username } });
-	console.log(`SOCKET:`);
-	console.log(socket);
 	
 	function removeInvit() {
 		setActive2(false);

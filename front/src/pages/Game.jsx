@@ -12,7 +12,7 @@ export default function Game() {
     <div>
       <Header />
       <br />
-      <PongCanvas />
+      <Pong />
     </div>
   );
 }

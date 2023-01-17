@@ -17,6 +17,7 @@ var isSearching = false;
 var gm = 0;
 let selectedUser = "";
 let url_begin = "http://localhost";
+var socket = io(url_begin.concat(":5001/game"), { query: { username: joueur } });
 	
 export default function PongCanvas() {
 	
@@ -57,8 +58,6 @@ export default function PongCanvas() {
 			vshisto = true;
 		}
 	}
-	
-	var socket = io(url_begin.concat(":5001/game"), { query: { username: username } });
 	
 	function removeInvit() {
 		setActive2(false);
