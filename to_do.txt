@@ -1,5 +1,6 @@
 Indiquez les elements restants a faire 
 
-- CSS de la page SOCIAL a refaire 
+- CSS de la page SOCIAL a refaire / (80 % finit)
 - JEU a refaire (sur la page entiere)
 - Gerer les deconnexions
+- CSS de la page Game
