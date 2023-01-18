@@ -2,6 +2,7 @@ import React from "react";
 import { accountService } from "../hooks/account_service";
 import {useEffect, useState} from 'react';
 import "../styles/list.css";
+import "../styles/social.css";
 import axios from "axios";
 import EUser from "./chatComponents/Models/user";
 import StatsCardFriend from "./StatsCardFriend";
@@ -97,7 +98,7 @@ export default function FriendList() {
     }
 
     return(
-        <div className="container">
+        <div className="container-shiny">
             <div className="container-stats-friendlist">
             {/* <section> */}
             {
@@ -107,22 +108,23 @@ export default function FriendList() {
                 :
                 <h2>Friends List</h2>
                 :
-                <div className="text-title-container">Your Friends</div>}
+                <div className="text-title-container">Your Friends</div>
+                }
             {
                 isClicked ?
-                <div className="back-button">
-                            <button className="button-friendlist" onClick={goBack}>back</button>
+                <div className="">
+                            <button className="social-button" onClick={goBack}>back</button>
                 </div>
                 :
                 acceptList || isGoAdd ? 
-                    <div className="back-button">
-                        <button className="button-friendlist" onClick={goFriendList}>Back</button>
+                    <div className="">
+                        <button className="social-button" onClick={goFriendList}>Back</button>
                     </div>
                 :
-                    <><div className="back-button">
-                                <button className="button-friendlist" onClick={goAcceptList}>Pending Request</button>
-                            </div><div className="back-button">
-                                    <button className="button-friendlist" onClick={goAdd}>Friends List</button>
+                    <><div className="">
+                                <button className="social-button" onClick={goAcceptList}>Pending Request</button>
+                            </div><div className="">
+                                    <button className="social-button" onClick={goAdd}>Friends List</button>
                                 </div></>
             }
             {/* {acceptList || isGoAdd ? */}
@@ -168,25 +170,25 @@ export default function FriendList() {
                         <img src={Img} alt={'profile picture'} className="circle-img" style= {{height: 100 ,width: 100}}/>
                         </div>
                         <div className="column">
-                            <button className="button-friendlist" onClick={goHistoric}>Historic</button>
+                            <button className="social-button" onClick={goHistoric}>Historic</button>
                         </div>
                         <div className="column">
-                            <button className="button-friendlist" onClick={goChat}>chat</button>
+                            <button className="social-button" onClick={goChat}>Chat</button>
                         </div>
                         <div className="column">
                             {Online === "Online"
                             ? isPlaying
                             ? <p></p>
-                            : <button className="button-friendlist">Challenge</button>
+                            : <button className="social-button">Challenge</button>
                             : <p></p>
                             }
                         </div>
                     </div>
-                    <h2> {Name} </h2>
-                    <div className="row">
                     <div className="column">
+                    <h2> {Name} </h2>
                         <StatsCardFriend/>
                     </div>
+                    <div className="row">
                     {isgoHistoric ? <HistoricFriend/> : <p></p> }
                     {isGoChat ? <p>chat</p> : <p></p> }
                     </div>

@@ -15,31 +15,22 @@ const user = {
 
 export default function ProfileCard() {
   return (
-    <div className="container">
-      <div className="container-social">
-        <section className="container-profilCard-info">
-          <div className="column-stats1">
-            <div>
-
-            <img
-              src={user.imgUrl}
-              alt={"profile picture"}
-              className="profile-image-social"
-              />
-            {/* <div className="login-text-social">{user.name}</div> */}
-              </div>
-            <Statscard />
-          </div>
-        </section>
-
-        <section className="container-profilCard">
-          <Historic />
-          </section>
+    <div className="container-global">
+        <section className="container-shiny">
+                <div className="row">
+                <div className="column-stats1">
+                <img src={user.imgUrl} alt={'profile picture'} style= {{height: 100 ,width: 100}}/>
+                <h1>{user.name}</h1>
+                <Statscard/>
+            </div>
+            <div className="column-stats2">
+            <Historic/>
+            </div>
+            </div>
+            </section>
         <section className="container-profilCard">
       <FriendList/>
         </section>
-
-      </div>
     </div>
   );
 }
