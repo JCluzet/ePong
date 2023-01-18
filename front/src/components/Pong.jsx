@@ -33,6 +33,7 @@ export default function Pong() {
 	
 	const [isActive, setActive] = useState(true);
 	const [isActive2, setActive2] = useState(false);
+	const [modeButton, setModeButton] = useState(true);
 	const [isWin, setWin] = useState(false);
 	const [gameMode, setGM] = useState("original");
 	const [username, setUsername] = useState(joueur);
@@ -52,6 +53,7 @@ export default function Pong() {
 		if (live == null)
 			window.addEventListener('mousemove', playerMove);
 		if (live !== null) {
+			setModeButton(false);
 			setActive(false);
 			setActive2(false);
 		}
@@ -60,6 +62,7 @@ export default function Pong() {
 		
 	function doVersus() {
 		if (vs !== null && !vshisto) {
+			setModeButton(false);
 			setActive(false);
 			socket.emit('versus', joueur + ":" + vs)
 			setActive2(true);
@@ -72,6 +75,7 @@ export default function Pong() {
 		setActive2(false);
 		socket.emit('removeInvit', true)
 		setActive(true);
+		setModeButton(true);
 	}
 	
 	function sendSearch() {
@@ -79,10 +83,12 @@ export default function Pong() {
 		if (joueur) {
 			isSearching = isSearching ? false : true;
 			if (isSearching) {
+				setModeButton(false);
 				SearchText = "Annuler le matchmaking"
 				socket.emit('search', gameMode);
 			}
 			else {
+				setModeButton(true);
 				SearchText = "Relancer le matchmaking"
 				socket.emit('search', "STOPSEARCH-" + gameMode);
 			}
@@ -106,6 +112,8 @@ export default function Pong() {
 			document.querySelector('#player2-score').textContent = String(b[4]);
 			joueur1 = b[1];
 			joueur2 = b[2];
+			console.log("HERE: " + isActive);
+			setModeButton(false);
 			setActive(false);
 			setActive2(false);
 			if (game) {
@@ -137,6 +145,7 @@ export default function Pong() {
 			document.querySelector('#joueur2').textContent = joueur2 + ": ";
 			cancelAnimationFrame(anim);
 			play();
+			setModeButton(false);
 			setActive(false);
 			setActive2(false);
 		}
@@ -146,6 +155,7 @@ export default function Pong() {
 			document.querySelector('#joueur2').textContent = joueur2 + ": ";
 			cancelAnimationFrame(anim);
 			play();
+			setModeButton(false);
 			setActive(false);
 			setActive2(false);
 		}
@@ -440,6 +450,7 @@ export default function Pong() {
 		}
 		cancelAnimationFrame(anim);
 		isSearching = false;
+		setModeButton(true);
 		setActive(true);
 		setActive2(false);
 		SearchText = "Refaire une partie";
@@ -453,7 +464,7 @@ export default function Pong() {
 						<div className="container">
 							<div className="row-game d-flex justify-content-center text-center">
 								{isWin ? <Confetti width={width} height={height} /> : ""}
-								{isActive ?
+								{modeButton ?
 									<Form>
 										<Form.Group>
 											<div className="row-game d-flex justify-content-center text-center">

@@ -25,6 +25,7 @@ export default function PongCanvas() {
 	
 	const [isActive, setActive] = useState(true);
 	const [isActive2, setActive2] = useState(false);
+	const [modeButton, setModeButton] = useState(true);
 	const [isWin, setWin] = useState(false);
 	const [gameMode, setGM] = useState("original");
 	const [username, setUsername] = useState(joueur);
@@ -44,6 +45,7 @@ export default function PongCanvas() {
 		// if (live == null)
 		// 	window.addEventListener('mousemove', playerMove);
 		if (live !== null) {
+			setModeButton(false);
 			setActive(false);
 			setActive2(false);
 		}
@@ -52,6 +54,7 @@ export default function PongCanvas() {
 		
 	function doVersus() {
 		if (vs !== null && !vshisto) {
+			setModeButton(false);
 			setActive(false);
 			socket.emit('versus', joueur + ":" + vs)
 			setActive2(true);
@@ -62,6 +65,7 @@ export default function PongCanvas() {
 	function removeInvit() {
 		setActive2(false);
 		socket.emit('removeInvit', true)
+		setModeButton(true);
 		setActive(true);
 	}
 	
@@ -70,10 +74,12 @@ export default function PongCanvas() {
 		if (joueur) {
 			isSearching = isSearching ? false : true;
 			if (isSearching) {
+				setModeButton(false);
 				SearchText = "Annuler le matchmaking"
 				socket.emit('search', gameMode);
 			}
 			else {
+				setModeButton(true);
 				SearchText = "Relancer le matchmaking"
 				socket.emit('search', "STOPSEARCH-" + gameMode);
 			}
@@ -88,20 +94,19 @@ export default function PongCanvas() {
 		if (live !== null && (document.querySelector('#player-score').textContent === "5" ||
 			document.querySelector('#player2-score').textContent === "5") && joueur !== joueur2 && joueur !== joueur1)
 			window.top.location = url_begin.concat(":3000/live");
-		if (live !== null || joueur === joueur2) {
-			const b = args[0].split(':');
-			document.querySelector('#joueur1').textContent = b[1] + ": ";
-			document.querySelector('#joueur2').textContent = b[2] + ": ";
-			document.querySelector('#player-score').textContent = String(b[3]);
-			document.querySelector('#player2-score').textContent = String(b[4]);
-			joueur1 = b[1];
-			joueur2 = b[2];
-			setActive(false);
-			setActive2(false);
-			if (game) {
-				game.player.score = b[3];
-				game.player2.score = b[4];
-			}
+		const b = args[0].split(':');
+		document.querySelector('#joueur1').textContent = b[1] + ": ";
+		document.querySelector('#joueur2').textContent = b[2] + ": ";
+		document.querySelector('#player-score').textContent = String(b[3]);
+		document.querySelector('#player2-score').textContent = String(b[4]);
+		joueur1 = b[1];
+		joueur2 = b[2];
+		setModeButton(false);
+		setActive(false);
+		setActive2(false);
+		if (game) {
+			game.player.score = b[3];
+			game.player2.score = b[4];
 		}
 	});
 
@@ -122,6 +127,7 @@ export default function PongCanvas() {
 			document.querySelector('#joueur2').textContent = joueur2 + ": ";
 			cancelAnimationFrame(anim);
 			play();
+			setModeButton(false);
 			setActive(false);
 			setActive2(false);
 		}
@@ -131,6 +137,7 @@ export default function PongCanvas() {
 			document.querySelector('#joueur2').textContent = joueur2 + ": ";
 			cancelAnimationFrame(anim);
 			play();
+			setModeButton(false);
 			setActive(false);
 			setActive2(false);
 		}
@@ -312,6 +319,7 @@ export default function PongCanvas() {
 			}
 		}
 		isSearching = false;
+		setModeButton(true);
 		setActive(true);
 		setActive2(false);
 		SearchText = "Refaire une partie";
@@ -324,7 +332,7 @@ export default function PongCanvas() {
 						<div className="container">
 							<div className="row-game d-flex justify-content-center text-center">
 								{isWin ? <Confetti width={width} height={height} /> : ""}
-								{isActive ?
+								{modeButton ?
 									<Form>
 										<Form.Group>
 											<div className="row-game d-flex justify-content-center text-center">

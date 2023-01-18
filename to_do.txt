@@ -4,3 +4,4 @@ Indiquez les elements restants a faire
 - JEU a refaire (sur la page entiere)
 - Gerer les deconnexions
 - CSS de la page Game
+- Spectator mode
