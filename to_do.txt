@@ -1,0 +1,5 @@
+Indiquez les elements restants a faire 
+
+- CSS de la page SOCIAL a refaire 
+- JEU a refaire (sur la page entiere)
+- Gerer les deconnexions
