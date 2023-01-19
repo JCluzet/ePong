@@ -2,6 +2,23 @@
 import axios from "../config/axios";
 import storeProfilData from "./storeProfilData";
 
+
+let GetUsername = async (login) => {
+    var config = {
+        method: "get",
+        url: "/users/profile/" + login,
+        headers: { Authorization: "Bearer " + userToken() }
+    };
+    let username = "";
+
+    await axios(config).then(function (response) {
+        username = response.data.name;
+    }).catch(function (error) {
+        console.log("Erreur, impossible de get username > " + error);
+    });
+    return(username);
+};
+
 let ModifyUsername = async (username) => {
   var config = {
     method: "post",
@@ -358,6 +375,7 @@ export const accountService = {
   userName,
   userKda,
   userNbLoses,
+  GetUsername,
   userNbWins,
   userStatus,
   userTotalGame,

@@ -8,13 +8,19 @@ import Confetti from "react-confetti";
 import "/node_modules/react-rain-animation/lib/style.css";
 import { toast } from "react-toastify";
 import { accountService } from "../hooks/account_service";
+import { Select } from "semantic-ui-react";
+import { Dropdown } from "semantic-ui-react";
+import versusLogo from "../assets/images/versusLogo.svg";
+import "semantic-ui-css/semantic.min.css";
 
 var adversaire;
 var joueur = accountService.userLogin();
+var avatarUrl = accountService.userAvatarUrl();
 let joueur1;
 let joueur2;
 var isSearching = false;
 var gm = 0;
+
 
 let url_begin = "";
 if (process.env.REACT_APP_IP === "" || process.env.REACT_APP_IP === undefined)
@@ -128,8 +134,8 @@ export default function Pong() {
 
     if (live !== null || joueur === joueur2) {
       const b = args[0].split(":");
-      document.querySelector("#joueur1").textContent = b[1] + ": ";
-      document.querySelector("#joueur2").textContent = b[2] + ": ";
+      document.querySelector("#joueur1").textContent = b[1];
+      document.querySelector("#joueur2").textContent = b[2];
       document.querySelector("#player-score").textContent = String(b[3]);
       document.querySelector("#player2-score").textContent = String(b[4]);
       joueur1 = b[1];
@@ -163,26 +169,24 @@ export default function Pong() {
     joueur2 = args[1];
     const str = "";
     if (joueur1 === joueur) {
-        adversaire = joueur2;
+      adversaire = joueur2;
+    } else {
+      adversaire = joueur1;
     }
-    else
-    {
-        adversaire = joueur1;
-    }
-        toast.update(toastid, {
-        render: "Game found with " + adversaire + " !",
-        type: "success",
-        isLoading: false,
-        hideProgressBar: false,
-        autoClose: 3000,
-      });
+    toast.update(toastid, {
+      render: "Game found with " + adversaire + " !",
+      type: "success",
+      isLoading: false,
+      hideProgressBar: false,
+      autoClose: 3000,
+    });
     gm = args[2];
     setGameMode(gm);
     initParty();
     if (joueur1 !== adversaire && joueur1 === joueur && game) {
       adversaire = joueur2;
-      document.querySelector("#joueur1").textContent = joueur1 + ": ";
-      document.querySelector("#joueur2").textContent = joueur2 + ": ";
+      document.querySelector("#joueur1").textContent = joueur1;
+      document.querySelector("#joueur2").textContent = joueur2;
       cancelAnimationFrame(anim);
       play();
       setModeButton(false);
@@ -190,8 +194,8 @@ export default function Pong() {
       setActive2(false);
     } else if (joueur2 !== adversaire && joueur2 === joueur && game) {
       adversaire = joueur1;
-      document.querySelector("#joueur1").textContent = joueur1 + ": ";
-      document.querySelector("#joueur2").textContent = joueur2 + ": ";
+      document.querySelector("#joueur1").textContent = joueur1;
+      document.querySelector("#joueur2").textContent = joueur2;
       cancelAnimationFrame(anim);
       play();
       setModeButton(false);
@@ -420,7 +424,7 @@ export default function Pong() {
     // The player does not hit the ball
     var bottom;
     bottom = Number(player.y) + Number(PLAYER_HEIGHT);
-    if (game.ball.y < player.y || game.ball.y > bottom) {
+    if (game.ball.y + BALL_SIDE < player.y || game.ball.y > bottom) {
       // Set ball and players to the center
       game.ball.x = canvas.width / 2 - BALL_SIDE / 2;
       game.ball.y = canvas.height / 2 - BALL_SIDE / 2;
@@ -507,14 +511,19 @@ export default function Pong() {
         `${joueur2}:${joueur1}:${game.player2.score}:${game.player.score}:${gm}`
       );
       document.querySelector("#victoryMessage").textContent = "Victory";
-      toast.success("Victory");
     }
     if (document.querySelector("#victoryMessage").textContent !== "Victory") {
       document.querySelector("#victoryMessage").textContent = "Defeat";
       jsConfetti.addConfetti({
         emojis: ["❌", "⚡️", "💥", "😢", "🤕", "💢"],
       });
-    } else setWin(true);
+    } else 
+    {
+        setWin(true);
+        jsConfetti.addConfetti({
+            emojis: ["✅", "⚡️", "🌈", "😜", "🥇", "🤑"],
+          });
+    }
     cancelAnimationFrame(anim);
 
     // Set ball and players to the center
@@ -555,36 +564,19 @@ export default function Pong() {
     SearchText = "Play Again";
   }
 
+  const gameOptions = [
+    { key: "original", text: "Classic Pong", value: "original" },
+    { key: "bigball", text: "Big Ball", value: "bigball" },
+    { key: "fast", text: "Fast", value: "fast" },
+  ];
   return (
     <>
       <div>
-        {/* <Online> */}
-
         <div className="container">
           {isActive && (
             <div id="game-root" className="game-root">
-              {isWin ? <Confetti width={width} height={height} /> : ""}
-              {modeButton ? (
-                <Form>
-                  <div className="choosing-game">
-                    <Form.Label className="form--label">Game Mode</Form.Label>
-                    <Form.Select
-                      id="form-select"
-                      aria-label="Modes de jeux:"
-                      defaultValue="original"
-                      onChange={(e) => setGM(e.target.value)}
-                    >
-                      <option value="original">Classic Pong</option>
-                      <option value="bigball ">Big Ball</option>
-                      <option value="fast">Fast</option>
-                    </Form.Select>
-                  </div>
-                </Form>
-              ) : (
-                ""
-              )}
-
-              {isActive && (
+              {/* {isWin ? <Confetti width={width} height={height} /> : ""} */}
+              {isActive && modeButton && (
                 <button
                   type="button"
                   className="ui button"
@@ -595,39 +587,63 @@ export default function Pong() {
                 </button>
               )}
 
-              {/* {isActive2 ? (
-              <button
-                type="button"
-                className="ui labeled icon button"
-                id="search-button2"
-                onClick={() => removeInvit()}
-              >
-                <i className="loading spinner icon"></i>
-                Cancel Request
-              </button>
-            ) : (
-              ""
-            )} */}
+              {isActive && !modeButton && (
+                <button
+                  type="button"
+                  className="ui labeled icon button"
+                  id="search-button"
+                  onClick={() => sendSearch()}
+                >
+                  <i className="loading spinner icon"></i>
+                  Cancel matchmaking
+                </button>
+              )}
+
+              {modeButton ? (
+                // <Form>
+                <div className="choosing-game">
+                  <Form.Select
+                    id="form-select-gamemode"
+                    aria-label="Modes de jeux:"
+                    className="form-select"
+                    defaultValue="original"
+                    onChange={(e) => setGM(e.target.value)}
+                  >
+                    <option value="original">Classic Pong</option>
+                    <option value="bigball ">Big Ball</option>
+                    <option value="fast">Fast</option>
+                  </Form.Select>
+                </div>
+              ) : (
+                ""
+              )}
             </div>
           )}
         </div>
 
         <main role="main">
-
           <p id="victoryMessage"></p>
           <p id="waitingPlayer"></p>
           <div className="container-game">
             <div className="container-score">
-              <p className="canvas-score" id="scores">
-                <em className="canvas-score" id="joueur1"></em>
-                <em className="canvas-score" id="player-score">
-                  0
-                </em>{" "}
-                - <em id="joueur2"></em>
-                <em className="canvas-score" id="player2-score">
-                  0
-                </em>
-              </p>
+                <div className="container-score-and-versus">
+                  <div className="container-score-player">
+                    <div className="score_player" id="player-score">
+                      0
+                    </div>
+                  </div>
+                  <img src={versusLogo} alt="versus" className="versusLogo" />
+                  <div className="container-score-player">
+                    <div className="score_player" id="player2-score">
+                      0
+                    </div>
+                  </div>
+                </div>
+              <div className="canvas-name-player" id="scores">
+                <div className="name_player_left" id="joueur1"/>
+                <div className="name_player_right" id="joueur2"/>
+              </div>
+              {/* </div> */}
             </div>
             {/* {!isActive && ( */}
             {/* the canva must have the width of the screen and the height of the screen */}
@@ -636,9 +652,8 @@ export default function Pong() {
               id="canvas"
               className="game-canva"
               width={500}
-              height={350}
+              height={400}
             ></canvas>
-            {/* <canvas id="canvas" width={500} height={400}></canvas> */}
           </div>
         </main>
       </div>
