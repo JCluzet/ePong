@@ -1,9 +1,10 @@
 import Particles from "react-tsparticles"
 import { loadFull } from "tsparticles"
 import { useCallback } from "react"
-import particlesConfig from "./particle-config";
+import particlesConfigLogin from "./particle-config-game";
+import particlesConfigGame from "./particle-config-game";
 
-const Particle = () => {
+const Particle = (props) => {
     const particlesInit = useCallback(async (engine) => {
         //console.log(engine);
         // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
@@ -27,7 +28,7 @@ const Particle = () => {
                 top: "0",
                 left: "0"
             }}
-            params={particlesConfig}
+            params={props.config === "game" ? particlesConfigGame : particlesConfigLogin}
         />
     );
 };

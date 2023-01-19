@@ -20,24 +20,79 @@
   height: 100%;
 }
 
-.canvas-score
-{
+.button-match-making {
+  width: 100%;
+  height: 100%;
+  display: flex;
+    cursor: pointer;
+  background-color: rgb(202, 202, 202);
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-root {
+  display: flex;
+  background-color: rgb(255, 255, 255);
+  border-radius: 80px;
+  margin-left: 20%;
+  margin-right: 20%;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  align-items: center;
+}
+
+.container-game {
+  width: 100%;
+  height: 100%;
+  margin-top:-10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.choosing-game {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  border-radius: 10px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.canvas-score {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-bottom: 10px;
   color: black !important;
 }
 
 #canvas {
-  background: black !important;
+  background: rgb(255, 255, 255) !important;
   padding-left: 2%;
   padding-right: 2%;
   border-radius: variables.$border-radius-big;
-  border: .4rem solid white;
+  border: 0.4rem solid rgb(0, 0, 0);
   position: sticky;
+  margin-left: auto;
+  margin-right: auto;
+  justify-items: center;
+  box-shadow: 0 0 10px 0 rgb(0, 0, 0);
+  align-items: center;
+  display: flex;
   transition-duration: 1s;
   width: 60%;
   height: 120%;
 }
 
-#form-select, #search-button, #search-button2 {
+#form-select,
+#search-button,
+#search-button2 {
   width: 35% !important;
   text-align: center !important;
   position: sticky;
@@ -54,8 +109,9 @@
 .form--label {
   font-size: 24px !important;
   text-align: center !important;
-  font-family: variables.$basic-font !important;
-  color: black !important;
+  font-family: "Arial", sans-serif !important;
+  font-weight: 900 !important;
+  color: rgb(0, 0, 0) !important;
 }
 
 // PONG CSS BELOW:
@@ -63,14 +119,21 @@
   display: inline-block;
 }
 
+.GameMode {
+  color: black;
+}
+
 #victoryMessage {
   color: black !important;
   font-size: 8vh !important;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   font-weight: bold;
 }
 
 #offline {
-  color: rgb(255, 0, 0) !important;
+  color: rgb(0, 0, 0) !important;
   font-size: 8vh !important;
   font-weight: bold;
 }
