@@ -420,7 +420,7 @@ export default function Pong() {
     // The player does not hit the ball
     var bottom;
     bottom = Number(player.y) + Number(PLAYER_HEIGHT);
-    if (game.ball.y < player.y || game.ball.y > bottom) {
+    if (game.ball.y + BALL_SIDE < player.y || game.ball.y > bottom) {
       // Set ball and players to the center
       game.ball.x = canvas.width / 2 - BALL_SIDE / 2;
       game.ball.y = canvas.height / 2 - BALL_SIDE / 2;
