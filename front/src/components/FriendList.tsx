@@ -96,6 +96,7 @@ export default function FriendList() {
         setIsGoChat(!isGoChat);
         setIsgoHistoric(false);
     }
+	
 
     return(
         <div className="container-shiny">
@@ -190,7 +191,7 @@ export default function FriendList() {
                     </div>
                     <div className="row">
                     {isgoHistoric ? <HistoricFriend/> : <p></p> }
-                    {isGoChat ? <p>chat</p> : <p></p> }
+                    {isGoChat ? window.location.href="/social/chat" : <p></p> }
                     </div>
                     </div>
                     :
