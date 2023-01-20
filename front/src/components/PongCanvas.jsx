@@ -358,7 +358,7 @@ export default function PongCanvas() {
 											<Form.Label className="form--label">Choose game option</Form.Label>
 											<Form.Select id="form-select" aria-label="Modes de jeux:" defaultValue="original" onChange={e => setGM(e.target.value)}>
 												<option>Modes de jeux:</option>
-												<option value="original">Classic Pong</option>
+												<option value="original">Classic</option>
 												<option value="bigball">Big Ball</option>
 												<option value="fast">Fast</option>
 											</Form.Select>

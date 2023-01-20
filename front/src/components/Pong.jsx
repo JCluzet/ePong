@@ -14,7 +14,7 @@ import versusLogo from "../assets/images/versusLogo.svg";
 import "semantic-ui-css/semantic.min.css";
 
 var adversaire;
-var joueur = accountService.userLogin();
+var joueur = accountService.userName();
 var avatarUrl = accountService.userAvatarUrl();
 let joueur1;
 let joueur2;
@@ -43,7 +43,6 @@ export default function Pong() {
   const [modeButton, setModeButton] = useState(true);
   const [isWin, setWin] = useState(false);
   const [gameMode, setGM] = useState("original");
-  const [username, setUsername] = useState(joueur);
 
   const queryParams = new URLSearchParams(window.location.search);
   const vs = queryParams.get("vs");
@@ -52,7 +51,6 @@ export default function Pong() {
   var SearchText = "Launch Matchmaking";
 
   useEffect(() => {
-    setUsername(joueur);
     doVersus();
     // eslint-disable-next-line
     canvas = document.getElementById("canvas");
@@ -369,7 +367,7 @@ export default function Pong() {
   };
 
   socket.on("inviteToPlay", (...args) => {
-    if (username === args[1] && selectedUser !== args[0])
+    if (joueur === args[1] && selectedUser !== args[0])
       selectedUser = args[0];
     else return;
 
@@ -478,7 +476,7 @@ export default function Pong() {
 
   function changeDirection(playerY) {
     // Ball bounce
-    var impact = game.ball.y - playerY - PLAYER_HEIGHT / 2;
+    var impact = game.ball.y + (BALL_SIDE / 2) - playerY - PLAYER_HEIGHT / 2;
     var ratio = 100 / (PLAYER_HEIGHT / 2);
     game.ball.speed.y = Math.round((impact * ratio) / 10);
   }
@@ -563,7 +561,7 @@ export default function Pong() {
   }
 
   const gameOptions = [
-    { key: "original", text: "Classic Pong", value: "original" },
+    { key: "original", text: "Classic", value: "original" },
     { key: "bigball", text: "Big Ball", value: "bigball" },
     { key: "fast", text: "Fast", value: "fast" },
   ];
@@ -630,7 +628,7 @@ export default function Pong() {
                     defaultValue="original"
                     onChange={(e) => setGM(e.target.value)}
                   >
-                    <option value="original">Classic Pong</option>
+                    <option value="original">Classic</option>
                     <option value="bigball ">Big Ball</option>
                     <option value="fast">Fast</option>
                   </Form.Select>

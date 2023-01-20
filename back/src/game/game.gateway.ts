@@ -60,8 +60,10 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect, On
 			if (index > -1) {
 				MatchMaking[gameMode].splice(index, 1);
 			}
-			await this.userService.updateStatus(String(socket.handshake.query.username), "ingame");
-			await this.userService.updateStatus(String(adversaire), "ingame");
+			let p1 = await this.userService.findUserByName(String(socket.handshake.query.username));
+			let p2 = await this.userService.findUserByName(String(adversaire));
+			await this.userService.updateStatus(p1.login, "ingame");
+			await this.userService.updateStatus(p2.login, "ingame");
 			this.server.emit('gameStart', socket.handshake.query.username, adversaire, gameMode);
 		}
 	}
@@ -109,8 +111,8 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect, On
 	async gameEnd(@ConnectedSocket() socket: Socket, @MessageBody() body: string) {
 		const b = body.split(':');
 		if (b[0] && b[1]) {
-			let winner = await this.userService.findUserByLogin(b[0]);
-			let looser = await this.userService.findUserByLogin(b[1]);
+			let winner = await this.userService.findUserByName(b[0]);
+			let looser = await this.userService.findUserByName(b[1]);
 			this.gameService.createGame(winner.id, looser.id, Number(b[2]), Number(b[3]), Number(b[4]));
 			// this.server.emit('stopGame', b[0], b[1]);
 		}
