@@ -21,7 +21,6 @@ let joueur2;
 var isSearching = false;
 var gm = 0;
 
-
 let url_begin = "";
 if (process.env.REACT_APP_IP === "" || process.env.REACT_APP_IP === undefined)
   url_begin = "http://localhost";
@@ -517,12 +516,11 @@ export default function Pong() {
       jsConfetti.addConfetti({
         emojis: ["❌", "⚡️", "💥", "😢", "🤕", "💢"],
       });
-    } else 
-    {
-        setWin(true);
-        jsConfetti.addConfetti({
-            emojis: ["✅", "⚡️", "🌈", "😜", "🥇", "🤑"],
-          });
+    } else {
+      setWin(true);
+      jsConfetti.addConfetti({
+        emojis: ["✅", "⚡️", "🌈", "😜", "🥇", "🤑"],
+      });
     }
     cancelAnimationFrame(anim);
 
@@ -569,10 +567,33 @@ export default function Pong() {
     { key: "bigball", text: "Big Ball", value: "bigball" },
     { key: "fast", text: "Fast", value: "fast" },
   ];
+
+  // if url have a get parameter vs, then it's a live game
+//   if (window.location.href.includes("vs")) {
+//     alert("Live game");
+//   }
   return (
     <>
       <div>
         <div className="container">
+          {window.location.href.includes("vs") ? (
+            <div id="game-root" className="game-root">
+                <button
+                type="button"
+                className="ui labeled icon button"
+                id="search-button"
+                onClick={() => sendSearch()}
+              >
+                <i className="loading spinner icon"></i>
+                Waiting for { } 
+                {window.location.href.split("vs=")[1]}
+                ...
+              </button>
+              </div>
+          ) : (
+""
+          )}
+
           {isActive && (
             <div id="game-root" className="game-root">
               {/* {isWin ? <Confetti width={width} height={height} /> : ""} */}
@@ -626,22 +647,22 @@ export default function Pong() {
           <p id="waitingPlayer"></p>
           <div className="container-game">
             <div className="container-score">
-                <div className="container-score-and-versus">
-                  <div className="container-score-player">
-                    <div className="score_player" id="player-score">
-                      0
-                    </div>
-                  </div>
-                  <img src={versusLogo} alt="versus" className="versusLogo" />
-                  <div className="container-score-player">
-                    <div className="score_player" id="player2-score">
-                      0
-                    </div>
+              <div className="container-score-and-versus">
+                <div className="container-score-player">
+                  <div className="score_player" id="player-score">
+                    0
                   </div>
                 </div>
+                <img src={versusLogo} alt="versus" className="versusLogo" />
+                <div className="container-score-player">
+                  <div className="score_player" id="player2-score">
+                    0
+                  </div>
+                </div>
+              </div>
               <div className="canvas-name-player" id="scores">
-                <div className="name_player_left" id="joueur1"/>
-                <div className="name_player_right" id="joueur2"/>
+                <div className="name_player_left" id="joueur1" />
+                <div className="name_player_right" id="joueur2" />
               </div>
               {/* </div> */}
             </div>

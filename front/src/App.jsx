@@ -9,7 +9,7 @@ import Home from "./pages/Home";
 // import ParticleBackground from "./particlesBackground/ParticleBackground";
 import NotFound from "./pages/NotFound";
 import Game from "./pages/Game";
-// import Live from "./components/Live";
+import Live from "./components/Live";
 import Social from "./pages/Social";
 import { accountService } from "./hooks/account_service";
 // import { Toaster } from 'react-hot-toast';
@@ -91,10 +91,10 @@ export default function App() {
               path="/social/chat/adminpanel"
               element={accountService.isLogged() ? <AdminPanel /> : <Login />}
             />
-            {/* <Route
+            <Route
               path="/live"
               element={accountService.isLogged() ? <Live /> : <Login />}
-            /> */}
+            />
             <Route
               path="*"
               element={accountService.isLogged() ? <NotFound /> : <Login />}
