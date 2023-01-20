@@ -6,6 +6,7 @@ import { IOptionGame, ICursor } from './interface/GameOption.interface';
 import { Socket } from 'socket.io';
 import { IPlayer } from './interface/player.interface';
 import { gameHistoryDto } from 'src/gameHistory/interface/gameHistory.dto';
+import { Interval } from '@nestjs/schedule';
 
 
 @Injectable()
@@ -204,6 +205,7 @@ export class GameService {
 		this.emit(room, "stopGame", winner.user);
 	}
 
+	@Interval(1000 / 60)
 	loop() {
 		for (const room of this.rooms.values())
 			if (room.gameIsStart) Logger.log("Loop game update");

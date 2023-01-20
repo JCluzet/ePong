@@ -92,26 +92,20 @@ export class FriendsService {
   async invite(from: string, to: string): Promise<boolean> {
     try {
       const prevRelation: EFriend = await this.getByPair(from, to);
-      let relation: EFriend;
-      Logger.log(`check error1 ${prevRelation}`);
-      console.log(prevRelation);
-      
+      let relation: EFriend; 
       if ((prevRelation !== undefined && prevRelation.status === 'pending') || (prevRelation !== undefined && prevRelation.status === 'accepted')) return false;
       else if ( prevRelation ) {
-        Logger.log(`check error5`);
 				relation = prevRelation;
 				relation.sender = from;
 				relation.receiver = to;
 				relation.status = 'pending';
 			} else {
-        Logger.log(`check error3`);
 				relation = {
 					sender: from,
 					receiver: to,
 					status: 'pending',
 				};
 			}
-      Logger.log(`check error2`);
       await this.friendsRepository.save(relation);
       return true;
     } catch (err) {
