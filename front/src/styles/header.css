@@ -9,6 +9,8 @@ nav {
   backdrop-filter: blur(10px);
   background-color: rgba(220, 220, 220, 0.5);
   border-bottom: 1px solid #000000;
+  z-index: 1;
+  position: relative;
 }
 
 .return-arrow-tfa {
@@ -162,8 +164,7 @@ nav {
 
 .div-profile-header-container-with-settings {
   align-items: center;
-  z-index: 10;
-  /* position: absolute; */
+  position: relative;
   border-radius: 30px;
   background-color: rgb(17, 17, 17);
   display: flex;
@@ -352,6 +353,16 @@ footer {
   justify-content: space-between;
   align-items: center;
   height: 100%;
+}
+
+.VictoryMessage{
+    font-size: 20px;
+    font-weight: 600;
+    color: #000000;
+    margin: 0;
+    padding: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .settings-image {

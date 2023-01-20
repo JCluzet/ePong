@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SettingsImg from "../assets/images/settings_white.png";
 import { ReactComponent as Logo } from "../assets/images/logo.svg";
 import "../styles/header.css";
@@ -8,6 +8,16 @@ import ProfilSettings from "./ProfilSettings";
 
 const Header = () => {
   // state
+
+    const [avatarUrl, setAvatarUrl] = React.useState(null);
+    const [username, setUsername] = React.useState(null);
+
+    useEffect(() => {
+        setAvatarUrl(accountService.userAvatarUrl());
+        setUsername(accountService.userName());
+    }, []);
+
+
   const HomeClick = () => {
     window.location.href = "/";
   };

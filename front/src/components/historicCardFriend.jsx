@@ -24,8 +24,9 @@ export default function HistoricFriend() {
 
     const onToggle = () => setIsToggled(!isToggled);
     return (
-        <div className="main">
+        <div>
             <h2>history</h2>       
+            <div className="main">
             {historic.map((element) => {
                 return (
                     <dir>
@@ -75,13 +76,12 @@ export default function HistoricFriend() {
                                 {Date}
                             </div>
                             <Modal show={isToggled} onClose={onToggle}>
-                                
-                                
                             </Modal>
                             </div>
                         </dir>
                     );
                 })}
+                </div>
         </div>
     )
 }

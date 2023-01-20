@@ -1,6 +1,5 @@
 import Header from "../components/Header";
 import ProfileCard from "../components/ProfileCard";
-import FriendList from "../components/FriendList";
 // import storeProfilData from "../hooks/storeProfilData";
 // import { accountService } from "../hooks/account_service";
 
@@ -12,5 +11,5 @@ export default function Social() {
       <ProfileCard/>
       {/* <FriendList/> */}
     </div>
-  );  
+  );
 }
