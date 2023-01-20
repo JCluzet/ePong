@@ -1,4 +1,3 @@
-import React from "react";
 import { Card} from "antd";
 import axios from "axios";
 import { SyntheticEvent, useEffect, useState } from "react";
@@ -7,13 +6,12 @@ import User from "../Models/user";
 import CloseIcon from '@mui/icons-material/Close';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
 import BlockIcon from '@mui/icons-material/Block';
-import { Link } from "react-router-dom";
 import SendIcon from '@mui/icons-material/Send';
 import { io } from "socket.io-client";
 import "./chatFeed.css"
 import { Comment } from '@ant-design/compatible';
+import { accountService } from "../../../hooks/account_service";
 
 type UserBubleProps = {
     userName: string;
@@ -22,10 +20,23 @@ type UserBubleProps = {
     chanId: number;
 }
 
+type Ifriend = {
+  login: string;
+  name: string;
+  nbWins: number;
+  nbLoses: number;
+  totalGame: number;
+  kda: number;
+  status: string;
+  avatarUrl: string;
+}
+
 const {Meta} = Card;
 export const UserBuble = (props: UserBubleProps) => {
     const [name, setName] = useState('')
     const [login, setLogin] = useState('')
+    const [IsGetProfil, setIsGetProfil] = useState(false);
+    const [friendProfil, setFriendProfil] = useState<Ifriend>();
 
     useEffect(() => {
         let bool = true;
@@ -55,33 +66,47 @@ export const UserBuble = (props: UserBubleProps) => {
         return () => {bool = false}
     }, [props.senderId]);
 
-    async function addFriend(event: SyntheticEvent) {
-        // INSERT CALL TO ADD SOMEONE AS A FRIEND
+    async function addFriend() {
+        var config = {
+            method: "post",
+            url: "/friends/send?to=" + login,
+            headers: { Authorization: "Bearer " + accountService.userToken() }
+        }
+        await axios(config);  
     }
 
-    // const sendInvite = async (e: SyntheticEvent, id: string) => {
-    //     e.preventDefault();
-    //     // INSERT CALL TO INVITE SOMEONE TO A PONG GAME
-    // }
+    async function blockUser() {
+        console.log(login);
+        
+        var config = {
+            method: "post",
+            url: "/block/block?to=" + login,
+            headers: { Authorization: "Bearer " + accountService.userToken() }
+        }
+        await axios(config);  
+    }
 
-    const blockUser = async (e: SyntheticEvent, id: string) => {
-        // e.preventDefault();
-        // var config = {
-        //     method: "post",
-        //     url: "block/block",
-        //     headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
-        //     query: JSON.stringify({
-        //         to: id,
-        //     }),
-        // };
-        // axios(config)
-        // .then(function (response: any) {
-        //     alert("User blocked");
-        //     window.location.reload();
-        // })
-        // .catch(function (error: any) {
-        // });
-        // THIS IS NOT WORKING NEEDS REVIEW
+    async function unblockUser() {
+        var config = {
+            method: "post",
+            url: "/block/unblock?to=" + login,
+            headers: { Authorization: "Bearer " + accountService.userToken() }
+        }
+        await axios(config);  
+    }
+
+    async function getFriendProfil() {
+        setIsGetProfil(!IsGetProfil);
+        if (IsGetProfil){
+          var config = {
+            method: "get",
+            url: "/users/public/" + accountService.userLogin(),
+            headers: { Authorization: "Bearer " + accountService.userToken() }
+          }
+          await axios(config).then(function (response) {
+            setFriendProfil(response.data);
+          });
+        }
     }
 
     let actions: JSX.Element[];
@@ -93,12 +118,11 @@ export const UserBuble = (props: UserBubleProps) => {
     else {
         actions = [
             // THIS LINK IS NOT LINKED TO THE PROFILES PAGES BUT MAYBE WE DONT NEED IT
-            <Link to={"/social/publicprofile/" + login} type="button" className="customButton"> 
-                <button className="buttonSmall"><AccountCircleIcon/></button>,
-            </Link>,
+
+            <button className="buttonSmall"onClick={getFriendProfil}><AccountCircleIcon/></button>,
             // <button className="buttonSmall" onClick={(e) => {sendInvite(e, props.senderId)}}><VideogameAssetIcon/></button>,
             <button className="buttonSmall" onClick={addFriend}><PersonAddIcon/></button>,
-            <button className="buttonSmall" onClick={(e) => {blockUser(e, props.senderId)}}><BlockIcon/></button>,
+            <button className="buttonSmall" onClick={blockUser}><BlockIcon/></button>,
             <button className="buttonSmall"><CloseIcon/></button>
         ]
     }

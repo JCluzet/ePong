@@ -10,12 +10,6 @@ export class GameController {
         private readonly gameService: GameService
     ) { }
 
-    @ApiOperation({ summary: 'Retrieve all games data' })
-    @ApiOkResponse({ description: 'Data received' })
-    @Get()
-    getAllGames() {
-        return this.gameService.getAllGames();
-    }
 
     // @ApiOperation({ summary: 'Returns game history specific user [jwt-protected]' })
     // @UseGuards(JwtAuthenticationGuard)

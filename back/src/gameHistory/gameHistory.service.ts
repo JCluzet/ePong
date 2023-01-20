@@ -34,6 +34,7 @@ export class GameHistoryService {
         loser: game.loser,
         winnerScore: game.winnerScore,
         loserScore: game.loserScore,
+        type: game.type,
         timeStamp: game.timeStamp,
       };
       await this.gameHistoryRepository.save(newGame);

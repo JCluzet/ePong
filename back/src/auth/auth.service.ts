@@ -13,12 +13,10 @@ import { ILoginSuccess } from './interfaces/loginSuccess.interface';
 import { Etwofa } from './interfaces/twofa.entity';
 import * as bcrypt from 'bcrypt';
 import { IUserData } from './interfaces/userData.interface';
-import { EGame } from "src/game/entity/game.entity";
 import { MailConfirmService } from 'src/mailConfirm/mailConfirm.service';
 
 @Injectable()
 export class AuthService {
-  private twoFaCode: number;
 
   constructor(
     private userService: UsersService,
@@ -26,9 +24,7 @@ export class AuthService {
     private mailService: MailConfirmService,
     @InjectRepository(Etwofa)
     private twoFaRepository: Repository<Etwofa>,
-  ) {
-    this.twoFaCode = Math.floor(10000 + Math.random() * 90000);
-  }
+  ) {}
 
   async get42Token(authorization_code: string) {
     const requestUri: string = INTRA_API_URL + '/oauth/token';

@@ -3,5 +3,6 @@ export class gameHistoryDto {
   loser: string;
   winnerScore: number;
   loserScore: number;
+  type: string;
   timeStamp: string;
 }

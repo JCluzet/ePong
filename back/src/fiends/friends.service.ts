@@ -98,11 +98,13 @@ export class FriendsService {
       
       if ((prevRelation !== undefined && prevRelation.status === 'pending') || (prevRelation !== undefined && prevRelation.status === 'accepted')) return false;
       else if ( prevRelation ) {
+        Logger.log(`check error5`);
 				relation = prevRelation;
 				relation.sender = from;
 				relation.receiver = to;
 				relation.status = 'pending';
 			} else {
+        Logger.log(`check error3`);
 				relation = {
 					sender: from,
 					receiver: to,

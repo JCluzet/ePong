@@ -18,5 +18,8 @@ export class EGameHistory {
   loserScore: number;
 
   @Column()
+  type: string;
+
+  @Column()
   timeStamp: string;
 }

@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { logger } from 'handlebars';
 import { Repository } from 'typeorm';
 import { EBlock } from './interface/bock.entity';
 
@@ -16,7 +17,7 @@ export class BlockService {
 
   async getBlocked(login: string): Promise<string[]> {
     try {
-      const userblocked: EBlock[] = await this.blockRepository.find({ where: { receiver: login } });
+      const userblocked: EBlock[] = await this.blockRepository.find({ where: { sender: login, status: 'blocked' } });
       if (userblocked[0]) return userblocked.map((element: EBlock) => element.receiver);
       return [];
     } catch (err) {
@@ -26,8 +27,9 @@ export class BlockService {
 
   async blockUser(from: string, to: string) {
     try {
-      const relation: EBlock = await this.blockRepository.find({ where: { sender: from, receiver: to } })[0];
-      if (relation !== undefined || relation.status == 'blocked') return;
+      const relations: EBlock[] = await this.blockRepository.find({ where: { sender: from, receiver: to } });
+      const relation: EBlock = relations[0];
+      if (relation !== undefined && relation.status === 'blocked') return;
       let newRelation: EBlock;
       if (relation) {
         newRelation = { ...relation };
@@ -47,8 +49,10 @@ export class BlockService {
 
   async unblockUser(from: string, to: string) {
     try {
-      const relation: EBlock = await this.blockRepository.find({ where: { sender: from, receiver: to } })[0];
-      if (relation === undefined || relation.status === 'none') return;
+      const relations: EBlock[] = await this.blockRepository.find({ where: { sender: from, receiver: to } });
+      const relation: EBlock = relations[0];
+      if (relation !== undefined && relation.status === 'none') return;
+      Logger.log(`check 25`);
       let newRelation: EBlock;
       if (relation) {
         newRelation = { ...relation };

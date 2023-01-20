@@ -1,6 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
 import { Trole } from './role.type';
-import { EGame } from "src/game/entity/game.entity";
 
 @Entity('users')
 export class EUser {
