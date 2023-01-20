@@ -576,13 +576,13 @@ export default function Pong() {
     <>
       <div>
         <div className="container">
-          {window.location.href.includes("vs") ? (
+          {window.location.href.includes("vs") && isActive2? (
             <div id="game-root" className="game-root">
                 <button
                 type="button"
                 className="ui labeled icon button"
                 id="search-button"
-                onClick={() => sendSearch()}
+                onClick={() => (window.location.href = "/play")}
               >
                 <i className="loading spinner icon"></i>
                 Waiting for { } 
@@ -643,7 +643,7 @@ export default function Pong() {
         </div>
 
         <main role="main">
-          <p id="victoryMessage"></p>
+          <p id="victoryMessage" className="VictoryMessage"></p>
           <p id="waitingPlayer"></p>
           <div className="container-game">
             <div className="container-score">

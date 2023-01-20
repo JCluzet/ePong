@@ -355,6 +355,16 @@ footer {
   height: 100%;
 }
 
+.VictoryMessage{
+    font-size: 20px;
+    font-weight: 600;
+    color: #000000;
+    margin: 0;
+    padding: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .settings-image {
   cursor: pointer;
   width: 30px;
