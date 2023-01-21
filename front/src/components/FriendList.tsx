@@ -99,7 +99,7 @@ export default function FriendList() {
 	
 
     return(
-        <div className="container-shiny">
+        <div className="container-friendlist">
             <div className="container-stats-friendlist">
             {/* <section> */}
             {
@@ -114,18 +114,18 @@ export default function FriendList() {
             {
                 isClicked ?
                 <div className="">
-                            <button className="social-button" onClick={goBack}>back</button>
+                            <button className="button" onClick={goBack}>back</button>
                 </div>
                 :
                 acceptList || isGoAdd ? 
                     <div className="">
-                        <button className="social-button" onClick={goFriendList}>Back</button>
+                        <button className="button" onClick={goFriendList}>Back</button>
                     </div>
                 :
                     <><div className="">
-                                <button className="social-button" onClick={goAcceptList}>Pending Request</button>
+                                <button className="button" onClick={goAcceptList}>Pending Request</button>
                             </div><div className="">
-                                    <button className="social-button" onClick={goAdd}>Friends List</button>
+                                    <button className="button" onClick={goAdd}>Friends List</button>
                                 </div></>
             }
             {/* {acceptList || isGoAdd ? */}
@@ -171,16 +171,16 @@ export default function FriendList() {
                         <img src={Img} alt={'profile picture'} className="circle-img" style= {{height: 100 ,width: 100}}/>
                         </div>
                         <div className="column">
-                            <button className="social-button" onClick={goHistoric}>Historic</button>
+                            <button className="button" onClick={goHistoric}>Historic</button>
                         </div>
                         <div className="column">
-                            <button className="social-button" onClick={goChat}>Chat</button>
+                            <button className="button" onClick={goChat}>Chat</button>
                         </div>
                         <div className="column">
                             {Online === "Online"
                             ? isPlaying
                             ? <p></p>
-                            : <button className="social-button">Challenge</button>
+                            : <button className="button">Challenge</button>
                             : <p></p>
                             }
                         </div>

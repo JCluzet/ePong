@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
 import "../styles/Pong.scss";
 import JSConfetti from "js-confetti";
-import useWindowDimensions from "./useWindowDimensions";
+// import useWindowDimensions from "./useWindowDimensions";
 import io from "socket.io-client";
 import { Form } from "react-bootstrap";
-import Confetti from "react-confetti";
+// import Confetti from "react-confetti";
 import "/node_modules/react-rain-animation/lib/style.css";
 import { toast } from "react-toastify";
 import { accountService } from "../hooks/account_service";
-import { Select } from "semantic-ui-react";
-import { Dropdown } from "semantic-ui-react";
+// import { Select } from "semantic-ui-react";
+// import { Dropdown } from "semantic-ui-react";
 import versusLogo from "../assets/images/versusLogo.svg";
 import "semantic-ui-css/semantic.min.css";
 
 var adversaire;
 var joueur = accountService.userName();
-var avatarUrl = accountService.userAvatarUrl();
+// var avatarUrl = accountService.userAvatarUrl();
 let joueur1;
 let joueur2;
 var isSearching = false;
@@ -35,13 +35,13 @@ console.log(socket);
 
 export default function Pong() {
   const jsConfetti = new JSConfetti();
-  const { height, width } = useWindowDimensions();
+  //   const { height, width } = useWindowDimensions();
   const [toastid, setToastid] = useState(0);
 
   const [isActive, setActive] = useState(true);
   const [isActive2, setActive2] = useState(false);
   const [modeButton, setModeButton] = useState(true);
-  const [isWin, setWin] = useState(false);
+  //   const [isWin, setWin] = useState(false);
   const [gameMode, setGM] = useState("original");
 
   const queryParams = new URLSearchParams(window.location.search);
@@ -74,12 +74,12 @@ export default function Pong() {
     }
   }
 
-  function removeInvit() {
-    setActive2(false);
-    socket.emit("removeInvit", true);
-    setActive(true);
-    setModeButton(true);
-  }
+  //   function removeInvit() {
+  //     setActive2(false);
+  //     socket.emit("removeInvit", true);
+  //     setActive(true);
+  //     setModeButton(true);
+  //   }
 
   function sendSearch() {
     console.log("check search game");
@@ -157,14 +157,14 @@ export default function Pong() {
   });
 
   socket.on("gameStart", (...args) => {
-    setWin(false);
+    // setWin(false);
     document.querySelector("#player-score").textContent = "0";
     document.querySelector("#player2-score").textContent = "0";
     document.querySelector("#victoryMessage").textContent = "";
     document.querySelector("#waitingPlayer").textContent = "";
     joueur1 = args[0];
     joueur2 = args[1];
-    const str = "";
+    // const str = "";
     if (joueur1 === joueur) {
       adversaire = joueur2;
     } else {
@@ -367,8 +367,7 @@ export default function Pong() {
   };
 
   socket.on("inviteToPlay", (...args) => {
-    if (joueur === args[1] && selectedUser !== args[0])
-      selectedUser = args[0];
+    if (joueur === args[1] && selectedUser !== args[0]) selectedUser = args[0];
     else return;
 
     toast.dark(<InvitetoPlay />, {
@@ -476,7 +475,7 @@ export default function Pong() {
 
   function changeDirection(playerY) {
     // Ball bounce
-    var impact = game.ball.y + (BALL_SIDE / 2) - playerY - PLAYER_HEIGHT / 2;
+    var impact = game.ball.y + BALL_SIDE / 2 - playerY - PLAYER_HEIGHT / 2;
     var ratio = 100 / (PLAYER_HEIGHT / 2);
     game.ball.speed.y = Math.round((impact * ratio) / 10);
   }
@@ -515,7 +514,7 @@ export default function Pong() {
         emojis: ["❌", "⚡️", "💥", "😢", "🤕", "💢"],
       });
     } else {
-      setWin(true);
+      //   setWin(true);
       jsConfetti.addConfetti({
         emojis: ["✅", "⚡️", "🌈", "😜", "🥇", "🤑"],
       });
@@ -567,29 +566,29 @@ export default function Pong() {
   ];
 
   // if url have a get parameter vs, then it's a live game
-//   if (window.location.href.includes("vs")) {
-//     alert("Live game");
-//   }
+  //   if (window.location.href.includes("vs")) {
+  //     alert("Live game");
+  //   }
   return (
     <>
       <div>
         <div className="container">
-          {window.location.href.includes("vs") && isActive2? (
+          {window.location.href.includes("vs") && isActive2 ? (
             <div id="game-root" className="game-root">
-                <button
+              <button
                 type="button"
                 className="ui labeled icon button"
                 id="search-button"
                 onClick={() => (window.location.href = "/play")}
               >
                 <i className="loading spinner icon"></i>
-                Waiting for { } 
+                Waiting for {}
                 {window.location.href.split("vs=")[1]}
                 ...
               </button>
-              </div>
+            </div>
           ) : (
-""
+            ""
           )}
 
           {isActive && (
@@ -598,7 +597,7 @@ export default function Pong() {
               {isActive && modeButton && (
                 <button
                   type="button"
-                  className="ui button"
+                  className="ui button button-match-making"
                   id="search-button"
                   onClick={() => sendSearch()}
                 >
@@ -664,15 +663,14 @@ export default function Pong() {
               </div>
               {/* </div> */}
             </div>
-            {/* {!isActive && ( */}
-            {/* the canva must have the width of the screen and the height of the screen */}
-            {/* screen.width = window.innerWidth; */}
-            <canvas
-              id="canvas"
-              className="game-canva"
-              width={500}
-              height={400}
-            ></canvas>
+            <div className="container-canva">
+              <canvas
+                id="canvas"
+                className="game-canva"
+                width={500}
+                height={400}
+              ></canvas>
+            </div>
           </div>
         </main>
       </div>

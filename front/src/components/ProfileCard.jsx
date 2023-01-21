@@ -3,7 +3,7 @@ import { accountService } from "../hooks/account_service";
 import "../styles/social.css";
 import Statscard from "./StatsCard";
 import Historic from "./HistoricCard";
-import FriendList from "./FriendList";
+
 
 // faire un composent "carte profile" avec login, si en ligne, image de login
 
@@ -16,7 +16,7 @@ const user = {
 export default function ProfileCard() {
   return (
     <div className="container-global">
-        <section className="container-shiny">
+        <section className="">
                 <div className="row">
                 <div className="column-stats1">
                 <img src={user.imgUrl} alt={'profile picture'} style= {{height: 100 ,width: 100}}/>
@@ -28,9 +28,9 @@ export default function ProfileCard() {
             </div>
             </div>
             </section>
-        <section className="container-profilCard">
+        {/* <section className="container-profilCard">
       <FriendList/>
-        </section>
+        </section> */}
     </div>
   );
 }
