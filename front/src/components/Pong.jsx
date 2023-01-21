@@ -667,12 +667,14 @@ export default function Pong() {
             {/* {!isActive && ( */}
             {/* the canva must have the width of the screen and the height of the screen */}
             {/* screen.width = window.innerWidth; */}
+            <div className="container-canva">
             <canvas
               id="canvas"
               className="game-canva"
               width={500}
               height={400}
             ></canvas>
+            </div>
           </div>
         </main>
       </div>

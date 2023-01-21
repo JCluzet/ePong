@@ -252,3 +252,15 @@
   font-size: 8vh !important;
   font-weight: bold;
 }
+
+.container-game {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 2000px;
+    margin: auto;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+}
