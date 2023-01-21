@@ -8,8 +8,8 @@ export default function Twofa() {
   // state
 
   const [tfa, setTfa] = useState("");
-  const [error, setError] = useState(false);
-  const [errorType, setErrorType] = useState("");
+//   const [error, setError] = useState(false);
+//   const [errorType, setErrorType] = useState("");
 
   // comportements
 
@@ -80,7 +80,7 @@ export default function Twofa() {
             maxLength="6"
             placeholder="000000"
           />
-          {error && <div className="text-error-2fa">{errorType}</div>}
+          {/* {error && <div className="text-error-2fa">{errorType}</div>} */}
           <button className="button-2fa" onClick={HandleTFA}>
             Validate
           </button>

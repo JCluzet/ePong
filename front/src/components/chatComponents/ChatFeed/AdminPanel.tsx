@@ -6,7 +6,7 @@ import { EUser } from "../Models/user";
 import { PasswordSettings } from "./PasswordSettings";
 import "./chatFeed.css"
 import Header from "../../Header";
-import { accountService } from "../../../hooks/account_service";
+// import { accountService } from "../../../hooks/account_service";
 
 type AdminPanelProps = {
     currentChannelId: number;
@@ -24,7 +24,6 @@ export const AdminPanel = (props: any) => {
     const userName = sta.userName;
 
     useEffect(() => {
-        let bool = true;
         const getChanUsers = async() => {
             async function getChanUsers() {
                 var config = {
@@ -47,7 +46,6 @@ export const AdminPanel = (props: any) => {
             getChanUsers();
         }
         getChanUsers();
-        return () => {bool = false};
     }, [chanId]);
 
     useEffect(() => {
@@ -88,7 +86,7 @@ export const AdminPanel = (props: any) => {
             .catch(function (error: any) {
             });
 
-            var config = {
+            config = {
                 method: "post",
                 url: "chat/updateUserStatus",
                 headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
