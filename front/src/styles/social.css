@@ -232,6 +232,7 @@
 .container-global {
   z-index: 0;
   width: 90%;
+  height : 500px;
   margin: auto;
   position: relative;
 }
