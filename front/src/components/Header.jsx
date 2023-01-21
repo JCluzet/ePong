@@ -4,19 +4,42 @@ import { ReactComponent as Logo } from "../assets/images/logo.svg";
 import "../styles/header.css";
 // import axios from "axios";
 import { accountService } from "../hooks/account_service";
+import axios from "axios";
 import ProfilSettings from "./ProfilSettings";
+// import Login from "../pages/Login";
 
 const Header = () => {
-  // state
+async function catchUserInfo() {
+    var config = {
+        method: "get",
+        url: "/users/profile/" + accountService.userLogin(),
+        headers: { Authorization: "Bearer " + accountService.userToken() },
+    };
+    await axios(config)
+    .then(function (response) {
+        // console.log("user info response: " + JSON.stringify(response.data));
+        setAvatarUrl(response.data.avatarUrl);
+        setUsername(response.data.name);
+    })
+    .catch(function (error) {
+        // if the error is unauthorized, we redirect to login
+        // if (error.response.status === 401) {
+            // accountService.logout();
+            // localStorage.setItem("Alert", "You have been disconnected for inactivity");
+        // }
+    });
+    setTimeout(() => {
+        catchUserInfo();
+    }, 1000);
+}
 
+    // state
+    
     const [avatarUrl, setAvatarUrl] = React.useState(null);
     const [username, setUsername] = React.useState(null);
-
-    useEffect(() => {
-        setAvatarUrl(accountService.userAvatarUrl());
-        setUsername(accountService.userName());
-    }, []);
-
+  useEffect(() => {
+    catchUserInfo();
+  }, []);
 
   const HomeClick = () => {
     window.location.href = "/";
@@ -47,9 +70,7 @@ const Header = () => {
                 alt="settings"
               />
               <div className="div-profile-name">
-                <div className="text-profile-name">
-                  {username}
-                </div>
+                <div className="text-profile-name">{username}</div>
               </div>
               <div className="div-profile-picture">
                 <img
@@ -59,7 +80,7 @@ const Header = () => {
                 />
               </div>
             </div>
-              {settings && <ProfilSettings />}
+            {settings && <ProfilSettings />}
           </div>
         </div>
       </div>
