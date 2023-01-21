@@ -39,7 +39,7 @@ async function catchUserInfo() {
     const [username, setUsername] = React.useState(null);
   useEffect(() => {
     catchUserInfo();
-  }, []);
+  });
 
   const HomeClick = () => {
     window.location.href = "/";
