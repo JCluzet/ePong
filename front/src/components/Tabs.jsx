@@ -38,16 +38,22 @@ export default function Tabs() {
             Chat
             </li>
         </ul>
-        <div className="content-container">
-            <div className={`content ${getActiveClass(1, "active-content")}`}>
+        <div className="">
+            {ToggleState == 1 &&
+            <div className="active-content">
                 <ProfileCard/>
             </div>
-            <div className={`content ${getActiveClass(2, "active-content")}`}>
+            }
+            {ToggleState == 2 &&
+            <div className="active-content">
                 <FriendList/>
             </div>
-            <div className={`content ${getActiveClass(3, "active-content")}`}>
+            }
+            {ToggleState == 3 &&
+            <div className="active-content">
                 <Chat/>
             </div>
+            }
         </div>
         </div>
     </div>

@@ -2,10 +2,8 @@
   
   .container-tabs {
     width: 95%;
-    /* height: 100em; */
+    /* height: 100esm; */
     margin: auto;
-    /* background-color: #030303; */
-    /* border: 1px solid rgba(0, 0, 0, 0.3); */
   }
   
   .tab-list {
@@ -50,6 +48,7 @@
   .content {
       background-color: #0c0c0c;
       display: none;
+      content: "";
       padding: 10px;
   }
   

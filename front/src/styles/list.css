@@ -23,6 +23,7 @@ body {
 
 .container-friendlist{
     height : 500px;
+    width: 100%;
 }
 
 .content {

@@ -24,8 +24,7 @@ export default function HistoricFriend() {
 
     const onToggle = () => setIsToggled(!isToggled);
     return (
-        <div>
-            <h2>history</h2>       
+        <div>       
             <div className="main">
             {historic.map((element) => {
                 return (

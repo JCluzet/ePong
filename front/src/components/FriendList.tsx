@@ -100,7 +100,7 @@ export default function FriendList() {
 
     return(
         <div className="container-friendlist">
-            <div className="container-stats-friendlist">
+            <div className="">
             {/* <section> */}
             {
                 acceptList || isGoAdd ?
@@ -165,7 +165,7 @@ export default function FriendList() {
                 {
                     isClicked
                     ?
-                    <div>   
+                    <div className="main">   
                     <div className="row">
                         <div className="column">
                         <img src={Img} alt={'profile picture'} className="circle-img" style= {{height: 100 ,width: 100}}/>
