@@ -597,7 +597,7 @@ export default function Pong() {
               {isActive && modeButton && (
                 <button
                   type="button"
-                  className="ui button"
+                  className="ui button button-match-making"
                   id="search-button"
                   onClick={() => sendSearch()}
                 >
