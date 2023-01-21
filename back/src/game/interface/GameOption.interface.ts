@@ -3,6 +3,7 @@ interface IBall {
   y: number;
   ballspeed: number;
   position: IPosition;
+  velocity: IPosition;
 }
 
 export interface ICursor {

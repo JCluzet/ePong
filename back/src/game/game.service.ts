@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { GameHistoryService } from 'src/gameHistory/gameHistory.service';
 import { IRoom } from './interface/room.interface';
-import { IOptionGame, ICursor } from './interface/GameOption.interface';
+import { IOptionGame, ICursor, IPosition } from './interface/GameOption.interface';
 import { Socket } from 'socket.io';
 import { IPlayer } from './interface/player.interface';
 import { gameHistoryDto } from 'src/gameHistory/interface/gameHistory.dto';
@@ -19,10 +19,9 @@ export class GameService {
 	rooms: Map<string, IRoom> = new Map();
 	queue: Array<Socket> = [];
 
-	static cursor: ICursor = {
-		x: 10,
-		y: 80,
-	}
+	static position: IPosition = { x: 0, y: 0 }
+
+	static cursor: ICursor = { x: 10, y: 80 }
 
 	static optionGame: IOptionGame = {
 		classic: {
@@ -31,10 +30,8 @@ export class GameService {
 				x: 10,
 				y: 10,
 				ballspeed: 2,
-				position: {
-					x: 0,
-					y: 0,
-				}
+				position: GameService.position,
+				velocity: GameService.position,
 			},
 			cursor: GameService.cursor,
 		},
@@ -44,10 +41,8 @@ export class GameService {
 				x: 50,
 				y: 50,
 				ballspeed: 2,
-				position: {
-					x: 0,
-					y: 0,
-				} 
+				position: GameService.position,
+				velocity: GameService.position, 
 			},
 			cursor: GameService.cursor,
 		},
@@ -57,10 +52,8 @@ export class GameService {
 				x: 10,
 				y: 10,
 				ballspeed: 5,
-				position: {
-					x: 0,
-					y: 0,
-				} 
+				position: GameService.position,
+				velocity: GameService.position,
 			},
 			cursor: GameService.cursor,
 		}
@@ -103,7 +96,7 @@ export class GameService {
 		try {
 			for (const qSocket of this.queue)
 				if (qSocket.data.user.id == socket.data.user.id) return false;
-			if (this.getPlayer(socket)) return false;
+			if (this.getPlayer(socket.data.user.id)) return false;
 			this.queue.push(socket);
 			if (this.queue.length > 2) {
 				const room: IRoom = this.createRoomGame();
@@ -146,10 +139,10 @@ export class GameService {
 		} catch (err) { return false; }
 	}
 
-	getPlayer(socket: Socket): IPlayer | undefined {
+	getPlayer(userId: number): IPlayer | undefined {
 		for (const room of this.rooms.values())
 			for (const player of room.player)
-				if (player.socket == socket) return player;
+				if (player.user.id == userId) return player;
 		return undefined;
 	}
 

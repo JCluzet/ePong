@@ -38,7 +38,5 @@ export class EUser {
 
   @Column({ nullable: true})
   userType?: number;
-  // @ManyToMany(() => Game, (game) => game.players)
-  // @JoinTable()
-  // games: Game[]
+
 }

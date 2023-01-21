@@ -3,11 +3,18 @@ import { Socket } from 'socket.io';
 import { EUser } from 'src/users/interfaces/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { GameService } from './game.service';
+import { IPosition } from './interface/GameOption.interface';
+import { IPlayer } from './interface/player.interface';
 import { IRoom } from './interface/room.interface';
+import { PongService } from './pong.service';
 
 @WebSocketGateway({ namespace: 'game', cors: true })
 export class GameGateway {
-	constructor( private readonly userService: UsersService, private readonly gameService: GameService ) {}
+	constructor( 
+		private readonly userService: UsersService,
+		private readonly gameService: GameService,
+		private readonly pongService: PongService,
+	 ) {}
 	@WebSocketServer()
 	server: any;
 
@@ -17,7 +24,6 @@ export class GameGateway {
 				if (!user && !String(client.handshake.query.gameMode)) client.disconnect();
 				client.data.user = user;
 				client.data.gameMode = String(client.handshake.query.login);
-				// this.userService.updateStatus(client.data.user.login, "ingame");
 			} catch (err) {}
 	}
 
@@ -51,6 +57,23 @@ export class GameGateway {
 
 	@SubscribeMessage('start')
 	onStart(client: Socket) {
-		
+		try {
+			if (!client.data.user) return;
+			const player: IPlayer = this.gameService.getPlayer(client.data.user.id);
+			if (!player || !player.room) return;
+			this.pongService.resetBall(player.room);
+		} catch (err) {}
+	}
+
+	@SubscribeMessage('cursor')
+	updateCursor(client: Socket, cursorPosition: IPosition) {
+		try {
+			if (!client.data.user) return;
+			const player: IPlayer = this.gameService.getPlayer(client.data.user.id);
+			if (!player) return;
+			player.position.x = cursorPosition.x;
+			player.position.y = cursorPosition.y;
+			this.gameService.emit(player.room, "updateCursor", player);
+		} catch (err) {}
 	}
 }

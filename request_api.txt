@@ -11,8 +11,8 @@ interface:
 
   Users:
 
-    - User_entity = { id: number, login: string, name: string, role: 'admin'/'user', nbWins: number, nbLoses: number, isTwoFa : boolean, avatarUrl: string };
-    - User_profile = { login: string, name: string, nbWins: number, nbLoses: number, isTwoFa: boolean, avatarUrl: string };
+    - User_entity = { id: number, login: string, name: string, role: 'admin'/'user', nbWins: number, nbLoses: number, isTwoFa : boolean, avatarUrl: string, status: string, total_games: number, win_loss_ratio: number };
+    - User_profile = { login: string, name: string, nbWins: number, nbLoses: number, isTwoFa: boolean, avatarUrl: string, totalGame: number, kda: number, status: string };
     - User_public = { login: string , name: string, nbWins: number, nbLoses: number, avatarUrl: string };
     - User_profile_setting = { login: name, name: string, isTwoFa: boolean, avatarUrl: string };
 
