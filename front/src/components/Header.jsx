@@ -48,13 +48,13 @@ const Header = () => {
               />
               <div className="div-profile-name">
                 <div className="text-profile-name">
-                  {accountService.userName()}
+                  {username}
                 </div>
               </div>
               <div className="div-profile-picture">
                 <img
                   className="profile-image"
-                  src={accountService.userAvatarUrl()}
+                  src={avatarUrl}
                   alt="profilepicture"
                 />
               </div>

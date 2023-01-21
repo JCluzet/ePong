@@ -20,24 +20,24 @@ type UserBubleProps = {
 	chanId: number;
 }
 
-type Ifriend = {
-	login: string;
-	name: string;
-	nbWins: number;
-	nbLoses: number;
-	totalGame: number;
-	kda: number;
-	status: string;
-	avatarUrl: string;
-}
+// type Ifriend = {
+// 	login: string;
+// 	name: string;
+// 	nbWins: number;
+// 	nbLoses: number;
+// 	totalGame: number;
+// 	kda: number;
+// 	status: string;
+// 	avatarUrl: string;
+// }
 
 const { Meta } = Card;
 export const UserBuble = (props: UserBubleProps) => {
 	const [name, setName] = useState('')
 	const [login, setLogin] = useState('')
 	const [IsGetProfil, setIsGetProfil] = useState(false);
-	const [friendProfil, setFriendProfil] = useState<Ifriend>();
-	const [isBlocked, setIsBlocked] = useState(false);
+	// const [friendProfil, setFriendProfil] = useState<Ifriend>();
+	// const [isBlocked, setIsBlocked] = useState(false);
 
 	useEffect(() => {
 		let bool = true;
@@ -84,7 +84,7 @@ export const UserBuble = (props: UserBubleProps) => {
 			headers: { Authorization: "Bearer " + accountService.userToken() }
 		}
 		await axios(config).then(function (response) {
-			setIsBlocked(true);
+			// setIsBlocked(true);
 			console.log("Blocking success.")
 		}).catch(function (error) {
 			console.log("Blocking failed.");
@@ -92,14 +92,14 @@ export const UserBuble = (props: UserBubleProps) => {
 	}
 
 	async function unblockUser() {
-		setIsBlocked(false);
+		// setIsBlocked(false);
 		var config = {
 			method: "post",
 			url: "/block/unblock?to=" + login,
 			headers: { Authorization: "Bearer " + accountService.userToken() }
 		}
 		await axios(config).then(function (response) {
-			setIsBlocked(false);
+			// setIsBlocked(false);
 			console.log("Unblocking success.")
 		}).catch(function (error) {
 			console.log("Unblocking failed.");
@@ -115,7 +115,7 @@ export const UserBuble = (props: UserBubleProps) => {
 				headers: { Authorization: "Bearer " + accountService.userToken() }
 			}
 			await axios(config).then(function (response) {
-				setFriendProfil(response.data);
+				// setFriendProfil(response.data);
 			});
 		}
 	}

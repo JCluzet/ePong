@@ -81,7 +81,7 @@ export const JoinConversation = () => {
                         .catch(function (error: any) {} );
                     }
                     else {
-                        var config = { method: "post", url: "chat/addUser", headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", }, data: JSON.stringify({ chanId: chanId, userId: userId }), };
+                        config = { method: "post", url: "chat/addUser", headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", }, data: JSON.stringify({ chanId: chanId, userId: userId }), };
                         axios(config)
                         .then(function (response: any) {
                             if (response.data === true) {

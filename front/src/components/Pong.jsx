@@ -253,7 +253,6 @@ export default function Pong() {
   }
 
   function initParty() {
-    {
       if (canvas) {
         game = {
           player: {
@@ -276,7 +275,6 @@ export default function Pong() {
       }
       //   {isActive && draw();}
       draw();
-    }
   }
 
   window.addEventListener(
@@ -559,11 +557,11 @@ export default function Pong() {
     SearchText = "Play Again";
   }
 
-  const gameOptions = [
-    { key: "original", text: "Classic", value: "original" },
-    { key: "bigball", text: "Big Ball", value: "bigball" },
-    { key: "fast", text: "Fast", value: "fast" },
-  ];
+//   const gameOptions = [
+//     { key: "original", text: "Classic", value: "original" },
+//     { key: "bigball", text: "Big Ball", value: "bigball" },
+//     { key: "fast", text: "Fast", value: "fast" },
+//   ];
 
   // if url have a get parameter vs, then it's a live game
   //   if (window.location.href.includes("vs")) {
