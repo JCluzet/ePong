@@ -17,7 +17,7 @@ class Modal extends React.Component {
           {this.props.content}
           <div className="footer">
             <div style ={{color: "black"}}>
-              {this.props.content}
+              {this.props.content.winner}
             </div>
             <button onClick={this.props.onClose}>
               Close

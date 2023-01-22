@@ -61,7 +61,7 @@ export default function AddFriendList() {
               {
                 isClicked ? 
                 <div className="column">
-                  <button className="social-button" onClick={() => goAdd(user.login)}>add</button>
+                  <button className="button" onClick={() => goAdd(user.login)}>add</button>
                 </div>
                 :
                 <p></p>
