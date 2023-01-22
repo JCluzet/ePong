@@ -6,6 +6,7 @@ import { EUser } from "../Models/user";
 import { PasswordSettings } from "./PasswordSettings";
 import "./chatFeed.css"
 import Header from "../../Header";
+import { toast } from "react-hot-toast";
 // import { accountService } from "../../../hooks/account_service";
 
 type AdminPanelProps = {
@@ -79,7 +80,7 @@ export const AdminPanel = (props: any) => {
             axios(config)
             .then(function (response: any) {
                 if (response.data === false) {
-                    alert("You are not an admin anymore");
+                    toast.success("You are not an admin anymore");
                     window.location.reload();
                 }
             })
@@ -97,13 +98,13 @@ export const AdminPanel = (props: any) => {
             axios(config)
             .then(function (response: any) {
                 if (status === 0)
-                    alert("User is now an admin on this channel")
+                    toast.success("User is now an admin on this channel")
                 else if (status === 1)
-                    alert("User is now a normal user")
+                    toast.success("User is now a normal user")
                 else if (status === 2)
-                    alert("User is now muted, you can unmute him wheneven you want");
+                    toast.success("User is now muted, you can unmute him wheneven you want");
                 else if (status === 3)
-                    alert("User is now banned, you can unban him wheneven you want")
+                    toast.success("User is now banned, you can unban him wheneven you want")
                 window.location.reload();
             })
             .catch(function (error: any) {

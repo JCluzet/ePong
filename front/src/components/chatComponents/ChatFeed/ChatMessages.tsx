@@ -12,6 +12,7 @@ import { io } from "socket.io-client";
 import "./chatFeed.css"
 import { Comment } from '@ant-design/compatible';
 import { accountService } from "../../../hooks/account_service";
+import { toast } from "react-toastify";
 
 type UserBubleProps = {
 	userName: string;
@@ -85,6 +86,7 @@ export const UserBuble = (props: UserBubleProps) => {
 		}
 		await axios(config).then(function (response) {
 			// setIsBlocked(true);
+            toast.success(login + " is now blocked");
 			console.log("Blocking success.")
 		}).catch(function (error) {
 			console.log("Blocking failed.");
@@ -100,6 +102,7 @@ export const UserBuble = (props: UserBubleProps) => {
 		}
 		await axios(config).then(function (response) {
 			// setIsBlocked(false);
+            toast.success(login + " is now unblocked");
 			console.log("Unblocking success.")
 		}).catch(function (error) {
 			console.log("Unblocking failed.");
@@ -329,7 +332,7 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
 		axios(config)
 			.then(function (response: any) {
 				if (response.data) {
-					alert("You have been banned from this channel")
+					toast.error("You have been banned from this channel")
 					props.setCurrentChannelId(0);
 				}
 			})
@@ -375,7 +378,7 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
 						websock2.emit("message", { chanId: props.currentChannelId, senderId: props.userName, content: content, timestamp: timestamp });
 					}
 					else
-						alert("You are currently muted on this channel")
+						toast.error("You are currently muted on this channel")
 					setContent('');
 				})
 				.catch(function (error: any) {

@@ -23,10 +23,11 @@ async function catchUserInfo() {
     })
     .catch(function (error) {
         // if the error is unauthorized, we redirect to login
-        // if (error.response.status === 401) {
-            // accountService.logout();
-            // localStorage.setItem("Alert", "You have been disconnected for inactivity");
-        // }
+        if (error.response.status === 401) {
+            // alert("error catchUserInfo: " + error);
+            accountService.logout();
+            localStorage.setItem("Alert", "You have been disconnected for inactivity");
+        }
     });
     setTimeout(() => {
         catchUserInfo();

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { SyntheticEvent, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { accountService } from "../../../hooks/account_service";
 import "./chatFeed.css"
 
@@ -67,7 +68,7 @@ export const PasswordSettings = (props: PasswordSettingsProps) => {
             axios(config)
             .then(function (response: any) {
                 if (response.data === false) {
-                    alert("You are not an admin anymore");
+                    toast.success("You are not an admin anymore");
                     window.location.reload();
                 }
                 else {
@@ -114,7 +115,7 @@ export const PasswordSettings = (props: PasswordSettingsProps) => {
             axios(config)
             .then(function (response: any) {
                 if (response.data === false) {
-                    alert("You are not an admin anymore");
+                    toast.success("You are not an admin anymore");
                     window.location.reload();
                 }
                 else {
@@ -128,7 +129,7 @@ export const PasswordSettings = (props: PasswordSettingsProps) => {
                     };
                     axios(config)
                     .then(function (response: any) {
-                        alert("Password has successfully been removed")
+                        toast.success("Password has successfully been removed")
                         window.location.reload();
                     })
                     .catch(function (error: any) {
@@ -157,7 +158,7 @@ export const PasswordSettings = (props: PasswordSettingsProps) => {
             axios(config)
             .then(function (response: any) {
                 if (response.data === false) {
-                    alert("You are not an admin anymore");
+                    toast.success("You are not an admin anymore");
                     window.location.reload();
                 }
                 else {
@@ -171,7 +172,7 @@ export const PasswordSettings = (props: PasswordSettingsProps) => {
                     };
                     axios(config)
                     .then(function (response: any) {
-                        alert("Password has successfully been changed")
+                        toast.success("Password has successfully been changed")
                         window.location.reload();
                     })
                     .catch(function (error: any) {

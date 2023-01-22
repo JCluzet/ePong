@@ -6,6 +6,7 @@ import { Chan } from "../Models/chan";
 import { Divider } from "antd";
 import Header from "../../Header";
 import { accountService } from "../../../hooks/account_service";
+import { toast } from "react-toastify";
 
 export const JoinConversation = () => {
     const navigate = useNavigate();
@@ -58,7 +59,7 @@ export const JoinConversation = () => {
                         axios(config)
                         .then(function (response: any) {
                             if (response.data === false) {
-                                alert("Wrong password");
+                                toast.error("Wrong password");
                                 setPassword("");
                                 window.location.reload();
                             }
@@ -67,11 +68,11 @@ export const JoinConversation = () => {
                     axios(config)
                     .then(function (response: any) {
                         if (response.data === true) {
-                            alert("You successfully joined a channel");
+                            toast.success("You successfully joined a channel");
                             setRedi(true);
                         }
                         else if (response.data === false) {
-                            alert("You are already in this channel");
+                            toast.error("You are already in this channel");
                             window.location.reload();
                         }    
                     })
@@ -85,11 +86,11 @@ export const JoinConversation = () => {
                         axios(config)
                         .then(function (response: any) {
                             if (response.data === true) {
-                                alert("You successfully joined a channel");
+                                toast.success("You successfully joined a channel");
                                 setRedi(true);
                             }
                             else if (response.data === false) {
-                                alert("You are already in this channel");
+                                toast.error("You are already in this channel");
                                 window.location.reload();
                             }    
                         })
