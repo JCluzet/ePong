@@ -1,6 +1,8 @@
 // import { useEffect } from "react";
 import axios from "../config/axios";
 import storeProfilData from "./storeProfilData";
+import { /*toast,*/ toast } from "react-toastify";
+
 
 
 let GetUsername = async (login) => {
@@ -85,6 +87,7 @@ let editAll = async (image, username, tfa) => {
             console.log("EditAll tfa :" + tfa);
             console.log("EditAll image :" + image);
             console.log("EditAll response :" + response);
+            toast.success("Your profile has been updated");
             return response;
         })
         .catch(function (error) {

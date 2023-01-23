@@ -3,6 +3,7 @@ import axios from "axios";
 import { SyntheticEvent, useEffect, useState } from "react";
 import { Chan } from "../Models/chan";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 type SideBarChannelsProps = {
     setCurrentChannelId: Function;
@@ -50,7 +51,7 @@ const SideBarChannels = (props: SideBarChannelsProps) => {
             axios(config)
             .then(function (response: any) {
                 if (response.data === true)
-                    alert("You have been banned from this channel")
+                    toast.error("You have been banned from this channel")
                 else
                     props.setCurrentChannelId(chanId)
             })
@@ -100,7 +101,7 @@ const RenderDirectConvs = (props: RenderDirectConvsProps) => {
             axios(config)
             .then(function (response: any) {
                 if (response.data === true)
-                    alert("You have been banned from this channel")
+                    toast.error("You have been banned from this channel")
                 else
                     props.setCurrentChannelId(chanId)
             })

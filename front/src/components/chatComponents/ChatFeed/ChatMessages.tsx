@@ -12,6 +12,7 @@ import { io } from "socket.io-client";
 import "./chatFeed.css"
 import { Comment } from '@ant-design/compatible';
 import { accountService } from "../../../hooks/account_service";
+import { toast } from "react-toastify";
 
 type UserBubleProps = {
 	userName: string;
@@ -20,24 +21,24 @@ type UserBubleProps = {
 	chanId: number;
 }
 
-type Ifriend = {
-	login: string;
-	name: string;
-	nbWins: number;
-	nbLoses: number;
-	totalGame: number;
-	kda: number;
-	status: string;
-	avatarUrl: string;
-}
+// type Ifriend = {
+// 	login: string;
+// 	name: string;
+// 	nbWins: number;
+// 	nbLoses: number;
+// 	totalGame: number;
+// 	kda: number;
+// 	status: string;
+// 	avatarUrl: string;
+// }
 
 const { Meta } = Card;
 export const UserBuble = (props: UserBubleProps) => {
 	const [name, setName] = useState('')
 	const [login, setLogin] = useState('')
 	const [IsGetProfil, setIsGetProfil] = useState(false);
-	const [friendProfil, setFriendProfil] = useState<Ifriend>();
-	const [isBlocked, setIsBlocked] = useState(false);
+	// const [friendProfil, setFriendProfil] = useState<Ifriend>();
+	// const [isBlocked, setIsBlocked] = useState(false);
 
 	useEffect(() => {
 		let bool = true;
@@ -84,7 +85,8 @@ export const UserBuble = (props: UserBubleProps) => {
 			headers: { Authorization: "Bearer " + accountService.userToken() }
 		}
 		await axios(config).then(function (response) {
-			setIsBlocked(true);
+			// setIsBlocked(true);
+            toast.success(login + " is now blocked");
 			console.log("Blocking success.")
 		}).catch(function (error) {
 			console.log("Blocking failed.");
@@ -92,14 +94,15 @@ export const UserBuble = (props: UserBubleProps) => {
 	}
 
 	async function unblockUser() {
-		setIsBlocked(false);
+		// setIsBlocked(false);
 		var config = {
 			method: "post",
 			url: "/block/unblock?to=" + login,
 			headers: { Authorization: "Bearer " + accountService.userToken() }
 		}
 		await axios(config).then(function (response) {
-			setIsBlocked(false);
+			// setIsBlocked(false);
+            toast.success(login + " is now unblocked");
 			console.log("Unblocking success.")
 		}).catch(function (error) {
 			console.log("Unblocking failed.");
@@ -115,7 +118,7 @@ export const UserBuble = (props: UserBubleProps) => {
 				headers: { Authorization: "Bearer " + accountService.userToken() }
 			}
 			await axios(config).then(function (response) {
-				setFriendProfil(response.data);
+				// setFriendProfil(response.data);
 			});
 		}
 	}
@@ -329,7 +332,7 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
 		axios(config)
 			.then(function (response: any) {
 				if (response.data) {
-					alert("You have been banned from this channel")
+					toast.error("You have been banned from this channel")
 					props.setCurrentChannelId(0);
 				}
 			})
@@ -375,7 +378,7 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
 						websock2.emit("message", { chanId: props.currentChannelId, senderId: props.userName, content: content, timestamp: timestamp });
 					}
 					else
-						alert("You are currently muted on this channel")
+						toast.error("You are currently muted on this channel")
 					setContent('');
 				})
 				.catch(function (error: any) {

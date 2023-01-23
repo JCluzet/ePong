@@ -6,7 +6,8 @@ import { EUser } from "../Models/user";
 import { PasswordSettings } from "./PasswordSettings";
 import "./chatFeed.css"
 import Header from "../../Header";
-import { accountService } from "../../../hooks/account_service";
+import { toast } from "react-hot-toast";
+// import { accountService } from "../../../hooks/account_service";
 
 type AdminPanelProps = {
     currentChannelId: number;
@@ -24,7 +25,6 @@ export const AdminPanel = (props: any) => {
     const userName = sta.userName;
 
     useEffect(() => {
-        let bool = true;
         const getChanUsers = async() => {
             async function getChanUsers() {
                 var config = {
@@ -47,7 +47,6 @@ export const AdminPanel = (props: any) => {
             getChanUsers();
         }
         getChanUsers();
-        return () => {bool = false};
     }, [chanId]);
 
     useEffect(() => {
@@ -81,14 +80,14 @@ export const AdminPanel = (props: any) => {
             axios(config)
             .then(function (response: any) {
                 if (response.data === false) {
-                    alert("You are not an admin anymore");
+                    toast.success("You are not an admin anymore");
                     window.location.reload();
                 }
             })
             .catch(function (error: any) {
             });
 
-            var config = {
+            config = {
                 method: "post",
                 url: "chat/updateUserStatus",
                 headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
@@ -99,13 +98,13 @@ export const AdminPanel = (props: any) => {
             axios(config)
             .then(function (response: any) {
                 if (status === 0)
-                    alert("User is now an admin on this channel")
+                    toast.success("User is now an admin on this channel")
                 else if (status === 1)
-                    alert("User is now a normal user")
+                    toast.success("User is now a normal user")
                 else if (status === 2)
-                    alert("User is now muted, you can unmute him wheneven you want");
+                    toast.success("User is now muted, you can unmute him wheneven you want");
                 else if (status === 3)
-                    alert("User is now banned, you can unban him wheneven you want")
+                    toast.success("User is now banned, you can unban him wheneven you want")
                 window.location.reload();
             })
             .catch(function (error: any) {

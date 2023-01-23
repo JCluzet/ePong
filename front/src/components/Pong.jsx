@@ -319,7 +319,6 @@ export default function Pong() {
       }
       //   {isActive && draw();}
       draw();
-    }
   }
 
   // window.addEventListener(
@@ -651,7 +650,7 @@ export default function Pong() {
               {isActive && !modeButton && (
                 <button
                   type="button"
-                  className="ui labeled icon button"
+                  className="ui labeled icon button button-match-making"
                   id="search-button"
                   onClick={sendSearch}
                 >

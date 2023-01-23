@@ -83,9 +83,9 @@ export default function AcceptFriendList() {
           {
             isReceice ? 
             <><div className="back-button">
-                  <button className="social-button" onClick={Accept}>Accept</button>
+                  <button className="button" onClick={Accept}>Accept</button>
                 </div><div className="back-button">
-                    <button className="social-button" onClick={deny}>deny</button>
+                    <button className="button" onClick={deny}>deny</button>
                   </div></>
             : 
             <p></p>

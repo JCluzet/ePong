@@ -47,11 +47,13 @@ export default function EditProfil({ firstlogin }) {
         accountService.isTwoFa()
       );
       await new Promise((resolve) => setTimeout(resolve, 500));
-      const response = await storeProfilData(
+      await storeProfilData(
         accountService.userToken(),
-        accountService.userLogin(),
-        () => window.location.reload()
+        accountService.userLogin()
+        // () => window.location.reload()
       );
+
+
     } else {
         if(firstlogin !== "true")
             toast.info("Nothing to change");
