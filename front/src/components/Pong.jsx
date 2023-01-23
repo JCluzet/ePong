@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "../styles/Pong.scss";
-import JSConfetti from "js-confetti";
+// import JSConfetti from "js-confetti";
 // import useWindowDimensions from "./useWindowDimensions";
-import io, { Socket } from "socket.io-client";
+import io from "socket.io-client";
 import { Form } from "react-bootstrap";
 // import Confetti from "react-confetti";
 import "/node_modules/react-rain-animation/lib/style.css";
@@ -25,12 +25,12 @@ let url_begin = "";
 if (process.env.REACT_APP_IP === "" || process.env.REACT_APP_IP === undefined)
   url_begin = "http://localhost";
 else url_begin = "http://".concat(process.env.REACT_APP_IP);
-let selectedUser = "";
+// let selectedUser = "";
 
 var socket = io(url_begin.concat(":5001/game"), { query: { login: joueur} });
 
 export default function Pong() {
-  const jsConfetti = new JSConfetti();
+  // const jsConfetti = new JSConfetti();
   //   const { height, width } = useWindowDimensions();
   const [toastid, setToastid] = useState(0);
 
@@ -261,7 +261,7 @@ export default function Pong() {
 
    var canvas;
   var game;
-  var anim;
+  // var anim;
   // On peut changer les dimensions de la balle et des joueurs
   var PLAYER_HEIGHT = 80;
   var PLAYER_WIDTH = 10;
@@ -295,8 +295,6 @@ export default function Pong() {
   }
 
   function initParty() {
-    // eslint-disable-next-line no-lone-blocks
-    {
       if (canvas) {
         game = {
           player: {
@@ -601,11 +599,11 @@ export default function Pong() {
   //   SearchText = "Play Again";
   // }
 
-  // const gameOptions = [
-  //   { key: "original", text: "Classic", value: "original" },
-  //   { key: "bigball", text: "Big Ball", value: "bigball" },
-  //   { key: "fast", text: "Fast", value: "fast" },
-  // ];
+//   const gameOptions = [
+//     { key: "original", text: "Classic", value: "original" },
+//     { key: "bigball", text: "Big Ball", value: "bigball" },
+//     { key: "fast", text: "Fast", value: "fast" },
+//   ];
 
   // if url have a get parameter vs, then it's a live game
   //   if (window.location.href.includes("vs")) {
