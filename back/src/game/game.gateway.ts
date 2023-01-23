@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import { SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
 import { EUser } from 'src/users/interfaces/user.entity';
@@ -20,15 +21,16 @@ export class GameGateway {
 
 	async handleConnection(client: Socket): Promise<any> {
 			try {
+				Logger.log(`connect Socket`);
 				const user: EUser = await this.userService.findUserByLogin(String(client.handshake.query.login));
 				if (!user && !String(client.handshake.query.gameMode)) client.disconnect();
 				client.data.user = user;
-				client.data.gameMode = String(client.handshake.query.login);
 			} catch (err) {}
 	}
 
 	async handleDisconnect(client: Socket): Promise<any> {
 		try {
+			Logger.log(`disconnect socket`);
 			if (!client.data.user) return;
 			await this.gameService.removeSocket(client);
 			this.userService.updateStatus(client.data.user.login, "online");
@@ -36,11 +38,23 @@ export class GameGateway {
 	}
 
 	@SubscribeMessage('queue')
-	joinQueue(client: Socket) {
+	joinQueue(client: Socket, gameMode: String) {
 		try {
+			Logger.log(`add queue: ${gameMode}`);
 			if (!client.data.user) return;
+			client.data.gameMode = gameMode;
 			this.gameService.addQueue(client);
 			this.userService.updateStatus(client.data.user.login, "ingame");
+		} catch (err) {}
+	}
+
+	@SubscribeMessage('leaveQueue')
+	async leaveQueue(client: Socket) {
+		try {
+			Logger.log(`leave queue`);
+			if (!client.data.user) return;
+			await this.gameService.removeSocket(client);
+			this.userService.updateStatus(client.data.user.login, "online");
 		} catch (err) {}
 	}
 
@@ -50,7 +64,6 @@ export class GameGateway {
 			if (!client.data.user) return;
 			let room: IRoom = this.gameService.getRoom(id);
 			if (!room) room = this.gameService.createRoomGame();
-
 			this.gameService.spectateJoinRoom(client, room);
 		} catch (err) {}
 	}

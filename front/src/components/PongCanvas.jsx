@@ -17,12 +17,14 @@ var isSearching = false;
 var gm = 0;
 let selectedUser = "";
 let url_begin = "http://localhost";
-var socket = io(url_begin.concat(":5001/game"), {
-	query: { username: joueur },
-});
+// var socket = io(url_begin.concat(":5001/game"), {
+// 	query: { username: joueur },
+// });
 	
 export default function PongCanvas() {
 	
+	const [socket, setSocket] = useState(null);
+	const [isSearching, setIsSearching] = useState(false);
 	const jsConfetti = new JSConfetti();
 	const { height, width } = useWindowDimensions();
 	const [toastid, setToastid] = useState(0);
@@ -59,6 +61,20 @@ export default function PongCanvas() {
 		}
 	}
 	
+	const sendSearch = () => {
+		console.log("start search");
+		setIsSearching(true);
+		const newSocket = io(url_begin.concat(":5001/game"), { query: { username: joueur, gameMode: gameMode } });
+		setSocket(newSocket);
+	}
+
+	const removeSearch = () => {
+		console.log("stop search");
+		setIsSearching(false);
+		socket.disconnect();
+		
+	}
+
 	function removeInvit() {
 		setActive2(false);
 		socket.emit('removeInvit', true)
@@ -66,44 +82,48 @@ export default function PongCanvas() {
 		setActive(true);
 	}
 	
-	function sendSearch() {
-		console.log('check search game');
-		if (joueur) {
-			isSearching = isSearching ? false : true;
-			if (isSearching) {
-				setModeButton(false);
-				SearchText = "Annuler le matchmaking"
-				socket.emit('search', gameMode);
-				document.querySelector("#search-button").textContent = SearchText;
-				const toastid = toast.loading("Searching for a player");
-				setToastid(toastid);
-			}
-			else {
-				setModeButton(true);
-				SearchText = "Relancer le matchmaking"
-				socket.emit('search', "STOPSEARCH-" + gameMode);
-				document.querySelector("#search-button").textContent = SearchText;
-				toast.update(toastid, {
-				  render: "Matchmaking cancelled",
-				  type: "error",
-				  isLoading: false,
-				  hideProgressBar: false,
-				  autoClose: 3000,
-				});
-			}
-			setGM("original");
-		} else {
-			document.querySelector("#search-button").textContent =
-			  "Cannot launch matchmaking";
-			toast.update(toastid, {
-			  render: "Cannot launch matchmaking",
-			  type: "error",
-			  isLoading: false,
-			  hideProgressBar: false,
-			  autoClose: 3000,
-			});
-		}
-	}
+	// function sendSearch() {
+	// 	console.log('check search game');
+	// 	if (joueur) {
+	// 		const newSocket = io(url_begin.concat(":5001/game"), {
+	// 			query: { username: joueur, gameMode: gameMode },
+	// 		});
+	// 		setSocket(newSocket);
+	// 		isSearching = isSearching ? false : true;
+	// 		if (isSearching) {
+	// 			setModeButton(false);
+	// 			SearchText = "Annuler le matchmaking"
+	// 			socket.emit('search', gameMode);
+	// 			document.querySelector("#search-button").textContent = SearchText;
+	// 			const toastid = toast.loading("Searching for a player");
+	// 			setToastid(toastid);
+	// 		}
+	// 		else {
+	// 			setModeButton(true);
+	// 			SearchText = "Relancer le matchmaking"
+	// 			socket.emit('search', "STOPSEARCH-" + gameMode);
+	// 			document.querySelector("#search-button").textContent = SearchText;
+	// 			toast.update(toastid, {
+	// 			  render: "Matchmaking cancelled",
+	// 			  type: "error",
+	// 			  isLoading: false,
+	// 			  hideProgressBar: false,
+	// 			  autoClose: 3000,
+	// 			});
+	// 		}
+	// 		setGM("original");
+	// 	} else {
+	// 		document.querySelector("#search-button").textContent =
+	// 		  "Cannot launch matchmaking";
+	// 		toast.update(toastid, {
+	// 		  render: "Cannot launch matchmaking",
+	// 		  type: "error",
+	// 		  isLoading: false,
+	// 		  hideProgressBar: false,
+	// 		  autoClose: 3000,
+	// 		});
+	// 	}
+	// }
 
 	socket.on("roundStartLIVE", (...args) => {
 		const b = args[0].split(':');
@@ -367,7 +387,7 @@ export default function PongCanvas() {
 								</Form>
 								: ""
 							}
-							{isActive && (<button type="button" className="ui button" id="search-button" onClick={() => sendSearch()}>{SearchText}</button>)}
+							{isActive && (<button type="button" className="ui button" id="search-button" onClick={isSearching? removeSearch: sendSearch }>{SearchText}</button>)}
 							{/* {isActive2 ? 
 								<button type="button" className="ui labeled icon button" id="search-button2" onClick={() => removeInvit()}>
 									<i className="loading spinner icon"></i>

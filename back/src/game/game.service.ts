@@ -7,13 +7,15 @@ import { Socket } from 'socket.io';
 import { IPlayer } from './interface/player.interface';
 import { gameHistoryDto } from 'src/gameHistory/interface/gameHistory.dto';
 import { Interval } from '@nestjs/schedule';
+import { PongService } from './pong.service';
 
 
 @Injectable()
 export class GameService {
 	constructor(
-		private userService: UsersService,
-		private gameHistoricService: GameHistoryService,
+		private readonly userService: UsersService,
+		private readonly gameHistoricService: GameHistoryService,
+		private readonly pongService: PongService,
 	) { }
 
 	rooms: Map<string, IRoom> = new Map();
@@ -60,6 +62,7 @@ export class GameService {
 	};
 	
 	createRoomGame(roomId: string = null): IRoom {
+		Logger.log(`create room`);
 		while (!roomId) {
 			const newId = Math.floor(Math.random() * Math.pow(16, 10)).toString(16);
 			if (!this.rooms.has(newId)) roomId = newId;
@@ -85,10 +88,12 @@ export class GameService {
 			for (const player of room.player)
 				if (player.socket.id == socket.id){
 					this.stopGame(room, player);
-					room.player.splice(room.player.indexOf(player), 1);
+					room.player.splice(room.player.indexOf(player), 1);		
 					break;
 				}
-			if (!room.player.length) return this.rooms.delete(room.id);
+			if (room.player.length < 2){
+				return this.rooms.delete(room.id);
+			} 
 		}
 	}
 
@@ -98,21 +103,25 @@ export class GameService {
 				if (qSocket.data.user.id == socket.data.user.id) return false;
 			if (this.getPlayer(socket.data.user.id)) return false;
 			this.queue.push(socket);
-			if (this.queue.length > 2) {
+			if (this.queue.length >= 2) {
 				const room: IRoom = this.createRoomGame();
 				while(this.queue.length && room.player.length < 2){
 					const newplayer: IPlayer = {
-						socket: socket,
-						user: socket.data.user,
+						socket: this.queue[0],
+						user: this.queue[0].data.user,
 						score: 0,
-						gameMode: socket.data.gameMode,
+						gameMode: this.queue[0].data.gameMode,
 						room: room,
 						position: {x: 0, y: 0},
 					}
 					this.playerJoinRoom(newplayer, room);
 					this.queue.shift();
 				}
-				if (room.player.length == 2) room.gameIsStart = true;
+				if (room.player.length == 2){
+					room.gameIsStart = true;
+					this.emit(room, "roomCreate", room.id);
+					this.startGame(room);
+				} 
 			}
 			return true;
 
@@ -125,16 +134,15 @@ export class GameService {
 		try {
 			if (!room.gameIsStart) {
 				room.player.push(player);
-				if (room.player.length == 2) room.gameIsStart = true;
 				return true;
 			}
 			return false;
 		} catch (err) { return false; }
 	}
 
-	spectateJoinRoom(spactate: Socket, room: IRoom): boolean {
+	spectateJoinRoom(spectate: Socket, room: IRoom): boolean {
 		try {
-			room.spectator.push(spactate);
+			room.spectator.push(spectate);
 			return true;
 		} catch (err) { return false; }
 	}
@@ -154,7 +162,6 @@ export class GameService {
 		if (!room.gameIsStart) return;
 		for (const player of room.player) if (!player.gameMode) return;
 		for (const player of room.player) this.userService.updateStatus(player.user.login, "ingame");
-
 		const option = room.player[Math.round(Math.random())].gameMode;
 		if (option === "classic" ) room.GameOption = GameService.optionGame.classic;
 		else if (option === "bigBall") room.GameOption = GameService.optionGame.bigBall;
@@ -199,9 +206,10 @@ export class GameService {
 	}
 
 	@Interval(1000 / 60)
-	loop() {
+	loop(): void {
 		for (const room of this.rooms.values())
-			if (room.gameIsStart) Logger.log("Loop game update");
+			if (room.gameIsStart) this.pongService.update(room);
+		return;
 	}
 
 	emit(room: IRoom, event: string, ...args: any) {

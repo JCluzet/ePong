@@ -6,10 +6,11 @@ import { UsersService } from '../users/users.service';
 import { GameHistoryModule } from 'src/gameHistory/gameHistory.module';
 import { UsersModule } from 'src/users/users.module';
 import { PongService } from './pong.service';
+import { ScheduleModule } from '@nestjs/schedule';
 ;
 
 @Module({
-    imports: [GameHistoryModule, UsersModule],
+    imports: [ScheduleModule.forRoot() ,GameHistoryModule, UsersModule],
     controllers: [GameController],
     providers: [GameService, GameGateway, PongService],
     exports: [GameService]

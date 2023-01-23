@@ -32,7 +32,7 @@ export class UsersService {
     return userPublicProfil;
   }
 
-  async findUserByLogin(login: string): Promise<EUser | undefined> {
+  async findUserByLogin(login: string): Promise<EUser | undefined> {    
     const ret = await this.usersRepository.find({ where: { login: login } });
     if (ret.length) return ret[0];
     return undefined;
