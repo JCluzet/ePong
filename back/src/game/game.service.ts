@@ -25,6 +25,10 @@ export class GameService {
 
 	static cursor: ICursor = { x: 10, y: 80 }
 
+	static option = {
+    display: { width: 500, height: 400 },
+  }
+
 	static optionGame: IOptionGame = {
 		classic: {
 			optionName: "classic",
@@ -105,6 +109,7 @@ export class GameService {
 			this.queue.push(socket);
 			if (this.queue.length >= 2) {
 				const room: IRoom = this.createRoomGame();
+				var posPlayer = 0;
 				while(this.queue.length && room.player.length < 2){
 					const newplayer: IPlayer = {
 						socket: this.queue[0],
@@ -112,8 +117,9 @@ export class GameService {
 						score: 0,
 						gameMode: this.queue[0].data.gameMode,
 						room: room,
-						position: {x: 0, y: 0},
+						position: {x: posPlayer === 0 ? GameService.cursor.x : GameService.option.display.width - GameService.cursor.x, y: GameService.option.display.height / 2},
 					}
+					posPlayer++;
 					this.playerJoinRoom(newplayer, room);
 					this.queue.shift();
 				}
@@ -174,6 +180,7 @@ export class GameService {
 		var looser: IPlayer;
 		room.gameIsStart = false;
 		if (playerDisconnected){
+			// Logger.log(`check 1`);
 			for (const player of room.player){
 				if (player === playerDisconnected) looser = player;
 				else winner = player;
@@ -187,7 +194,9 @@ export class GameService {
 				type: room.GameOption.optionName,
 			};
 			this.gameHistoricService.createNewGame(newhistory);
+			this.userService.editGameScore({winner: winner.user.login, loser: looser.user.login});
 		} else {
+			// Logger.log(`check 2`);
 			for(const player of room.player) {
 				if (player.score === 5) winner = player;
 				else looser = player;
@@ -201,6 +210,7 @@ export class GameService {
 				type: room.GameOption.optionName,
 			};
 			this.gameHistoricService.createNewGame(newhistory);
+			this.userService.editGameScore({winner: winner.user.login, loser: looser.user.login});
 		}
 		this.emit(room, "stopGame", winner.user);
 	}

@@ -16,8 +16,8 @@ import "semantic-ui-css/semantic.min.css";
 // var adversaire;
 var joueur = accountService.userName();
 // // var avatarUrl = accountService.userAvatarUrl();
-// let joueur1;
-// let joueur2;
+let joueur1;
+let joueur2;
 // var isSearching = false;
 // var gm = 0;
 
@@ -52,7 +52,7 @@ export default function Pong() {
     // eslint-disable-next-line
      canvas = document.getElementById("canvas");
      initParty();
-    // if (live == null) window.addEventListener("mousemove", playerMove);
+    window.addEventListener("mousemove", playerMove);
     if (live !== null) {
       setModeButton(false);
       setActive(false);
@@ -95,8 +95,45 @@ export default function Pong() {
     }
   }
 
+  const playerMove = (event) => {
+
+    var canvasLocation = canvas.getBoundingClientRect();
+    var mouseLocation = event.clientY - canvasLocation.y;
+    // Emit socket player position
+    if (joueur === joueur1) {
+      game.player.y = mouseLocation - PLAYER_HEIGHT / 2;
+      if (mouseLocation < PLAYER_HEIGHT / 2) {
+        game.player.y = 0;
+      } else if (mouseLocation > canvas.height - PLAYER_HEIGHT / 2) {
+        game.player.y = canvas.height - PLAYER_HEIGHT;
+      } else {
+        game.player.y = mouseLocation - PLAYER_HEIGHT / 2;
+      }
+      //console.log(`game.player.y ${game.player.y}`);
+      socket.emit("cursor", game.player.y);
+    } else if (joueur === joueur2) {
+      game.player2.y = mouseLocation - PLAYER_HEIGHT / 2;
+      if (mouseLocation < PLAYER_HEIGHT / 2) {
+        game.player2.y = 0;
+      } else if (mouseLocation > canvas.height - PLAYER_HEIGHT / 2) {
+        game.player2.y = canvas.height - PLAYER_HEIGHT;
+      } else {
+        game.player2.y = mouseLocation - PLAYER_HEIGHT / 2;
+      }
+      //console.log(`game.player2.y ${game.player2.y}`);
+      socket.emit("cursor", game.player2.y);
+    }
+  }
+
   socket.on("updateBall", (...args) => {
     console.log(`update ball`);
+    //console.log(args);
+    game.ball.x = args[0].x;
+    game.ball.y = args[0].y;
+    //console.log(`args[1].player: ${args[1].player}, args[1].player2 ${args[1].player2}`);
+    game.player.y = args[1].player1;
+    game.player2.y = args[1].player2;
+    draw();
   })
 
   socket.on("scoreUpdate", (...args) => {
@@ -109,11 +146,18 @@ export default function Pong() {
 
   socket.on("startGame", (...args) => {
     console.log(`start game`);
+    console.log(args);
+    joueur1 = args[1][0].login;
+    joueur2 = args[1][1].login;
+    //console.log(`joueur1: ${joueur1}, joueur2: ${joueur2}`);
   })
 
   socket.on("stopGame", (...args) => {
     console.log(`stop game`);
+    console.log(args);
   })
+
+  
 
   //   function removeInvit() {
   //     setActive2(false);
@@ -281,12 +325,7 @@ export default function Pong() {
       context.stroke();
       context.fillStyle = "black";
       context.fillRect(0, game.player.y, PLAYER_WIDTH, PLAYER_HEIGHT);
-      context.fillRect(
-        canvas.width - PLAYER_WIDTH,
-        game.player2.y,
-        PLAYER_WIDTH,
-        PLAYER_HEIGHT
-      );
+      context.fillRect(canvas.width - PLAYER_WIDTH, game.player2.y, PLAYER_WIDTH, PLAYER_HEIGHT);
       context.beginPath();
       context.fillStyle = "black";
       context.fillRect(game.ball.x, game.ball.y, BALL_SIDE, BALL_SIDE);
@@ -319,13 +358,13 @@ export default function Pong() {
       draw();
   }
 
-  // window.addEventListener(
-  //   "resize",
-  //   function () {
-  //     draw();
-  //   },
-  //   true
-  // );
+  window.addEventListener(
+    "resize",
+    function () {
+      draw();
+    },
+    true
+  );
 
   // function play() {
   //   draw();

@@ -19,7 +19,7 @@ export class PongService {
     room.GameOption.ball.position.x = x;
     room.GameOption.ball.position.y = y;
     room.GameOption.ball.velocity = PongService.velocity((room.GameOption.ball.ballspeed *= 1.01), radian);
-    this.gameService.emit(room, "updateBall", room.GameOption.ball.position);
+    this.gameService.emit(room, "updateBall", room.GameOption.ball.position, {player1: room.player[0].position.y, player2: room.player[1].position.y});
   }
 
   resetBall(room: IRoom, left?: boolean): void {
@@ -36,19 +36,19 @@ export class PongService {
     if (next.x - (room.GameOption.ball.y / 2) < 0 || next.x + (room.GameOption.ball.y / 2) > PongService.option.display.width) {
       if (next.x > room.GameOption.ball.y / 2) room.player[0].score++;
       else room.player[1].score++;
-      this.gameService.emit(room, "scoreUpdate", room.player);
+      //this.gameService.emit(room, "scoreUpdate", room.player);
       for (const player of room.player)
         if (player.score === 5)
           return this.gameService.stopGame(room, undefined);
       this.resetBall(room, next.x + (room.GameOption.ball.y / 2) > PongService.option.display.width);
     }
-    if (next.y > (room.player[0].position.y + (room.GameOption.cursor.y / 2)) &&
-        next.y < (room.player[0].position.y - (room.GameOption.cursor.y / 2))) {
-          if (next.x - room.GameOption.ball.y / 2 < room.GameOption.cursor.x)
+    if (next.y >= (room.player[0].position.y - (room.GameOption.cursor.y / 2)) &&
+        next.y <= (room.player[0].position.y + (room.GameOption.cursor.y / 2))) {
+          if (next.x - (room.GameOption.ball.y / 2) < room.GameOption.cursor.x)
             return this.updateBall(room.GameOption.ball.position.x, room.GameOption.ball.position.y, (Math.random() * Math.PI) / 2 - Math.PI / 4, room);
         }
-    if (next.y > (room.player[0].position.y + (room.GameOption.cursor.y / 2)) &&
-        next.y < (room.player[0].position.y - (room.GameOption.cursor.y / 2))) {
+    if (next.y >= (room.player[1].position.y - (room.GameOption.cursor.y / 2)) &&
+        next.y <= (room.player[1].position.y + (room.GameOption.cursor.y / 2))) {
           if (next.x + (room.GameOption.ball.y / 2) > PongService.option.display.width - room.GameOption.cursor.x)
           return this.updateBall(room.GameOption.ball.position.x, room.GameOption.ball.position.y, (Math.random() * Math.PI) / 2 - Math.PI / 4 + Math.PI, room);
         }
@@ -56,6 +56,6 @@ export class PongService {
         room.GameOption.ball.velocity.y *= -1;
     room.GameOption.ball.position.x += room.GameOption.ball.velocity.x;
     room.GameOption.ball.position.y += room.GameOption.ball.velocity.y;
-    this.gameService.emit(room, "updateBall", room.GameOption.ball.position);
+    this.gameService.emit(room, "updateBall", room.GameOption.ball.position, {player1: room.player[0].position.y, player2: room.player[1].position.y});
   }
 }

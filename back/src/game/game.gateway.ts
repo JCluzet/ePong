@@ -79,14 +79,15 @@ export class GameGateway {
 	}
 
 	@SubscribeMessage('cursor')
-	updateCursor(client: Socket, cursorPosition: IPosition) {
+	updateCursor(client: Socket, y: number) {
 		try {
 			if (!client.data.user) return;
 			const player: IPlayer = this.gameService.getPlayer(client.data.user.id);
 			if (!player) return;
-			player.position.x = cursorPosition.x;
-			player.position.y = cursorPosition.y;
-			this.gameService.emit(player.room, "updateCursor", player);
+			player.position.y = y;
+			//Logger.log(`check Move back y: ${y}`);
+			//console.log(player.position);
+			//this.gameService.emit(player.room, "updateCursor", player);
 		} catch (err) {}
 	}
 }
