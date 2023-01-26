@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { GameHistoryService } from 'src/gameHistory/gameHistory.service';
 import { IRoom } from './interface/room.interface';

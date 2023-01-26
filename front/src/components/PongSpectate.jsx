@@ -16,7 +16,8 @@ import { useSearchParams } from 'react-router-dom';
 import axios from "axios";
 
 // var adversaire;
-var joueur = accountService.userName();
+var joueur = accountService.userLogin();
+
 // // var avatarUrl = accountService.userAvatarUrl();
 
 // var gm = 0;
@@ -44,7 +45,7 @@ export default function PongSpectate() {
      initParty();
      var config = {
       method: "get",
-      url: "/api/game/" + searchParams.get("name"),
+      url: "/api/game/" + searchParams.get("login"),
       headers: { Authorization: "Bearer " + accountService.userToken() },
     }
     axios(config).then((responce) => {

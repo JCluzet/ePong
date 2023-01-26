@@ -15,6 +15,7 @@ import "semantic-ui-css/semantic.min.css";
 
 // var adversaire;
 var joueur = accountService.userName();
+var login = accountService.userLogin();
 // // var avatarUrl = accountService.userAvatarUrl();
 let joueur1;
 let joueur2;
@@ -26,7 +27,7 @@ if (process.env.REACT_APP_IP === "" || process.env.REACT_APP_IP === undefined)
 else url_begin = "http://".concat(process.env.REACT_APP_IP);
 // let selectedUser = "";
 
-var socket = io(url_begin.concat(":5001/game"), { query: { login: joueur} });
+var socket = io(url_begin.concat(":5001/game"), { query: { login: login} });
 
 export default function Pong() {
   // const jsConfetti = new JSConfetti();
@@ -146,8 +147,8 @@ export default function Pong() {
    // console.log(args);
     setActive(false);
     setIsSearching(false);
-    joueur1 = args[1][0].login;
-    joueur2 = args[1][1].login;
+    joueur1 = args[1][0].name;
+    joueur2 = args[1][1].name;
     game.ball.side = args[0].ball.y;
     SetPlayerScore1(0);
     SetPlayerScore2(0);

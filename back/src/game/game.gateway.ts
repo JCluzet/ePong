@@ -1,4 +1,4 @@
-import { Logger } from '@nestjs/common';
+
 import { SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
 import { EUser } from 'src/users/interfaces/user.entity';
@@ -21,8 +21,12 @@ export class GameGateway {
 
 	async handleConnection(client: Socket): Promise<any> {
 			try {
+
 				const user: EUser = await this.userService.findUserByLogin(String(client.handshake.query.login));
-				if (!user && !String(client.handshake.query.gameMode)) client.disconnect();
+				if (!user) client.disconnect();
+				// else {
+				// 	console.log(user);
+				// }
 				client.data.user = user;
 			} catch (err) {}
 	}
@@ -58,11 +62,10 @@ export class GameGateway {
 	joinRoom(client: Socket, id?: string) {
 		try {
 			if (!client.data.user) return;
-			Logger.log(`id: ${id}`);
 			let room: IRoom = this.gameService.getRoom(id);
 			if (!room) room = this.gameService.createRoomGame();
 			this.gameService.spectateJoinRoom(client, room);
-			client.emit("spectateJoin", {player1: room.player[0].user.login, player2: room.player[1].user.login})
+			client.emit("spectateJoin", {player1: room.player[0].user.name, player2: room.player[1].user.name})
 		} catch (err) {}
 	}
 
