@@ -117,7 +117,7 @@ export class GameService {
 						score: 0,
 						gameMode: this.queue[0].data.gameMode,
 						room: room,
-						position: {x: posPlayer === 0 ? GameService.cursor.x : GameService.option.display.width - GameService.cursor.x, y: GameService.option.display.height / 2},
+						position: {x: posPlayer === 0 ? 0 : GameService.option.display.width - GameService.cursor.x, y: GameService.option.display.height / 2},
 					}
 					posPlayer++;
 					this.playerJoinRoom(newplayer, room);
@@ -170,9 +170,10 @@ export class GameService {
 		for (const player of room.player) this.userService.updateStatus(player.user.login, "ingame");
 		const option = room.player[Math.round(Math.random())].gameMode;
 		if (option === "classic" ) room.GameOption = GameService.optionGame.classic;
-		else if (option === "bigBall") room.GameOption = GameService.optionGame.bigBall;
+		else if (option === "bigball") room.GameOption = GameService.optionGame.bigBall;
 		else room.GameOption = GameService.optionGame.fast;
 		this.emit(room, "startGame", room.GameOption, room.player.map((player) => player.user));
+		this.pongService.resetBall(room);
 	}
 
 	stopGame(room: IRoom, playerDisconnected: IPlayer | undefined) {

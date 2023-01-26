@@ -75,7 +75,8 @@ export default function Pong() {
     if(joueur) {
       if(!isSearching) {
         setIsSearching(true);
-        console.log("start search");
+        console.log(`start search ${gameMode}`);
+        
         socket.emit("queue", gameMode);
         const toastid = toast.loading("Searching for a player");
         setToastid(toastid);
@@ -126,8 +127,9 @@ export default function Pong() {
   }
 
   socket.on("updateBall", (...args) => {
-    console.log(`update ball`);
+    //console.log(`update ball`);
     //console.log(args);
+    // console.log(BALL_SIDE);
     game.ball.x = args[0].x;
     game.ball.y = args[0].y;
     //console.log(`args[1].player: ${args[1].player}, args[1].player2 ${args[1].player2}`);
@@ -138,23 +140,26 @@ export default function Pong() {
 
   socket.on("scoreUpdate", (...args) => {
     console.log(`score update`);
+    console.log(args);
   })
 
   socket.on("roomCreate", (...args) => {
-    console.log(`room create`);
+   // console.log(`room create`);
+    //console.log(args);
   })
 
   socket.on("startGame", (...args) => {
-    console.log(`start game`);
-    console.log(args);
+   // console.log(`start game`);
+   // console.log(args);
     joueur1 = args[1][0].login;
     joueur2 = args[1][1].login;
+    game.ball.side = args[0].ball.y;
     //console.log(`joueur1: ${joueur1}, joueur2: ${joueur2}`);
   })
 
   socket.on("stopGame", (...args) => {
-    console.log(`stop game`);
-    console.log(args);
+   // console.log(`stop game`);
+    //console.log(args);
   })
 
   
@@ -166,151 +171,12 @@ export default function Pong() {
   //     setModeButton(true);
   //   }
 
-  // function sendSearch() {
-  //   console.log("check search game");
-  //   if (joueur) {
-  //     isSearching = isSearching ? false : true;
-  //     if (isSearching) {
-  //       setModeButton(false);
-  //       SearchText = "Cancel matchmaking";
-  //       socket.emit("search", gameMode);
-  //       document.querySelector("#search-button").textContent = SearchText;
-  //       const toastid = toast.loading("Searching for a player");
-  //       setToastid(toastid);
-  //     } else {
-  //       setModeButton(true);
-  //       SearchText = "Restart matchmaking";
-  //       socket.emit("search", "STOPSEARCH-" + gameMode);
-  //       document.querySelector("#search-button").textContent = SearchText;
-  //       toast.update(toastid, {
-  //         render: "Matchmaking cancelled",
-  //         type: "error",
-  //         isLoading: false,
-  //         hideProgressBar: false,
-  //         autoClose: 3000,
-  //       });
-  //     }
-  //     setGM("original");
-  //   } else {
-  //     document.querySelector("#search-button").textContent =
-  //       "Cannot launch matchmaking";
-  //     toast.update(toastid, {
-  //       render: "Cannot launch matchmaking",
-  //       type: "error",
-  //       isLoading: false,
-  //       hideProgressBar: false,
-  //       autoClose: 3000,
-  //     });
-  //   }
-  // }
-
-
-  // socket.on("roundStartLIVE", (...args) => {
-  //   if (
-  //     live !== null &&
-  //     (document.querySelector("#player-score").textContent === "5" ||
-  //       document.querySelector("#player2-score").textContent === "5") &&
-  //     joueur !== joueur2 &&
-  //     joueur !== joueur1
-  //   )
-  //     window.top.location = url_begin.concat(":3000/live");
-
-  //   if (live !== null || joueur === joueur2) {
-  //     const b = args[0].split(":");
-  //     document.querySelector("#joueur1").textContent = b[1];
-  //     document.querySelector("#joueur2").textContent = b[2];
-  //     document.querySelector("#player-score").textContent = String(b[3]);
-  //     document.querySelector("#player2-score").textContent = String(b[4]);
-  //     joueur1 = b[1];
-  //     joueur2 = b[2];
-  //     console.log("HERE: " + isActive);
-  //     setModeButton(false);
-  //     setActive(false);
-  //     setActive2(false);
-  //     if (game) {
-  //       game.player.score = b[3];
-  //       game.player2.score = b[4];
-  //     }
-  //     if (
-  //       (document.querySelector("#player-score").textContent === "5" ||
-  //         document.querySelector("#player2-score").textContent === "5") &&
-  //       live == null
-  //     ) {
-  //       stop();
-  //       clearDataGame();
-  //     }
-  //   }
-  // });
-
-  // socket.on("gameStart", (...args) => {
-  //   // setWin(false);
-  //   document.querySelector("#player-score").textContent = "0";
-  //   document.querySelector("#player2-score").textContent = "0";
-  //   document.querySelector("#victoryMessage").textContent = "";
-  //   document.querySelector("#waitingPlayer").textContent = "";
-  //   joueur1 = args[0];
-  //   joueur2 = args[1];
-  //   // const str = "";
-  //   if (joueur1 === joueur) {
-  //     adversaire = joueur2;
-  //   } else {
-  //     adversaire = joueur1;
-  //   }
-  //   toast.update(toastid, {
-  //     render: "Game found with " + adversaire + " !",
-  //     type: "success",
-  //     isLoading: false,
-  //     hideProgressBar: false,
-  //     autoClose: 3000,
-  //   });
-  //   gm = args[2];
-  //   setGameMode(gm);
-  //   initParty();
-  //   if (joueur1 !== adversaire && joueur1 === joueur && game) {
-  //     adversaire = joueur2;
-  //     document.querySelector("#joueur1").textContent = joueur1;
-  //     document.querySelector("#joueur2").textContent = joueur2;
-  //     cancelAnimationFrame(anim);
-  //     play();
-  //     setModeButton(false);
-  //     setActive(false);
-  //     setActive2(false);
-  //   } else if (joueur2 !== adversaire && joueur2 === joueur && game) {
-  //     adversaire = joueur1;
-  //     document.querySelector("#joueur1").textContent = joueur1;
-  //     document.querySelector("#joueur2").textContent = joueur2;
-  //     cancelAnimationFrame(anim);
-  //     play();
-  //     setModeButton(false);
-  //     setActive(false);
-  //     setActive2(false);
-  //   }
-  // });
-
-  // function setGameMode(g) {
-  //   if (g === 0) {
-  //     PLAYER_WIDTH = 10;
-  //     BALL_SIDE = 10;
-  //     BALL_SPEED = 2;
-  //   } else if (g === 1) {
-  //     PLAYER_WIDTH = 10;
-  //     BALL_SIDE = 50;
-  //     BALL_SPEED = 2;
-  //   } else if (g === 2) {
-  //     PLAYER_WIDTH = 10;
-  //     BALL_SIDE = 10;
-  //     BALL_SPEED = 5;
-  //   }
-  // }
-
-   var canvas;
+  var canvas;
   var game;
   // var anim;
   // On peut changer les dimensions de la balle et des joueurs
   var PLAYER_HEIGHT = 80;
   var PLAYER_WIDTH = 10;
-  var BALL_SIDE = 10;
-  var BALL_SPEED = 2;
 
   function draw() {
     // Draw Canvas
@@ -328,7 +194,7 @@ export default function Pong() {
       context.fillRect(canvas.width - PLAYER_WIDTH, game.player2.y, PLAYER_WIDTH, PLAYER_HEIGHT);
       context.beginPath();
       context.fillStyle = "black";
-      context.fillRect(game.ball.x, game.ball.y, BALL_SIDE, BALL_SIDE);
+      context.fillRect(game.ball.x, game.ball.y, game.ball.side, game.ball.side);
       context.fill();
     }
   }
@@ -345,12 +211,9 @@ export default function Pong() {
             score: 0,
           },
           ball: {
-            x: canvas.width / 2 - BALL_SIDE / 2,
-            y: canvas.height / 2 - BALL_SIDE / 2,
-            speed: {
-              x: BALL_SPEED,
-              y: BALL_SPEED,
-            },
+            x: canvas.width / 2 - 10 / 2,
+            y: canvas.height / 2 - 10 / 2,
+            side: 10,
           },
         };
       }
@@ -707,8 +570,8 @@ export default function Pong() {
                     onChange={(e) => setGM(e.target.value)}
                   >
                     <option value="classic">Classic</option>
-                    <option value="bigball ">Big Ball</option>
                     <option value="fast">Fast</option>
+                    <option value="bigball">Big Ball</option>
                   </Form.Select>
                 </div>
               ) : (
