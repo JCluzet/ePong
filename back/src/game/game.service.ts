@@ -69,7 +69,6 @@ export class GameService {
 	};
 	
 	createRoomGame(roomId: string = null): IRoom {
-		Logger.log(`create room`);
 		while (!roomId) {
 			const newId = Math.floor(Math.random() * Math.pow(16, 10)).toString(16);
 			if (!this.rooms.has(newId)) roomId = newId;
@@ -184,7 +183,6 @@ export class GameService {
 		var looser: IPlayer;
 		room.gameIsStart = false;
 		if (playerDisconnected){
-			// Logger.log(`check 1`);
 			for (const player of room.player){
 				if (player === playerDisconnected) looser = player;
 				else winner = player;
@@ -200,7 +198,6 @@ export class GameService {
 			this.gameHistoricService.createNewGame(newhistory);
 			this.userService.editGameScore({winner: winner.user.login, loser: looser.user.login});
 		} else {
-			// Logger.log(`check 2`);
 			for(const player of room.player) {
 				if (player.score === 5) winner = player;
 				else looser = player;
@@ -220,13 +217,13 @@ export class GameService {
 		this.rooms.delete(room.id);
 	}
 
-	getRoomFromUser(login: string): IRoom {
-		const rooms = Array.from(this.rooms.values());
-    const room = rooms.find(
-      (room) => !!room.player.find((player) => player.user.login == login),
-    );
-    if (!room) throw new Error('Room not found');
-    return room;
+	async getRoomFromUser(userName: string): Promise<string> {
+		for (const room of this.rooms.values())
+			for(const player of room.player)
+				if (player.user.name === userName){
+					return room.id;
+				}
+		return "";
 	}
 
 	@Interval(1000 / 60)

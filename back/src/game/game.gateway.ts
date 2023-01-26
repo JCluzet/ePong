@@ -21,7 +21,6 @@ export class GameGateway {
 
 	async handleConnection(client: Socket): Promise<any> {
 			try {
-				Logger.log(`connect Socket`);
 				const user: EUser = await this.userService.findUserByLogin(String(client.handshake.query.login));
 				if (!user && !String(client.handshake.query.gameMode)) client.disconnect();
 				client.data.user = user;
@@ -30,7 +29,6 @@ export class GameGateway {
 
 	async handleDisconnect(client: Socket): Promise<any> {
 		try {
-			Logger.log(`disconnect socket`);
 			if (!client.data.user) return;
 			await this.gameService.removeSocket(client);
 			this.userService.updateStatus(client.data.user.login, "online");
@@ -40,7 +38,6 @@ export class GameGateway {
 	@SubscribeMessage('queue')
 	joinQueue(client: Socket, gameMode: String) {
 		try {
-			Logger.log(`add queue: ${gameMode}`);
 			if (!client.data.user) return;
 			client.data.gameMode = gameMode;
 			this.gameService.addQueue(client);
@@ -51,7 +48,6 @@ export class GameGateway {
 	@SubscribeMessage('leaveQueue')
 	async leaveQueue(client: Socket) {
 		try {
-			Logger.log(`leave queue`);
 			if (!client.data.user) return;
 			await this.gameService.removeSocket(client);
 			this.userService.updateStatus(client.data.user.login, "online");
@@ -62,9 +58,11 @@ export class GameGateway {
 	joinRoom(client: Socket, id?: string) {
 		try {
 			if (!client.data.user) return;
+			Logger.log(`id: ${id}`);
 			let room: IRoom = this.gameService.getRoom(id);
 			if (!room) room = this.gameService.createRoomGame();
 			this.gameService.spectateJoinRoom(client, room);
+			client.emit("spectateJoin", {player1: room.player[0].user.login, player2: room.player[1].user.login})
 		} catch (err) {}
 	}
 
@@ -85,9 +83,6 @@ export class GameGateway {
 			const player: IPlayer = this.gameService.getPlayer(client.data.user.id);
 			if (!player) return;
 			player.position.y = y;
-			//Logger.log(`check Move back y: ${y}`);
-			//console.log(player.position);
-			//this.gameService.emit(player.room, "updateCursor", player);
 		} catch (err) {}
 	}
 }

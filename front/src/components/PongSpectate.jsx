@@ -18,8 +18,7 @@ import axios from "axios";
 // var adversaire;
 var joueur = accountService.userName();
 // // var avatarUrl = accountService.userAvatarUrl();
-let joueur1;
-let joueur2;
+
 // var gm = 0;
 
 let url_begin = "";
@@ -33,26 +32,29 @@ var socket = io(url_begin.concat(":5001/game"), { query: { login: joueur} });
 export default function PongSpectate() {
   const [playerScore1, SetPlayerScore1] = useState(0);
   const [playerScore2, SetPlayerScore2] = useState(0);
+  const [joueur1, setJoueur1] = useState("");
+  const [joueur2, setJoueur2] = useState("");
   // eslint-disable-next-line no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
-  const [roomId, setRoomId] = useState("");
+  // const [roomId, setRoomId] = useState("");
 
   useEffect(() => {
      // eslint-disable-next-line react-hooks/exhaustive-deps
      canvas = document.getElementById("canvas");
      initParty();
      var config = {
-      method: "post",
-      url: "/api/game/" + searchParams.get("login"),
+      method: "get",
+      url: "/api/game/" + searchParams.get("name"),
       headers: { Authorization: "Bearer " + accountService.userToken() },
     }
-    axios(config).then((responce) => setRoomId(responce.data))
-    socket.emit("Room", roomId);
+    axios(config).then((responce) => {
+      socket.emit("room", responce.data);
+    });
+    // socket.emit("Room", roomId);
     return () => {};
   }, []);
 
   socket.on("updateBall", (...args) => {
-    //console.log(`update ball`);
     game.ball.x = args[0].x;
     game.ball.y = args[0].y;
     game.player.y = args[1].player1;
@@ -74,7 +76,12 @@ export default function PongSpectate() {
 
   socket.on("stopGame", (...args) => {
     console.log(`stop game`);
-    //console.log(args);
+  })
+
+  socket.on("spectateJoin", (...args) => {
+    console.log(args);
+    setJoueur1(args[0].player1);
+    setJoueur2(args[0].player2);
   })
 
   var canvas;

@@ -1,5 +1,5 @@
 import { ApiTags } from '@nestjs/swagger'
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Logger, Param, UseGuards } from '@nestjs/common';
 import { GameService } from 'src/game/game.service';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -10,9 +10,10 @@ export class GameController {
         private readonly gameService: GameService
     ) { }
 
-    @Get('/:login')
+    @Get('/:name')
     @UseGuards(AuthGuard('jwt'))
-    getRoomFromUser(@Param('login') login: string): string {
-        return this.gameService.getRoomFromUser(login).id;
+    async getRoomFromUser(@Param('name') name: string): Promise<string> {
+        Logger.log(name);
+        return await this.gameService.getRoomFromUser(name);
     }
 }
