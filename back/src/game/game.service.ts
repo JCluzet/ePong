@@ -36,6 +36,7 @@ export class GameService {
 				x: 10,
 				y: 10,
 				ballspeed: 2,
+				speedConst: 2,
 				position: GameService.position,
 				velocity: GameService.position,
 			},
@@ -47,6 +48,7 @@ export class GameService {
 				x: 50,
 				y: 50,
 				ballspeed: 2,
+				speedConst: 2,
 				position: GameService.position,
 				velocity: GameService.position, 
 			},
@@ -58,6 +60,7 @@ export class GameService {
 				x: 10,
 				y: 10,
 				ballspeed: 5,
+				speedConst: 5,
 				position: GameService.position,
 				velocity: GameService.position,
 			},
@@ -214,6 +217,16 @@ export class GameService {
 			this.userService.editGameScore({winner: winner.user.login, loser: looser.user.login});
 		}
 		this.emit(room, "stopGame", winner.user);
+		this.rooms.delete(room.id);
+	}
+
+	getRoomFromUser(login: string): IRoom {
+		const rooms = Array.from(this.rooms.values());
+    const room = rooms.find(
+      (room) => !!room.player.find((player) => player.user.login == login),
+    );
+    if (!room) throw new Error('Room not found');
+    return room;
 	}
 
 	@Interval(1000 / 60)

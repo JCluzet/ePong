@@ -2,6 +2,7 @@ interface IBall {
   x: number;
   y: number;
   ballspeed: number;
+  speedConst: number;
   position: IPosition;
   velocity: IPosition;
 }

@@ -19,6 +19,7 @@ import { CreateDirectConv } from "./components/chatComponents/CreateConv/CreateD
 import { CreateGroupConv } from "./components/chatComponents/CreateConv/CreateGroupConv";
 import { JoinConversation } from "./components/chatComponents/CreateConv/JoinConversation";
 import { AdminPanel } from "./components/chatComponents/ChatFeed/AdminPanel";
+import GameSpectate from "./pages/GameSpectate";
 
 // import { GlobalProvider } from "./providers/GlobalProvider";
 
@@ -73,6 +74,10 @@ theme="light"
             } />
           <Route path="/social/chat/adminpanel" element={
             accountService.isLogged() ? <AdminPanel /> : <Login />
+            } />
+
+          <Route path="/spectate" element={
+            accountService.isLogged() ? <GameSpectate /> : <Login />
             } />
           {/* <Route path="/live" element={
             accountService.isLogged() ? <Live /> : <Login />

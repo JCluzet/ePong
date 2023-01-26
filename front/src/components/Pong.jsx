@@ -18,7 +18,6 @@ var joueur = accountService.userName();
 // // var avatarUrl = accountService.userAvatarUrl();
 let joueur1;
 let joueur2;
-// var isSearching = false;
 // var gm = 0;
 
 let url_begin = "";
@@ -36,10 +35,11 @@ export default function Pong() {
 
   const [isActive, setActive] = useState(true);
   const [isActive2, setActive2] = useState(false);
-  const [modeButton, setModeButton] = useState(true);
   //   const [isWin, setWin] = useState(false);
   const [gameMode, setGM] = useState("classic");
 	const [isSearching, setIsSearching] = useState(false);
+  const [playerScore1, SetPlayerScore1] = useState(0);
+  const [playerScore2, SetPlayerScore2] = useState(0);
 
   const queryParams = new URLSearchParams(window.location.search);
   const vs = queryParams.get("vs");
@@ -54,7 +54,6 @@ export default function Pong() {
      initParty();
     window.addEventListener("mousemove", playerMove);
     if (live !== null) {
-      setModeButton(false);
       setActive(false);
       setActive2(false);
     }
@@ -63,7 +62,6 @@ export default function Pong() {
 
   function doVersus() {
     if (vs !== null && !vshisto) {
-      setModeButton(false);
       setActive(false);
       socket.emit("versus", joueur + ":" + vs);
       setActive2(true);
@@ -97,10 +95,8 @@ export default function Pong() {
   }
 
   const playerMove = (event) => {
-
     var canvasLocation = canvas.getBoundingClientRect();
     var mouseLocation = event.clientY - canvasLocation.y;
-    // Emit socket player position
     if (joueur === joueur1) {
       game.player.y = mouseLocation - PLAYER_HEIGHT / 2;
       if (mouseLocation < PLAYER_HEIGHT / 2) {
@@ -110,7 +106,6 @@ export default function Pong() {
       } else {
         game.player.y = mouseLocation - PLAYER_HEIGHT / 2;
       }
-      //console.log(`game.player.y ${game.player.y}`);
       socket.emit("cursor", game.player.y);
     } else if (joueur === joueur2) {
       game.player2.y = mouseLocation - PLAYER_HEIGHT / 2;
@@ -121,18 +116,14 @@ export default function Pong() {
       } else {
         game.player2.y = mouseLocation - PLAYER_HEIGHT / 2;
       }
-      //console.log(`game.player2.y ${game.player2.y}`);
       socket.emit("cursor", game.player2.y);
     }
   }
 
   socket.on("updateBall", (...args) => {
     //console.log(`update ball`);
-    //console.log(args);
-    // console.log(BALL_SIDE);
     game.ball.x = args[0].x;
     game.ball.y = args[0].y;
-    //console.log(`args[1].player: ${args[1].player}, args[1].player2 ${args[1].player2}`);
     game.player.y = args[1].player1;
     game.player2.y = args[1].player2;
     draw();
@@ -141,45 +132,40 @@ export default function Pong() {
   socket.on("scoreUpdate", (...args) => {
     console.log(`score update`);
     console.log(args);
-  })
-
-  socket.on("roomCreate", (...args) => {
-   // console.log(`room create`);
-    //console.log(args);
+    if (args[0].player1.login === joueur1) {
+      SetPlayerScore1(args[0].player1.score);
+      SetPlayerScore2(args[0].player2.score);
+    } else {
+      SetPlayerScore1(args[0].player2.score);
+      SetPlayerScore2(args[0].player1.score);
+    }
   })
 
   socket.on("startGame", (...args) => {
    // console.log(`start game`);
    // console.log(args);
+    setActive(false);
+    setIsSearching(false);
     joueur1 = args[1][0].login;
     joueur2 = args[1][1].login;
     game.ball.side = args[0].ball.y;
-    //console.log(`joueur1: ${joueur1}, joueur2: ${joueur2}`);
+    SetPlayerScore1(0);
+    SetPlayerScore2(0);
   })
 
   socket.on("stopGame", (...args) => {
-   // console.log(`stop game`);
-    //console.log(args);
+    setGM("classic");
+    setActive(true);
+    initParty();
   })
-
-  
-
-  //   function removeInvit() {
-  //     setActive2(false);
-  //     socket.emit("removeInvit", true);
-  //     setActive(true);
-  //     setModeButton(true);
-  //   }
 
   var canvas;
   var game;
   // var anim;
-  // On peut changer les dimensions de la balle et des joueurs
   var PLAYER_HEIGHT = 80;
   var PLAYER_WIDTH = 10;
 
   function draw() {
-    // Draw Canvas
     if (canvas) {
       var context = canvas.getContext("2d");
       context.fillStyle = "white";
@@ -217,7 +203,6 @@ export default function Pong() {
           },
         };
       }
-      //   {isActive && draw();}
       draw();
   }
 
@@ -228,68 +213,6 @@ export default function Pong() {
     },
     true
   );
-
-  // function play() {
-  //   draw();
-  //   ballMove();
-  //   anim = requestAnimationFrame(play);
-  // }
-
-  // function playerMove(event) {
-  //   // Get the mouse location in the canvas
-  //   var canvasLocation = canvas.getBoundingClientRect();
-  //   var mouseLocation = event.clientY - canvasLocation.y;
-  //   // Emit socket player position
-  //   if (joueur === joueur1) {
-  //     game.player.y = mouseLocation - PLAYER_HEIGHT / 2;
-  //     if (mouseLocation < PLAYER_HEIGHT / 2) {
-  //       game.player.y = 0;
-  //     } else if (mouseLocation > canvas.height - PLAYER_HEIGHT / 2) {
-  //       game.player.y = canvas.height - PLAYER_HEIGHT;
-  //     } else {
-  //       game.player.y = mouseLocation - PLAYER_HEIGHT / 2;
-  //     }
-  //     if (joueur && game.player.y && adversaire)
-  //       socket.emit(
-  //         "playerMove",
-  //         `${joueur}:${game.player.y}:${adversaire}:gauche:${gm}`
-  //       );
-  //   } else if (joueur === joueur2) {
-  //     game.player2.y = mouseLocation - PLAYER_HEIGHT / 2;
-  //     if (mouseLocation < PLAYER_HEIGHT / 2) {
-  //       game.player2.y = 0;
-  //     } else if (mouseLocation > canvas.height - PLAYER_HEIGHT / 2) {
-  //       game.player2.y = canvas.height - PLAYER_HEIGHT;
-  //     } else {
-  //       game.player2.y = mouseLocation - PLAYER_HEIGHT / 2;
-  //     }
-  //     if (joueur && game.player.y && adversaire)
-  //       socket.emit(
-  //         "playerMove",
-  //         `${joueur}:${game.player2.y}:${adversaire}:droit:${gm}`
-  //       );
-  //   }
-  // }
-
-  // socket.on("playerMove", (body) => {
-  //   if (game) {
-  //     // Update Paddle position in real time
-  //     const b = body.split(":");
-  //     if (b[0] === joueur2 && joueur !== joueur2) {
-  //       game.player2.y = b[1];
-  //     } else if (b[0] === joueur1 && joueur !== joueur1) {
-  //       game.player.y = b[1];
-  //     }
-
-  //     if (live !== null) {
-  //       const l = live.split("+");
-  //       const li = l[0].split(" ");
-  //       if (b[0] === li[0]) game.player.y = b[1];
-  //       else if (b[0] === li[1]) game.player2.y = b[1];
-  //       draw();
-  //     }
-  //   }
-  // });
 
   // function acceptInvitePlay() {
   //   window.top.location = url_begin
@@ -307,120 +230,6 @@ export default function Pong() {
   //     </div>
   //   );
   // };
-
-  // socket.on("inviteToPlay", (...args) => {
-  //   if (joueur === args[1] && selectedUser !== args[0]) selectedUser = args[0];
-  //   else return;
-
-  //   toast.dark(<InvitetoPlay />, {
-  //     position: "top-right",
-  //     autoClose: 10000,
-  //     hideProgressBar: false,
-  //     closeOnClick: false,
-  //     pauseOnHover: false,
-  //     draggable: false,
-  //     closeButton: false,
-  //     //progress: undefined
-  //   });
-  // });
-
-  // function ballMove() {
-  //   // Rebounds on top and bottom
-  //   if (joueur === joueur1 && live === null) {
-  //     if (game.ball.y + BALL_SIDE > canvas.height || game.ball.y < 0) {
-  //       game.ball.speed.y *= -1;
-  //     }
-  //     if (game.ball.x + BALL_SIDE > canvas.width - PLAYER_WIDTH) {
-  //       collide(game.player2);
-  //     } else if (game.ball.x < PLAYER_WIDTH) {
-  //       collide(game.player);
-  //     }
-  //     // Ball progressive speed
-  //     game.ball.x += game.ball.speed.x;
-  //     game.ball.y += game.ball.speed.y;
-  //     socket.emit(
-  //       "ballMoveFront",
-  //       `${joueur1}:${joueur2}:${game.ball.x}:${game.ball.y}:${game.ball.speed.x}:${game.ball.speed.y}`
-  //     );
-  //   }
-  // }
-
-  // socket.on("ballMoveBack", (body) => {
-  //   const b = body.split(":");
-  //   if (game !== undefined)
-  //     if (
-  //       (joueur === joueur2 && joueur2 === b[1] && joueur1 === b[0]) ||
-  //       live !== null
-  //     ) {
-  //       game.ball.x = b[2];
-  //       game.ball.y = b[3];
-  //       if (live !== null) draw();
-  //     }
-  // });
-
-  // function collide(player) {
-  //   // The player does not hit the ball
-  //   var bottom;
-  //   bottom = Number(player.y) + Number(PLAYER_HEIGHT);
-  //   if (game.ball.y + BALL_SIDE < player.y || game.ball.y > bottom) {
-  //     // Set ball and players to the center
-  //     game.ball.x = canvas.width / 2 - BALL_SIDE / 2;
-  //     game.ball.y = canvas.height / 2 - BALL_SIDE / 2;
-  //     game.ball.speed.y = BALL_SPEED;
-
-  //     if (player === game.player) {
-  //       // Change ball direction + reset speed
-  //       game.ball.speed.x = BALL_SPEED * -1;
-  //       // Update score
-  //       game.player2.score++;
-  //       socket.emit(
-  //         "roundStart",
-  //         `${0}:${joueur1}:${joueur2}:${game.player.score}:${
-  //           game.player2.score
-  //         }:right`
-  //       );
-  //       document.querySelector("#player2-score").textContent =
-  //         game.player2.score;
-  //       if (
-  //         game.player2.score === 5 ||
-  //         document.querySelector("#player2-score").textContent === "5"
-  //       ) {
-  //         stop();
-  //         clearDataGame();
-  //       }
-  //     } else {
-  //       // Change ball direction + reset speed
-  //       game.ball.speed.x = BALL_SPEED;
-  //       // Update score
-  //       game.player.score++;
-  //       socket.emit(
-  //         "roundStart",
-  //         `${0}:${joueur1}:${joueur2}:${game.player.score}:${
-  //           game.player2.score
-  //         }:left`
-  //       );
-  //       document.querySelector("#player-score").textContent = game.player.score;
-  //       if (
-  //         game.player.score === 5 ||
-  //         document.querySelector("#player-score").textContent === "5"
-  //       ) {
-  //         stop();
-  //         clearDataGame();
-  //       }
-  //     }
-  //   } else {
-  //     // Increase speed and change direction
-  //     game.ball.speed.x *= -1.2;
-  //     changeDirection(player.y);
-  //   }
-  // }
-
-  // function changeDirection(playerY) {
-  //   // Ball bounce
-  //   var impact = game.ball.y + BALL_SIDE / 2 - playerY - PLAYER_HEIGHT / 2;
-  //   var ratio = 100 / (PLAYER_HEIGHT / 2);
-  //   game.ball.speed.y = Math.round((impact * ratio) / 10);
-  // }
 
   // function stop() {
   //   // console.log("username: ", joueur, ", adversaire: ", adversaire, ", score player 1: ", game.player.score, ", score player 2: ", game.player.score, ", gameMode: ", gm)
@@ -473,40 +282,6 @@ export default function Pong() {
   //   game.ball.speed.y = 0;
   // }
 
-  // function clearDataGame() {
-  //   if (live !== null) window.top.location = url_begin.concat(":3000/live");
-  //   joueur1 = null;
-  //   joueur2 = null;
-  //   game = {
-  //     player: {
-  //       y: canvas.height / 2 - PLAYER_HEIGHT / 2,
-  //     },
-  //     player2: {
-  //       y: canvas.height / 2 - PLAYER_HEIGHT / 2,
-  //     },
-  //     ball: {
-  //       x: canvas.width / 2 - BALL_SIDE / 2,
-  //       y: canvas.height / 2 - BALL_SIDE / 2,
-  //       speed: {
-  //         x: 0,
-  //         y: 0,
-  //       },
-  //     },
-  //   };
-  //   cancelAnimationFrame(anim);
-  //   isSearching = false;
-  //   setModeButton(true);
-  //   setActive(true);
-  //   setActive2(false);
-  //   SearchText = "Play Again";
-  // }
-
-//   const gameOptions = [
-//     { key: "original", text: "Classic", value: "original" },
-//     { key: "bigball", text: "Big Ball", value: "bigball" },
-//     { key: "fast", text: "Fast", value: "fast" },
-//   ];
-
   // if url have a get parameter vs, then it's a live game
   //   if (window.location.href.includes("vs")) {
   //     alert("Live game");
@@ -536,7 +311,7 @@ export default function Pong() {
           {isActive && (
             <div id="game-root" className="game-root">
               {/* {isWin ? <Confetti width={width} height={height} /> : ""} */}
-              {isActive && modeButton && (
+              {isActive && !isSearching && (
                 <button
                   type="button"
                   className="ui button button-match-making"
@@ -547,7 +322,7 @@ export default function Pong() {
                 </button>
               )}
 
-              {isActive && !modeButton && (
+              {isActive && isSearching && (
                 <button
                   type="button"
                   className="ui labeled icon button button-match-making"
@@ -559,7 +334,7 @@ export default function Pong() {
                 </button>
               )}
 
-              {modeButton ? (
+              {!isSearching ? (
                 // <Form>
                 <div className="choosing-game">
                   <Form.Select
@@ -589,21 +364,20 @@ export default function Pong() {
               <div className="container-score-and-versus">
                 <div className="container-score-player">
                   <div className="score_player" id="player-score">
-                    0
+                    {playerScore1}
                   </div>
                 </div>
                 <img src={versusLogo} alt="versus" className="versusLogo" />
                 <div className="container-score-player">
                   <div className="score_player" id="player2-score">
-                    0
+                    {playerScore2}
                   </div>
                 </div>
               </div>
               <div className="canvas-name-player" id="scores">
-                <div className="name_player_left" id="joueur1" />
-                <div className="name_player_right" id="joueur2" />
+                <div className="name_player_left" id="joueur1">{joueur1}</div>
+                <div className="name_player_right" id="joueur2">{joueur2}</div>
               </div>
-              {/* </div> */}
             </div>
             <div className="container-canva">
               <canvas

@@ -19,19 +19,18 @@ export class PongService {
   updateBall(x: number, y: number, radian: number, room: IRoom): void {
     room.GameOption.ball.position.x = x;
     room.GameOption.ball.position.y = y;
-    room.GameOption.ball.velocity = PongService.velocity((room.GameOption.ball.ballspeed *= 1.01), radian);
+    room.GameOption.ball.velocity = PongService.velocity((room.GameOption.ball.ballspeed *= 1.2), radian);
     this.gameService.emit(room, "updateBall", room.GameOption.ball.position, {player1: room.player[0].position.y, player2: room.player[1].position.y});
   }
 
   resetBall(room: IRoom, left?: boolean): void {
     let radian = (Math.random() * Math.PI) / 2 - Math.PI / 4;
     if (left) radian += Math.PI;
+    room.GameOption.ball.ballspeed = room.GameOption.ball.speedConst;
     this.updateBall(PongService.option.display.width / 2, PongService.option.display.height / 2, radian, room);
   }
 
   update(room: IRoom): any {
-    console.log(room.GameOption.ball.x);
-    console.log(room.GameOption.ball.y / 2);
     const next = {
       x: room.GameOption.ball.position.x + room.GameOption.ball.velocity.x,
       y: room.GameOption.ball.position.y + room.GameOption.ball.velocity.y,

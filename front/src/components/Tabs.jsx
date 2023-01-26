@@ -3,7 +3,7 @@ import "../styles/tabs.css"
 import "../styles/social.css"
 import ProfileCard from "../components/ProfileCard";
 import FriendList from './FriendList';
-import Chat from '../pages/Chat';
+// import Chat from '../pages/Chat';
 
 export default function Tabs() {
   const [ToggleState, setToggleState] = useState(1);
