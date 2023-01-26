@@ -13,6 +13,7 @@ import "./chatFeed.css"
 import { Comment } from '@ant-design/compatible';
 import { accountService } from "../../../hooks/account_service";
 import { toast } from "react-toastify";
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 
 type UserBubleProps = {
 	userName: string;
@@ -36,9 +37,9 @@ const { Meta } = Card;
 export const UserBuble = (props: UserBubleProps) => {
 	const [name, setName] = useState('')
 	const [login, setLogin] = useState('')
-	const [IsGetProfil, setIsGetProfil] = useState(false);
+	let IsGetProfil = false;
 	// const [friendProfil, setFriendProfil] = useState<Ifriend>();
-	// const [isBlocked, setIsBlocked] = useState(false);
+	const [isBlocked, setIsBlocked] = useState(false);
 
 	useEffect(() => {
 		let bool = true;
@@ -85,7 +86,7 @@ export const UserBuble = (props: UserBubleProps) => {
 			headers: { Authorization: "Bearer " + accountService.userToken() }
 		}
 		await axios(config).then(function (response) {
-			// setIsBlocked(true);
+			setIsBlocked(true);
             toast.success(login + " is now blocked");
 			console.log("Blocking success.")
 		}).catch(function (error) {
@@ -101,7 +102,7 @@ export const UserBuble = (props: UserBubleProps) => {
 			headers: { Authorization: "Bearer " + accountService.userToken() }
 		}
 		await axios(config).then(function (response) {
-			// setIsBlocked(false);
+			setIsBlocked(false);
             toast.success(login + " is now unblocked");
 			console.log("Unblocking success.")
 		}).catch(function (error) {
@@ -110,7 +111,7 @@ export const UserBuble = (props: UserBubleProps) => {
 	}
 
 	async function getFriendProfil() {
-		setIsGetProfil(!IsGetProfil);
+		IsGetProfil = !IsGetProfil;
 		if (IsGetProfil) {
 			var config = {
 				method: "get",
@@ -119,7 +120,8 @@ export const UserBuble = (props: UserBubleProps) => {
 			}
 			await axios(config).then(function (response) {
 				// setFriendProfil(response.data);
-			});
+			})
+			console.log("Get friend profil success.");
 		}
 	}
 
@@ -133,8 +135,9 @@ export const UserBuble = (props: UserBubleProps) => {
 		actions = [
 			// THIS LINK IS NOT LINKED TO THE PROFILES PAGES BUT MAYBE WE DONT NEED IT
 
-			<button className="buttonSmall" onClick={getFriendProfil}><AccountCircleIcon /></button>,
+//			<button className="buttonSmall" onClick={getFriendProfil}><AccountCircleIcon /></button>,
 			// <button className="buttonSmall" onClick={(e) => {sendInvite(e, props.senderId)}}><VideogameAssetIcon/></button>,
+			<button className="buttonSmall" onClick={() => window.location.href = '/play?vs=' + login}><SportsEsportsIcon /></button>,
 			<button className="buttonSmall" onClick={addFriend}><PersonAddIcon /></button>,
 			<button className="buttonSmallGreen" onClick={unblockUser}><BlockIcon/></button>,
 			<button className ="buttonSmallRed" onClick={blockUser}>< BlockIcon/></button>,
@@ -252,7 +255,9 @@ export const ChatMessage = (props: ChatMessageProps) => {
 
 	if (isMute || isBlocked) {
 		return (
-			<div></div>
+			<div>
+				<button className="buttonSmallGreen" onClick={() => setIsBlocked(false)}><BlockIcon/></button>
+			</div>
 		)
 	}
 	else {
@@ -279,6 +284,7 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
 	const [oneShownPopup, setOneShownPopup] = useState("");
 	const [content, setContent] = useState('');
 	const [timestamp, setTimestamp] = useState(new Date().toLocaleString());
+	const [isBlocked, setIsBlocked] = useState(false);
 
 	useEffect(() => {
 		let bool = true;
@@ -394,11 +400,13 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
 				}).map((msg: DatabaseMessageType) => (
 					<ChatMessage key={msg.id} msg={msg} oneShownPopup={oneShownPopup} setOneShownPopup={setOneShownPopup} userName={props.userName}></ChatMessage>
 				))}
-				{newMessages.filter((msg: WebSocketMessageType) => {
+
+				{isBlocked && newMessages.filter((msg: WebSocketMessageType) => {
 					return (msg.chanId === props.currentChannelId)
 				}).map((msg: WebSocketMessageType) => (
 					<ChatMessage key={msg.timestamp} msg={msg} oneShownPopup={oneShownPopup} setOneShownPopup={setOneShownPopup} userName={props.userName}></ChatMessage>
 				))}
+
 			</div>
 			<div className="inputBar">
 				<input id="inputBar" className="input" required value={content} type="text" placeholder="Write your message here" onChange={(e) => setContent(e.target.value)} />
