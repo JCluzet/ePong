@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { accountService } from "../hooks/account_service";
 import versusLogo from "../assets/images/versusLogo.svg";
 import "semantic-ui-css/semantic.min.css";
+import { useSearchParams } from 'react-router-dom';
 
 var joueur = accountService.userName();
 var login = accountService.userLogin();
@@ -33,37 +34,41 @@ export default function Pong() {
 	const [isSearching, setIsSearching] = useState(false);
   const [playerScore1, SetPlayerScore1] = useState(0);
   const [playerScore2, SetPlayerScore2] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
 //   const [inGame, setInGame] = useState(false);
 
-  const queryParams = new URLSearchParams(window.location.search);
-  const vs = queryParams.get("vs");
-  const live = queryParams.get("live");
+  // const queryParams = new URLSearchParams(window.location.search);
+  // const vs = queryParams.get("vs");
+  // const live = queryParams.get("live");
   let vshisto = false;
   var SearchText = "Launch Matchmaking";
 
   useEffect(() => {
-    doVersus();
+    if (searchParams.get("vs")){
+      console.log("check vs")
+      socket.emit("vs", searchParams.get("vs"), searchParams.get("gameMode"))
+    }
     // eslint-disable-next-line
      canvas = document.getElementById("canvas");
      initParty();
      // send playerMove just in case we actually move the mouse
      window.addEventListener("mousemove", playerMove);
     window.addEventListener("keydown", playerMoveKey);
-    if (live !== null) {
-      setActive(false);
-      setActive2(false);
-    }
+    // if (live !== null) {
+    //   setActive(false);
+    //   setActive2(false);
+    // }
     return () => {};
   }, []);
 
-  function doVersus() {
-    if (vs !== null && !vshisto) {
-      setActive(false);
-      socket.emit("versus", joueur + ":" + vs);
-      setActive2(true);
-      vshisto = true;
-    }
-  }
+  // function doVersus() {
+  //   if (vs !== null && !vshisto) {
+  //     setActive(false);
+  //     socket.emit("versus", joueur + ":" + vs);
+  //     setActive2(true);
+  //     vshisto = true;
+  //   }
+  // }
 
   const sendSearch = () => {
     if(joueur) {

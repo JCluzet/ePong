@@ -6,7 +6,7 @@ import { EUser } from 'src/users/interfaces/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { GameService } from './game.service';
 import { IPosition } from './interface/GameOption.interface';
-import { IPlayer } from './interface/player.interface';
+import { IPlayer, TGM } from './interface/player.interface';
 import { IRoom } from './interface/room.interface';
 import { PongService } from './pong.service';
 
@@ -69,8 +69,11 @@ export class GameGateway {
 	}
 
 	@SubscribeMessage('vs')
-	joinVs(client: Socket, name: string){
-		
+	async joinVs(client: Socket, name: string[]){
+		try {
+			if (!client.data.user) return;
+			this.gameService.addVsQueue(client, name);
+		} catch (err) {}
 	}
 
 	@SubscribeMessage('start')

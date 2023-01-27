@@ -9,7 +9,7 @@ export interface IPlayer {
   socket: Socket;
   user: EUser;
   score: number;
-  gameMode: TGM;
+  gameMode: string;
   room: IRoom;
   position: IPosition;
 }

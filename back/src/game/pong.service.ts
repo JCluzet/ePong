@@ -18,7 +18,7 @@ export class PongService {
   updateBall(x: number, y: number, radian: number, room: IRoom): void {
     room.GameOption.ball.position.x = x;
     room.GameOption.ball.position.y = y;
-    room.GameOption.ball.velocity = PongService.velocity((room.GameOption.ball.ballspeed *= 1.2), radian);
+    room.GameOption.ball.velocity = PongService.velocity((room.GameOption.ball.ballspeed *= 1), radian);
     this.gameService.emit(room, "updateBall", room.GameOption.ball.position, {player1: room.player[0].position.y, player2: room.player[1].position.y});
   }
 
@@ -43,12 +43,12 @@ export class PongService {
           return this.gameService.stopGame(room, undefined);
       this.resetBall(room, next.x + (room.GameOption.ball.y / 2) > PongService.option.display.width);
     }
-    if (next.y >= (room.player[0].position.y - (room.GameOption.cursor.y / 2)) &&
+    if (next.y >= (room.player[0].position.y) &&
         next.y <= (room.player[0].position.y + (room.GameOption.cursor.y))) {
           if (next.x < room.GameOption.cursor.x)
             return this.updateBall(room.GameOption.ball.position.x, room.GameOption.ball.position.y, (Math.random() * Math.PI) / 2 - Math.PI / 4, room);
         }
-    if (next.y >= (room.player[1].position.y - (room.GameOption.cursor.y / 2)) &&
+    if (next.y >= (room.player[1].position.y) &&
         next.y <= (room.player[1].position.y + (room.GameOption.cursor.y))) {
           if (next.x + (room.GameOption.ball.y) > PongService.option.display.width - room.GameOption.cursor.x)
           return this.updateBall(room.GameOption.ball.position.x, room.GameOption.ball.position.y, (Math.random() * Math.PI) / 2 - Math.PI / 4 + Math.PI, room);

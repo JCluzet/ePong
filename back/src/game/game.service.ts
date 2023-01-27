@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { GameHistoryService } from 'src/gameHistory/gameHistory.service';
 import { IRoom } from './interface/room.interface';
@@ -8,6 +8,7 @@ import { IPlayer } from './interface/player.interface';
 import { gameHistoryDto } from 'src/gameHistory/interface/gameHistory.dto';
 import { Interval } from '@nestjs/schedule';
 import { PongService } from './pong.service';
+import { EUser } from 'src/users/interfaces/user.entity';
 
 
 @Injectable()
@@ -20,6 +21,7 @@ export class GameService {
 
 	rooms: Map<string, IRoom> = new Map();
 	queue: Array<Socket> = [];
+	vsQueue: Array<Socket> = [];
 
 	static position: IPosition = { x: 0, y: 0 }
 
@@ -68,6 +70,13 @@ export class GameService {
 		}
 	};
 	
+	async getAllRoom() : Promise<IRoom[]> {
+		let AllRoom: IRoom[];
+		for (const room of this.rooms.values())
+			AllRoom.push(room);
+		return AllRoom;
+	}
+
 	createRoomGame(roomId: string = null): IRoom {
 		while (!roomId) {
 			const newId = Math.floor(Math.random() * Math.pow(16, 10)).toString(16);
@@ -163,6 +172,15 @@ export class GameService {
 		return undefined;
 	}
 
+	getPlayerByLogin(login: string): IPlayer | undefined {
+		for (const room of this.rooms.values()){
+			Logger.log("check room");
+			for (const player of room.player)
+				if (player.user.login == login) return player;
+		}
+		return undefined;
+	}
+
 	getRoom(id: string): IRoom {
 		return this.rooms.get(id);
 	}
@@ -226,6 +244,41 @@ export class GameService {
 					return room.id;
 				}
 		return "";
+	}
+
+	async addVsQueue(client: Socket, name: string[]){
+		for(const queue of this.vsQueue)
+			if (queue.data.user.login === name[0]){
+				const room: IRoom = this.createRoomGame();
+				const newplayer1: IPlayer = {
+					socket: queue,
+					user: queue.data.user,
+					score: 0,
+					gameMode: name[1],
+					room: room,
+					position: {x: 0, y: GameService.option.display.height / 2},
+				}
+				const newplayer2: IPlayer = {
+					socket: client,
+					user: client.data.user,
+					score: 0,
+					gameMode: name[1],
+					room: room,
+					position: {x: GameService.option.display.width - GameService.cursor.x, y: GameService.option.display.height / 2},
+				}
+
+				this.playerJoinRoom(newplayer1, room);
+				this.playerJoinRoom(newplayer2, room);
+
+				this.vsQueue.splice(this.vsQueue.indexOf(queue), 1)
+				if (room.player.length == 2){
+					room.gameIsStart = true;
+					this.emit(room, "roomCreate", room.id);
+					this.startGame(room);
+				}
+				return; 
+			}
+		this.vsQueue.push(client);
 	}
 
 	@Interval(1000 / 60)
