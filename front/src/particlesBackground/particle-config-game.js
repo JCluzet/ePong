@@ -1,7 +1,7 @@
 const particlesConfig = {
     background: {
         color: {
-            value: '#e7e7e7'
+            value: '#FFFFFF'
         }
     },
     FullScreen: {
@@ -11,6 +11,10 @@ const particlesConfig = {
     fpsLimit: 120,
     interactivity: {
         events: {
+            onClick: {
+                "enable": true,
+                "mode": 'push'
+            },
             onHover: {
                 enable: true,
                 mode: 'repulse'
@@ -24,10 +28,15 @@ const particlesConfig = {
                 opacity: 0.8,
                 size: 10
             },
+            push: {
+                quantity: 1
+            },
             repulse: {
                 distance: 200,
                 duration: 0.4
             }
+                
+
         }
     },
     particles: {
@@ -42,15 +51,15 @@ const particlesConfig = {
             enable: true,
             outMode: 'bounce',
             random: false,
-            speed: 15,
-            straight: true
+            speed: 25,
+            straight: false
         },
         number: {
             density: {
                 enable: true,
                 area: 800
             },
-            value: 2
+            value: 1
         },
         opacity: {
             value: 1

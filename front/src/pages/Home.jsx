@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import "../styles/home.css";
 import storeProfilData from "../hooks/storeProfilData";
 import { accountService } from "../hooks/account_service";
-import ParticleBackground from "../particlesBackground/ParticleBackground";
+// import ParticleBackground from "../particlesBackground/ParticleBackground";
 // import { useSearchParams } from "react-router-dom";
 
 export default function Home() {
@@ -35,7 +35,7 @@ export default function Home() {
 
   return (
     <div>
-      <ParticleBackground />
+      {/* <ParticleBackground /> */}
       <Header />
       <br />
       <div className="center">
