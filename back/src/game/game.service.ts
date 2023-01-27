@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { GameHistoryService } from 'src/gameHistory/gameHistory.service';
 import { IRoom } from './interface/room.interface';
@@ -36,6 +36,7 @@ export class GameService {
 				x: 10,
 				y: 10,
 				ballspeed: 2,
+				speedConst: 2,
 				position: GameService.position,
 				velocity: GameService.position,
 			},
@@ -47,6 +48,7 @@ export class GameService {
 				x: 50,
 				y: 50,
 				ballspeed: 2,
+				speedConst: 2,
 				position: GameService.position,
 				velocity: GameService.position, 
 			},
@@ -58,6 +60,7 @@ export class GameService {
 				x: 10,
 				y: 10,
 				ballspeed: 5,
+				speedConst: 5,
 				position: GameService.position,
 				velocity: GameService.position,
 			},
@@ -66,7 +69,6 @@ export class GameService {
 	};
 	
 	createRoomGame(roomId: string = null): IRoom {
-		Logger.log(`create room`);
 		while (!roomId) {
 			const newId = Math.floor(Math.random() * Math.pow(16, 10)).toString(16);
 			if (!this.rooms.has(newId)) roomId = newId;
@@ -181,7 +183,6 @@ export class GameService {
 		var looser: IPlayer;
 		room.gameIsStart = false;
 		if (playerDisconnected){
-			// Logger.log(`check 1`);
 			for (const player of room.player){
 				if (player === playerDisconnected) looser = player;
 				else winner = player;
@@ -197,7 +198,6 @@ export class GameService {
 			this.gameHistoricService.createNewGame(newhistory);
 			this.userService.editGameScore({winner: winner.user.login, loser: looser.user.login});
 		} else {
-			// Logger.log(`check 2`);
 			for(const player of room.player) {
 				if (player.score === 5) winner = player;
 				else looser = player;
@@ -214,6 +214,16 @@ export class GameService {
 			this.userService.editGameScore({winner: winner.user.login, loser: looser.user.login});
 		}
 		this.emit(room, "stopGame", winner.user);
+		this.rooms.delete(room.id);
+	}
+
+	async getRoomFromUser(userName: string): Promise<string> {
+		for (const room of this.rooms.values())
+			for(const player of room.player)
+				if (player.user.name === userName){
+					return room.id;
+				}
+		return "";
 	}
 
 	@Interval(1000 / 60)

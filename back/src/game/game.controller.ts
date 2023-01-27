@@ -1,7 +1,7 @@
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger'
-import { Request, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
-import JwtAuthenticationGuard from 'src/auth/jwt.strategy';
+import { ApiTags } from '@nestjs/swagger'
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { GameService } from 'src/game/game.service';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('Games')
 @Controller('api/game')
@@ -10,11 +10,9 @@ export class GameController {
         private readonly gameService: GameService
     ) { }
 
-
-    // @ApiOperation({ summary: 'Returns game history specific user [jwt-protected]' })
-    // @UseGuards(JwtAuthenticationGuard)
-    // @Get(':login/history')
-    // getGames(@Param('login') login: string, @Request() req) {
-    //     return this.gameService.getGames(login);
-    // }
+    @Get('/:name')
+    @UseGuards(AuthGuard('jwt'))
+    async getRoomFromUser(@Param('name') name: string): Promise<string> {
+        return await this.gameService.getRoomFromUser(name);
+    }
 }

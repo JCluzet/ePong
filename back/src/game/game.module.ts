@@ -15,4 +15,4 @@ import { ScheduleModule } from '@nestjs/schedule';
     providers: [GameService, GameGateway, PongService],
     exports: [GameService]
 })
-export class GameModule { }
+export class GameModule {}
