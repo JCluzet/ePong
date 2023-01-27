@@ -5,7 +5,7 @@
 
 .column {
     float: left;
-    width: 25%;
+    width: 20%;
 }
 
 .column-stats1 {
@@ -211,6 +211,14 @@
     width: 10px;
     height: 10px;
     border-radius: 50%;
+}
+
+.orange-circle {
+  display: flex;
+  background-color: rgb(224, 116, 14);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
 }
 
 .red-circle {

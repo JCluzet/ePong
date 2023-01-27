@@ -31,6 +31,11 @@ export default function Tabs() {
             >
             Friend List
             </li>
+            <li
+            className={`tabs ${getActiveClass(3, "active-tabs")}`}
+            onClick={() => toggleTab(3)}>
+            Spectate
+            </li>
         </ul>
         <div className="">
             {ToggleState === 1 &&
@@ -41,6 +46,11 @@ export default function Tabs() {
             {ToggleState === 2 &&
             <div className="active-content">
                 <FriendList/>
+            </div>
+            }
+            {ToggleState === 3 &&
+            <div className="active-content">
+                Spectate
             </div>
             }
         </div>

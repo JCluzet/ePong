@@ -9,21 +9,20 @@ import StatsCardFriend from "./StatsCardFriend";
 import HistoricFriend from "./historicCardFriend";
 import AcceptFriendList from "./AcceptFriendList";
 import AddFriendList from "./AddFriendList";
+import { UserBuble } from "./chatComponents/ChatFeed/ChatMessages";
 
 
 export default function FriendList() {
   const [Name, setName] = useState("");
-  // const [Msg, setMsg] = useState('');
   const [Img, setImg] = useState("");
   const [Online, setStatus] = useState("");
-//   const [isToggled, setIsToggled] = useState(false);
   const [isgoHistoric, setIsgoHistoric] = useState(false);
   const [isGoChat, setIsGoChat] = useState(false);
-  // const [isPlaying, setPlay] = useState(false);
   const [isClicked, setClick] = useState(false);
   const [allUsers, setAllUsers] = useState<Array<EUser>>([]);
   const [acceptList, setAcceptList] = useState(false);
   const [isGoAdd, setIsGoAdd] = useState(false);
+  const [isgoSpectate, setisgoSpectate] = useState(false);
 
   useEffect(() => {
     getUserInfo();
@@ -44,7 +43,7 @@ export default function FriendList() {
     }
     console.log(allUsers);
     
-    setTimeout(getUserInfo, 10000);
+    setTimeout(getUserInfo, 100000);
 };
 
   useEffect(() => {}, [Name, Img, Online]);
@@ -79,6 +78,12 @@ export default function FriendList() {
   const goHistoric = () => {
     setIsgoHistoric(!isgoHistoric);
     setIsGoChat(false);
+  };
+
+  const goSpectate = () => {
+    setisgoSpectate(!isgoSpectate);
+    setIsGoChat(false);
+    setIsgoHistoric(false);
   };
 
   const goChat = () => {
@@ -151,16 +156,27 @@ export default function FriendList() {
                       <img
                         src={user.avatarUrl}
                         className="circle-img"
-                        alt={user.name}
-                      />
+                        alt={user.name}/>
                     </div>
-                    <div className="column-profile">{user.name}</div>
                     <div className="column-profile">
-                      {user.status === "online" ? (
-                        <p className="green-circle"></p>
-                      ) : (
-                        <p className="red-circle"></p>
-                      )}
+                      {user.name}
+                    </div>
+                    <div className="column-profile">
+                    {(() => {
+                        if (user.status === "online") {
+                          return (
+                            <p className="green-circle"></p>
+                          )
+                        } else if (user.status === "ingame") {
+                          return (
+                            <p className="orange-circle"> </p>
+                          )
+                        } else {
+                          return (
+                            <p className="red-circle"></p>
+                          )
+                        }
+                      })()}
                       {user.status === "ingame" ? <p>in game</p> : <p></p>}
                     </div>
                   </div>
@@ -191,12 +207,15 @@ export default function FriendList() {
                     </button>
                   </div>
                   <div className="column">
-                    {Online === "Online" ? (
-                    //   isPlaying ? (
-                    //     <p></p>
-                    //   ) : (
+                    {Online === "online" ? (
                         <button className="button">Challenge</button>
-                    //   )
+                    ) : (
+                      <p></p>
+                    )}
+                  </div>
+                  <div className="column">
+                    {Online === "ingame" ? (
+                        <button className="button" onClick={goSpectate}>Spectate</button>
                     ) : (
                       <p></p>
                     )}
@@ -209,6 +228,7 @@ export default function FriendList() {
                 <div className="row">
                   {isgoHistoric ? <HistoricFriend /> : <p></p>}
                   {isGoChat ? (window.location.href = "/social/chat") : <p></p>}
+                  {isgoSpectate ? (window.location.href = "/spectate?login=" + Name) : <p></p>}
                 </div>
               </div>
             ) : (
