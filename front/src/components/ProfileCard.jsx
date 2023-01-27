@@ -9,7 +9,6 @@ import Historic from "./HistoricCard";
 const user = {
   name: accountService.userLogin(),
   imgUrl: accountService.userAvatarUrl(),
-  size: 100,
 };
 
 export default function ProfileCard() {
@@ -18,7 +17,7 @@ export default function ProfileCard() {
       <section className="">
         <div className="row">
           <div className="column-stats1">
-            <img src={user.imgUrl} alt="userimage" style={{ height: 100, width: 100 }} />
+            <img src={user.imgUrl} alt="userimage" style={{ height: 100, width: 100 }} className="circle-img" />
             <h1>{user.name}</h1>
             <Statscard />
           </div>

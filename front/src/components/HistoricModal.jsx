@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import "../styles/modal.css"
+import VS from "../assets/images/vs-versus.webp";
+import { accountService } from '../hooks/account_service';
 
 class Modal extends React.Component {
+  
+  
   render() {
-    // Render nothing if the "show" prop is false
     if(!this.props.show) {
       return null;
     }
@@ -14,17 +17,25 @@ class Modal extends React.Component {
     return (
       <div className="modal">
         <div className="modal-content">
-          {this.props.content}
           <div className="footer">
-            <div style ={{color: "black"}}>
-              {this.props.content.winner}
-            </div>
             <button onClick={this.props.onClose}>
               Close
             </button>
+            <div className="modal-row">
+              <div className="modal-column">
+                <img className="modal-img" src={accountService.userAvatarUrl()} alt="avatar" />
+                <h1>{accountService.userLogin()}</h1>
+              </div>
+              <div className="modal-column">
+                <img className="modal-img" src={VS} alt="vs" />
+              </div>
+              <div className="modal-column">
+                three
+              </div>
+            </div>
+            </div>
           </div>
         </div>
-      </div>
     );
   }
 }

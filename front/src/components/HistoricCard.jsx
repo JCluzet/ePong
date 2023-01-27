@@ -69,7 +69,7 @@ export default function Historic() {
                 </div>
               </div>
               <div className="date">{Date}</div>
-              <Modal show={isToggled} onClose={onToggle} content={element}>
+              <Modal show={isToggled} onClose={onToggle}>
               </Modal>
             </div>
           </dir>
