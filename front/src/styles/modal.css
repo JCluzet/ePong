@@ -15,13 +15,33 @@
   
   
   .modal-content {
-    background-color: #fefefe;
+    background-color: #161616;
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
     height: 30%;
     z-index: 6;
+  }
+
+  .modal-column{
+    flex : left;
+    width: 33%;
+  }
+  
+  .modal-row {
+    display: flex;
+  }
+
+  .modal-row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  .modal-img{
+    height : 50%;
+    display: inline;
   }
   
   

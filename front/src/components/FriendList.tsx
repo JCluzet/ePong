@@ -10,19 +10,6 @@ import HistoricFriend from "./historicCardFriend";
 import AcceptFriendList from "./AcceptFriendList";
 import AddFriendList from "./AddFriendList";
 
-// const user = {
-//     name: accountService.userLogin(),
-//     imgUrl: accountService.userAvatarUrl(),
-//     size: 50,
-//     // style : {
-//     //     marginTop: 20,
-//     //     backgroundColor: 'black',
-//     //     color: 'white',
-//     //     width: "100%",
-//     //     height: "100%",
-//     //     borderRadius : 10,
-//     // }
-// };
 
 export default function FriendList() {
   const [Name, setName] = useState("");
@@ -138,7 +125,6 @@ export default function FriendList() {
             </div>
           </>
         )}
-        {/* {acceptList || isGoAdd ? */}
         <div className="content">
           <div className="scrollable-div" style={{ padding: 10 }}>
             {isClicked ? (
@@ -182,7 +168,6 @@ export default function FriendList() {
               ))
             )}
           </div>
-          {/* } */}
           <div className="main">
             {isClicked ? (
               <div>
@@ -231,7 +216,6 @@ export default function FriendList() {
             )}
           </div>
         </div>
-        {/* </section> */}
       </div>
     </div>
   );

@@ -74,7 +74,7 @@ export default function HistoricFriend() {
                             <div className="date">
                                 {Date}
                             </div>
-                            <Modal show={isToggled} onClose={onToggle} content={element}>
+                            <Modal show={isToggled} onClose={onToggle}>
                             </Modal>
                             </div>
                         </dir>
