@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "../styles/Pong.scss";
-import JSConfetti from 'js-confetti'
+import JSConfetti from "js-confetti";
 // import useWindowDimensions from "./useWindowDimensions";
 import io from "socket.io-client";
 import { Form } from "react-bootstrap";
@@ -10,77 +10,59 @@ import { accountService } from "../hooks/account_service";
 import versusLogo from "../assets/images/versusLogo.svg";
 import "semantic-ui-css/semantic.min.css";
 import Confetti from "react-confetti";
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from "react-router-dom";
+import TextField from '@mui/material/TextField';
 
 var joueur = accountService.userName();
 var login = accountService.userLogin();
-const jsConfetti = new JSConfetti()
+const jsConfetti = new JSConfetti();
 let joueur1;
 let joueur2;
 
 let url_begin = "";
 if (process.env.REACT_APP_IP === "" || process.env.REACT_APP_IP === undefined)
-url_begin = "http://localhost";
+  url_begin = "http://localhost";
 else url_begin = "http://".concat(process.env.REACT_APP_IP);
 
 var socket;
 if (!socket)
-  socket = io(url_begin.concat(":5001/game"), { query: { login: login} });
+  socket = io(url_begin.concat(":5001/game"), { query: { login: login } });
 
 export default function Pong() {
   const [toastid, setToastid] = useState(0);
   const [isActive, setActive] = useState(true);
   const [isActive2, setActive2] = useState(false);
+  const [waitingVersus, setWaitingVersus] = useState(false);
   const [isWin, setWin] = useState(false);
   const [gameMode, setGM] = useState("classic");
-	const [isSearching, setIsSearching] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
   const [playerScore1, SetPlayerScore1] = useState(0);
   const [playerScore2, SetPlayerScore2] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
-//   const [inGame, setInGame] = useState(false);
-
-  // const queryParams = new URLSearchParams(window.location.search);
-  // const vs = queryParams.get("vs");
-  // const live = queryParams.get("live");
   let vshisto = false;
   var SearchText = "Launch Matchmaking";
 
   useEffect(() => {
-    if (searchParams.get("vs")){
-      console.log("check vs")
-      socket.emit("vs", searchParams.get("vs"), searchParams.get("gameMode"))
+    if (searchParams.get("vs")) {
+      setWaitingVersus(true);
+      console.log("check vs");
+      socket.emit("vs", searchParams.get("vs"), searchParams.get("gameMode"));
     }
-    // eslint-disable-next-line
-     canvas = document.getElementById("canvas");
-     initParty();
-     // send playerMove just in case we actually move the mouse
-     window.addEventListener("mousemove", playerMove);
+    canvas = document.getElementById("canvas");
+    initParty();
+    window.addEventListener("mousemove", playerMove);
     window.addEventListener("keydown", playerMoveKey);
-    // if (live !== null) {
-    //   setActive(false);
-    //   setActive2(false);
-    // }
     return () => {};
   }, []);
 
-  // function doVersus() {
-  //   if (vs !== null && !vshisto) {
-  //     setActive(false);
-  //     socket.emit("versus", joueur + ":" + vs);
-  //     setActive2(true);
-  //     vshisto = true;
-  //   }
-  // }
-
   const sendSearch = () => {
-    if(joueur) {
-      if(!isSearching) {
+    if (joueur) {
+      if (!isSearching) {
         setIsSearching(true);
         socket.emit("queue", gameMode);
         const toastid = toast.loading("Searching for a player");
         setToastid(toastid);
-      }
-      else {
+      } else {
         setIsSearching(false);
         console.log("stop search");
         socket.emit("leaveQueue");
@@ -93,7 +75,7 @@ export default function Pong() {
         });
       }
     }
-  }
+  };
 
   const playerMove = (event) => {
     var canvasLocation = canvas.getBoundingClientRect();
@@ -119,39 +101,39 @@ export default function Pong() {
       }
       socket.emit("cursor", game.player2.y);
     }
-  }
+  };
 
   const playerMoveKey = (event) => {
     if (event.key === "ArrowUp") {
-        if (joueur === joueur1) {
-            game.player.y -= 8;
-            if (game.player.y < 0) {
-                game.player.y = 0;
-            }
-            socket.emit("cursor", game.player.y);
-        } else if (joueur === joueur2) {
-            game.player2.y -= 8;
-            if (game.player2.y < 0) {
-                game.player2.y = 0;
-            }
-            socket.emit("cursor", game.player2.y);
+      if (joueur === joueur1) {
+        game.player.y -= 8;
+        if (game.player.y < 0) {
+          game.player.y = 0;
         }
+        socket.emit("cursor", game.player.y);
+      } else if (joueur === joueur2) {
+        game.player2.y -= 8;
+        if (game.player2.y < 0) {
+          game.player2.y = 0;
+        }
+        socket.emit("cursor", game.player2.y);
+      }
     } else if (event.key === "ArrowDown") {
-        if (joueur === joueur1) {
-            game.player.y += 8;
-            if (game.player.y > canvas.height - PLAYER_HEIGHT) {
-                game.player.y = canvas.height - PLAYER_HEIGHT;
-            }
-            socket.emit("cursor", game.player.y);
-        } else if (joueur === joueur2) {
-            game.player2.y += 8;
-            if (game.player2.y > canvas.height - PLAYER_HEIGHT) {
-                game.player2.y = canvas.height - PLAYER_HEIGHT;
-            }
-            socket.emit("cursor", game.player2.y);
+      if (joueur === joueur1) {
+        game.player.y += 8;
+        if (game.player.y > canvas.height - PLAYER_HEIGHT) {
+          game.player.y = canvas.height - PLAYER_HEIGHT;
         }
+        socket.emit("cursor", game.player.y);
+      } else if (joueur === joueur2) {
+        game.player2.y += 8;
+        if (game.player2.y > canvas.height - PLAYER_HEIGHT) {
+          game.player2.y = canvas.height - PLAYER_HEIGHT;
+        }
+        socket.emit("cursor", game.player2.y);
+      }
     }
-    }
+  };
 
   socket.on("updateBall", (...args) => {
     game.ball.x = args[0].x;
@@ -159,7 +141,7 @@ export default function Pong() {
     game.player.y = args[1].player1;
     game.player2.y = args[1].player2;
     draw();
-  })
+  });
 
   socket.on("scoreUpdate", (...args) => {
     if (args[0].player1.login === joueur1) {
@@ -169,10 +151,11 @@ export default function Pong() {
       SetPlayerScore1(args[0].player2.score);
       SetPlayerScore2(args[0].player1.score);
     }
-  })
+  });
 
   socket.on("startGame", (...args) => {
     setActive(false);
+    setWaitingVersus(false);
     // setInGame(true);
     document.querySelector("#victoryMessage").textContent = "";
     setWin(false);
@@ -186,23 +169,20 @@ export default function Pong() {
     game.ball.side = args[0].ball.y;
     SetPlayerScore1(0);
     SetPlayerScore2(0);
-  })
+  });
 
   socket.on("stopGame", (...args) => {
     setGM("classic");
     if (args[0].login === accountService.userLogin()) {
-        // get screen width and height
-        setWin(true);
-        document.querySelector("#victoryMessage").textContent = "Victory";
+      // get screen width and height
+      setWin(true);
+      document.querySelector("#victoryMessage").textContent = "Victory";
     } else {
-        document.querySelector("#victoryMessage").textContent = "Defeat";
-    //           jsConfetti.addConfetti({
-    //     emojis: ["❌", "⚡️", "💥", "😢", "🤕", "💢"],
-    //   });
+      document.querySelector("#victoryMessage").textContent = "Defeat";
     }
     setActive(true);
     initParty();
-  })
+  });
 
   var canvas;
   var game;
@@ -221,39 +201,50 @@ export default function Pong() {
       context.stroke();
       context.fillStyle = "black";
       context.fillRect(0, game.player.y, PLAYER_WIDTH, PLAYER_HEIGHT);
-      context.fillRect(canvas.width - PLAYER_WIDTH, game.player2.y, PLAYER_WIDTH, PLAYER_HEIGHT);
+      context.fillRect(
+        canvas.width - PLAYER_WIDTH,
+        game.player2.y,
+        PLAYER_WIDTH,
+        PLAYER_HEIGHT
+      );
       context.beginPath();
       context.fillStyle = "black";
-      context.fillRect(game.ball.x, game.ball.y, game.ball.side, game.ball.side);
+      context.fillRect(
+        game.ball.x,
+        game.ball.y,
+        game.ball.side,
+        game.ball.side
+      );
       context.fill();
     }
   }
 
   function initParty() {
-      if (canvas) {
-        game = {
-          player: {
-            y: canvas.height / 2 - PLAYER_HEIGHT / 2,
-            score: 0,
-          },
-          player2: {
-            y: canvas.height / 2 - PLAYER_HEIGHT / 2,
-            score: 0,
-          },
-          ball: {
-            x: canvas.width / 2 - 10 / 2,
-            y: canvas.height / 2 - 10 / 2,
-            side: 10,
-          },
-        };
-      }
-      draw();
+    if (canvas) {
+      game = {
+        player: {
+          y: canvas.height / 2 - PLAYER_HEIGHT / 2,
+          score: 0,
+        },
+        player2: {
+          y: canvas.height / 2 - PLAYER_HEIGHT / 2,
+          score: 0,
+        },
+        ball: {
+          x: canvas.width / 2 - 10 / 2,
+          y: canvas.height / 2 - 10 / 2,
+          side: 10,
+        },
+      };
+    }
+    draw();
   }
+  let otheruser = searchParams.get("vs");
   return (
     <>
       <div>
         <div className="container">
-          {window.location.href.includes("vs") && isActive2 ? (
+          {waitingVersus ? (
             <div id="game-root" className="game-root">
               <button
                 type="button"
@@ -262,9 +253,11 @@ export default function Pong() {
                 onClick={() => (window.location.href = "/play")}
               >
                 <i className="loading spinner icon"></i>
-                Waiting for {}
-                {window.location.href.split("vs=")[1]}
-                ...
+                Waiting for {otheruser} <br />
+                <br />
+                Click to cancel
+                {/* // find the argument of vs in the url */}
+                {/* {window.location.href.split("vs")[1]} */}
               </button>
             </div>
           ) : (
@@ -272,50 +265,59 @@ export default function Pong() {
           )}
 
           {isActive && (
-            <div id="game-root" className="game-root">
-                {isWin ? <Confetti width={window.innerWidth} height={window.innerHeight} /> : ""}
-              {isActive && !isSearching && (
-                <button
-                  type="button"
-                  className="ui button button-match-making"
-                  id="search-button"
-                  onClick={() => sendSearch()}
-                >
-                  {SearchText}
-                </button>
-              )}
-
-              {isActive && isSearching && (
-                <button
-                  type="button"
-                  className="ui labeled icon button button-match-making"
-                  id="search-button"
-                  onClick={sendSearch}
-                >
-                  <i className="loading spinner icon"></i>
-                  Cancel matchmaking
-                </button>
-              )}
-
-              {!isSearching ? (
-                // <Form>
-                <div className="choosing-game">
-                  <Form.Select
-                    id="form-select-gamemode"
-                    aria-label="Modes de jeux:"
-                    className="form-select"
-                    defaultValue="original"
-                    onChange={(e) => setGM(e.target.value)}
+            // <div id="game-root-main" className="game-root-main">
+              <div id="game-root" className="game-root">
+                {isWin ? (
+                  <Confetti
+                    width={window.innerWidth}
+                    height={window.innerHeight}
+                  />
+                ) : (
+                  ""
+                )}
+                {isActive && !isSearching && !waitingVersus && (
+                  <button
+                    type="button"
+                    className="ui button button-match-making"
+                    id="search-button"
+                    onClick={() => sendSearch()}
                   >
-                    <option value="classic">Classic</option>
-                    <option value="fast">Fast</option>
-                    <option value="bigball">Big Ball</option>
-                  </Form.Select>
-                </div>
-              ) : (
-                ""
-              )}
-            </div>
+                    {SearchText}
+                  </button>
+                )}
+
+                {isActive && isSearching && (
+                  <button
+                    type="button"
+                    className="ui labeled icon button button-match-making"
+                    id="search-button"
+                    onClick={sendSearch}
+                  >
+                    <i className="loading spinner icon"></i>
+                    Cancel matchmaking
+                  </button>
+                )}
+
+                {!isSearching && !waitingVersus ? (
+                  // <Form>
+                  <div className="choosing-game">
+                    <Form.Select
+                      id="form-select-gamemode"
+                      aria-label="Modes de jeux:"
+                      className="form-select"
+                      defaultValue="original"
+                      onChange={(e) => setGM(e.target.value)}
+                    >
+                      <option value="classic">Classic</option>
+                      <option value="fast">Fast</option>
+                      <option value="bigball">Big Ball</option>
+                    </Form.Select>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+            // </div>
           )}
         </div>
 
@@ -338,8 +340,12 @@ export default function Pong() {
                 </div>
               </div>
               <div className="canvas-name-player" id="scores">
-                <div className="name_player_left" id="joueur1">{joueur1}</div>
-                <div className="name_player_right" id="joueur2">{joueur2}</div>
+                <div className="name_player_left" id="joueur1">
+                  {joueur1}
+                </div>
+                <div className="name_player_right" id="joueur2">
+                  {joueur2}
+                </div>
               </div>
             </div>
             {/* { inGame && */}
@@ -351,7 +357,7 @@ export default function Pong() {
                 height={400}
               ></canvas>
             </div>
-{/* } */}
+            {/* } */}
           </div>
         </main>
       </div>
