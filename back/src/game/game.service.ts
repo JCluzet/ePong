@@ -179,6 +179,7 @@ export class GameService {
 	}
 
 	stopGame(room: IRoom, playerDisconnected: IPlayer | undefined) {
+		room.gameIsStart = false;
 		var winner: IPlayer;
 		var looser: IPlayer;
 		room.gameIsStart = false;

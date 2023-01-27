@@ -15,18 +15,11 @@ import "semantic-ui-css/semantic.min.css";
 import { useSearchParams } from 'react-router-dom';
 import axios from "axios";
 
-// var adversaire;
 var joueur = accountService.userLogin();
-
-// // var avatarUrl = accountService.userAvatarUrl();
-
-// var gm = 0;
-
 let url_begin = "";
 if (process.env.REACT_APP_IP === "" || process.env.REACT_APP_IP === undefined)
   url_begin = "http://localhost";
 else url_begin = "http://".concat(process.env.REACT_APP_IP);
-// let selectedUser = "";
 
 var socket = io(url_begin.concat(":5001/game"), { query: { login: joueur} });
 
@@ -37,7 +30,6 @@ export default function PongSpectate() {
   const [joueur2, setJoueur2] = useState("");
   // eslint-disable-next-line no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
-  // const [roomId, setRoomId] = useState("");
 
   useEffect(() => {
      // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -51,7 +43,6 @@ export default function PongSpectate() {
     axios(config).then((responce) => {
       socket.emit("room", responce.data);
     });
-    // socket.emit("Room", roomId);
     return () => {};
   }, []);
 
@@ -88,7 +79,6 @@ export default function PongSpectate() {
 
   var canvas;
   var game;
-  // var anim;
   var PLAYER_HEIGHT = 80;
   var PLAYER_WIDTH = 10;
 
