@@ -129,7 +129,7 @@ export class GameService {
 						score: 0,
 						gameMode: this.queue[0].data.gameMode,
 						room: room,
-						position: {x: posPlayer === 0 ? 0 : GameService.option.display.width - GameService.cursor.x, y: GameService.option.display.height / 2},
+						position: {x: posPlayer === 0 ? 0 : GameService.option.display.width - GameService.cursor.x, y: GameService.option.display.height / 2 - GameService.cursor.y / 2},
 					}
 					posPlayer++;
 					this.playerJoinRoom(newplayer, room);
