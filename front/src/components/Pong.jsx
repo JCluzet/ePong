@@ -1,42 +1,29 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../styles/Pong.scss";
-// import JSConfetti from "js-confetti";
-// import useWindowDimensions from "./useWindowDimensions";
 import io from "socket.io-client";
 import { Form } from "react-bootstrap";
-// import Confetti from "react-confetti";
 import "/node_modules/react-rain-animation/lib/style.css";
 import { toast } from "react-toastify";
 import { accountService } from "../hooks/account_service";
-// import { Select } from "semantic-ui-react";
-// import { Dropdown } from "semantic-ui-react";
 import versusLogo from "../assets/images/versusLogo.svg";
 import "semantic-ui-css/semantic.min.css";
 
-// var adversaire;
 var joueur = accountService.userName();
 var login = accountService.userLogin();
-// // var avatarUrl = accountService.userAvatarUrl();
 let joueur1;
 let joueur2;
-// var gm = 0;
 
 let url_begin = "";
 if (process.env.REACT_APP_IP === "" || process.env.REACT_APP_IP === undefined)
   url_begin = "http://localhost";
 else url_begin = "http://".concat(process.env.REACT_APP_IP);
-// let selectedUser = "";
 
 var socket = io(url_begin.concat(":5001/game"), { query: { login: login} });
 
 export default function Pong() {
-  // const jsConfetti = new JSConfetti();
-  //   const { height, width } = useWindowDimensions();
   const [toastid, setToastid] = useState(0);
-
   const [isActive, setActive] = useState(true);
   const [isActive2, setActive2] = useState(false);
-  //   const [isWin, setWin] = useState(false);
   const [gameMode, setGM] = useState("classic");
 	const [isSearching, setIsSearching] = useState(false);
   const [playerScore1, SetPlayerScore1] = useState(0);
@@ -74,8 +61,6 @@ export default function Pong() {
     if(joueur) {
       if(!isSearching) {
         setIsSearching(true);
-        console.log(`start search ${gameMode}`);
-        
         socket.emit("queue", gameMode);
         const toastid = toast.loading("Searching for a player");
         setToastid(toastid);
@@ -122,7 +107,6 @@ export default function Pong() {
   }
 
   socket.on("updateBall", (...args) => {
-    //console.log(`update ball`);
     game.ball.x = args[0].x;
     game.ball.y = args[0].y;
     game.player.y = args[1].player1;
@@ -131,8 +115,6 @@ export default function Pong() {
   })
 
   socket.on("scoreUpdate", (...args) => {
-    console.log(`score update`);
-    console.log(args);
     if (args[0].player1.login === joueur1) {
       SetPlayerScore1(args[0].player1.score);
       SetPlayerScore2(args[0].player2.score);
@@ -143,8 +125,7 @@ export default function Pong() {
   })
 
   socket.on("startGame", (...args) => {
-   // console.log(`start game`);
-   // console.log(args);
+    console.log(`start game`);
     setActive(false);
     setIsSearching(false);
     joueur1 = args[1][0].name;
@@ -155,14 +136,19 @@ export default function Pong() {
   })
 
   socket.on("stopGame", (...args) => {
+    console.log(`end game`);
     setGM("classic");
+    if (args[0].login === accountService.userLogin()) {
+        toast.success("You won !");
+    } else {
+        toast.error("You lost !");
+    }
     setActive(true);
     initParty();
   })
 
   var canvas;
   var game;
-  // var anim;
   var PLAYER_HEIGHT = 80;
   var PLAYER_WIDTH = 10;
 
@@ -206,87 +192,6 @@ export default function Pong() {
       }
       draw();
   }
-
-  window.addEventListener(
-    "resize",
-    function () {
-      draw();
-    },
-    true
-  );
-
-  // function acceptInvitePlay() {
-  //   window.top.location = url_begin
-  //     .concat(":3000/play?vs=")
-  //     .concat(selectedUser);
-  // }
-
-  // const InvitetoPlay = () => {
-  //   return (
-  //     <div>
-  //       {selectedUser} wants to play with you !
-  //       <button className="btn btn-dark" onClick={acceptInvitePlay}>
-  //         Accept
-  //       </button>
-  //     </div>
-  //   );
-  // };
-
-  // function stop() {
-  //   // console.log("username: ", joueur, ", adversaire: ", adversaire, ", score player 1: ", game.player.score, ", score player 2: ", game.player.score, ", gameMode: ", gm)
-  //   if (
-  //     game !== undefined &&
-  //     game.player.score > game.player2.score &&
-  //     joueur1 &&
-  //     joueur2 &&
-  //     joueur1 === joueur
-  //   ) {
-  //     socket.emit(
-  //       "gameEnd",
-  //       `${joueur1}:${joueur2}:${game.player.score}:${game.player2.score}:${gm}`
-  //     );
-  //     document.querySelector("#victoryMessage").textContent = "Victory";
-  //   }
-  //   if (
-  //     game !== undefined &&
-  //     game.player.score < game.player2.score &&
-  //     joueur1 &&
-  //     joueur2 &&
-  //     joueur2 === joueur
-  //   ) {
-  //     socket.emit(
-  //       "gameEnd",
-  //       `${joueur2}:${joueur1}:${game.player2.score}:${game.player.score}:${gm}`
-  //     );
-  //     document.querySelector("#victoryMessage").textContent = "Victory";
-  //   }
-  //   if (document.querySelector("#victoryMessage").textContent !== "Victory") {
-  //     document.querySelector("#victoryMessage").textContent = "Defeat";
-  //     jsConfetti.addConfetti({
-  //       emojis: ["❌", "⚡️", "💥", "😢", "🤕", "💢"],
-  //     });
-  //   } else {
-  //     //   setWin(true);
-  //     jsConfetti.addConfetti({
-  //       emojis: ["✅", "⚡️", "🌈", "😜", "🥇", "🤑"],
-  //     });
-  //   }
-  //   cancelAnimationFrame(anim);
-
-  //   // Set ball and players to the center
-  //   game.ball.x = canvas.width / 2 - BALL_SIDE / 2;
-  //   game.ball.y = canvas.height / 2 - BALL_SIDE / 2;
-  //   game.player.y = canvas.height / 2 - PLAYER_HEIGHT / 2;
-  //   game.player2.y = canvas.height / 2 - PLAYER_HEIGHT / 2;
-  //   // Reset speed
-  //   game.ball.speed.x = 0;
-  //   game.ball.speed.y = 0;
-  // }
-
-  // if url have a get parameter vs, then it's a live game
-  //   if (window.location.href.includes("vs")) {
-  //     alert("Live game");
-  //   }
   return (
     <>
       <div>

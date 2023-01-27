@@ -39,7 +39,7 @@ export class PongService {
       else room.player[1].score++;
       this.gameService.emit(room, "scoreUpdate", {player1: {login: room.player[0].user.name, score: room.player[0].score}, player2: {login: room.player[1].user.name, score: room.player[1].score}});
       for (const player of room.player)
-        if (player.score === 5)
+        if (player.score === 5 && room.gameIsStart)
           return this.gameService.stopGame(room, undefined);
       this.resetBall(room, next.x + (room.GameOption.ball.y / 2) > PongService.option.display.width);
     }
