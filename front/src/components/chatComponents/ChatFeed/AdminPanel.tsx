@@ -132,7 +132,7 @@ export const AdminPanel = (props: any) => {
                     <tbody>
                         {chanUsers.map((user: EUser) => (
                             <tr key={user.id}>
-                                <td>{user.login}</td>
+                                <td>{user.name}</td>
                                 {user.userType === -1 ? <td>Cannot modify channel owner</td> : null}
                                 {user.userType !== 1 ? <td></td> : <td><button className="button" onClick={() => updateUserStatus(user.login, 0)}><div>Make Admin</div></button></td>}
                                 {user.userType !== 0 ? <td></td> : <td><button className="button" onClick={() => updateUserStatus(user.login, 1)}><div>UnMake Admin</div></button></td>}

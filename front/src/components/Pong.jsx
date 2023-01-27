@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import "../styles/Pong.scss";
+import JSConfetti from 'js-confetti'
+// import useWindowDimensions from "./useWindowDimensions";
 import io from "socket.io-client";
 import { Form } from "react-bootstrap";
 import "/node_modules/react-rain-animation/lib/style.css";
@@ -10,6 +12,7 @@ import "semantic-ui-css/semantic.min.css";
 
 var joueur = accountService.userName();
 var login = accountService.userLogin();
+const jsConfetti = new JSConfetti()
 let joueur1;
 let joueur2;
 
@@ -28,6 +31,7 @@ export default function Pong() {
 	const [isSearching, setIsSearching] = useState(false);
   const [playerScore1, SetPlayerScore1] = useState(0);
   const [playerScore2, SetPlayerScore2] = useState(0);
+//   const [inGame, setInGame] = useState(false);
 
   const queryParams = new URLSearchParams(window.location.search);
   const vs = queryParams.get("vs");
@@ -40,7 +44,9 @@ export default function Pong() {
     // eslint-disable-next-line
      canvas = document.getElementById("canvas");
      initParty();
-    window.addEventListener("mousemove", playerMove);
+     // send playerMove just in case we actually move the mouse
+     window.addEventListener("mousemove", playerMove);
+    window.addEventListener("keydown", playerMoveKey);
     if (live !== null) {
       setActive(false);
       setActive2(false);
@@ -106,6 +112,38 @@ export default function Pong() {
     }
   }
 
+  const playerMoveKey = (event) => {
+    if (event.key === "ArrowUp") {
+        if (joueur === joueur1) {
+            game.player.y -= 5;
+            if (game.player.y < 0) {
+                game.player.y = 0;
+            }
+            socket.emit("cursor", game.player.y);
+        } else if (joueur === joueur2) {
+            game.player2.y -= 5;
+            if (game.player2.y < 0) {
+                game.player2.y = 0;
+            }
+            socket.emit("cursor", game.player2.y);
+        }
+    } else if (event.key === "ArrowDown") {
+        if (joueur === joueur1) {
+            game.player.y += 5;
+            if (game.player.y > canvas.height - PLAYER_HEIGHT) {
+                game.player.y = canvas.height - PLAYER_HEIGHT;
+            }
+            socket.emit("cursor", game.player.y);
+        } else if (joueur === joueur2) {
+            game.player2.y += 5;
+            if (game.player2.y > canvas.height - PLAYER_HEIGHT) {
+                game.player2.y = canvas.height - PLAYER_HEIGHT;
+            }
+            socket.emit("cursor", game.player2.y);
+        }
+    }
+    }
+
   socket.on("updateBall", (...args) => {
     game.ball.x = args[0].x;
     game.ball.y = args[0].y;
@@ -125,8 +163,13 @@ export default function Pong() {
   })
 
   socket.on("startGame", (...args) => {
-    console.log(`start game`);
     setActive(false);
+    // setInGame(true);
+    document.querySelector("#victoryMessage").textContent = "";
+    // dismiss all toasts
+    toast.dismiss();
+    toast.success("Game found", { autoClose: 3000 });
+    // toast.update(toastid, { render: "Game found", type: "success", isLoading: false, hideProgressBar: false, autoClose: 3000 });
     setIsSearching(false);
     joueur1 = args[1][0].name;
     joueur2 = args[1][1].name;
@@ -138,10 +181,18 @@ export default function Pong() {
   socket.on("stopGame", (...args) => {
     console.log(`end game`);
     setGM("classic");
+    console.dir(args);
+    console.log("HERE !" + args[0].login);
     if (args[0].login === accountService.userLogin()) {
-        toast.success("You won !");
+        document.querySelector("#victoryMessage").textContent = "Victory";
+              jsConfetti.addConfetti({
+        emojis: ["✅", "⚡️", "🌈", "😜", "🥇", "🤑"],
+      });
     } else {
-        toast.error("You lost !");
+        document.querySelector("#victoryMessage").textContent = "Defeat";
+              jsConfetti.addConfetti({
+        emojis: ["❌", "⚡️", "💥", "😢", "🤕", "💢"],
+      });
     }
     setActive(true);
     initParty();
@@ -285,6 +336,7 @@ export default function Pong() {
                 <div className="name_player_right" id="joueur2">{joueur2}</div>
               </div>
             </div>
+            {/* { inGame && */}
             <div className="container-canva">
               <canvas
                 id="canvas"
@@ -293,6 +345,7 @@ export default function Pong() {
                 height={400}
               ></canvas>
             </div>
+{/* } */}
           </div>
         </main>
       </div>

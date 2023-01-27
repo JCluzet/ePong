@@ -24,6 +24,7 @@ export const CreateGroupConv = () => {
         const getAllUsers = async () => {
             try {
                 const {data} = await axios.get('users');
+                console.log(data);
                 if (bool)
                     setAllUsers(data);
             }
@@ -120,7 +121,7 @@ export const CreateGroupConv = () => {
                     </div>
                 }
                 <div>
-                    <Multiselect placeholder="Select at least 1 user" options={allUsers} selectedValues={chanUsers} displayValue="login" onSelect={selectedUser} onRemove={selectedUser}></Multiselect>
+                    <Multiselect placeholder="Select at least 1 user" options={allUsers} selectedValues={chanUsers} displayValue="name" onSelect={selectedUser} onRemove={selectedUser}></Multiselect>
                 </div>
                 <Box sx = {{ flexGrow: 1, p: 1 }} /> 
                 <button>Submit</button>

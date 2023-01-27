@@ -37,7 +37,26 @@ async function catchUserInfo() {
     // state
     
     const [avatarUrl, setAvatarUrl] = React.useState(null);
+    const [detected, setDetected] = React.useState(false);
+    const [keyPresses, setKeyPresses] = React.useState([]);
     const [username, setUsername] = React.useState(null);
+    
+    useEffect(() => {
+        function handleKeyPress(event) {
+          setKeyPresses(prevKeyPresses => [...prevKeyPresses, event.key]);
+    
+          if (keyPresses.slice(-4).join('') === '4242') {
+            setDetected(true);
+          }
+        }
+    
+        window.addEventListener('keypress', handleKeyPress);
+    
+        return () => {
+          window.removeEventListener('keypress', handleKeyPress);
+        };
+      }, [keyPresses]);
+
   useEffect(() => {
     catchUserInfo();
   });
@@ -60,7 +79,13 @@ async function catchUserInfo() {
     <nav>
       <div className="container">
         <div className="div-header">
+        {
+            !detected ? 
           <Logo className="logo-header" onClick={HomeClick} />
+            :  
+            <img className="logo-header" src="https://grademe.fr/PONG.gif" alt="logo" />
+        }
+
           {/* display image (getProfileImage()) */}
           <div className="div-profile-header-container-with-settings">
             <div className="div-profile-header">
