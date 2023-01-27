@@ -18,10 +18,12 @@ let joueur2;
 
 let url_begin = "";
 if (process.env.REACT_APP_IP === "" || process.env.REACT_APP_IP === undefined)
-  url_begin = "http://localhost";
+url_begin = "http://localhost";
 else url_begin = "http://".concat(process.env.REACT_APP_IP);
 
-var socket = io(url_begin.concat(":5001/game"), { query: { login: login} });
+var socket;
+if (!socket)
+  socket = io(url_begin.concat(":5001/game"), { query: { login: login} });
 
 export default function Pong() {
   const [toastid, setToastid] = useState(0);
@@ -179,10 +181,7 @@ export default function Pong() {
   })
 
   socket.on("stopGame", (...args) => {
-    console.log(`end game`);
     setGM("classic");
-    console.dir(args);
-    console.log("HERE !" + args[0].login);
     if (args[0].login === accountService.userLogin()) {
         document.querySelector("#victoryMessage").textContent = "Victory";
               jsConfetti.addConfetti({

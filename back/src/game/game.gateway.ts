@@ -1,4 +1,5 @@
 
+import { Logger } from '@nestjs/common';
 import { SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
 import { EUser } from 'src/users/interfaces/user.entity';
@@ -21,7 +22,7 @@ export class GameGateway {
 
 	async handleConnection(client: Socket): Promise<any> {
 			try {
-
+				Logger.log(`connect`);
 				const user: EUser = await this.userService.findUserByLogin(String(client.handshake.query.login));
 				if (!user) client.disconnect();
 				// else {
@@ -33,6 +34,7 @@ export class GameGateway {
 
 	async handleDisconnect(client: Socket): Promise<any> {
 		try {
+			Logger.log(`disconnect`);
 			if (!client.data.user) return;
 			await this.gameService.removeSocket(client);
 			this.userService.updateStatus(client.data.user.login, "online");
