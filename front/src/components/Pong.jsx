@@ -192,9 +192,9 @@ export default function Pong() {
         document.querySelector("#victoryMessage").textContent = "Victory";
     } else {
         document.querySelector("#victoryMessage").textContent = "Defeat";
-              jsConfetti.addConfetti({
-        emojis: ["❌", "⚡️", "💥", "😢", "🤕", "💢"],
-      });
+    //           jsConfetti.addConfetti({
+    //     emojis: ["❌", "⚡️", "💥", "😢", "🤕", "💢"],
+    //   });
     }
     setActive(true);
     initParty();
