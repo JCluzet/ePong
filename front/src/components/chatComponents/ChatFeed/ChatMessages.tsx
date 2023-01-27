@@ -106,7 +106,7 @@ export const UserBuble = (props: UserBubleProps) => {
     await axios(config)
         .then(function (response) {
              if(response.data === false)
-                toast.error("You already friend with this user");
+                toast.error("Your already friend/send request to this user");
             else
                 toast.success(login + " request send");
 
@@ -411,7 +411,7 @@ export const ChatMessage = (props: ChatMessageProps) => {
         {isOpen && !isShown ? (
             <div>
             <button onClick={unblockUser}>
-                Unblock {props.userName} ?
+                Unblock {userName} ?
             </button>
       </div>
         ) : null}
