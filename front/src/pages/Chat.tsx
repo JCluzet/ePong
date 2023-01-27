@@ -15,7 +15,7 @@ export default function Chat () {
         const getChans = async () => {
             try {
                 if (bool) {
-                    let login = accountService.userName() as string;
+                    let login = accountService.userLogin() as string;
                     setUserName(login);
                 }
             }
