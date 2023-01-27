@@ -33,6 +33,7 @@ export default function Pong() {
 	const [isSearching, setIsSearching] = useState(false);
   const [playerScore1, SetPlayerScore1] = useState(0);
   const [playerScore2, SetPlayerScore2] = useState(0);
+  const [inGame, setInGame] = useState(false);
 
   const queryParams = new URLSearchParams(window.location.search);
   const vs = queryParams.get("vs");
@@ -118,13 +119,13 @@ export default function Pong() {
   const playerMoveKey = (event) => {
     if (event.key === "ArrowUp") {
         if (joueur === joueur1) {
-            game.player.y -= 1;
+            game.player.y -= 5;
             if (game.player.y < 0) {
                 game.player.y = 0;
             }
             socket.emit("cursor", game.player.y);
         } else if (joueur === joueur2) {
-            game.player2.y -= 1;
+            game.player2.y -= 5;
             if (game.player2.y < 0) {
                 game.player2.y = 0;
             }
@@ -132,13 +133,13 @@ export default function Pong() {
         }
     } else if (event.key === "ArrowDown") {
         if (joueur === joueur1) {
-            game.player.y += 1;
+            game.player.y += 5;
             if (game.player.y > canvas.height - PLAYER_HEIGHT) {
                 game.player.y = canvas.height - PLAYER_HEIGHT;
             }
             socket.emit("cursor", game.player.y);
         } else if (joueur === joueur2) {
-            game.player2.y += 1;
+            game.player2.y += 5;
             if (game.player2.y > canvas.height - PLAYER_HEIGHT) {
                 game.player2.y = canvas.height - PLAYER_HEIGHT;
             }
@@ -169,6 +170,8 @@ export default function Pong() {
 
   socket.on("startGame", (...args) => {
     setActive(false);
+    setInGame(true);
+
     toast.update(toastid, { render: "Game found", type: "success", isLoading: false, hideProgressBar: false, autoClose: 3000 });
     setIsSearching(false);
     joueur1 = args[1][0].name;
@@ -180,6 +183,7 @@ export default function Pong() {
 
   socket.on("stopGame", (...args) => {
     setGM("classic");
+    setInGame(false);
     setActive(true);
     initParty();
   })
@@ -404,6 +408,7 @@ export default function Pong() {
                 <div className="name_player_right" id="joueur2">{joueur2}</div>
               </div>
             </div>
+            {/* { inGame && */}
             <div className="container-canva">
               <canvas
                 id="canvas"
@@ -412,6 +417,7 @@ export default function Pong() {
                 height={400}
               ></canvas>
             </div>
+{/* } */}
           </div>
         </main>
       </div>
