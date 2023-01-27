@@ -30,7 +30,9 @@ export default function AddFriendList() {
     }
     axios(config).then(function(response) {
       if (response.data === false)
-        toast.error('Error add user');
+        toast.error("You already friend with this user");
+        else
+        toast.success("Your friend request has been sent");
     });
       
     

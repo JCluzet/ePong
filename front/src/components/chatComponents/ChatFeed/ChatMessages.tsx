@@ -17,175 +17,190 @@ import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 // import { isBlock } from "typescript";
 
 type UserBubleProps = {
-    userName: string;
-    senderId: string;
-    avatar: string;
-    chanId: number;
+  userName: string;
+  senderId: string;
+  avatar: string;
+  chanId: number;
 };
 
 // type Ifriend = {
-    // 	login: string;
-    // 	name: string;
-    // 	nbWins: number;
-    // 	nbLoses: number;
-    // 	totalGame: number;
-    // 	kda: number;
-    // 	status: string;
-    // 	avatarUrl: string;
-    // }
-    
-    const checkIfBannedChan = async (username: string): Promise<boolean> => {
-        try {
-            const config = {
-                method: "get",
-                url: "block/" + accountService.userLogin(),
-                headers: { 
-                    Authorization: "Bearer " + accountService.userToken(), 
-                    "Content-Type": "application/json", 
-                },
-            };
-            const response = await axios(config);
-            console.dir(response.data);
-            console.log("checkIfBannedChan:" + username);
-            if (response.data.includes(username))
-            {
-                // console.log("BAN!");
-                return true;
-            }
-            return false;
-        } catch (error) {
-            console.error(error);
-            return false;
-        }
+// 	login: string;
+// 	name: string;
+// 	nbWins: number;
+// 	nbLoses: number;
+// 	totalGame: number;
+// 	kda: number;
+// 	status: string;
+// 	avatarUrl: string;
+// }
+
+const checkIfBannedChan = async (username: string): Promise<boolean> => {
+  try {
+    const config = {
+      method: "get",
+      url: "block/" + accountService.userLogin(),
+      headers: {
+        Authorization: "Bearer " + accountService.userToken(),
+        "Content-Type": "application/json",
+      },
+    };
+    const response = await axios(config);
+    console.dir(response.data);
+    console.log("checkIfBannedChan:" + username);
+    if (response.data.includes(username)) {
+      // console.log("BAN!");
+      return true;
     }
-    
-    const { Meta } = Card;
-    export const UserBuble = (props: UserBubleProps) => {
-        const [name, setName] = useState("");
-        const [login, setLogin] = useState("");
-        // const [IsGetProfil, setIsGetProfil] = useState(false);
-        // const [friendProfil, setFriendProfil] = useState<Ifriend>();
-        // const [isBlocked, setIsBlocked] = useState(false);
-        
-        useEffect(() => {
-            let bool = true;
-            const getUser = async () => {
-                try {
-                    if (bool) {
-                        var config = {
-                            method: "get",
-                            url: "users/public/" + props.senderId,
-                            headers: {
-                                Authorization: "Bearer " + localStorage.getItem("token"),
-                                "Content-Type": "application/json",
-                            },
+    return false;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
+
+const { Meta } = Card;
+export const UserBuble = (props: UserBubleProps) => {
+  const [name, setName] = useState("");
+  const [login, setLogin] = useState("");
+  // const [IsGetProfil, setIsGetProfil] = useState(false);
+  // const [friendProfil, setFriendProfil] = useState<Ifriend>();
+  // const [isBlocked, setIsBlocked] = useState(false);
+
+  useEffect(() => {
+    let bool = true;
+    const getUser = async () => {
+      try {
+        if (bool) {
+          var config = {
+            method: "get",
+            url: "users/public/" + props.senderId,
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+              "Content-Type": "application/json",
+            },
             data: JSON.stringify({}),
-        };
+          };
           axios(config)
-          .then(function (response: any) {
+            .then(function (response: any) {
               setName(response.data.name);
               setLogin(response.data.login);
             })
             .catch(function (error: any) {});
         }
-    } catch (error) {
+      } catch (error) {
         console.log("Couldn't fetch user data");
-    }
-};
-getUser();
-return () => {
-    bool = false;
-};
-}, [props.senderId]);
-
-async function addFriend() {
-    var config = {
-        method: "post",
-        url: "/friends/send?to=" + login,
-        headers: { Authorization: "Bearer " + accountService.userToken() },
+      }
     };
-    await axios(config);
-}
+    getUser();
+    return () => {
+      bool = false;
+    };
+  }, [props.senderId]);
 
-async function blockUser() {
+  async function addFriend() {
+    var config = {
+      method: "post",
+      url: "/friends/send?to=" + login,
+      headers: { Authorization: "Bearer " + accountService.userToken() },
+    };
+    await axios(config)
+        .then(function (response) {
+             if(response.data === false)
+                toast.error("You already friend with this user");
+            else
+                toast.success(login + " request send");
+
+            // toast.success(login + " is now your friend");
+            // console.dir(response);
+            // console.log("Friend request success.");
+            }
+        )
+        .catch(function (error) {
+            toast.error("Friend request failed.");
+            console.log("Friend request failed.");
+        }
+    );
+  }
+
+  async function blockUser() {
     var isBlockedvar = false;
     console.log(login);
     var config = {
-        method: "post",
-        url: "/block/block?to=" + login,
-        headers: { Authorization: "Bearer " + accountService.userToken() },
+      method: "post",
+      url: "/block/block?to=" + login,
+      headers: { Authorization: "Bearer " + accountService.userToken() },
     };
     await axios(config)
-    .then(function (response) {
+      .then(function (response) {
         isBlockedvar = true;
         // setIsBlocked(true);
         toast.success(login + " is now blocked");
         console.log("Blocking success.");
-    })
-    .catch(function (error) {
+      })
+      .catch(function (error) {
         console.log("Blocking failed.");
-    });
+      });
     // setIsBlocked(isBlockedvar);
     return isBlockedvar;
-}
+  }
 
-async function unblockUser() {
+  async function unblockUser() {
     // setIsBlocked(false);
     var isBlockedvar = true;
     var config = {
-        method: "post",
-        url: "/block/unblock?to=" + login,
-        headers: { Authorization: "Bearer " + accountService.userToken() },
+      method: "post",
+      url: "/block/unblock?to=" + login,
+      headers: { Authorization: "Bearer " + accountService.userToken() },
     };
     await axios(config)
-    .then(function (response) {
+      .then(function (response) {
         // setIsBlocked(false);
         toast.success(login + " is now unblocked");
         console.log("Unblocking success.");
-    })
-    .catch(function (error) {
+      })
+      .catch(function (error) {
         console.log("Unblocking failed.");
-    });
+      });
     // setIsBlocked(isBlockedvar);
     return isBlockedvar;
-}
+  }
 
-// async function getFriendProfil() {
-//     setIsGetProfil(!IsGetProfil);
-//     if (IsGetProfil) {
-//         var config = {
-//             method: "get",
-//             url: "/users/public/" + accountService.userLogin(),
-//             headers: { Authorization: "Bearer " + accountService.userToken() },
-//         };
-//         await axios(config).then(function (response) {
-//             // setFriendProfil(response.data);
-//         });
-//         console.log("Get friend profil success.");
-//     }
-// }
+  // async function getFriendProfil() {
+  //     setIsGetProfil(!IsGetProfil);
+  //     if (IsGetProfil) {
+  //         var config = {
+  //             method: "get",
+  //             url: "/users/public/" + accountService.userLogin(),
+  //             headers: { Authorization: "Bearer " + accountService.userToken() },
+  //         };
+  //         await axios(config).then(function (response) {
+  //             // setFriendProfil(response.data);
+  //         });
+  //         console.log("Get friend profil success.");
+  //     }
+  // }
 
-let actions: JSX.Element[];
-if (props.userName === props.senderId) {
+  let actions: JSX.Element[];
+  if (props.userName === props.senderId) {
     actions = [
-        <button className="buttonSmall">
+      <button className="buttonSmall">
         <CloseIcon />
       </button>,
     ];
-} else {
+  } else {
     actions = [
-        <button
+      <button
         className="buttonSmall"
         onClick={() => (window.location.href = "/play?vs=" + login)}
-        >
+      >
         <SportsEsportsIcon />
       </button>,
       <button className="buttonSmall" onClick={addFriend}>
         <PersonAddIcon />
       </button>,
-      <button className="buttonSmallGreen" onClick={unblockUser}>
-        <BlockIcon />
-      </button>,
+    //   <button className="buttonSmallGreen" onClick={unblockUser}>
+    //     <BlockIcon />
+    //   </button>,
       <button className="buttonSmallRed" onClick={blockUser}>
         <BlockIcon />
       </button>,
@@ -193,14 +208,14 @@ if (props.userName === props.senderId) {
         <CloseIcon />
       </button>,
     ];
-}
+  }
 
-return (
+  return (
     <Card
-    hoverable
-    style={{ width: 260 }}
-    cover={<img alt="avatar" src={props.avatar} />}
-    actions={actions}
+      hoverable
+      style={{ width: 260 }}
+      cover={<img alt="avatar" src={props.avatar} />}
+      actions={actions}
     >
       <Meta title={name} />
     </Card>
@@ -208,31 +223,31 @@ return (
 };
 
 type ChatMessageProps = {
-    msg: WebSocketMessageType;
-    oneShownPopup: string;
-    setOneShownPopup: Function;
-    userName: string;
+  msg: WebSocketMessageType;
+  oneShownPopup: string;
+  setOneShownPopup: Function;
+  userName: string;
 };
 
 export const ChatMessage = (props: ChatMessageProps) => {
-    const content = props.msg.content;
-    const timestamp = props.msg.timestamp;
-    const [isShown, setIsShown] = useState(true);
-    const [userName, setUserName] = useState("");
-    const [avatar, setAvatar] = useState("");
-    const [login, setLogin] = useState("");
-    const [isMute, setIsMute] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
-    const [isBlocked, setIsBlocked] = useState(false);
-    
-    const toggleUserBuble = () => {
-        setIsOpen(!isOpen);
-        props.setOneShownPopup(props.msg.timestamp);
-    };
-    
-    useEffect(() => {
-        let bool = true;
-        const getUser = async () => {
+  const content = props.msg.content;
+  const timestamp = props.msg.timestamp;
+  const [isShown, setIsShown] = useState(true);
+  const [userName, setUserName] = useState("");
+  const [avatar, setAvatar] = useState("");
+  const [login, setLogin] = useState("");
+  const [isMute, setIsMute] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isBlocked, setIsBlocked] = useState(false);
+
+  const toggleUserBuble = () => {
+    setIsOpen(!isOpen);
+    props.setOneShownPopup(props.msg.timestamp);
+  };
+
+  useEffect(() => {
+    let bool = true;
+    const getUser = async () => {
       try {
         if (bool) {
           var config = {
@@ -290,6 +305,30 @@ export const ChatMessage = (props: ChatMessageProps) => {
     };
   }, [props.msg.senderId, props.userName]);
 
+  async function unblockUser() {
+    // setIsBlocked(false);
+    var isBlockedvar = true;
+    var config = {
+      method: "post",
+      url: "/block/unblock?to=" + login,
+      headers: { Authorization: "Bearer " + accountService.userToken() },
+    };
+    await axios(config)
+      .then(function (response) {
+        // setIsBlocked(false);
+        //reload page
+        // use the useEffet to reload the page
+        window.location.reload();
+        console.log("Unblocking success.");
+        // toast.success(login + " is now unblocked");
+      })
+      .catch(function (error) {
+        console.log("Unblocking failed.");
+      });
+    // setIsBlocked(isBlockedvar);
+    return isBlockedvar;
+  }
+
   useEffect(() => {
     let bool = true;
     const getUserType = async () => {
@@ -333,40 +372,33 @@ export const ChatMessage = (props: ChatMessageProps) => {
       </div>
     );
   } else {
-      checkIfBannedChan(login).then(isBanned => {
-        if (isBanned) {
-            console.log("L'utilisateur est banni");
-            setIsShown(false);
-            return (
-                <div>
-                    Banned
-                </div>
-            );
-        } else {
-            setIsShown(true);
-            console.log("L'utilisateur n'est pas banni");
-        }
+    checkIfBannedChan(login).then((isBanned) => {
+      if (isBanned) {
+        console.log("L'utilisateur est banni");
+        setIsShown(false);
+        return <div>Banned</div>;
+      } else {
+        setIsShown(true);
+        console.log("L'utilisateur n'est pas banni");
+      }
     });
     return (
       <div onClick={toggleUserBuble}>
-        {
-            isShown ? (
-                <Comment
-                  content={content}
-                  author={userName}
-                  avatar={avatar}
-                  datetime={timestamp}
-                />
-            ) : (
-                <div className="message-from-ban">
-                    This message is from a banned user
-                    <br/>
-                    Click to see details or unban
-                </div>
-            )
-
-        }
-        {isOpen ? (
+        {isShown ? (
+          <Comment
+            content={content}
+            author={userName}
+            avatar={avatar}
+            datetime={timestamp}
+          />
+        ) : (
+          <div className="message-from-ban">
+            This message is from a banned user
+            <br />
+            Click to unblock
+          </div>
+        )}
+        {isOpen && isShown ? (
           <UserBuble
             userName={props.userName}
             senderId={props.msg.senderId}
@@ -374,9 +406,18 @@ export const ChatMessage = (props: ChatMessageProps) => {
             chanId={props.msg.chanId}
           />
         ) : null}
+
+
+        {isOpen && !isShown ? (
+            <div>
+            <button onClick={unblockUser}>
+                Unblock {props.userName} ?
+            </button>
       </div>
+        ) : null}
+        </div>
     );
-  }
+    }
 };
 
 type ChannelMessagesProps = {
@@ -391,7 +432,7 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
   const [oneShownPopup, setOneShownPopup] = useState("");
   const [content, setContent] = useState("");
   const [timestamp, setTimestamp] = useState(new Date().toLocaleString());
-//   const [isBlocked, setIsBlocked] = useState(false);
+  //   const [isBlocked, setIsBlocked] = useState(false);
 
   useEffect(() => {
     let bool = true;
