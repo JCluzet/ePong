@@ -9,6 +9,8 @@ import { toast } from "react-toastify";
 import { accountService } from "../hooks/account_service";
 import versusLogo from "../assets/images/versusLogo.svg";
 import "semantic-ui-css/semantic.min.css";
+import Confetti from "react-confetti";
+// import Confetti from "react-confetti/dist/types/Confetti";
 
 var joueur = accountService.userName();
 var login = accountService.userLogin();
@@ -183,10 +185,8 @@ export default function Pong() {
   socket.on("stopGame", (...args) => {
     setGM("classic");
     if (args[0].login === accountService.userLogin()) {
-        document.querySelector("#victoryMessage").textContent = "Victory";
-              jsConfetti.addConfetti({
-        emojis: ["✅", "⚡️", "🌈", "😜", "🥇", "🤑"],
-      });
+        // get screen width and height
+        <Confetti width={window.innerWidth} height={window.innerHeight} />;
     } else {
         document.querySelector("#victoryMessage").textContent = "Defeat";
               jsConfetti.addConfetti({
@@ -266,7 +266,6 @@ export default function Pong() {
 
           {isActive && (
             <div id="game-root" className="game-root">
-              {/* {isWin ? <Confetti width={width} height={height} /> : ""} */}
               {isActive && !isSearching && (
                 <button
                   type="button"
