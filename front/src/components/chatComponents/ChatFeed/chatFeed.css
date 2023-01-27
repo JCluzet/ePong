@@ -10,6 +10,15 @@
     overflow-y: auto; 
 }
 
+.message-from-ban{
+    background-color: #ffbaba;
+    border-radius: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 10px;
+}
+
 .input {
     width: 70vw;
 }

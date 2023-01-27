@@ -220,6 +220,7 @@ export const ChatMessage = (props: ChatMessageProps) => {
     const [isShown, setIsShown] = useState(true);
     const [userName, setUserName] = useState("");
     const [avatar, setAvatar] = useState("");
+    const [login, setLogin] = useState("");
     const [isMute, setIsMute] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [isBlocked, setIsBlocked] = useState(false);
@@ -246,6 +247,7 @@ export const ChatMessage = (props: ChatMessageProps) => {
           axios(config)
             .then(function (response: any) {
               setUserName(response.data.name);
+              setLogin(response.data.login);
               setAvatar(response.data.avatarUrl);
             })
             .catch(function (error: any) {});
@@ -331,7 +333,7 @@ export const ChatMessage = (props: ChatMessageProps) => {
       </div>
     );
   } else {
-      checkIfBannedChan(userName).then(isBanned => {
+      checkIfBannedChan(login).then(isBanned => {
         if (isBanned) {
             console.log("L'utilisateur est banni");
             setIsShown(false);
@@ -347,12 +349,23 @@ export const ChatMessage = (props: ChatMessageProps) => {
     });
     return (
       <div onClick={toggleUserBuble}>
-        <Comment
-          content={isShown ? content : "[BAN]"}
-          author={userName}
-          avatar={avatar}
-          datetime={timestamp}
-        />
+        {
+            isShown ? (
+                <Comment
+                  content={content}
+                  author={userName}
+                  avatar={avatar}
+                  datetime={timestamp}
+                />
+            ) : (
+                <div className="message-from-ban">
+                    This message is from a banned user
+                    <br/>
+                    Click to see details or unban
+                </div>
+            )
+
+        }
         {isOpen ? (
           <UserBuble
             userName={props.userName}
@@ -469,7 +482,7 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
         if (response.data) {
           // if i am in the list of banned users, then i am banned
           if (response.data.includes(props.userName)) {
-            toast.error("Sorry, You have been banned from this person");
+            toast.error("You have been banned from this person");
             isBanned = true;
           }
           console.log(
