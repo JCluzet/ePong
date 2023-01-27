@@ -25,9 +25,6 @@ export class GameGateway {
 				Logger.log(`connect`);
 				const user: EUser = await this.userService.findUserByLogin(String(client.handshake.query.login));
 				if (!user) client.disconnect();
-				// else {
-				// 	console.log(user);
-				// }
 				client.data.user = user;
 			} catch (err) {}
 	}
@@ -69,6 +66,11 @@ export class GameGateway {
 			this.gameService.spectateJoinRoom(client, room);
 			client.emit("spectateJoin", {player1: room.player[0].user.name, player2: room.player[1].user.name})
 		} catch (err) {}
+	}
+
+	@SubscribeMessage('vs')
+	joinVs(client: Socket, name: string){
+		
 	}
 
 	@SubscribeMessage('start')

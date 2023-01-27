@@ -93,7 +93,8 @@ export class GameService {
 				return room.spectator.splice(room.spectator.indexOf(socket), 1)
 			for (const player of room.player)
 				if (player.socket.id == socket.id){
-					this.stopGame(room, player);
+					if (room.gameIsStart)
+						this.stopGame(room, player);
 					room.player.splice(room.player.indexOf(player), 1);		
 					break;
 				}
