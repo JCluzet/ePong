@@ -8,35 +8,27 @@ import { Form } from "react-bootstrap";
 import "/node_modules/react-rain-animation/lib/style.css";
 import { toast } from "react-toastify";
 import { accountService } from "../hooks/account_service";
-// import { Select } from "semantic-ui-react";
-// import { Dropdown } from "semantic-ui-react";
 import versusLogo from "../assets/images/versusLogo.svg";
 import "semantic-ui-css/semantic.min.css";
 
 // var adversaire;
 var joueur = accountService.userName();
 var login = accountService.userLogin();
-// // var avatarUrl = accountService.userAvatarUrl();
 let joueur1;
 let joueur2;
-// var gm = 0;
 
 let url_begin = "";
 if (process.env.REACT_APP_IP === "" || process.env.REACT_APP_IP === undefined)
   url_begin = "http://localhost";
 else url_begin = "http://".concat(process.env.REACT_APP_IP);
-// let selectedUser = "";
 
 var socket = io(url_begin.concat(":5001/game"), { query: { login: login} });
 
 export default function Pong() {
-  // const jsConfetti = new JSConfetti();
-  //   const { height, width } = useWindowDimensions();
   const [toastid, setToastid] = useState(0);
 
   const [isActive, setActive] = useState(true);
   const [isActive2, setActive2] = useState(false);
-  //   const [isWin, setWin] = useState(false);
   const [gameMode, setGM] = useState("classic");
 	const [isSearching, setIsSearching] = useState(false);
   const [playerScore1, SetPlayerScore1] = useState(0);
@@ -53,7 +45,9 @@ export default function Pong() {
     // eslint-disable-next-line
      canvas = document.getElementById("canvas");
      initParty();
-    window.addEventListener("mousemove", playerMove);
+     // send playerMove just in case we actually move the mouse
+     window.addEventListener("mousemove", playerMove);
+    window.addEventListener("keydown", playerMoveKey);
     if (live !== null) {
       setActive(false);
       setActive2(false);
@@ -121,8 +115,39 @@ export default function Pong() {
     }
   }
 
+  const playerMoveKey = (event) => {
+    if (event.key === "ArrowUp") {
+        if (joueur === joueur1) {
+            game.player.y -= 1;
+            if (game.player.y < 0) {
+                game.player.y = 0;
+            }
+            socket.emit("cursor", game.player.y);
+        } else if (joueur === joueur2) {
+            game.player2.y -= 1;
+            if (game.player2.y < 0) {
+                game.player2.y = 0;
+            }
+            socket.emit("cursor", game.player2.y);
+        }
+    } else if (event.key === "ArrowDown") {
+        if (joueur === joueur1) {
+            game.player.y += 1;
+            if (game.player.y > canvas.height - PLAYER_HEIGHT) {
+                game.player.y = canvas.height - PLAYER_HEIGHT;
+            }
+            socket.emit("cursor", game.player.y);
+        } else if (joueur === joueur2) {
+            game.player2.y += 1;
+            if (game.player2.y > canvas.height - PLAYER_HEIGHT) {
+                game.player2.y = canvas.height - PLAYER_HEIGHT;
+            }
+            socket.emit("cursor", game.player2.y);
+        }
+    }
+    }
+
   socket.on("updateBall", (...args) => {
-    //console.log(`update ball`);
     game.ball.x = args[0].x;
     game.ball.y = args[0].y;
     game.player.y = args[1].player1;
@@ -143,9 +168,8 @@ export default function Pong() {
   })
 
   socket.on("startGame", (...args) => {
-   // console.log(`start game`);
-   // console.log(args);
     setActive(false);
+    toast.update(toastid, { render: "Game found", type: "success", isLoading: false, hideProgressBar: false, autoClose: 3000 });
     setIsSearching(false);
     joueur1 = args[1][0].name;
     joueur2 = args[1][1].name;
