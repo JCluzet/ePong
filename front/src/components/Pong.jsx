@@ -34,7 +34,7 @@ export default function Pong() {
 	const [isSearching, setIsSearching] = useState(false);
   const [playerScore1, SetPlayerScore1] = useState(0);
   const [playerScore2, SetPlayerScore2] = useState(0);
-  const [inGame, setInGame] = useState(false);
+//   const [inGame, setInGame] = useState(false);
 
   const queryParams = new URLSearchParams(window.location.search);
   const vs = queryParams.get("vs");
@@ -171,7 +171,7 @@ export default function Pong() {
 
   socket.on("startGame", (...args) => {
     setActive(false);
-    setInGame(true);
+    // setInGame(true);
     document.querySelector("#victoryMessage").textContent = "";
     // dismiss all toasts
     toast.dismiss();

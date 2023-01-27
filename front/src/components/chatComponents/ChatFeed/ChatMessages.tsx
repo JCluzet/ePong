@@ -4,7 +4,7 @@ import { SyntheticEvent, useEffect, useState } from "react";
 import { DatabaseMessageType, WebSocketMessageType } from "../Models/chan";
 import User from "../Models/user";
 import CloseIcon from "@mui/icons-material/Close";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+// import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import BlockIcon from "@mui/icons-material/Block";
 import SendIcon from "@mui/icons-material/Send";
@@ -14,7 +14,7 @@ import { Comment } from "@ant-design/compatible";
 import { accountService } from "../../../hooks/account_service";
 import { toast } from "react-toastify";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
-import { isBlock } from "typescript";
+// import { isBlock } from "typescript";
 
 type UserBubleProps = {
     userName: string;
@@ -63,9 +63,9 @@ type UserBubleProps = {
     export const UserBuble = (props: UserBubleProps) => {
         const [name, setName] = useState("");
         const [login, setLogin] = useState("");
-        const [IsGetProfil, setIsGetProfil] = useState(false);
+        // const [IsGetProfil, setIsGetProfil] = useState(false);
         // const [friendProfil, setFriendProfil] = useState<Ifriend>();
-        const [isBlocked, setIsBlocked] = useState(false);
+        // const [isBlocked, setIsBlocked] = useState(false);
         
         useEffect(() => {
             let bool = true;
@@ -125,7 +125,7 @@ async function blockUser() {
     .catch(function (error) {
         console.log("Blocking failed.");
     });
-    setIsBlocked(isBlockedvar);
+    // setIsBlocked(isBlockedvar);
     return isBlockedvar;
 }
 
@@ -139,31 +139,31 @@ async function unblockUser() {
     };
     await axios(config)
     .then(function (response) {
-        setIsBlocked(false);
+        // setIsBlocked(false);
         toast.success(login + " is now unblocked");
         console.log("Unblocking success.");
     })
     .catch(function (error) {
         console.log("Unblocking failed.");
     });
-    setIsBlocked(isBlockedvar);
+    // setIsBlocked(isBlockedvar);
     return isBlockedvar;
 }
 
-async function getFriendProfil() {
-    setIsGetProfil(!IsGetProfil);
-    if (IsGetProfil) {
-        var config = {
-            method: "get",
-            url: "/users/public/" + accountService.userLogin(),
-            headers: { Authorization: "Bearer " + accountService.userToken() },
-        };
-        await axios(config).then(function (response) {
-            // setFriendProfil(response.data);
-        });
-        console.log("Get friend profil success.");
-    }
-}
+// async function getFriendProfil() {
+//     setIsGetProfil(!IsGetProfil);
+//     if (IsGetProfil) {
+//         var config = {
+//             method: "get",
+//             url: "/users/public/" + accountService.userLogin(),
+//             headers: { Authorization: "Bearer " + accountService.userToken() },
+//         };
+//         await axios(config).then(function (response) {
+//             // setFriendProfil(response.data);
+//         });
+//         console.log("Get friend profil success.");
+//     }
+// }
 
 let actions: JSX.Element[];
 if (props.userName === props.senderId) {
@@ -378,7 +378,7 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
   const [oneShownPopup, setOneShownPopup] = useState("");
   const [content, setContent] = useState("");
   const [timestamp, setTimestamp] = useState(new Date().toLocaleString());
-  const [isBlocked, setIsBlocked] = useState(false);
+//   const [isBlocked, setIsBlocked] = useState(false);
 
   useEffect(() => {
     let bool = true;
@@ -482,7 +482,7 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
       }
     }
 
-    var config = {
+    var config3 = {
       method: "post",
       url: "chat/isBanned",
       headers: {
@@ -494,7 +494,7 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
         chanId: chanId,
       }),
     };
-    let response = await axios(config);
+    let response = await axios(config3);
     if (response.data) {
       toast.error("You have been banned from this channel");
       props.setCurrentChannelId(0);
