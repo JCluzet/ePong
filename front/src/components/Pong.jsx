@@ -31,6 +31,7 @@ export default function Pong() {
   const [toastid, setToastid] = useState(0);
   const [isActive, setActive] = useState(true);
   const [isActive2, setActive2] = useState(false);
+  const [isWin, setWin] = useState(false);
   const [gameMode, setGM] = useState("classic");
 	const [isSearching, setIsSearching] = useState(false);
   const [playerScore1, SetPlayerScore1] = useState(0);
@@ -119,13 +120,13 @@ export default function Pong() {
   const playerMoveKey = (event) => {
     if (event.key === "ArrowUp") {
         if (joueur === joueur1) {
-            game.player.y -= 5;
+            game.player.y -= 8;
             if (game.player.y < 0) {
                 game.player.y = 0;
             }
             socket.emit("cursor", game.player.y);
         } else if (joueur === joueur2) {
-            game.player2.y -= 5;
+            game.player2.y -= 8;
             if (game.player2.y < 0) {
                 game.player2.y = 0;
             }
@@ -133,13 +134,13 @@ export default function Pong() {
         }
     } else if (event.key === "ArrowDown") {
         if (joueur === joueur1) {
-            game.player.y += 5;
+            game.player.y += 8;
             if (game.player.y > canvas.height - PLAYER_HEIGHT) {
                 game.player.y = canvas.height - PLAYER_HEIGHT;
             }
             socket.emit("cursor", game.player.y);
         } else if (joueur === joueur2) {
-            game.player2.y += 5;
+            game.player2.y += 8;
             if (game.player2.y > canvas.height - PLAYER_HEIGHT) {
                 game.player2.y = canvas.height - PLAYER_HEIGHT;
             }
@@ -170,6 +171,7 @@ export default function Pong() {
     setActive(false);
     // setInGame(true);
     document.querySelector("#victoryMessage").textContent = "";
+    setWin(false);
     // dismiss all toasts
     toast.dismiss();
     toast.success("Game found", { autoClose: 3000 });
@@ -186,7 +188,8 @@ export default function Pong() {
     setGM("classic");
     if (args[0].login === accountService.userLogin()) {
         // get screen width and height
-        <Confetti width={window.innerWidth} height={window.innerHeight} />;
+        setWin(true);
+        document.querySelector("#victoryMessage").textContent = "Victory";
     } else {
         document.querySelector("#victoryMessage").textContent = "Defeat";
               jsConfetti.addConfetti({
@@ -266,6 +269,7 @@ export default function Pong() {
 
           {isActive && (
             <div id="game-root" className="game-root">
+                {isWin ? <Confetti width={window.innerWidth} height={window.innerHeight} /> : ""}
               {isActive && !isSearching && (
                 <button
                   type="button"
