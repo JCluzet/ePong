@@ -43,7 +43,7 @@ export default function FriendList() {
     }
     console.log(allUsers);
     
-    setTimeout(getUserInfo, 100000);
+    setTimeout(getUserInfo, 1000000);
 };
 
   useEffect(() => {}, [Name, Img, Online]);
@@ -223,6 +223,21 @@ export default function FriendList() {
                 </div>
                 <div className="column">
                   <h2> {Name} </h2>
+                  {(() => {
+                        if (Online === "online") {
+                          return (
+                            <p className="green-circle"></p>
+                          )
+                        } else if (Online === "ingame") {
+                          return (
+                            <p className="orange-circle"> </p>
+                          )
+                        } else {
+                          return (
+                            <p className="red-circle"></p>
+                          )
+                        }
+                      })()}
                   <StatsCardFriend />
                 </div>
                 <div className="row">

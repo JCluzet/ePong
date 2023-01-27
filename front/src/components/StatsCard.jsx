@@ -19,15 +19,15 @@ export default function StatsCard() {
         <div className="container-stats-content">
           <div className="stat-uniq">
             Winrate
-            <div className="stat-uniq-number">{kda}</div>
+            <div className="stat-uniq-number">{kda} %</div>
           </div>
           <div className="stat-uniq">
             Nb Wins
-            <div className="stat-uniq-number">{nbWins}</div>
+            <div className="stat-uniq-number" style={{color:"green"}}>{nbWins}</div>
           </div>
           <div className="stat-uniq">
             Nb Loses
-            <div className="stat-uniq-number">{nbLoses}</div>
+            <div className="stat-uniq-number" style={{color:"red"}}>{nbLoses}</div>
           </div>
           <div className="stat-uniq">
             Total Game
