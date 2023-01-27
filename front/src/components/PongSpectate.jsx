@@ -18,7 +18,7 @@ import axios from "axios";
 var joueur = accountService.userLogin();
 let url_begin = "";
 if (process.env.REACT_APP_IP === "" || process.env.REACT_APP_IP === undefined)
-  url_begin = "http://localhost";
+  url_begin = "http://pong.grademe.fr";
 else url_begin = "http://".concat(process.env.REACT_APP_IP);
 
 var socket = io(url_begin.concat(":5001/game"), { query: { login: joueur} });
