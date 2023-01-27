@@ -33,9 +33,7 @@
 
 .container-social {
     display: flex;
-    /* flex-direction: row-reverse; */
     align-items: center;
-    /* align-items: center; */
     justify-content: space-between;
     background-color: black;
     outline: none;
@@ -50,7 +48,6 @@
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
-    /* margin-bottom: 10px; */
 }
 
 .container-social:hover{

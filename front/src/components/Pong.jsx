@@ -9,12 +9,8 @@ import { toast } from "react-toastify";
 import { accountService } from "../hooks/account_service";
 import versusLogo from "../assets/images/versusLogo.svg";
 import "semantic-ui-css/semantic.min.css";
-<<<<<<< HEAD
-import { useSearchParams } from 'react-router-dom';
-=======
 import Confetti from "react-confetti";
-// import Confetti from "react-confetti/dist/types/Confetti";
->>>>>>> refs/remotes/origin/main
+import { useSearchParams } from 'react-router-dom';
 
 var joueur = accountService.userName();
 var login = accountService.userLogin();
