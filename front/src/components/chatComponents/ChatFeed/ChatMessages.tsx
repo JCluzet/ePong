@@ -10,6 +10,7 @@ import BlockIcon from "@mui/icons-material/Block";
 import SendIcon from "@mui/icons-material/Send";
 import { io } from "socket.io-client";
 import "./chatFeed.css";
+import Button from '@mui/material/Button';
 import { Comment } from "@ant-design/compatible";
 import { accountService } from "../../../hooks/account_service";
 import { toast } from "react-toastify";
@@ -410,9 +411,12 @@ export const ChatMessage = (props: ChatMessageProps) => {
 
         {isOpen && !isShown ? (
             <div>
-            <button onClick={unblockUser}>
+                <Button onClick={unblockUser} variant="outlined" color="error">
+                Unblock {userName}
+</Button>
+            {/* <button onClick={unblockUser}>
                 Unblock {userName} ?
-            </button>
+            </button> */}
       </div>
         ) : null}
         </div>
