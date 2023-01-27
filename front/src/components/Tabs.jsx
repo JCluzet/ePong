@@ -3,6 +3,7 @@ import "../styles/tabs.css"
 import "../styles/social.css"
 import ProfileCard from "../components/ProfileCard";
 import FriendList from './FriendList';
+import SpectateList from '../components/SpectateList';
 // import Chat from '../pages/Chat';
 
 export default function Tabs() {
@@ -50,7 +51,7 @@ export default function Tabs() {
             }
             {ToggleState === 3 &&
             <div className="active-content">
-                Spectate
+                <SpectateList/>
             </div>
             }
         </div>

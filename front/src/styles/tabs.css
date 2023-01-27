@@ -53,6 +53,7 @@
   }
   
   .active-content {
+      height: 500px;
       display: flex;
   }
   

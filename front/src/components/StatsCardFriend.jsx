@@ -17,9 +17,13 @@ export default function StatsCardFriend() {
       <div>
           <h2> Stats </h2>
               <ul>
-                  <p>winrate : {friend.kda}</p>
-                  <p>Nb Wins : {friend.nbWins}</p>
-                  <p>Nb Loses : {friend.nbLoses}</p>
+                  <p>winrate : {friend.kda} %</p>
+                  <p>Nb Wins :</p>
+                  <p style={{color:"green"}}>
+                  {friend.nbWins}</p>
+                  <p>Nb Loses : </p>
+                  <p style={{color:"red"}}>
+                  {friend.nbLoses}</p>
                   <p>total game : {friend.totalGame}</p>
               </ul>
       </div>
