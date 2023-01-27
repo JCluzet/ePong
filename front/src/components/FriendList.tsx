@@ -99,7 +99,7 @@ export default function FriendList() {
           acceptList ? (
             <h2>Pending Request</h2>
           ) : (
-            <h2>Friends List</h2>
+            <h2>Players List</h2>
           )
         ) : (
           <div className="text-title-container">Your Friends</div>
@@ -117,7 +117,7 @@ export default function FriendList() {
             </button>
           </div>
         ) : (
-          <>
+          <div className="dispatch-button">
             <div className="">
               <button className="button" onClick={goAcceptList}>
                 Pending Request
@@ -125,10 +125,10 @@ export default function FriendList() {
             </div>
             <div className="">
               <button className="button" onClick={goAdd}>
-                Friends List
+                Players List
               </button>
             </div>
-          </>
+          </div>
         )}
         <div className="content">
           <div className="scrollable-div" style={{ padding: 10 }}>
