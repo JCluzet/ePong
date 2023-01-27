@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../styles/Pong.scss";
-// import JSConfetti from "js-confetti";
+import JSConfetti from 'js-confetti'
 // import useWindowDimensions from "./useWindowDimensions";
 import io from "socket.io-client";
 import { Form } from "react-bootstrap";
@@ -14,6 +14,7 @@ import "semantic-ui-css/semantic.min.css";
 // var adversaire;
 var joueur = accountService.userName();
 var login = accountService.userLogin();
+const jsConfetti = new JSConfetti()
 let joueur1;
 let joueur2;
 
@@ -171,8 +172,11 @@ export default function Pong() {
   socket.on("startGame", (...args) => {
     setActive(false);
     setInGame(true);
-
-    toast.update(toastid, { render: "Game found", type: "success", isLoading: false, hideProgressBar: false, autoClose: 3000 });
+    document.querySelector("#victoryMessage").textContent = "";
+    // dismiss all toasts
+    toast.dismiss();
+    toast.success("Game found", { autoClose: 3000 });
+    // toast.update(toastid, { render: "Game found", type: "success", isLoading: false, hideProgressBar: false, autoClose: 3000 });
     setIsSearching(false);
     joueur1 = args[1][0].name;
     joueur2 = args[1][1].name;
@@ -183,7 +187,19 @@ export default function Pong() {
 
   socket.on("stopGame", (...args) => {
     setGM("classic");
-    setInGame(false);
+    console.dir(args);
+    console.log("HERE !" + args[0].login);
+    if (args[0].login === accountService.userLogin()) {
+        document.querySelector("#victoryMessage").textContent = "Victory";
+              jsConfetti.addConfetti({
+        emojis: ["✅", "⚡️", "🌈", "😜", "🥇", "🤑"],
+      });
+    } else {
+        document.querySelector("#victoryMessage").textContent = "Defeat";
+              jsConfetti.addConfetti({
+        emojis: ["❌", "⚡️", "💥", "😢", "🤕", "💢"],
+      });
+    }
     setActive(true);
     initParty();
   })
