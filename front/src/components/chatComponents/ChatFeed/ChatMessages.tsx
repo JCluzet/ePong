@@ -191,7 +191,7 @@ export const UserBuble = (props: UserBubleProps) => {
     actions = [
       <button
         className="buttonSmall"
-        onClick={() => (window.location.href = "/play?vs=" + login)}
+        onClick={() => (window.location.href = "/play?vs=" + login + "&gameMode=classic")}
       >
         <SportsEsportsIcon />
       </button>,
