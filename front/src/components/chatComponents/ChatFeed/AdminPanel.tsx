@@ -7,6 +7,7 @@ import { PasswordSettings } from "./PasswordSettings";
 import "./chatFeed.css"
 import Header from "../../Header";
 import { toast } from "react-hot-toast";
+import { kickUser } from "./ChatMessages";
 // import { accountService } from "../../../hooks/account_service";
 
 type AdminPanelProps = {
@@ -66,6 +67,7 @@ export const AdminPanel = (props: any) => {
         if (notAdmin)
             return (navigate('/social/chat'))
     })
+
 
     async function updateUserStatus(userId: string, status: number) {
         try {
@@ -138,6 +140,7 @@ export const AdminPanel = (props: any) => {
                                 {user.userType !== 0 ? <td></td> : <td><button className="button" onClick={() => updateUserStatus(user.login, 1)}><div>UnMake Admin</div></button></td>}
                                 {user.userType !== 1 ? <td></td> : <td><button className="button" onClick={() => updateUserStatus(user.login, 2)}><div>Mute</div></button></td>}
                                 {user.userType !== 2 ? <td></td> : <td><button className="button" onClick={() => updateUserStatus(user.login, 1)}><div>UnMute</div></button></td>}
+                                {user.userType !== -1 ? <td><button className="button" onClick={() => kickUser(user.login, chanId)}><div>Kick</div></button></td> : <td></td>}
                                 {user.userType !== 1 && user.userType !== 2 ? <td></td> : <td><button className="button" onClick={() => updateUserStatus(user.login, 3)}><div>Ban</div></button></td>}
                                 {user.userType !== 3 ? <td></td> : <td><button className="button" onClick={() => updateUserStatus(user.login, 1)}><div>UnBan</div></button></td>}
                             </tr>     

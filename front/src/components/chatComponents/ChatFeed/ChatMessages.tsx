@@ -16,6 +16,7 @@ import { accountService } from "../../../hooks/account_service";
 import { toast } from "react-toastify";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 // import { isBlock } from "typescript";
+let websock2 = io(`http://localhost:5001`);
 
 type UserBubleProps = {
   userName: string;
@@ -34,6 +35,50 @@ type UserBubleProps = {
 // 	status: string;
 // 	avatarUrl: string;
 // }
+
+const checkifKick = async (chanId: number) => {
+//chat/getChanUsers
+    var config = {
+        method: "post",
+        url: "chat/getChanUsers",
+        headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+        data: JSON.stringify({
+            chanId: chanId,
+        }),
+    };
+    axios(config)
+        .then(function (response: any) {
+            console.log("getChanUsers post succeeded");
+            // setChanUsers(response.data);
+            console.dir(response.data);
+            // if actual user is not in the list of users of the channel, then he is kicked
+            // for each login in the list of users of the channel, check if it is the actual user
+            var here = false;
+            // if not, then he is kicked
+            response.data.forEach((user: any) => {
+                if (user.login === accountService.userLogin()) {
+                    here = true;
+                }
+            });
+            if (!here) {
+                // toast.error("You have been kicked from the channel");
+                window.location.reload();
+                // websock2.emit("kick", chanId);
+            }
+
+
+        })
+        .catch(function (error: any) {
+            console.log("Error getChanUsers : " + error);
+        });
+        setTimeout(() => {
+            checkifKick(chanId);
+        }, 10000);
+};
+
+
+
+
 
 const checkIfBannedChan = async (username: string): Promise<boolean> => {
   try {
@@ -58,6 +103,29 @@ const checkIfBannedChan = async (username: string): Promise<boolean> => {
     return false;
   }
 };
+
+export async function kickUser(userlogin: string, chanId: number)
+{
+    var config = {
+        method: "post",
+        url: "chat/deleteUser",
+        headers: { Authorization: "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json", },
+        data: JSON.stringify({
+            userId: userlogin, chanId: chanId
+        }),
+    };
+    axios(config)
+    .then(function (response: any) {
+        console.log("deleteUser post succeeded");
+        // websock2.emit("kick", userlogin);
+        window.location.reload();
+        // toast.success("User kicked");
+    })
+    .catch(function (error: any) {
+        console.log("Error deleteUser : " + error);
+    });
+}
+
 
 const { Meta } = Card;
 export const UserBuble = (props: UserBubleProps) => {
@@ -333,6 +401,7 @@ export const ChatMessage = (props: ChatMessageProps) => {
   useEffect(() => {
     let bool = true;
     const getUserType = async () => {
+        // checkifKick(props.msg.chanId)
       if (props.msg.chanId !== 0) {
         var config = {
           method: "post",
@@ -437,6 +506,7 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
   const [content, setContent] = useState("");
   const [timestamp, setTimestamp] = useState(new Date().toLocaleString());
   //   const [isBlocked, setIsBlocked] = useState(false);
+  checkifKick(props.currentChannelId);
 
   useEffect(() => {
     let bool = true;
@@ -485,6 +555,8 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
       websock.close();
     };
   }, [props.currentChannelId]);
+
+
 
   let checkIfBanned = async (chanId: number) => {
     let isBanned = false;
@@ -540,6 +612,14 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
       }
     }
 
+    // websock2.on("kick", (...args) => {
+    //     console.log("args: " + args);
+    //     const data = JSON.parse(JSON.stringify(args));
+    //     if (data.chanId === props.currentChannelId) {
+    //         toast.error("You have been kicked from this channel");
+    //         props.setCurrentChannelId(0);
+    //     }
+    // });
     var config3 = {
       method: "post",
       url: "chat/isBanned",
@@ -604,7 +684,6 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
             } catch (error) {
               console.log("Counldn't send a message");
             }
-            let websock2 = io(`http://localhost:5001`);
             websock2.emit("message", {
               chanId: props.currentChannelId,
               senderId: props.userName,
@@ -621,6 +700,7 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
   return (
     <div className="chatFeed">
       <div className="chatMessages">
+        {/* {checkifKick( props.currentChannelId)} */}
         {oldMessages
           .filter((msg: WebSocketMessageType) => {
             return msg.chanId === props.currentChannelId;
