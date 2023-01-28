@@ -201,7 +201,7 @@ export const UserBuble = (props: UserBubleProps) => {
       .then(function (response) {
         isBlockedvar = true;
         // setIsBlocked(true);
-        toast.success(login + " is now blocked");
+        toast.success("Successfuly blocked");
         console.log("Blocking success.");
       })
       .catch(function (error) {
@@ -222,7 +222,7 @@ export const UserBuble = (props: UserBubleProps) => {
     await axios(config)
       .then(function (response) {
         // setIsBlocked(false);
-        toast.success(login + " is now unblocked");
+        toast.success("Successfuly unblocked");
         console.log("Unblocking success.");
       })
       .catch(function (error) {
