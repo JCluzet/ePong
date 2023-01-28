@@ -10,19 +10,19 @@ import HistoricFriend from "./historicCardFriend";
 import AcceptFriendList from "./AcceptFriendList";
 import AddFriendList from "./AddFriendList";
 import { UserBuble } from "./chatComponents/ChatFeed/ChatMessages";
+import userEvent from "@testing-library/user-event";
 
 
 export default function FriendList() {
   const [Name, setName] = useState("");
   const [Img, setImg] = useState("");
   const [Online, setStatus] = useState("");
+  const [loginUser, setLoginUser] = useState("");
   const [isgoHistoric, setIsgoHistoric] = useState(false);
-  const [isGoChat, setIsGoChat] = useState(false);
   const [isClicked, setClick] = useState(false);
   const [allUsers, setAllUsers] = useState<Array<EUser>>([]);
   const [acceptList, setAcceptList] = useState(false);
   const [isGoAdd, setIsGoAdd] = useState(false);
-  const [isgoSpectate, setisgoSpectate] = useState(false);
 
   useEffect(() => {
     getUserInfo();
@@ -57,12 +57,11 @@ export default function FriendList() {
     console.log(`name ${name}`);
     localStorage.setItem("friendName", login);
     setName(name);
+    setLoginUser(name);
     setImg(image);
     setStatus(status);
     setClick(true);
   };
-
-//   const onToggle = () => setIsToggled(!isToggled);
 
   const goBack = () => setClick(false);
 
@@ -74,22 +73,6 @@ export default function FriendList() {
   };
 
   const goAdd = () => setIsGoAdd(true);
-
-  const goHistoric = () => {
-    setIsgoHistoric(!isgoHistoric);
-    setIsGoChat(false);
-  };
-
-  const goSpectate = () => {
-    setisgoSpectate(!isgoSpectate);
-    setIsGoChat(false);
-    setIsgoHistoric(false);
-  };
-
-  const goChat = () => {
-    setIsGoChat(!isGoChat);
-    setIsgoHistoric(false);
-  };
 
   return (
     <div className="container-friendlist">
@@ -197,25 +180,25 @@ export default function FriendList() {
                     />
                   </div>
                   <div className="column">
-                    <button className="button" onClick={goHistoric}>
+                    <button className="button" onClick={() => {setIsgoHistoric(!isgoHistoric);}}>
                       Historic
                     </button>
                   </div>
                   <div className="column">
-                    <button className="button" onClick={goChat}>
+                    <button className="button" onClick={() => {window.location.href = "/social/chat";}}>
                       Chat
                     </button>
                   </div>
                   <div className="column">
                     {Online === "online" ? (
-                        <button className="button">Challenge</button>
+                        <button className="button" onClick={() => (window.location.href = "/play?vs=" + loginUser + "&gameMode=classic")} >Challenge</button>
                     ) : (
                       <p></p>
                     )}
                   </div>
                   <div className="column">
                     {Online === "ingame" ? (
-                        <button className="button" onClick={goSpectate}>Spectate</button>
+                        <button className="button" onClick={() => {window.location.href = "/spectate?login=" + loginUser;}}>Spectate</button>
                     ) : (
                       <p></p>
                     )}
@@ -242,8 +225,6 @@ export default function FriendList() {
                 </div>
                 <div className="row">
                   {isgoHistoric ? <HistoricFriend /> : <p></p>}
-                  {isGoChat ? (window.location.href = "/social/chat") : <p></p>}
-                  {isgoSpectate ? (window.location.href = "/spectate?login=" + Name) : <p></p>}
                 </div>
               </div>
             ) : (
