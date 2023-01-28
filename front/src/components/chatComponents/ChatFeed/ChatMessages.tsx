@@ -48,7 +48,7 @@ const checkifKick = async (chanId: number) => {
     };
     axios(config)
         .then(function (response: any) {
-            console.log("getChanUsers post succeeded");
+            // console.log("getChanUsers post succeeded");
             // setChanUsers(response.data);
             console.dir(response.data);
             // if actual user is not in the list of users of the channel, then he is kicked
@@ -61,9 +61,7 @@ const checkifKick = async (chanId: number) => {
                 }
             });
             if (!here) {
-                // toast.error("You have been kicked from the channel");
                 window.location.reload();
-                // websock2.emit("kick", chanId);
             }
 
 
