@@ -461,7 +461,7 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
   }, [props.currentChannelId]);
 
   useEffect(() => {
-    let websock = io(`http://pong.grademe.fr:5001`);
+    let websock = io(`http://139.59.203.43:5001`);
     websock.on("message", async (args) => {
       const data = JSON.parse(JSON.stringify(args));
       if (data.chanId === props.currentChannelId) {
@@ -600,7 +600,7 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
             } catch (error) {
               console.log("Counldn't send a message");
             }
-            let websock2 = io(`http://pong.grademe.fr:5001`);
+            let websock2 = io(`http://139.59.203.43:5001`);
             websock2.emit("message", {
               chanId: props.currentChannelId,
               senderId: props.userName,
