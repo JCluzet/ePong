@@ -1,5 +1,7 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { EUser } from 'src/users/interfaces/user.entity';
+import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
 import { gameHistoryDto } from './interface/gameHistory.dto';
 import { EGameHistory } from './interface/gameHistory.entity';
@@ -9,6 +11,7 @@ export class GameHistoryService {
   constructor(
     @InjectRepository(EGameHistory)
     private gameHistoryRepository: Repository<EGameHistory>,
+    private userService: UsersService,
   ) {}
 
   async getAllGameHistory(): Promise<EGameHistory[]> {
@@ -21,7 +24,14 @@ export class GameHistoryService {
 
   async getGamehistoryByUser(login: string): Promise<EGameHistory[] | undefined> {
     try {
-      return await this.gameHistoryRepository.createQueryBuilder('gameHistory').where({ winner: login }).orWhere({ loser: login }).getMany();
+      let history: EGameHistory[] = await this.gameHistoryRepository.createQueryBuilder('gameHistory').where({ winner: login }).orWhere({ loser: login }).getMany();
+      for (const his of history) {
+        const player1: EUser =  await this.userService.findUserByLogin(his.winner);
+        const player2: EUser =  await this.userService.findUserByLogin(his.loser);
+        his.winner = player1.name;
+        his.loser = player2.name;
+      }
+      return history;
     } catch (err) {
       throw new BadRequestException(err);
     }
