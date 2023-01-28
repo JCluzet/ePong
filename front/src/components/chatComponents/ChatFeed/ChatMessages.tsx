@@ -15,7 +15,6 @@ import { Comment } from "@ant-design/compatible";
 import { accountService } from "../../../hooks/account_service";
 import { toast } from "react-toastify";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
-// import { isBlock } from "typescript";
 let websock2 = io(`http://localhost:5001`);
 
 type UserBubleProps = {
@@ -25,19 +24,7 @@ type UserBubleProps = {
   chanId: number;
 };
 
-// type Ifriend = {
-// 	login: string;
-// 	name: string;
-// 	nbWins: number;
-// 	nbLoses: number;
-// 	totalGame: number;
-// 	kda: number;
-// 	status: string;
-// 	avatarUrl: string;
-// }
-
 const checkifKick = async (chanId: number) => {
-//chat/getChanUsers
     var config = {
         method: "post",
         url: "chat/getChanUsers",
@@ -48,13 +35,7 @@ const checkifKick = async (chanId: number) => {
     };
     axios(config)
         .then(function (response: any) {
-            // console.log("getChanUsers post succeeded");
-            // setChanUsers(response.data);
-            // console.dir(response.data);
-            // if actual user is not in the list of users of the channel, then he is kicked
-            // for each login in the list of users of the channel, check if it is the actual user
             var here = false;
-            // if not, then he is kicked
             response.data.forEach((user: any) => {
                 if (user.login === accountService.userLogin()) {
                     here = true;
@@ -89,10 +70,7 @@ const checkIfBannedChan = async (username: string): Promise<boolean> => {
       },
     };
     const response = await axios(config);
-    // console.dir(response.data);
-    // console.log("checkIfBannedChan:" + username);
     if (response.data.includes(username)) {
-      // console.log("BAN!");
       return true;
     }
     return false;
@@ -115,9 +93,7 @@ export async function kickUser(userlogin: string, chanId: number)
     axios(config)
     .then(function (response: any) {
         console.log("deleteUser post succeeded");
-        // websock2.emit("kick", userlogin);
         window.location.reload();
-        // toast.success("User kicked");
     })
     .catch(function (error: any) {
         console.log("Error deleteUser : " + error);
@@ -129,9 +105,6 @@ const { Meta } = Card;
 export const UserBuble = (props: UserBubleProps) => {
   const [name, setName] = useState("");
   const [login, setLogin] = useState("");
-  // const [IsGetProfil, setIsGetProfil] = useState(false);
-  // const [friendProfil, setFriendProfil] = useState<Ifriend>();
-  // const [isBlocked, setIsBlocked] = useState(false);
 
   useEffect(() => {
     let bool = true;
@@ -177,9 +150,6 @@ export const UserBuble = (props: UserBubleProps) => {
             else
                 toast.success(login + " request send");
 
-            // toast.success(login + " is now your friend");
-            // console.dir(response);
-            // console.log("Friend request success.");
             }
         )
         .catch(function (error) {
@@ -200,52 +170,14 @@ export const UserBuble = (props: UserBubleProps) => {
     await axios(config)
       .then(function (response) {
         isBlockedvar = true;
-        // setIsBlocked(true);
         toast.success("Successfuly blocked");
         console.log("Blocking success.");
       })
       .catch(function (error) {
         console.log("Blocking failed.");
       });
-    // setIsBlocked(isBlockedvar);
     return isBlockedvar;
   }
-
-  async function unblockUser() {
-    // setIsBlocked(false);
-    var isBlockedvar = true;
-    var config = {
-      method: "post",
-      url: "/block/unblock?to=" + login,
-      headers: { Authorization: "Bearer " + accountService.userToken() },
-    };
-    await axios(config)
-      .then(function (response) {
-        // setIsBlocked(false);
-        toast.success("Successfuly unblocked");
-        console.log("Unblocking success.");
-      })
-      .catch(function (error) {
-        console.log("Unblocking failed.");
-      });
-    // setIsBlocked(isBlockedvar);
-    return isBlockedvar;
-  }
-
-  // async function getFriendProfil() {
-  //     setIsGetProfil(!IsGetProfil);
-  //     if (IsGetProfil) {
-  //         var config = {
-  //             method: "get",
-  //             url: "/users/public/" + accountService.userLogin(),
-  //             headers: { Authorization: "Bearer " + accountService.userToken() },
-  //         };
-  //         await axios(config).then(function (response) {
-  //             // setFriendProfil(response.data);
-  //         });
-  //         console.log("Get friend profil success.");
-  //     }
-  // }
 
   let actions: JSX.Element[];
   if (props.userName === props.senderId) {
@@ -265,9 +197,6 @@ export const UserBuble = (props: UserBubleProps) => {
       <button className="buttonSmall" onClick={addFriend}>
         <PersonAddIcon />
       </button>,
-    //   <button className="buttonSmallGreen" onClick={unblockUser}>
-    //     <BlockIcon />
-    //   </button>,
       <button className="buttonSmallRed" onClick={blockUser}>
         <BlockIcon />
       </button>,
@@ -373,7 +302,6 @@ export const ChatMessage = (props: ChatMessageProps) => {
   }, [props.msg.senderId, props.userName]);
 
   async function unblockUser() {
-    // setIsBlocked(false);
     var isBlockedvar = true;
     var config = {
       method: "post",
@@ -382,24 +310,18 @@ export const ChatMessage = (props: ChatMessageProps) => {
     };
     await axios(config)
       .then(function (response) {
-        // setIsBlocked(false);
-        //reload page
-        // use the useEffet to reload the page
         window.location.reload();
         console.log("Unblocking success.");
-        // toast.success(login + " is now unblocked");
       })
       .catch(function (error) {
         console.log("Unblocking failed.");
       });
-    // setIsBlocked(isBlockedvar);
     return isBlockedvar;
   }
 
   useEffect(() => {
     let bool = true;
     const getUserType = async () => {
-        // checkifKick(props.msg.chanId)
       if (props.msg.chanId !== 0) {
         var config = {
           method: "post",
@@ -442,12 +364,10 @@ export const ChatMessage = (props: ChatMessageProps) => {
   } else {
     checkIfBannedChan(login).then((isBanned) => {
       if (isBanned) {
-        // console.log("L'utilisateur est banni");
         setIsShown(false);
         return <div>Banned</div>;
       } else {
         setIsShown(true);
-        // console.log("L'utilisateur n'est pas banni");
       }
     });
     return (
@@ -481,9 +401,6 @@ export const ChatMessage = (props: ChatMessageProps) => {
                 <Button onClick={unblockUser} variant="outlined" color="error">
                 Unblock {userName}
 </Button>
-            {/* <button onClick={unblockUser}>
-                Unblock {userName} ?
-            </button> */}
       </div>
         ) : null}
         </div>
@@ -503,7 +420,6 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
   const [oneShownPopup, setOneShownPopup] = useState("");
   const [content, setContent] = useState("");
   const [timestamp, setTimestamp] = useState(new Date().toLocaleString());
-  //   const [isBlocked, setIsBlocked] = useState(false);
   checkifKick(props.currentChannelId);
 
   useEffect(() => {
@@ -559,10 +475,6 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
   let checkIfBanned = async (chanId: number) => {
     let isBanned = false;
     let response1;
-    // console.log("checkIfBanned");
-    // console.log(chanId);
-    // check if this channel id is a direct conversation or a channel
-    // if (chanId === 1) {
       var config = {
         method: "post",
         url: "chat/getChanUsers",
@@ -578,23 +490,18 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
       console.log("response1");
         console.dir(response1);
       if (response1.data) {
-        // if there is no 2 users in the conversation, it is a channel
         if (response1.data.length !== 2) {
             console.log("C'est un channel");
             return false;
         }
-        // find the other user, not me
         console.log("Toutes les personnes de la conv:");
-        // console.dir(response1.data);
         let otherUser;
-        // find the user that is not me (check login because id is not unique)
         for (let i = 0; i < response1.data.length; i++) {
           if (response1.data[i].login !== props.userName) {
             otherUser = response1.data[i];
           }
         }
         console.log("La personne avec qui tu chat: " + otherUser.login);
-        // check if i am in the list of banned users from the other user with request /block/LOGIN
         var config2 = {
           method: "get",
           url: "block/" + otherUser.login,
@@ -605,7 +512,6 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
         };
         let response = await axios(config2);
         if (response.data) {
-          // if i am in the list of banned users, then i am banned
           if (response.data.includes(props.userName)) {
             toast.error("You have been banned from this person");
             isBanned = true;
@@ -617,17 +523,8 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
               response.data
           );
         }
-    //   }
     }
 
-    // websock2.on("kick", (...args) => {
-    //     console.log("args: " + args);
-    //     const data = JSON.parse(JSON.stringify(args));
-    //     if (data.chanId === props.currentChannelId) {
-    //         toast.error("You have been kicked from this channel");
-    //         props.setCurrentChannelId(0);
-    //     }
-    // });
     var config3 = {
       method: "post",
       url: "chat/isBanned",
@@ -644,7 +541,6 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
     if (response.data) {
       toast.error("You have been banned from this channel");
       props.setCurrentChannelId(0);
-      //   isBanned = true;
     }
     return isBanned;
   };
@@ -708,7 +604,6 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
   return (
     <div className="chatFeed">
       <div className="chatMessages">
-        {/* {checkifKick( props.currentChannelId)} */}
         {oldMessages
           .filter((msg: WebSocketMessageType) => {
             return msg.chanId === props.currentChannelId;
