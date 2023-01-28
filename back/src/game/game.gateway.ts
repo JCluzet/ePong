@@ -1,12 +1,9 @@
-
-import { Logger } from '@nestjs/common';
 import { SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
 import { EUser } from 'src/users/interfaces/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { GameService } from './game.service';
-import { IPosition } from './interface/GameOption.interface';
-import { IPlayer, TGM } from './interface/player.interface';
+import { IPlayer } from './interface/player.interface';
 import { IRoom } from './interface/room.interface';
 import { PongService } from './pong.service';
 
@@ -22,7 +19,6 @@ export class GameGateway {
 
 	async handleConnection(client: Socket): Promise<any> {
 			try {
-				Logger.log(`connect`);
 				const user: EUser = await this.userService.findUserByLogin(String(client.handshake.query.login));
 				if (!user) client.disconnect();
 				client.data.user = user;
@@ -31,7 +27,6 @@ export class GameGateway {
 
 	async handleDisconnect(client: Socket): Promise<any> {
 		try {
-			Logger.log(`disconnect`);
 			if (!client.data.user) return;
 			await this.gameService.removeSocket(client);
 			this.userService.updateStatus(client.data.user.login, "online");

@@ -31,7 +31,6 @@ if (!socket)
 export default function Pong() {
   const [toastid, setToastid] = useState(0);
   const [isActive, setActive] = useState(true);
-  const [isActive2, setActive2] = useState(false);
   const [waitingVersus, setWaitingVersus] = useState(false);
   const [isWin, setWin] = useState(false);
   const [gameMode, setGM] = useState("classic");
@@ -39,13 +38,13 @@ export default function Pong() {
   const [playerScore1, SetPlayerScore1] = useState(0);
   const [playerScore2, SetPlayerScore2] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
-  let vshisto = false;
   var SearchText = "Launch Matchmaking";
 
   useEffect(() => {
     if (searchParams.get("vs")) {
+
       setWaitingVersus(true);
-      console.log("check vs");
+      console.log(`check vs ${searchParams.get("vs")}`);
       socket.emit("vs", searchParams.get("vs"), searchParams.get("gameMode"));
     }
     canvas = document.getElementById("canvas");
