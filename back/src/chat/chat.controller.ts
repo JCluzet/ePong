@@ -1,11 +1,9 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
-import { Chat, ChatUser } from './chat.entity';
+import { Chat } from './chat.entity';
 import { ChatService } from './chat.service';
 import { UsersService } from '../users/users.service';
-import { diskStorage } from 'multer';
 import { EUser } from 'src/users/interfaces/user.entity';
 import { AuthGuard } from '@nestjs/passport';
-import { ConnectableObservable } from 'rxjs';
 
 @Controller('chat')
 export class ChatController {

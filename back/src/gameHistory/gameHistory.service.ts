@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EUser } from 'src/users/interfaces/user.entity';
 import { UsersService } from 'src/users/users.service';
@@ -57,10 +57,8 @@ export class GameHistoryService {
     try {
       const ids = (await this.getAllGameHistory()).map((element) => element.id);
       if (ids.length) this.gameHistoryRepository.delete(ids);
-      Logger.log(`gameHistory db removed`);
       return true;
     } catch (err) {
-      Logger.log(`Error: gameHistory db remove failled.`);
       return false;
     }
   }

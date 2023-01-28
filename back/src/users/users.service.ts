@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { IGameScore } from './interfaces/gameScore.interface';
@@ -71,7 +71,6 @@ export class UsersService {
     }
   }
 
-  // eslint-disable-next-line prettier/prettier
   async findUserPublicProfile(login: string): Promise<IUserPublicProfile | undefined> {
     try {
       const ret: EUser | undefined = await this.findUserByLogin(login);
@@ -115,10 +114,8 @@ export class UsersService {
     try {
       const ids = (await this.findAll()).map((element) => element.id);
       if (ids.length) this.usersRepository.delete(ids);
-      Logger.log(`Users db removed`);
       return true;
     } catch (err) {
-      Logger.log(`Error: User db remove failled.`);
       return false;
     }
   }
@@ -127,7 +124,6 @@ export class UsersService {
     try {
       const user: EUser = await this.findUserByLogin(profileSettings.login);
       if (!user) return false;
-      Logger.log(`twofa: ${profileSettings.isTwoFa}`);
       if (profileSettings.name === '') user.name = user.login;
       else{
         const sameUser = await this.findUserByName( profileSettings.name );
@@ -137,11 +133,8 @@ export class UsersService {
       user.isTwoFa = profileSettings.isTwoFa;
       user.avatarUrl = profileSettings.avatarUrl;
       await this.usersRepository.save(user);
-      Logger.log(`user.avatarUrl ${user.avatarUrl}`);
       return true;
     } catch (err) {
-      // eslint-disable-next-line prettier/prettier
-      Logger.log(`Error user ${profileSettings.login} edition failed`, profileSettings);
       return false;
     }
   }
@@ -170,9 +163,7 @@ export class UsersService {
       if (!user) throw new Error(`User ${login} not found`);
       user.status = s;
       await this.usersRepository.save(user);
-    } catch (err) {
-      Logger.log(err);
-    }
+    } catch (err) {}
 	}
 
   async checkNameIsValid(login:string, name: string): Promise<boolean>{

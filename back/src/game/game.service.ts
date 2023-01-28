@@ -145,11 +145,8 @@ export class GameService {
 				} 
 			}
 			return true;
-
-
 		} catch (err) { return false; }
 	}
-
 
 	playerJoinRoom(player: IPlayer, room: IRoom): boolean {
 		try {

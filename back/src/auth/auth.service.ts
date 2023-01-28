@@ -1,9 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import axios from 'axios';
-// eslint-disable-next-line prettier/prettier
-import { API_SECRET, API_UID, API_URL, APP_LOGIN_REDIRECT, TWOFA_LENGTH, INTRA_API_URL, ADMIN_NAME, MAIL_ADDRESS } from 'src/constant';
+import { API_SECRET, API_UID, APP_LOGIN_REDIRECT, TWOFA_LENGTH, INTRA_API_URL, ADMIN_NAME, MAIL_ADDRESS } from 'src/constant';
 import { Trole } from 'src/users/interfaces/role.type';
 import { EUser } from 'src/users/interfaces/user.entity';
 import { UsersService } from 'src/users/users.service';
@@ -68,7 +67,6 @@ export class AuthService {
     return this.jwtService.sign(payload);
   }
 
-  // eslint-disable-next-line prettier/prettier
   async logReponseByLogin(apiUserData: IUserData, twofa: 'yes' | 'no' | 'auto' = 'auto'): Promise<ILoginSuccess> {
     let userCreate: boolean;
     let userRole: Trole;
@@ -91,7 +89,6 @@ export class AuthService {
         status: "offline",
         total_games: 0,
         win_loss_ratio: 0,
-        // games: null,
       };
       await this.userService.createUser(userData);
     }
@@ -121,28 +118,22 @@ export class AuthService {
       userCreate: userCreate,
       twofa: twofaChoice,
       apiToken: twofaChoice ? '' : this.deliverToken(apiUserData.login, userRole),
-      // eslint-disable-next-line prettier/prettier
       expDate: twofaChoice ? new Date(new Date().getTime() + 1000 * 600) : new Date(new Date().getTime() + 1000 * 3600),
     };
-    Logger.log(`logsuccess.apiToken: ${logSuccess.apiToken}, towfa: ${twofaChoice}`);
     return logSuccess;
   }
 
-  // eslint-disable-next-line prettier/prettier
   async logReponseByCode(code: string, twofa: 'yes' | 'no' | 'auto' = 'auto'): Promise<ILoginSuccess> {
     const ftTokens = await this.get42Token(code);
     const userData: IUserData = await this.get42LoginWithToken(ftTokens.access_token);
-    Logger.log(`userData.login: ${userData.login}, userData.picture: ${userData.avatarUrl}`);
     return await this.logReponseByLogin(userData, twofa);
   }
 
   async checkTwoFaCode(login: string, twoFaCode: string): Promise<boolean> {
     try {
-      // eslint-disable-next-line prettier/prettier
       const twofaLine: Etwofa[] | undefined = await this.twoFaRepository.find({ where: { login: login } });
       if (twofaLine) {
         const isMatch = await bcrypt.compare(twoFaCode, twofaLine[0].code);
-        // eslint-disable-next-line prettier/prettier
         if (new Date(twofaLine[0].expirationDate).getTime() < new Date().getTime()) return false;
         return isMatch;
       } else throw new Error('Bad login');

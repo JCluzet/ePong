@@ -1,6 +1,5 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { logger } from 'handlebars';
 import { Repository } from 'typeorm';
 import { EBlock } from './interface/bock.entity';
 
@@ -52,7 +51,6 @@ export class BlockService {
       const relations: EBlock[] = await this.blockRepository.find({ where: { sender: from, receiver: to } });
       const relation: EBlock = relations[0];
       if (relation !== undefined && relation.status === 'none') return;
-      Logger.log(`check 25`);
       let newRelation: EBlock;
       if (relation) {
         newRelation = { ...relation };
