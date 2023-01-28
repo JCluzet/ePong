@@ -203,6 +203,7 @@ export default function FriendList() {
                       <p></p>
                     )}
                   </div>
+                  
                 </div>
                 <div className="column">
                   <h2> {Name} </h2>
