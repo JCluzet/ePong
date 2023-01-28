@@ -68,8 +68,6 @@ export default function AcceptFriendList() {
     axios(config);
     setIsClicked(false);
   }
-  //console.log(receiveLst);
-  //console.log(sendingLst);
 
   return (
     <div>
@@ -77,14 +75,14 @@ export default function AcceptFriendList() {
         isClicked ? 
         <div>
           <StatsCardFriend/>
-          <div className="back-button">
-            <button className="social-button" onClick={goBack}>back</button>
+          <div className="button">
+            <button className="button" onClick={goBack}>back</button>
           </div>
           {
             isReceice ? 
-            <><div className="back-button">
+            <><div className="button">
                   <button className="button" onClick={Accept}>Accept</button>
-                </div><div className="back-button">
+                </div><div className="button">
                     <button className="button" onClick={deny}>deny</button>
                   </div></>
             : 

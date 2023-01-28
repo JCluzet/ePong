@@ -132,8 +132,7 @@ export default function FriendList() {
                       user.avatarUrl,
                       user.status
                     )
-                  }
-                >
+                  }>
                   <div className="row">
                     <div className="column">
                       <img

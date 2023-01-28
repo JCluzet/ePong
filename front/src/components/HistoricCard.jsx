@@ -29,9 +29,9 @@ export default function Historic() {
         return (
           <dir>
             <div className="container-shiny" onClick={onToggle}>
+              <div className="date">{element.type}</div>
               <div className="row">
                 <div className="column-profile">
-                  <div>{/* <p>{element.winner}</p> */}</div>
                   {element.winner ? (
                     <div>
                       <p>{element.winner}</p>
@@ -68,9 +68,7 @@ export default function Historic() {
                   )}
                 </div>
               </div>
-              <div className="date">{Date}</div>
-              <Modal show={isToggled} onClose={onToggle}>
-              </Modal>
+              <div className="date">{element.timeStamp}</div>
             </div>
           </dir>
         );

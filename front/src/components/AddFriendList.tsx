@@ -58,7 +58,6 @@ export default function AddFriendList() {
                 {user.status === "ingame"
                 ? <p>in game</p>
                 : <p></p>}
-            </div>
             <div>
               {
                 isClicked ? 
@@ -68,6 +67,7 @@ export default function AddFriendList() {
                 :
                 <p></p>
               }
+            </div>
             </div>
         </div>
         </div>

@@ -30,57 +30,51 @@ export default function HistoricFriend() {
                 return (
                     <dir>
                         <div className="container-shiny" onClick={onToggle}>
-                            <div className="row">
-                                <div className="column-profile">
-                                    <div>
-                                        {/* <p>{element.winner}</p> */}
-                                    </div>
-                                {element.winner ?
-                                        <div >
-                                        <p>{element.winner}</p>
-                                    <div className="winnerp1">
-                                        <p>{element.winnerScore}</p>
-                                        </div>
-                                        <img src={Trophy} alt="pict" className="imagep1" />
-                                        </div>
-                                        :
+                            <div className="date">{element.type}</div>
+                                <div className="row">
+                                    <div className="column-profile">
+                                    {element.winner ?
                                         <div>
-                                        <p>{element.winner}</p>
-                                        <div className="loserp1">
-                                        <p>{element.winnerScore}</p>
+                                            <p>{element.winner}</p>
+                                            <div className="winnerp1">
+                                                <p>{element.winnerScore}</p>
+                                            </div>
+                                            <img src={Trophy} alt="pict" className="imagep1" />
+                                        </div>
+                                            :
+                                        <div>
+                                            <p>{element.winner}</p>
+                                            <div className="loserp1">
+                                                <p>{element.winnerScore}</p>
+                                            </div> 
                                         </div> 
-                                        </div> 
-                                        }
+                                            }
                                     </div>
                                     <div className="column-profile">
                                     {element.winner ?
                                         <div>
                                             <p>{element.loser}</p>
-                                        <div className="loserp2">
-                                            <p>{element.loserScore}</p>
-                                        </div>
+                                            <div className="loserp2">
+                                                <p>{element.loserScore}</p>
+                                            </div>
                                         </div>
                                         :
                                         <div>
                                             <p>{element.loser}</p>
-                                        <div className="winnerp2">
-                                            <p>{element.loserScore}</p>
-                                        </div>
-                                        <img src={Trophy} alt="pict" className="imagep2" />
+                                            <div className="winnerp2">
+                                                <p>{element.loserScore}</p>
+                                            </div>
+                                            <img src={Trophy} alt="pict" className="imagep2" />
                                         </div>
                                     }
                                     </div>
                                 </div>
-                            <div className="date">
-                                {Date}
-                            </div>
-                            <Modal show={isToggled} onClose={onToggle}>
-                            </Modal>
-                            </div>
-                        </dir>
+                            <div className="date">{element.timeStamp}</div>
+                        </div>
+                    </dir>
                     );
                 })}
-                </div>
+            </div>
         </div>
     )
 }

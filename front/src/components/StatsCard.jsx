@@ -15,7 +15,6 @@ export default function StatsCard() {
   return (
     <div>
       <div className="container-stats">
-        {/* <div className="title-stats">Stats</div> */}
         <div className="container-stats-content">
           <div className="stat-uniq">
             Winrate
