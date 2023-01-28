@@ -347,17 +347,16 @@ export const ChatMessage = (props: ChatMessageProps) => {
     };
   }, [props.msg.senderId, props.msg.chanId]);
 
-  if (isMute || isBlocked) {
-    return (
-      <div>
-        <button
-          className="buttonSmallGreen"
-          onClick={() => setIsBlocked(false)}
-        >
-          <BlockIcon />
-        </button>
-      </div>
-    );
+  if (isMute || isBlocked) 
+  {
+    return <div></div>
+        
+    //   <div>
+    //       <div className="message-from-ban">
+    //         This user as been ban on this channel
+    //       </div>
+    //   </div>
+    ;
   } else {
     checkIfBannedChan(login).then((isBanned) => {
       if (isBanned) {

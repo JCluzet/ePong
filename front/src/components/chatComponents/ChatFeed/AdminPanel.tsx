@@ -107,7 +107,7 @@ export const AdminPanel = (props: any) => {
                     toast.success("User is now muted, you can unmute him wheneven you want");
                 else if (status === 3)
                     toast.success("User is now banned, you can unban him wheneven you want")
-                window.location.reload();
+                    window.location.reload();
             })
             .catch(function (error: any) {
             });            
@@ -140,7 +140,7 @@ export const AdminPanel = (props: any) => {
                                 {user.userType !== 0 ? <td></td> : <td><button className="button" onClick={() => updateUserStatus(user.login, 1)}><div>UnMake Admin</div></button></td>}
                                 {user.userType !== 1 ? <td></td> : <td><button className="button" onClick={() => updateUserStatus(user.login, 2)}><div>Mute</div></button></td>}
                                 {user.userType !== 2 ? <td></td> : <td><button className="button" onClick={() => updateUserStatus(user.login, 1)}><div>UnMute</div></button></td>}
-                                {user.userType !== -1 && user.userType !== 0 ? <td><button className="button" onClick={() => kickUser(user.login, chanId)}><div>Kick</div></button></td> : <td></td>}
+                                {user.userType !== -1 && user.userType !== 0 && user.userType !== 3 ? <td><button className="button" onClick={() => kickUser(user.login, chanId)}><div>Kick</div></button></td> : <td></td>}
                                 {user.userType !== 1 && user.userType !== 2 ? <td></td> : <td><button className="button" onClick={() => updateUserStatus(user.login, 3)}><div>Ban</div></button></td>}
                                 {user.userType !== 3 ? <td></td> : <td><button className="button" onClick={() => updateUserStatus(user.login, 1)}><div>UnBan</div></button></td>}
                             </tr>     
