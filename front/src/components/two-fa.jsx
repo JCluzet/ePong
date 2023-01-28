@@ -84,9 +84,9 @@ export default function Twofa() {
           <button className="button-2fa" onClick={HandleTFA}>
             Validate
           </button>
-          <button className="button-2fa-dev" onClick={accountService.ResetUser}>
+          {/* <button className="button-2fa-dev" onClick={accountService.ResetUser}>
             <div className="text-dev-2fa">(dev) RESET-USER (dev)</div>
-          </button>
+          </button> */}
           <img
             className="return-arrow-tfa"
             src={returnBack}
