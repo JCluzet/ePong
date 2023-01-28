@@ -17,7 +17,7 @@ export default function LoginTo42() {
     window.location.href =
       "https://api.intra.42.fr/oauth/authorize?client_id=" +
       uid +
-      "&redirect_uri=http%3A%2F%2Flocalhost%3A3000&response_type=code";
+      "&redirect_uri=http%3A%2F%2F139.59.203.43%3A3000&response_type=code";
   };
 
   // comportements
