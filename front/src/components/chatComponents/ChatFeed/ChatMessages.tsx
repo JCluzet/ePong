@@ -50,7 +50,7 @@ const checkifKick = async (chanId: number) => {
         .then(function (response: any) {
             // console.log("getChanUsers post succeeded");
             // setChanUsers(response.data);
-            console.dir(response.data);
+            // console.dir(response.data);
             // if actual user is not in the list of users of the channel, then he is kicked
             // for each login in the list of users of the channel, check if it is the actual user
             var here = false;
@@ -89,8 +89,8 @@ const checkIfBannedChan = async (username: string): Promise<boolean> => {
       },
     };
     const response = await axios(config);
-    console.dir(response.data);
-    console.log("checkIfBannedChan:" + username);
+    // console.dir(response.data);
+    // console.log("checkIfBannedChan:" + username);
     if (response.data.includes(username)) {
       // console.log("BAN!");
       return true;
@@ -442,12 +442,12 @@ export const ChatMessage = (props: ChatMessageProps) => {
   } else {
     checkIfBannedChan(login).then((isBanned) => {
       if (isBanned) {
-        console.log("L'utilisateur est banni");
+        // console.log("L'utilisateur est banni");
         setIsShown(false);
         return <div>Banned</div>;
       } else {
         setIsShown(true);
-        console.log("L'utilisateur n'est pas banni");
+        // console.log("L'utilisateur n'est pas banni");
       }
     });
     return (
@@ -559,7 +559,10 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
   let checkIfBanned = async (chanId: number) => {
     let isBanned = false;
     let response1;
-    if (chanId === 1) {
+    // console.log("checkIfBanned");
+    // console.log(chanId);
+    // check if this channel id is a direct conversation or a channel
+    // if (chanId === 1) {
       var config = {
         method: "post",
         url: "chat/getChanUsers",
@@ -572,10 +575,17 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
         }),
       };
       response1 = await axios(config);
+      console.log("response1");
+        console.dir(response1);
       if (response1.data) {
+        // if there is no 2 users in the conversation, it is a channel
+        if (response1.data.length !== 2) {
+            console.log("C'est un channel");
+            return false;
+        }
         // find the other user, not me
         console.log("Toutes les personnes de la conv:");
-        console.dir(response1.data);
+        // console.dir(response1.data);
         let otherUser;
         // find the user that is not me (check login because id is not unique)
         for (let i = 0; i < response1.data.length; i++) {
@@ -607,7 +617,7 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
               response.data
           );
         }
-      }
+    //   }
     }
 
     // websock2.on("kick", (...args) => {
