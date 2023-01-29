@@ -9,8 +9,8 @@ import StatsCardFriend from "./StatsCardFriend";
 import HistoricFriend from "./historicCardFriend";
 import AcceptFriendList from "./AcceptFriendList";
 import AddFriendList from "./AddFriendList";
-import { UserBuble } from "./chatComponents/ChatFeed/ChatMessages";
-import userEvent from "@testing-library/user-event";
+// import { UserBuble } from "./chatComponents/ChatFeed/ChatMessages";
+// import userEvent from "@testing-library/user-event";
 
 
 export default function FriendList() {
