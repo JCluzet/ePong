@@ -193,6 +193,8 @@ export class GameService {
 		else if (option === "bigball") room.GameOption = GameService.optionGame.bigBall;
 		else room.GameOption = GameService.optionGame.fast;
 		this.emit(room, "startGame", room.GameOption, room.player.map((player) => player.user));
+		this.userService.updateStatus(room.player[0].user.login, "ingame");
+		this.userService.updateStatus(room.player[1].user.login, "ingame");
 		this.pongService.resetBall(room);
 	}
 
