@@ -41,6 +41,7 @@ export default function Pong() {
       setWaitingVersus(true);
       socket.emit("vs", searchParams.get("vs"), searchParams.get("gameMode"));
     }
+    // eslint-disable-next-line
     canvas = document.getElementById("canvas");
     initParty();
     window.addEventListener("mousemove", playerMove);

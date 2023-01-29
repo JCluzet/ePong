@@ -24,6 +24,7 @@ export default function PongSpectate() {
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
+    // eslint-disable-next-line
     canvas = document.getElementById("canvas");
     initParty();
     var config = {
