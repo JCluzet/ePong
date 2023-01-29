@@ -26,7 +26,7 @@ async function catchUserInfo() {
         if (error.response.status === 401) {
             // alert("error catchUserInfo: " + error);
             accountService.logout();
-            localStorage.setItem("Alert", "You have been disconnected for inactivity");
+            // localStorage.setItem("Alert", "You have been disconnected for inactivity");
         }
     });
     setTimeout(() => {

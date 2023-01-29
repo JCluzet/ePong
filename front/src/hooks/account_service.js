@@ -52,7 +52,7 @@ let ModifyUsername = async (username) => {
     .catch(function (error) {
       console.log("Erreur, impossible de modifier le username > " + error);
       logout();
-      localStorage.setItem("Alert", "You have been disconnected for inactivity");
+    //   localStorage.setItem("Alert", "You have been disconnected for inactivity");
     });
 };
 
@@ -111,7 +111,7 @@ let majAvatar = async () => {
     .catch(function (error) {
       console.log("Erreur, impossible de get /user/profile > " + error);
       logout();
-  localStorage.setItem("Alert", "You have been disconnected for inactivity");
+//   localStorage.setItem("Alert", "You have been disconnected for inactivity");
     });
 };
 
@@ -136,7 +136,7 @@ async function ModifyAvatar(formData) {
         console.log("KO MODIFY AVATAR");
         console.log("Erreur, impossible de modifier l'avatar > " + error);
         logout();
-        localStorage.setItem("Alert", "You have been disconnected for inactivity");
+        // localStorage.setItem("Alert", "You have been disconnected for inactivity");
     }
 }
 
@@ -209,7 +209,7 @@ let ModifyTfa = (tfa) => {
     .catch(function (error) {
       console.log("Erreur, impossible de modifier le tfa > " + error);
       logout();
-      localStorage.setItem("Alert", "You have been disconnected for inactivity");
+    //   localStorage.setItem("Alert", "You have been disconnected for inactivity");
     });
 };
 
