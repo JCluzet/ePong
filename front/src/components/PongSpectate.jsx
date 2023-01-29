@@ -69,6 +69,11 @@ export default function PongSpectate() {
   socket.on("stopGame", (...args) => {
     console.log(`stop game`);
     document.getElementById("victoryMessage").innerHTML = args[0].login + " a gagné !";
+    // return at the home page after 5 seconds
+    setTimeout(() => {
+        window.location.href = "/";
+        }
+    , 5000);
   })
 
   socket.on("spectateJoin", (...args) => {
