@@ -173,10 +173,10 @@ export default function Pong() {
     initParty();
   });
 
-  var canvas;
-  var game;
   var PLAYER_HEIGHT = 80;
   var PLAYER_WIDTH = 10;
+  var canvas;
+  var game;
 
   function draw() {
     if (canvas) {

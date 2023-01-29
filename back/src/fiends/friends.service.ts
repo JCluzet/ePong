@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { EUser } from 'src/users/interfaces/user.entity';
 import { IUserPublicProfile } from 'src/users/interfaces/userPublicProfile.interface';
 import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
@@ -11,7 +12,7 @@ export class FriendsService {
   constructor(
     @InjectRepository(EFriend)
     private friendsRepository: Repository<EFriend>,
-    private userRepository: UsersService,
+    private userService: UsersService,
   ) {}
 
   async getAll(): Promise<EFriend[]> {
@@ -52,7 +53,7 @@ export class FriendsService {
       const friendLogin: string[] = await this.getFriendsLogin(login);
       const friendPub: IUserPublicProfile[] = [];
       for (const search of friendLogin) {
-        const user = await this.userRepository.findUserPublicProfile(search);
+        const user = await this.userService.findUserPublicProfile(search);
         if (user) friendPub.push(user);
       }
       return friendPub;
@@ -83,6 +84,12 @@ export class FriendsService {
         receiver: element.receiver,
         status: element.status,
       }));
+      for (const rec of receive) {
+        const player1: EUser =  await this.userService.findUserByLogin(rec.sender);
+        const player2: EUser =  await this.userService.findUserByLogin(rec.receiver);
+        rec.sender = player1.name;
+        rec.receiver = player2.name;
+      }
       return receive;
     } catch (err) {
       throw err;
