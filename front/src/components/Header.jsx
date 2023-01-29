@@ -18,14 +18,17 @@ async function catchUserInfo() {
     await axios(config)
     .then(function (response) {
         // console.log("user info response: " + JSON.stringify(response.data));
+        if (response.data.name == "")
+            localStorage.setItem("Alert", "You have been removed from the database");
         setAvatarUrl(response.data.avatarUrl);
         setUsername(response.data.name);
     })
     .catch(function (error) {
         // if the error is unauthorized, we redirect to login
-        if (error.response.status === 401) {
+        if (error.response.status === 401 || error.response.status === 400) {
             // alert("error catchUserInfo: " + error);
             accountService.logout();
+            // localStorage.setItem("Alert", "You have been removed from the database");
             // localStorage.setItem("Alert", "You have been disconnected for inactivity");
         }
     });
