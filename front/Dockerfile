@@ -9,6 +9,8 @@ RUN		npm install --force
 
 COPY	./ ./
 
+RUN		npm run build
+
 EXPOSE	3000
 
-CMD		npm run start
+CMD		npx serve -s build -l 3000

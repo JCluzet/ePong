@@ -16,4 +16,6 @@ COPY ./templates ./templates
 
 EXPOSE	5000
 
-CMD		npm run start:dev
+RUN		npm run build
+
+CMD		nest start
