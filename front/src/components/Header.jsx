@@ -86,7 +86,7 @@ async function catchUserInfo() {
             !detected ? 
           <Logo className="logo-header" onClick={HomeClick} />
             :  
-            <img className="logo-header" src="https://grademe.fr/PONG.gif" alt="logo" />
+            <img className="logo-header" src="https://grademe.fr/PONG.gif" onClick={HomeClick} alt="logo" />
         }
 
           {/* display image (getProfileImage()) */}
