@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import "../styles/Pong.scss";
-// import JSConfetti from "js-confetti";
-// import useWindowDimensions from "./useWindowDimensions";
 import io from "socket.io-client";
 import { Form } from "react-bootstrap";
 import "/node_modules/react-rain-animation/lib/style.css";
@@ -11,11 +9,9 @@ import versusLogo from "../assets/images/versusLogo.svg";
 import "semantic-ui-css/semantic.min.css";
 import Confetti from "react-confetti";
 import { useSearchParams } from "react-router-dom";
-// import TextField from '@mui/material/TextField';
 
 var joueur = accountService.userName();
 var login = accountService.userLogin();
-// const jsConfetti = new JSConfetti();
 let joueur1;
 let joueur2;
 
@@ -43,7 +39,6 @@ export default function Pong() {
   useEffect(() => {
     if (searchParams.get("vs")) {
       setWaitingVersus(true);
-      //   console.log(`check vs ${searchParams.get("vs")}`);
       socket.emit("vs", searchParams.get("vs"), searchParams.get("gameMode"));
     }
     canvas = document.getElementById("canvas");
@@ -62,7 +57,6 @@ export default function Pong() {
         setToastid(toastid);
       } else {
         setIsSearching(false);
-        // console.log("stop search");
         socket.emit("leaveQueue");
         toast.update(toastid, {
           render: "Matchmaking cancelled",
@@ -154,13 +148,10 @@ export default function Pong() {
   socket.on("startGame", (...args) => {
     setActive(false);
     setWaitingVersus(false);
-    // setInGame(true);
     document.querySelector("#victoryMessage").textContent = "";
     setWin(false);
-    // dismiss all toasts
     toast.dismiss();
     toast.success("Game found", { autoClose: 3000 });
-    // toast.update(toastid, { render: "Game found", type: "success", isLoading: false, hideProgressBar: false, autoClose: 3000 });
     setIsSearching(false);
     joueur1 = args[1][0].name;
     joueur2 = args[1][1].name;
@@ -172,7 +163,6 @@ export default function Pong() {
   socket.on("stopGame", (...args) => {
     setGM("classic");
     if (args[0].login === accountService.userLogin()) {
-      // get screen width and height
       setWin(true);
       document.querySelector("#victoryMessage").textContent = "Victory";
     } else {
@@ -254,8 +244,6 @@ export default function Pong() {
                 Waiting for {otheruser} <br />
                 <br />
                 Click to cancel
-                {/* // find the argument of vs in the url */}
-                {/* {window.location.href.split("vs")[1]} */}
               </button>
             </div>
           ) : (
@@ -263,7 +251,6 @@ export default function Pong() {
           )}
 
           {isActive && (
-            // <div id="game-root-main" className="game-root-main">
             <div id="game-root" className="game-root">
               {isWin ? (
                 <Confetti
@@ -297,7 +284,6 @@ export default function Pong() {
               )}
 
               {!isSearching && !waitingVersus ? (
-                // <Form>
                 <div className="choosing-game">
                   <Form.Select
                     id="form-select-gamemode"
@@ -315,7 +301,6 @@ export default function Pong() {
                 ""
               )}
             </div>
-            // </div>
           )}
         </div>
 
@@ -346,7 +331,6 @@ export default function Pong() {
                 </div>
               </div>
             </div>
-            {/* { inGame && */}
             <div className="container-canva">
               <canvas
                 id="canvas"
@@ -355,7 +339,6 @@ export default function Pong() {
                 height={400}
               ></canvas>
             </div>
-            {/* } */}
           </div>
         </main>
       </div>

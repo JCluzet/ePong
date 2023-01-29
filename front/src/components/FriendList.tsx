@@ -9,8 +9,6 @@ import StatsCardFriend from "./StatsCardFriend";
 import HistoricFriend from "./historicCardFriend";
 import AcceptFriendList from "./AcceptFriendList";
 import AddFriendList from "./AddFriendList";
-// import { UserBuble } from "./chatComponents/ChatFeed/ChatMessages";
-// import userEvent from "@testing-library/user-event";
 
 export default function FriendList() {
   const [Name, setName] = useState("");
@@ -37,10 +35,7 @@ export default function FriendList() {
       await axios(config).then(function (response) {
         setAllUsers(response.data);
       });
-    } catch (error) {
-      // console.log("Failed to fetch all users");
-    }
-    // console.log(allUsers);
+    } catch (error) {}
 
     setTimeout(getUserInfo, 1000000);
   };
@@ -53,7 +48,6 @@ export default function FriendList() {
     image: string,
     status: string
   ) => {
-    // console.log(`name ${name}`);
     localStorage.setItem("friendName", login);
     setName(name);
     setLoginUser(name);
@@ -76,7 +70,6 @@ export default function FriendList() {
   return (
     <div className="container-friendlist">
       <div className="container-stats-friendlist">
-        {/* <section> */}
         {acceptList || isGoAdd ? (
           acceptList ? (
             <h2>Pending Request</h2>

@@ -2,11 +2,9 @@ import React, { useEffect } from "react";
 import SettingsImg from "../assets/images/settings_white.png";
 import { ReactComponent as Logo } from "../assets/images/logo.svg";
 import "../styles/header.css";
-// import axios from "axios";
 import { accountService } from "../hooks/account_service";
 import axios from "axios";
 import ProfilSettings from "./ProfilSettings";
-// import Login from "../pages/Login";
 
 const Header = () => {
   async function catchUserInfo() {
@@ -17,7 +15,6 @@ const Header = () => {
     };
     await axios(config)
       .then(function (response) {
-        // console.log("user info response: " + JSON.stringify(response.data));
         if (response.data.name === "")
           localStorage.setItem(
             "Alert",
@@ -27,20 +24,14 @@ const Header = () => {
         setUsername(response.data.name);
       })
       .catch(function (error) {
-        // if the error is unauthorized, we redirect to login
         if (error.response.status === 401 || error.response.status === 400) {
-          // alert("error catchUserInfo: " + error);
           accountService.logout();
-          // localStorage.setItem("Alert", "You have been removed from the database");
-          // localStorage.setItem("Alert", "You have been disconnected for inactivity");
         }
       });
     setTimeout(() => {
       catchUserInfo();
     }, 1000);
   }
-
-  // state
 
   const [avatarUrl, setAvatarUrl] = React.useState(null);
   const [detected, setDetected] = React.useState(false);
@@ -96,7 +87,6 @@ const Header = () => {
             />
           )}
 
-          {/* display image (getProfileImage()) */}
           <div className="div-profile-header-container-with-settings">
             <div className="div-profile-header">
               <img

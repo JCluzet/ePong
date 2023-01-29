@@ -1,18 +1,13 @@
-// import Header from "./components/Header";
-// import { useState, useEffect } from "react";
 import "semantic-ui-css/semantic.min.css";
-import { /*toast,*/ ToastContainer } from "react-toastify";
+import {  ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-// import ParticleBackground from "./particlesBackground/ParticleBackground";
 import NotFound from "./pages/NotFound";
 import Game from "./pages/Game";
-// import Live from "./components/Live"
 import Social from "./pages/Social";
 import { accountService } from "./hooks/account_service";
-// import { Toaster } from 'react-hot-toast';
 import Chat from "./pages/Chat";
 import { CreateConv } from "./components/chatComponents/CreateConv/CreateConv";
 import { CreateDirectConv } from "./components/chatComponents/CreateConv/CreateDirectConv";
@@ -21,19 +16,10 @@ import { JoinConversation } from "./components/chatComponents/CreateConv/JoinCon
 import { AdminPanel } from "./components/chatComponents/ChatFeed/AdminPanel";
 import GameSpectate from "./pages/GameSpectate";
 
-// import { GlobalProvider } from "./providers/GlobalProvider";
-
 export default function App() {
-  // state
 
   return (
-    // classic url using browser
     <div>
-      {/* Same as */}
-      {/* <Toaster
-        position="bottom-left"
-        reverseOrder={false}
-      /> */}
       <ToastContainer
         position="bottom-right"
         autoClose={5000}

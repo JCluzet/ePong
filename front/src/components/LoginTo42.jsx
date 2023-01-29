@@ -5,10 +5,8 @@ import Alert from "./Alert";
 import { toast } from "react-toastify";
 
 export default function LoginTo42() {
-  // state
   const HandleLogin = () => {
     if (localStorage.getItem("BackendDown") === "true") {
-      // alert("Backend is down, please try again later");
       toast.error("Backend is down, please try again later");
       return;
     }
@@ -18,10 +16,6 @@ export default function LoginTo42() {
       uid +
       "&redirect_uri=http%3A%2F%2Flocalhost%3A3000&response_type=code";
   };
-
-  // comportements
-
-  // affichage
 
   return (
     <div>

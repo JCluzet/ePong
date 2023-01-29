@@ -15,11 +15,9 @@ const checkUsername = async (username) => {
   };
   await axios(config)
     .then((response) => {
-      //   console.log("checkName responseGood: " + response.data);
       isAvailable = 1;
     })
     .catch((error) => {
-      //   console.log("Username deja pris" + error);
       isAvailable = 0;
     });
   return isAvailable;

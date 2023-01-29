@@ -16,7 +16,6 @@
 
 #main > * {
   color: white !important;
-  //   margin-top: 10px;
   width: 80%;
   height: 100%;
 }
@@ -46,16 +45,6 @@
   align-items: center;
 }
 
-// .container-game {
-//   width: 100%;
-//   height: 100%;
-//   margin-top:-10px;
-// //   max-width: 1400px;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-// }
 
 .form-select {
   width: 100%;
@@ -64,17 +53,12 @@
   margin-top: 10px;
   border-radius: 10px;
   border-width: 2px;
-
-  //   display: flex;
-  //   flex-direction: column;
-  //   justify-content: center;
   align-items: center;
 }
 
 .choosing-game {
   width: 100%;
   height: 100%;
-  //   margin-left: 10px;
   display: flex;
   border-radius: 10px;
   flex-direction: column;
@@ -95,7 +79,6 @@
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  //   margin-top: 10px;
 }
 
 .container-score {
@@ -104,7 +87,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  // margin-bottom: 10px;
   color: black !important;
 }
 
@@ -114,11 +96,8 @@
 }
 
 .name_player_right {
-  // font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   flex: 0 0 auto;
   display: flex;
-
-  // align-self: flex-end;
 }
 
 .canvas-name-player {
@@ -127,7 +106,6 @@
   align-items: flex-end;
   flex-wrap: nowrap;
   justify-content: space-between;
-  // align-self: center;
   margin-bottom: 10px;
   color: black !important;
   width: 60%;
@@ -136,16 +114,7 @@
 .container-score-and-versus {
   display: flex;
   flex: 0 0 auto;
-  // margin-bottom: -5px;
-  // padding-bottom:-40px;
-  // position:absolute;
-  // margin-bottom: 0px;
-  // flex:1;
   flex-direction: row;
-  // justify-content: center;
-  // align-items: center;
-  // align-self: center;
-  // margin-bottom: 10px;
   color: black !important;
 }
 
@@ -154,9 +123,7 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  // font-size: 70px;
   background-color: rgb(255, 255, 255);
-  // margin-bottom: 10px;
   color: black !important;
 }
 
@@ -169,7 +136,6 @@
   position: sticky;
   margin-left: auto;
   margin-right: auto;
-  //   max-width: 1000px;
   justify-items: center;
   box-shadow: 0 0 10px 0 rgb(0, 0, 0);
   align-items: center;
@@ -223,10 +189,6 @@
 .game--li {
   display: inline-block;
 }
-
-// .GameMode {
-//   color: black;
-// }
 
 .versusLogo {
   width: 130px;

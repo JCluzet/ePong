@@ -125,15 +125,8 @@ export class UsersController {
       const user = await this.usersService.findUserProfile(request.user.sub);
       if (!user) throw new BadRequestException('User not found');
       
-    //   console.log(`name`);
-    //   console.log(request.body.name);
-    //   console.log(`twofa`);
-    //   console.log(request.body.twofa);
       let newtwofa : boolean;
       request.body.twofa === "true" ? newtwofa = true : newtwofa = false;
-      
-    //   console.log(`file`);
-    //   console.log(file);
       
       if (file){
         const avatarsTab = user.avatarUrl.split("/");

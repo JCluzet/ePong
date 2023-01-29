@@ -2,19 +2,16 @@
   font-size: 1.5rem;
   font-weight: 550;
   color: white;
-  /* margin-bottom: 10px; */
   margin: 0;
   padding: 0;
   text-align: center;
 }
 
 :root {
-  /* margin-top: 10px; */
   --color-bg: rgb(84, 226, 120);
   --color-switch-thumb: #ccc;
   --color-switch-bg: rgb(172, 14, 14);
   --color-switch-bg-active: rgb(27, 137, 19);
-  /* margin-top:10px; */
 
   --switch-size: 70px;
 }
@@ -22,7 +19,6 @@
   display: none;
 }
 .switch {
-  /* padding-top:10px; */
   --switch-width: var(--switch-size);
   --switch-height: calc(var(--switch-width) / 2);
   --switch-border: calc(var(--switch-height) / 10);
@@ -49,7 +45,6 @@
   border-radius: var(--switch-thumb-size);
 
   position: absolute;
-  /* margin-top:220px; */
   top: 0;
   left: 0;
 

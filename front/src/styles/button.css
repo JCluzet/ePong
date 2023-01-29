@@ -1,5 +1,3 @@
-/* CSS */
-
 .btn-login {
   padding-top: 10px;
   margin: auto;
@@ -90,14 +88,11 @@
 .button-shiny {
   padding: 0.6em 2em;
   border: none;
-  /* z-index: 3; */
-  /* position:sticky; */
   outline: none;
   color: rgb(255, 255, 255);
   background: #111;
   cursor: pointer;
   position: relative;
-  /* z-index: auto; */
   border-radius: 10px;
   user-select: none;
   -webkit-user-select: none;

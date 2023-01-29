@@ -1,15 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "../styles/Pong.scss";
-// import JSConfetti from "js-confetti";
-// import useWindowDimensions from "./useWindowDimensions";
 import io from "socket.io-client";
-// import { Form } from "react-bootstrap";
-// import Confetti from "react-confetti";
 import "/node_modules/react-rain-animation/lib/style.css";
-// import { toast } from "react-toastify";
 import { accountService } from "../hooks/account_service";
-// import { Select } from "semantic-ui-react";
-// import { Dropdown } from "semantic-ui-react";
 import versusLogo from "../assets/images/versusLogo.svg";
 import "semantic-ui-css/semantic.min.css";
 import { useSearchParams } from "react-router-dom";
@@ -28,11 +21,9 @@ export default function PongSpectate() {
   const [playerScore2, SetPlayerScore2] = useState(0);
   const [joueur1, setJoueur1] = useState("");
   const [joueur2, setJoueur2] = useState("");
-  // eslint-disable-next-line no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     canvas = document.getElementById("canvas");
     initParty();
     var config = {
@@ -55,8 +46,6 @@ export default function PongSpectate() {
   });
 
   socket.on("scoreUpdate", (...args) => {
-    // console.log(`score update`);
-    // console.log(args);
     if (args[0].player1.login === joueur1) {
       SetPlayerScore1(args[0].player1.score);
       SetPlayerScore2(args[0].player2.score);
@@ -67,17 +56,14 @@ export default function PongSpectate() {
   });
 
   socket.on("stopGame", (...args) => {
-    // console.log(`stop game`);
     document.getElementById("victoryMessage").innerHTML =
       args[0].name + " a gagné !";
-    // return at the home page after 5 seconds
     setTimeout(() => {
       window.location.href = "/";
     }, 5000);
   });
 
   socket.on("spectateJoin", (...args) => {
-    // console.log(args);
     setJoueur1(args[0].player1);
     setJoueur2(args[0].player2);
   });

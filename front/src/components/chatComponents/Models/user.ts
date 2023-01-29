@@ -1,16 +1,5 @@
 import { StringifyOptions } from "querystring";
 
-// export type User = {
-//     id: string;
-//     isLoggedIn: boolean;
-//     avatar?: string;
-//     status?: string;
-//     numberWins: number;
-//     numberLosses: number;
-//     numberGamesPlayed: number;
-//     twofa: boolean;
-//     userType?: number;
-// };
 
 export type EUser = {
     id?: number;

@@ -22,9 +22,7 @@ export const CreateDirectConv = () => {
       try {
         const { data } = await axios.get("users");
         if (bool) setAllUsers(data);
-      } catch (error) {
-        // console.log("Failed to fetch all users");
-      }
+      } catch (error) {}
     };
     getAllUsers();
     return () => {
@@ -41,9 +39,7 @@ export const CreateDirectConv = () => {
         allUsers.forEach((user: EUser) => {
           if (user.login === login && bool) setChanAdmin([user]);
         });
-      } catch (error) {
-        // console.log("Failed to fetch userId");
-      }
+      } catch (error) {}
     };
     getUserId();
     return () => {
@@ -76,9 +72,7 @@ export const CreateDirectConv = () => {
             setRedirection(true);
           })
           .catch(function (error: any) {});
-      } catch (error) {
-        // console.log("Failed to create a direct conversation");
-      }
+      } catch (error) {}
     }
   };
 

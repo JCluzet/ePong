@@ -2,12 +2,6 @@ import "../styles/firstconnexion.css";
 import EditProfil from "./EditProfil";
 
 export default function FirstConnexion() {
-  // state
-
-  // comportements
-
-  // affichage
-
   return (
     <div className="container_firstconnexion">
       <div className="text-princ-welcome">Welcome to PONG 🏓</div>

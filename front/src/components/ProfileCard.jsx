@@ -4,8 +4,6 @@ import "../styles/social.css";
 import Statscard from "./StatsCard";
 import Historic from "./HistoricCard";
 
-// faire un composent "carte profile" avec login, si en ligne, image de login
-
 const user = {
   name: accountService.userName(),
   imgUrl: accountService.userAvatarUrl(),

@@ -29,13 +29,10 @@ const LeaveChan = (props: LeaveChanProps) => {
       };
       axios(config)
         .then(function (response: any) {
-          //   console.log("Leave chan post succeeded");
           props.setCurrentChannelId(0);
           window.location.reload();
         })
-        .catch(function (error: any) {
-          //   console.log("Error getChanUsers : " + error);
-        });
+        .catch(function (error: any) {});
     };
     removeUser();
   }
@@ -190,9 +187,7 @@ const PrivateGuard = (props: PrivateGuardProps) => {
           props.setPasswordSuccess(true);
         }
       });
-    } catch (error) {
-      //   console.log("Counld't fetch channel data (password)");
-    }
+    } catch (error) {}
   }
 
   return (

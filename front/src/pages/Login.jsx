@@ -11,20 +11,13 @@ export default function Login() {
       <ParticleBackground />
       <Status />
       <div className="center">
-        {
-          localStorage.getItem("NeedTwoFa") === "true" ? (
-            <Twofa />
-          ) : // {
-          localStorage.getItem("firstlogin") === "true" ? (
-            <FirstConnexion />
-          ) : (
-            <LoginTo42 />
-          )
-          // }
-          // {localStorage.getItem("FirstConnexion") === "true") {
-          //   <FirstConnexion/>}
-          //   <LoginTo42 />
-        }
+        {localStorage.getItem("NeedTwoFa") === "true" ? (
+          <Twofa />
+        ) : localStorage.getItem("firstlogin") === "true" ? (
+          <FirstConnexion />
+        ) : (
+          <LoginTo42 />
+        )}
       </div>
       <Footer />
     </div>

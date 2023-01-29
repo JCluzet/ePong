@@ -3,18 +3,9 @@ import Header from "../components/Header";
 import "../styles/home.css";
 import storeProfilData from "../hooks/storeProfilData";
 import { accountService } from "../hooks/account_service";
-// import ParticleBackground from "../particlesBackground/ParticleBackground";
-// import { useSearchParams } from "react-router-dom";
 
 export default function Home() {
-  // state
-
-  // comportements
-  useEffect(() => {
-    // if(localStorage.getItem("token")){
-    //     window.location.href = "/";
-    // }
-  }, []);
+  useEffect(() => {}, []);
 
   async function updateProfil() {
     await storeProfilData(
@@ -35,11 +26,9 @@ export default function Home() {
   const ChatClick = () => {
     window.location.href = "/social/chat";
   };
-  // affichage
 
   return (
     <div>
-      {/* <ParticleBackground /> */}
       <Header />
       <br />
       <div className="center">

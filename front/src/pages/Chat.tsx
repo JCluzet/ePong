@@ -18,9 +18,7 @@ export default function Chat() {
           let login = accountService.userLogin() as string;
           setUserName(login);
         }
-      } catch (error) {
-        // console.log("Couldn't fetch user info");
-      }
+      } catch (error) {}
     };
     getChans();
     return () => {

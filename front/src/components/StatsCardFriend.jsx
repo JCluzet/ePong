@@ -11,7 +11,6 @@ export default function StatsCardFriend() {
       headers: { Authorization: "Bearer " + accountService.userToken() },
     };
     axios(config).then((response) => setFriend(response.data));
-    // console.log(`friendName ${accountService.friendName()}`);
   }, []);
   return (
     <div>

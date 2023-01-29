@@ -105,9 +105,7 @@ export const PasswordSettings = (props: PasswordSettingsProps) => {
           }
         })
         .catch(function (error: any) {});
-    } catch (error) {
-      // console.log("Couldn't check channel password");
-    }
+    } catch (error) {}
   };
 
   async function removePassword() {
@@ -151,9 +149,7 @@ export const PasswordSettings = (props: PasswordSettingsProps) => {
           }
         })
         .catch(function (error: any) {});
-    } catch (error) {
-      // console.log("Couldn't remove channel password");
-    }
+    } catch (error) {}
   }
 
   let submit = async (event: SyntheticEvent) => {
@@ -198,9 +194,7 @@ export const PasswordSettings = (props: PasswordSettingsProps) => {
           }
         })
         .catch(function (error: any) {});
-    } catch (error) {
-      // console.log("Couldn't remove channel password");
-    }
+    } catch (error) {}
   };
 
   function renderSettings() {

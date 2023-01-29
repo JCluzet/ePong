@@ -9,7 +9,6 @@ import Header from "../../Header";
 import { toast } from "react-hot-toast";
 import { kickUser } from "./ChatMessages";
 import { accountService } from "../../../hooks/account_service";
-// import { accountService } from "../../../hooks/account_service";
 
 type AdminPanelProps = {
   currentChannelId: number;
@@ -34,7 +33,6 @@ const checkIfAdmin = (chanId: number) => {
       if (response.data === false) {
         window.location.href = "/social/chat";
       }
-      //   console.log("is Admin: " + response.data);
     })
     .catch(function (error: any) {});
 
@@ -69,12 +67,9 @@ export const AdminPanel = (props: any) => {
         };
         axios(config)
           .then(function (response: any) {
-            // console.log("getChanUsers post succeeded");
             setChanUsers(response.data);
           })
-          .catch(function (error: any) {
-            // console.log("Error getChanUsers : " + error);
-          });
+          .catch(function (error: any) {});
       }
       getChanUsers();
       checkIfAdmin(chanId);
@@ -101,12 +96,6 @@ export const AdminPanel = (props: any) => {
 
   async function updateUserStatus(userId: string, status: number) {
     try {
-      // if(status === 1) {
-      //     if(userId === accountService.userLogin()) {
-      //     toast.error("You can't unmake yourself an admin");
-      //     return;
-      //     }
-      // }
       var config = {
         method: "post",
         url: "chat/isAdmin",
@@ -157,9 +146,7 @@ export const AdminPanel = (props: any) => {
           window.location.reload();
         })
         .catch(function (error: any) {});
-    } catch (error) {
-      //   console.log("Couldn't update user status");
-    }
+    } catch (error) {}
   }
 
   useEffect(() => {
