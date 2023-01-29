@@ -24,6 +24,7 @@ type UserBubleProps = {
   chanId: number;
 };
 
+
 const checkifKick = async (chanId: number) => {
   var config = {
     method: "post",
@@ -51,9 +52,39 @@ const checkifKick = async (chanId: number) => {
     .catch(function (error: any) {
       console.log("Error getChanUsers : " + error);
     });
+    // checkifBan(chanId);
+
+
+
+    var config3 = {
+        method: "post",
+        url: "chat/isBanned",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+          "Content-Type": "application/json",
+        },
+        data: JSON.stringify({
+          userId: accountService.userLogin(),
+          chanId: chanId,
+        }),
+      };
+      let response = await axios(config3);
+      if (response.data) {
+        toast.error("You have been banned from this channel");
+        // props.setCurrentChannelId(0);
+        window.location.reload();
+      }
+
+
+
+
+
+
+
+
   setTimeout(() => {
     checkifKick(chanId);
-  }, 10000);
+  }, 7000);
 };
 
 const checkIfBannedChan = async (username: string): Promise<boolean> => {
