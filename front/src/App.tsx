@@ -79,9 +79,6 @@ theme="light"
           <Route path="/spectate" element={
             accountService.isLogged() ? <GameSpectate /> : <Login />
             } />
-          {/* <Route path="/live" element={
-            accountService.isLogged() ? <Live /> : <Login />
-            } /> */}
         <Route path="*" element={
             accountService.isLogged() ? <NotFound /> : <Login />
             } />

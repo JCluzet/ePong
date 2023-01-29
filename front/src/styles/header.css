@@ -209,10 +209,20 @@ nav {
   display: flex;
   justify-content: space-between;
 }
+.error-404-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 100%;
+  width: 240px;
+  /* margin-bottom: 10px; */
+}
 
 .h1-header {
   font-size: 2.5rem;
   font-weight: 700;
+  color: rgb(5, 1, 1);
   margin-left: 20px;
 }
 
