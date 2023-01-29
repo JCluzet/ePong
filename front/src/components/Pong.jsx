@@ -42,9 +42,8 @@ export default function Pong() {
 
   useEffect(() => {
     if (searchParams.get("vs")) {
-
       setWaitingVersus(true);
-    //   console.log(`check vs ${searchParams.get("vs")}`);
+      //   console.log(`check vs ${searchParams.get("vs")}`);
       socket.emit("vs", searchParams.get("vs"), searchParams.get("gameMode"));
     }
     canvas = document.getElementById("canvas");
@@ -265,57 +264,57 @@ export default function Pong() {
 
           {isActive && (
             // <div id="game-root-main" className="game-root-main">
-              <div id="game-root" className="game-root">
-                {isWin ? (
-                  <Confetti
-                    width={window.innerWidth}
-                    height={window.innerHeight}
-                  />
-                ) : (
-                  ""
-                )}
-                {isActive && !isSearching && !waitingVersus && (
-                  <button
-                    type="button"
-                    className="ui button button-match-making"
-                    id="search-button"
-                    onClick={() => sendSearch()}
-                  >
-                    {SearchText}
-                  </button>
-                )}
+            <div id="game-root" className="game-root">
+              {isWin ? (
+                <Confetti
+                  width={window.innerWidth}
+                  height={window.innerHeight}
+                />
+              ) : (
+                ""
+              )}
+              {isActive && !isSearching && !waitingVersus && (
+                <button
+                  type="button"
+                  className="ui button button-match-making"
+                  id="search-button"
+                  onClick={() => sendSearch()}
+                >
+                  {SearchText}
+                </button>
+              )}
 
-                {isActive && isSearching && (
-                  <button
-                    type="button"
-                    className="ui labeled icon button button-match-making"
-                    id="search-button"
-                    onClick={sendSearch}
-                  >
-                    <i className="loading spinner icon"></i>
-                    Cancel matchmaking
-                  </button>
-                )}
+              {isActive && isSearching && (
+                <button
+                  type="button"
+                  className="ui labeled icon button button-match-making"
+                  id="search-button"
+                  onClick={sendSearch}
+                >
+                  <i className="loading spinner icon"></i>
+                  Cancel matchmaking
+                </button>
+              )}
 
-                {!isSearching && !waitingVersus ? (
-                  // <Form>
-                  <div className="choosing-game">
-                    <Form.Select
-                      id="form-select-gamemode"
-                      aria-label="Modes de jeux:"
-                      className="form-select"
-                      defaultValue="original"
-                      onChange={(e) => setGM(e.target.value)}
-                    >
-                      <option value="classic">Classic</option>
-                      <option value="fast">Fast</option>
-                      <option value="bigball">Big Ball</option>
-                    </Form.Select>
-                  </div>
-                ) : (
-                  ""
-                )}
-              </div>
+              {!isSearching && !waitingVersus ? (
+                // <Form>
+                <div className="choosing-game">
+                  <Form.Select
+                    id="form-select-gamemode"
+                    aria-label="Modes de jeux:"
+                    className="form-select"
+                    defaultValue="original"
+                    onChange={(e) => setGM(e.target.value)}
+                  >
+                    <option value="classic">Classic</option>
+                    <option value="fast">Fast</option>
+                    <option value="bigball">Big Ball</option>
+                  </Form.Select>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
             // </div>
           )}
         </div>

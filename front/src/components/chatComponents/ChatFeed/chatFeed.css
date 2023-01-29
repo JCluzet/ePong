@@ -1,78 +1,77 @@
 .chatFeed {
-    height: 90%;
-    width: 70vw;
-    contain: content;
-    padding-left: 30px;
+  height: 90%;
+  width: 70vw;
+  contain: content;
+  padding-left: 30px;
 }
 
 .chatMessages {
-    height: 65vh;
-    overflow-y: auto; 
+  height: 65vh;
+  overflow-y: auto;
 }
 
-.message-from-ban{
-    background-color: #ffbaba;
-    border-radius: 10px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    font-family: 'Courier New', Courier, monospace;
-    padding: 10px;
+.message-from-ban {
+  background-color: #ffbaba;
+  border-radius: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-family: "Courier New", Courier, monospace;
+  padding: 10px;
 }
 
 .input {
-    width: 70vw;
+  width: 70vw;
 }
 
 .inputBar {
-    display: flex;
-    width: 65vw;
-    align-items: center;
+  display: flex;
+  width: 65vw;
+  align-items: center;
 }
 
 .userAdminTable {
-    width: 100%;
-    align-content: center;
+  width: 100%;
+  align-content: center;
 }
 
 td {
-    color: black;
+  color: black;
 }
 
 label {
-	cursor: pointer;
-	color: #000;
-	/* display: block; */
-	padding: 10px;
-	margin: 3px;
+  cursor: pointer;
+  color: #000;
+  /* display: block; */
+  padding: 10px;
+  margin: 3px;
 }
 
 tr:hover {
-    /* background-color: lightgrey; */
-    align-content: center;
-
+  /* background-color: lightgrey; */
+  align-content: center;
 }
 
 .passWordDiv {
-    text-align: center;
-    padding: 10px;
+  text-align: center;
+  padding: 10px;
 }
 
 .tableDiv {
-    display: block;
-    overflow-x: auto;
-    margin-left: auto;
-    margin-right: auto;
-    width: 75%;
+  display: block;
+  overflow-x: auto;
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
 }
 
 .sideBar {
-    width: 17vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  width: 17vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .convButton {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }

@@ -52,7 +52,7 @@ export default function ProfilSettings() {
 
       {profilEditing && (
         <div>
-          <EditProfil firstlogin="false"/>
+          <EditProfil firstlogin="false" />
           <img
             className="return-arrow"
             src={returnBack}

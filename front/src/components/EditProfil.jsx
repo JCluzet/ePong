@@ -15,11 +15,11 @@ const checkUsername = async (username) => {
   };
   await axios(config)
     .then((response) => {
-    //   console.log("checkName responseGood: " + response.data);
+      //   console.log("checkName responseGood: " + response.data);
       isAvailable = 1;
     })
     .catch((error) => {
-    //   console.log("Username deja pris" + error);
+      //   console.log("Username deja pris" + error);
       isAvailable = 0;
     });
   return isAvailable;
@@ -37,7 +37,10 @@ export default function EditProfil({ firstlogin }) {
         toast.error("Username can't be empty");
         return;
       }
-      if (username !== accountService.userName() && (await checkUsername(username)) === 0) {
+      if (
+        username !== accountService.userName() &&
+        (await checkUsername(username)) === 0
+      ) {
         toast.error(username + " is already taken");
         return;
       }
@@ -53,14 +56,13 @@ export default function EditProfil({ firstlogin }) {
         () => window.location.reload()
       );
     } else {
-        if(firstlogin !== "true")
-            toast.info("Nothing to change");
-        else{
-            if ((await checkUsername(username)) === 0) {
-                toast.error(username + " is already taken");
-                return;
-              }
+      if (firstlogin !== "true") toast.info("Nothing to change");
+      else {
+        if ((await checkUsername(username)) === 0) {
+          toast.error(username + " is already taken");
+          return;
         }
+      }
     }
 
     if (firstlogin === "true") {

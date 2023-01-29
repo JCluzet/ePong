@@ -1,5 +1,5 @@
 .tfa-text {
-  font-size: 1.5rem;;
+  font-size: 1.5rem;
   font-weight: 550;
   color: white;
   /* margin-bottom: 10px; */
@@ -8,62 +8,61 @@
   text-align: center;
 }
 
-
 :root {
-    /* margin-top: 10px; */
-    --color-bg: rgb(84, 226, 120);
-    --color-switch-thumb: #ccc;
-    --color-switch-bg: rgb(172, 14, 14);
-    --color-switch-bg-active: rgb(27, 137, 19);
-    /* margin-top:10px; */
-    
-    --switch-size: 70px;
-  }
-  .switch-input {
-    display: none;
-  }
-  .switch {
-    /* padding-top:10px; */
-    --switch-width: var(--switch-size);
-    --switch-height: calc(var(--switch-width) / 2);
-    --switch-border: calc(var(--switch-height) / 10);
-    --switch-thumb-size: calc(var(--switch-height) - var(--switch-border) * 2);
-    --switch-width-inside: calc(var(--switch-width) - var(--switch-border) * 2);
-    display: block;
-    box-sizing: border-box;
-    width: var(--switch-width);
-    height: var(--switch-height);
-    border: var(--switch-border) solid var(--color-switch-bg);
-    border-radius: var(--switch-height);
-    background-color: var(--color-switch-bg);
-    cursor: pointer;
-    margin: var(--switch-margin) 0;
-    transition: 300ms 100ms;
-    
-    position: relative;
-  }
-  .switch::before {
-    content: '';
-    background-color: var(--color-switch-thumb);
-    height: var(--switch-thumb-size);
-    width: var(--switch-thumb-size);
-    border-radius: var(--switch-thumb-size);
-    
-    position: absolute;
-    /* margin-top:220px; */
-    top: 0;
-    left: 0;
-    
-    transition: 300ms, width 600ms;
-  }
-  .switch-input:checked + .switch {
-    background-color: var(--color-switch-bg-active);
-    border-color: var(--color-switch-bg-active);
-  }
-  .switch:active::before {
-    width: 80%;
-  }
-  .switch-input:checked + .switch::before {
-    left: 100%;
-    transform: translateX(-100%);
-  }
+  /* margin-top: 10px; */
+  --color-bg: rgb(84, 226, 120);
+  --color-switch-thumb: #ccc;
+  --color-switch-bg: rgb(172, 14, 14);
+  --color-switch-bg-active: rgb(27, 137, 19);
+  /* margin-top:10px; */
+
+  --switch-size: 70px;
+}
+.switch-input {
+  display: none;
+}
+.switch {
+  /* padding-top:10px; */
+  --switch-width: var(--switch-size);
+  --switch-height: calc(var(--switch-width) / 2);
+  --switch-border: calc(var(--switch-height) / 10);
+  --switch-thumb-size: calc(var(--switch-height) - var(--switch-border) * 2);
+  --switch-width-inside: calc(var(--switch-width) - var(--switch-border) * 2);
+  display: block;
+  box-sizing: border-box;
+  width: var(--switch-width);
+  height: var(--switch-height);
+  border: var(--switch-border) solid var(--color-switch-bg);
+  border-radius: var(--switch-height);
+  background-color: var(--color-switch-bg);
+  cursor: pointer;
+  margin: var(--switch-margin) 0;
+  transition: 300ms 100ms;
+
+  position: relative;
+}
+.switch::before {
+  content: "";
+  background-color: var(--color-switch-thumb);
+  height: var(--switch-thumb-size);
+  width: var(--switch-thumb-size);
+  border-radius: var(--switch-thumb-size);
+
+  position: absolute;
+  /* margin-top:220px; */
+  top: 0;
+  left: 0;
+
+  transition: 300ms, width 600ms;
+}
+.switch-input:checked + .switch {
+  background-color: var(--color-switch-bg-active);
+  border-color: var(--color-switch-bg-active);
+}
+.switch:active::before {
+  width: 80%;
+}
+.switch-input:checked + .switch::before {
+  left: 100%;
+  transform: translateX(-100%);
+}

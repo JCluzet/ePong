@@ -9,56 +9,59 @@ import ProfilSettings from "./ProfilSettings";
 // import Login from "../pages/Login";
 
 const Header = () => {
-async function catchUserInfo() {
+  async function catchUserInfo() {
     var config = {
-        method: "get",
-        url: "/users/profile/" + accountService.userLogin(),
-        headers: { Authorization: "Bearer " + accountService.userToken() },
+      method: "get",
+      url: "/users/profile/" + accountService.userLogin(),
+      headers: { Authorization: "Bearer " + accountService.userToken() },
     };
     await axios(config)
-    .then(function (response) {
+      .then(function (response) {
         // console.log("user info response: " + JSON.stringify(response.data));
         if (response.data.name === "")
-            localStorage.setItem("Alert", "You have been removed from the database");
+          localStorage.setItem(
+            "Alert",
+            "You have been removed from the database"
+          );
         setAvatarUrl(response.data.avatarUrl);
         setUsername(response.data.name);
-    })
-    .catch(function (error) {
+      })
+      .catch(function (error) {
         // if the error is unauthorized, we redirect to login
         if (error.response.status === 401 || error.response.status === 400) {
-            // alert("error catchUserInfo: " + error);
-            accountService.logout();
-            // localStorage.setItem("Alert", "You have been removed from the database");
-            // localStorage.setItem("Alert", "You have been disconnected for inactivity");
+          // alert("error catchUserInfo: " + error);
+          accountService.logout();
+          // localStorage.setItem("Alert", "You have been removed from the database");
+          // localStorage.setItem("Alert", "You have been disconnected for inactivity");
         }
-    });
+      });
     setTimeout(() => {
-        catchUserInfo();
+      catchUserInfo();
     }, 1000);
-}
+  }
 
-    // state
-    
-    const [avatarUrl, setAvatarUrl] = React.useState(null);
-    const [detected, setDetected] = React.useState(false);
-    const [keyPresses, setKeyPresses] = React.useState([]);
-    const [username, setUsername] = React.useState(null);
-    
-    useEffect(() => {
-        function handleKeyPress(event) {
-          setKeyPresses(prevKeyPresses => [...prevKeyPresses, event.key]);
-    
-          if (keyPresses.slice(-4).join('') === '4242') {
-            setDetected(true);
-          }
-        }
-    
-        window.addEventListener('keypress', handleKeyPress);
-    
-        return () => {
-          window.removeEventListener('keypress', handleKeyPress);
-        };
-      }, [keyPresses]);
+  // state
+
+  const [avatarUrl, setAvatarUrl] = React.useState(null);
+  const [detected, setDetected] = React.useState(false);
+  const [keyPresses, setKeyPresses] = React.useState([]);
+  const [username, setUsername] = React.useState(null);
+
+  useEffect(() => {
+    function handleKeyPress(event) {
+      setKeyPresses((prevKeyPresses) => [...prevKeyPresses, event.key]);
+
+      if (keyPresses.slice(-4).join("") === "4242") {
+        setDetected(true);
+      }
+    }
+
+    window.addEventListener("keypress", handleKeyPress);
+
+    return () => {
+      window.removeEventListener("keypress", handleKeyPress);
+    };
+  }, [keyPresses]);
 
   useEffect(() => {
     catchUserInfo();
@@ -82,12 +85,16 @@ async function catchUserInfo() {
     <nav>
       <div className="container">
         <div className="div-header">
-        {
-            !detected ? 
-          <Logo className="logo-header" onClick={HomeClick} />
-            :  
-            <img className="logo-header" src="https://grademe.fr/PONG.gif" onClick={HomeClick} alt="logo" />
-        }
+          {!detected ? (
+            <Logo className="logo-header" onClick={HomeClick} />
+          ) : (
+            <img
+              className="logo-header"
+              src="https://grademe.fr/PONG.gif"
+              onClick={HomeClick}
+              alt="logo"
+            />
+          )}
 
           {/* display image (getProfileImage()) */}
           <div className="div-profile-header-container-with-settings">

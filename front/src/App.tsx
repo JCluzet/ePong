@@ -1,7 +1,7 @@
 // import Header from "./components/Header";
 // import { useState, useEffect } from "react";
 import "semantic-ui-css/semantic.min.css";
-import { /*toast,*/ ToastContainer } from 'react-toastify';  
+import { /*toast,*/ ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import Login from "./pages/Login";
@@ -34,54 +34,71 @@ export default function App() {
         position="bottom-left"
         reverseOrder={false}
       /> */}
-            <ToastContainer
-position="bottom-right"
-autoClose={5000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-theme="light"
-/>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <Router>
         <Routes>
-          <Route path="/" element={
-            accountService.isLogged() ? <Home /> : <Login />
-            } />
-          <Route path="/play" element={
-            accountService.isLogged() ? <Game /> : <Login />
-            } />
-          <Route path="/social" element={
-            accountService.isLogged() ? <Social /> : <Login />
-            } />
-          <Route path="/social/chat" element={
-            accountService.isLogged() ? <Chat /> : <Login />
-            } />
-          <Route path="/social/chat/createconv" element={
-            accountService.isLogged() ? <CreateConv /> : <Login />
-            } />
-          <Route path="/social/chat/createDirectConv" element={
-            accountService.isLogged() ? <CreateDirectConv /> : <Login />
-            } />
-          <Route path="/social/chat/createGroupConv" element={
-            accountService.isLogged() ? <CreateGroupConv /> : <Login />
-            } />
-          <Route path="/social/chat/joinConversation" element={
-            accountService.isLogged() ? <JoinConversation /> : <Login />
-            } />
-          <Route path="/social/chat/adminpanel" element={
-            accountService.isLogged() ? <AdminPanel /> : <Login />
-            } />
+          <Route
+            path="/"
+            element={accountService.isLogged() ? <Home /> : <Login />}
+          />
+          <Route
+            path="/play"
+            element={accountService.isLogged() ? <Game /> : <Login />}
+          />
+          <Route
+            path="/social"
+            element={accountService.isLogged() ? <Social /> : <Login />}
+          />
+          <Route
+            path="/social/chat"
+            element={accountService.isLogged() ? <Chat /> : <Login />}
+          />
+          <Route
+            path="/social/chat/createconv"
+            element={accountService.isLogged() ? <CreateConv /> : <Login />}
+          />
+          <Route
+            path="/social/chat/createDirectConv"
+            element={
+              accountService.isLogged() ? <CreateDirectConv /> : <Login />
+            }
+          />
+          <Route
+            path="/social/chat/createGroupConv"
+            element={
+              accountService.isLogged() ? <CreateGroupConv /> : <Login />
+            }
+          />
+          <Route
+            path="/social/chat/joinConversation"
+            element={
+              accountService.isLogged() ? <JoinConversation /> : <Login />
+            }
+          />
+          <Route
+            path="/social/chat/adminpanel"
+            element={accountService.isLogged() ? <AdminPanel /> : <Login />}
+          />
 
-          <Route path="/spectate" element={
-            accountService.isLogged() ? <GameSpectate /> : <Login />
-            } />
-        <Route path="*" element={
-            accountService.isLogged() ? <NotFound /> : <Login />
-            } />
+          <Route
+            path="/spectate"
+            element={accountService.isLogged() ? <GameSpectate /> : <Login />}
+          />
+          <Route
+            path="*"
+            element={accountService.isLogged() ? <NotFound /> : <Login />}
+          />
         </Routes>
       </Router>
     </div>

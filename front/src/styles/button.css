@@ -1,92 +1,91 @@
 /* CSS */
 
-.btn-login{
-    padding-top: 10px;
-    margin:auto;
+.btn-login {
+  padding-top: 10px;
+  margin: auto;
 }
 
-.text-login{
-    color: #fff;
-    font-size: 20px;
-    font-weight: 600;
-    margin: 0;
-    padding: 0;
+.text-login {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
 }
 
-.element-btn-login{
-    align-items: center;
-    display: flex;
-    justify-content: space-around;
+.element-btn-login {
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
 }
 
-.button:hover{
-    background-color: rgb(54, 54, 54);
+.button:hover {
+  background-color: rgb(54, 54, 54);
 }
 
-.button-shiny:hover{
-    background-color: rgb(100, 100, 100);
+.button-shiny:hover {
+  background-color: rgb(100, 100, 100);
 }
 
 .button {
-    padding: 0.6em 2em;
-    border: none;
-    outline: none;
-    color: rgb(255, 255, 255);
-    background: rgb(29, 29, 29);
-    cursor: pointer;
-    position: relative;
-    z-index: 0;
-    border-radius: 10px;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-  }
+  padding: 0.6em 2em;
+  border: none;
+  outline: none;
+  color: rgb(255, 255, 255);
+  background: rgb(29, 29, 29);
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 10px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
 
-  .buttonSmall {
-    padding: 0.3em 1em;
-    border: none;
-    outline: none;
-    color: rgb(255, 255, 255);
-    background: #111;
-    cursor: pointer;
-    position: relative;
-    z-index: 0;
-    border-radius: 5px;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-  }
+.buttonSmall {
+  padding: 0.3em 1em;
+  border: none;
+  outline: none;
+  color: rgb(255, 255, 255);
+  background: #111;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 5px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
 
-  .buttonSmallRed {
-    padding: 0.3em 1em;
-    border: none;
-    outline: none;
-    color: rgb(255, 255, 255);
-    background: rgb(234, 8, 8);
-    cursor: pointer;
-    position: relative;
-    z-index: 0;
-    border-radius: 5px;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-  }
+.buttonSmallRed {
+  padding: 0.3em 1em;
+  border: none;
+  outline: none;
+  color: rgb(255, 255, 255);
+  background: rgb(234, 8, 8);
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 5px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
 
-  .buttonSmallGreen {
-    padding: 0.3em 1em;
-    border: none;
-    outline: none;
-    color: rgb(255, 255, 255);
-    background: rgb(31, 230, 31);
-    cursor: pointer;
-    position: relative;
-    z-index: 0;
-    border-radius: 5px;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-  }
-
+.buttonSmallGreen {
+  padding: 0.3em 1em;
+  border: none;
+  outline: none;
+  color: rgb(255, 255, 255);
+  background: rgb(31, 230, 31);
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 5px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
 
 .button-shiny {
   padding: 0.6em 2em;
@@ -156,5 +155,3 @@
   top: 0;
   border-radius: 10px;
 }
-
-

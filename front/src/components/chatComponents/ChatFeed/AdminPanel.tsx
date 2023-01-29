@@ -31,10 +31,10 @@ const checkIfAdmin = (chanId: number) => {
   };
   axios(config)
     .then(function (response: any) {
-        if(response.data === false) {
-            window.location.href = "/social/chat";
-        }
-    //   console.log("is Admin: " + response.data);
+      if (response.data === false) {
+        window.location.href = "/social/chat";
+      }
+      //   console.log("is Admin: " + response.data);
     })
     .catch(function (error: any) {});
 
@@ -158,7 +158,7 @@ export const AdminPanel = (props: any) => {
         })
         .catch(function (error: any) {});
     } catch (error) {
-    //   console.log("Couldn't update user status");
+      //   console.log("Couldn't update user status");
     }
   }
 

@@ -1,5 +1,5 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { accountService } from "../hooks/account_service";
 
 export default function StatsCardFriend() {
@@ -14,18 +14,16 @@ export default function StatsCardFriend() {
     // console.log(`friendName ${accountService.friendName()}`);
   }, []);
   return (
-      <div>
-          <h2> Stats </h2>
-              <ul>
-                  <p>winrate : {friend.kda} %</p>
-                  <p>Nb Wins :</p>
-                  <p style={{color:"green"}}>
-                  {friend.nbWins}</p>
-                  <p>Nb Loses : </p>
-                  <p style={{color:"red"}}>
-                  {friend.nbLoses}</p>
-                  <p>total game : {friend.totalGame}</p>
-              </ul>
-      </div>
+    <div>
+      <h2> Stats </h2>
+      <ul>
+        <p>winrate : {friend.kda} %</p>
+        <p>Nb Wins :</p>
+        <p style={{ color: "green" }}>{friend.nbWins}</p>
+        <p>Nb Loses : </p>
+        <p style={{ color: "red" }}>{friend.nbLoses}</p>
+        <p>total game : {friend.totalGame}</p>
+      </ul>
+    </div>
   );
 }

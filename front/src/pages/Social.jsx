@@ -11,7 +11,7 @@ export default function Social() {
       {/* <ParticleBackground/> */}
       <Header />
       <br />
-      <Tabs/>
+      <Tabs />
     </div>
   );
 }

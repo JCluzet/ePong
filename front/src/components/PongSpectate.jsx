@@ -12,7 +12,7 @@ import { accountService } from "../hooks/account_service";
 // import { Dropdown } from "semantic-ui-react";
 import versusLogo from "../assets/images/versusLogo.svg";
 import "semantic-ui-css/semantic.min.css";
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 
 var joueur = accountService.userLogin();
@@ -21,7 +21,7 @@ if (process.env.REACT_APP_IP === "" || process.env.REACT_APP_IP === undefined)
   url_begin = "http://localhost";
 else url_begin = "http://".concat(process.env.REACT_APP_IP);
 
-var socket = io(url_begin.concat(":5001/game"), { query: { login: joueur} });
+var socket = io(url_begin.concat(":5001/game"), { query: { login: joueur } });
 
 export default function PongSpectate() {
   const [playerScore1, SetPlayerScore1] = useState(0);
@@ -32,14 +32,14 @@ export default function PongSpectate() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-     // eslint-disable-next-line react-hooks/exhaustive-deps
-     canvas = document.getElementById("canvas");
-     initParty();
-     var config = {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    canvas = document.getElementById("canvas");
+    initParty();
+    var config = {
       method: "get",
       url: "/api/game/" + searchParams.get("login"),
       headers: { Authorization: "Bearer " + accountService.userToken() },
-    }
+    };
     axios(config).then((responce) => {
       socket.emit("room", responce.data);
     });
@@ -52,7 +52,7 @@ export default function PongSpectate() {
     game.player.y = args[1].player1;
     game.player2.y = args[1].player2;
     draw();
-  })
+  });
 
   socket.on("scoreUpdate", (...args) => {
     // console.log(`score update`);
@@ -64,23 +64,23 @@ export default function PongSpectate() {
       SetPlayerScore1(args[0].player2.score);
       SetPlayerScore2(args[0].player1.score);
     }
-  })
+  });
 
   socket.on("stopGame", (...args) => {
     // console.log(`stop game`);
-    document.getElementById("victoryMessage").innerHTML = args[0].name + " a gagné !";
+    document.getElementById("victoryMessage").innerHTML =
+      args[0].name + " a gagné !";
     // return at the home page after 5 seconds
     setTimeout(() => {
-        window.location.href = "/";
-        }
-    , 5000);
-  })
+      window.location.href = "/";
+    }, 5000);
+  });
 
   socket.on("spectateJoin", (...args) => {
     // console.log(args);
     setJoueur1(args[0].player1);
     setJoueur2(args[0].player2);
-  })
+  });
 
   var canvas;
   var game;
@@ -99,33 +99,43 @@ export default function PongSpectate() {
       context.stroke();
       context.fillStyle = "black";
       context.fillRect(0, game.player.y, PLAYER_WIDTH, PLAYER_HEIGHT);
-      context.fillRect(canvas.width - PLAYER_WIDTH, game.player2.y, PLAYER_WIDTH, PLAYER_HEIGHT);
+      context.fillRect(
+        canvas.width - PLAYER_WIDTH,
+        game.player2.y,
+        PLAYER_WIDTH,
+        PLAYER_HEIGHT
+      );
       context.beginPath();
       context.fillStyle = "black";
-      context.fillRect(game.ball.x, game.ball.y, game.ball.side, game.ball.side);
+      context.fillRect(
+        game.ball.x,
+        game.ball.y,
+        game.ball.side,
+        game.ball.side
+      );
       context.fill();
     }
   }
 
   function initParty() {
-      if (canvas) {
-        game = {
-          player: {
-            y: canvas.height / 2 - PLAYER_HEIGHT / 2,
-            score: 0,
-          },
-          player2: {
-            y: canvas.height / 2 - PLAYER_HEIGHT / 2,
-            score: 0,
-          },
-          ball: {
-            x: canvas.width / 2 - 10 / 2,
-            y: canvas.height / 2 - 10 / 2,
-            side: 10,
-          },
-        };
-      }
-      draw();
+    if (canvas) {
+      game = {
+        player: {
+          y: canvas.height / 2 - PLAYER_HEIGHT / 2,
+          score: 0,
+        },
+        player2: {
+          y: canvas.height / 2 - PLAYER_HEIGHT / 2,
+          score: 0,
+        },
+        ball: {
+          x: canvas.width / 2 - 10 / 2,
+          y: canvas.height / 2 - 10 / 2,
+          side: 10,
+        },
+      };
+    }
+    draw();
   }
 
   window.addEventListener(
@@ -158,8 +168,12 @@ export default function PongSpectate() {
                 </div>
               </div>
               <div className="canvas-name-player" id="scores">
-                <div className="name_player_left" id="joueur1">{joueur1}</div>
-                <div className="name_player_right" id="joueur2">{joueur2}</div>
+                <div className="name_player_left" id="joueur1">
+                  {joueur1}
+                </div>
+                <div className="name_player_right" id="joueur2">
+                  {joueur2}
+                </div>
               </div>
             </div>
             <div className="container-canva">

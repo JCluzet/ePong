@@ -8,8 +8,8 @@ export default function Twofa() {
   // state
 
   const [tfa, setTfa] = useState("");
-//   const [error, setError] = useState(false);
-//   const [errorType, setErrorType] = useState("");
+  //   const [error, setError] = useState(false);
+  //   const [errorType, setErrorType] = useState("");
 
   // comportements
 
@@ -21,39 +21,43 @@ export default function Twofa() {
   function HandleTFA() {
     // console.log("tfa => ", tfa);
     if (!tfa.match(/^[0-9]+$/)) {
-    //   setErrorType("Error: Code must be only digits");
-    toast.error("Error: Code must be only digits")
+      //   setErrorType("Error: Code must be only digits");
+      toast.error("Error: Code must be only digits");
       return;
     }
     if (tfa.length !== 6 || isNaN(tfa)) {
-    toast.error("Error: Code must be 6 digits")
+      toast.error("Error: Code must be 6 digits");
       return;
     }
     if (tfa.length === 6) {
+      const id = toast.loading("Checking code...");
 
-
-    const id = toast.loading("Checking code...")
-
-
-
-    //   setError(false);
-    //   setErrorType("");
-        accountService.LoginWithTFA(tfa);
-        // wait for the response
-        // setError(true);
-        // setErrorType("Connexion...");
-        setTimeout(() => {
-            if (localStorage.getItem("IncorrectTfa") === "true") {
-                // setError(true);
-                toast.update(id, { render: "Error: Incorrect code", type: "error", isLoading: false });
-                // setErrorType("Error: Incorrect code");
-                // localStorage.setItem("IncorrectTfa", false);
-            } else {
-                toast.update(id, { render: "All is good", type: "success", isLoading: false });
-                window.location.href = "/";
-            }
-        }, 1500);
-        // console.log("incorrecttfa -> ", localStorage.getItem("IncorrectTfa"));
+      //   setError(false);
+      //   setErrorType("");
+      accountService.LoginWithTFA(tfa);
+      // wait for the response
+      // setError(true);
+      // setErrorType("Connexion...");
+      setTimeout(() => {
+        if (localStorage.getItem("IncorrectTfa") === "true") {
+          // setError(true);
+          toast.update(id, {
+            render: "Error: Incorrect code",
+            type: "error",
+            isLoading: false,
+          });
+          // setErrorType("Error: Incorrect code");
+          // localStorage.setItem("IncorrectTfa", false);
+        } else {
+          toast.update(id, {
+            render: "All is good",
+            type: "success",
+            isLoading: false,
+          });
+          window.location.href = "/";
+        }
+      }, 1500);
+      // console.log("incorrecttfa -> ", localStorage.getItem("IncorrectTfa"));
     }
     // accountService.
   }

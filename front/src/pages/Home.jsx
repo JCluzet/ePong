@@ -17,7 +17,11 @@ export default function Home() {
   }, []);
 
   async function updateProfil() {
-    await storeProfilData(accountService.userToken(), accountService.userLogin(), null);
+    await storeProfilData(
+      accountService.userToken(),
+      accountService.userLogin(),
+      null
+    );
   }
   updateProfil();
 
@@ -39,7 +43,6 @@ export default function Home() {
       <Header />
       <br />
       <div className="center">
-
         <div className="container-home">
           <button className="button-shiny" onClick={GameClick}>
             <div className="text-play">PLAY</div>
@@ -53,11 +56,10 @@ export default function Home() {
         </div>
 
         <div className="chat-container">
-          <button className="button" onClick={ChatClick}> 
+          <button className="button" onClick={ChatClick}>
             <div className="text-social">CHAT</div>
-          </button> 
+          </button>
         </div>
-        
       </div>
     </div>
   );

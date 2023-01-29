@@ -56,9 +56,6 @@ export const CreateGroupConv = () => {
     };
   }, [allUsers, userId]);
 
-    
-
-
   const submit = async (event: SyntheticEvent) => {
     event.preventDefault();
     // check if chanName is
@@ -108,7 +105,7 @@ export const CreateGroupConv = () => {
         await axios(config2)
           .then(function (response: any) {
             response.data.forEach((chan: any) => {
-            //   console.log(chan.name);
+              //   console.log(chan.name);
               if (chan.name === chanName) {
                 toast.error("Channel name already exists");
                 goreturn = true;
@@ -121,9 +118,8 @@ export const CreateGroupConv = () => {
       }
     }
     // console.log(goreturn);
-    if (!goreturn) 
-        submit(event);
-    };
+    if (!goreturn) submit(event);
+  };
 
   useEffect(() => {
     if (redirection && success) return navigate("/social/chat");

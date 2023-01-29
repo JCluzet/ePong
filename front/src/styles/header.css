@@ -191,15 +191,15 @@ nav {
 }
 
 .profile-image-social {
-    width: 100px;
-    height: 100px;
-    margin-bottom: 15px;
-    object-fit: cover;
-    background: #ffffff;
-    box-shadow: #000000 0px 0px 10px;
-    border: #000000 1px solid;
-    border-radius: 50%;
-  }
+  width: 100px;
+  height: 100px;
+  margin-bottom: 15px;
+  object-fit: cover;
+  background: #ffffff;
+  box-shadow: #000000 0px 0px 10px;
+  border: #000000 1px solid;
+  border-radius: 50%;
+}
 
 .div-profile-picture {
   display: flex;
@@ -365,14 +365,14 @@ footer {
   height: 100%;
 }
 
-.VictoryMessage{
-    font-size: 20px;
-    font-weight: 600;
-    color: #000000;
-    margin: 0;
-    padding: 0;
-    margin-top: 10px;
-    margin-bottom: 10px;
+.VictoryMessage {
+  font-size: 20px;
+  font-weight: 600;
+  color: #000000;
+  margin: 0;
+  padding: 0;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .settings-image {

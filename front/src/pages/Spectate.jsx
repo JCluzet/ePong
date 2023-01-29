@@ -12,7 +12,7 @@ export default function Spectate() {
     <div>
       <Header />
       <br />
-      <Pong isSpecate={isSpectate}/>
+      <Pong isSpecate={isSpectate} />
     </div>
   );
 }

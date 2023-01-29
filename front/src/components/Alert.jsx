@@ -11,7 +11,7 @@ export default function Alert() {
     if (localStorage.getItem("Popup") != null) {
       setPopup(localStorage.getItem("Popup"));
       localStorage.removeItem("Popup");
-    //   console.log("Popup");
+      //   console.log("Popup");
       setTimeout(() => {
         setPopup(null);
         // console.log("Popup removed");
@@ -19,16 +19,15 @@ export default function Alert() {
     }
 
     if (localStorage.getItem("Alert") != null) {
-        setError(localStorage.getItem("Alert"));
-        localStorage.removeItem("Alert");
-        // console.log("alert");
-        //   console.log(error);
-        setTimeout(() => {
-            setError(null);
-            // console.log("alert removed");
+      setError(localStorage.getItem("Alert"));
+      localStorage.removeItem("Alert");
+      // console.log("alert");
+      //   console.log(error);
+      setTimeout(() => {
+        setError(null);
+        // console.log("alert removed");
       }, 2000);
     }
-
 
     setTimeout(HandleError, 100);
   };
@@ -47,11 +46,7 @@ export default function Alert() {
               {error}
             </div>
           )}
-              {popup && (
-            <div className="popup">
-              {popup}
-            </div>
-          )}
+          {popup && <div className="popup">{popup}</div>}
         </div>
       </div>
     </div>

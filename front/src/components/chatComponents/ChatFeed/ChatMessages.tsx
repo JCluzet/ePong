@@ -24,7 +24,6 @@ type UserBubleProps = {
   chanId: number;
 };
 
-
 const checkifKick = async (chanId: number) => {
   var config = {
     method: "post",
@@ -50,34 +49,27 @@ const checkifKick = async (chanId: number) => {
       }
     })
     .catch(function (error: any) {
-    //   console.log("Error getChanUsers : " + error);
+      //   console.log("Error getChanUsers : " + error);
     });
 
-    var config3 = {
-        method: "post",
-        url: "chat/isBanned",
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-          "Content-Type": "application/json",
-        },
-        data: JSON.stringify({
-          userId: accountService.userLogin(),
-          chanId: chanId,
-        }),
-      };
-      let response = await axios(config3);
-      if (response.data) {
-        toast.error("You have been banned from this channel");
-        // props.setCurrentChannelId(0);
-        window.location.reload();
-      }
-
-
-
-
-
-
-
+  var config3 = {
+    method: "post",
+    url: "chat/isBanned",
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("token"),
+      "Content-Type": "application/json",
+    },
+    data: JSON.stringify({
+      userId: accountService.userLogin(),
+      chanId: chanId,
+    }),
+  };
+  let response = await axios(config3);
+  if (response.data) {
+    toast.error("You have been banned from this channel");
+    // props.setCurrentChannelId(0);
+    window.location.reload();
+  }
 
   setTimeout(() => {
     checkifKick(chanId);
@@ -120,11 +112,11 @@ export async function kickUser(userlogin: string, chanId: number) {
   };
   axios(config)
     .then(function (response: any) {
-    //   console.log("deleteUser post succeeded");
+      //   console.log("deleteUser post succeeded");
       window.location.reload();
     })
     .catch(function (error: any) {
-    //   console.log("Error deleteUser : " + error);
+      //   console.log("Error deleteUser : " + error);
     });
 }
 
@@ -375,16 +367,16 @@ export const ChatMessage = (props: ChatMessageProps) => {
     };
   }, [props.msg.senderId, props.msg.chanId]);
 
-  if (isMute || isBlocked) 
-  {
-    return <div></div>
-        
-    //   <div>
-    //       <div className="message-from-ban">
-    //         This user as been ban on this channel
-    //       </div>
-    //   </div>
-    ;
+  if (isMute || isBlocked) {
+    return (
+      <div></div>
+
+      //   <div>
+      //       <div className="message-from-ban">
+      //         This user as been ban on this channel
+      //       </div>
+      //   </div>
+    );
   } else {
     checkIfBannedChan(login).then((isBanned) => {
       if (isBanned) {
@@ -515,14 +507,14 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
         // console.log("C'est un channel");
         return false;
       }
-    //   console.log("Toutes les personnes de la conv:");
+      //   console.log("Toutes les personnes de la conv:");
       let otherUser;
       for (let i = 0; i < response1.data.length; i++) {
         if (response1.data[i].login !== props.userName) {
           otherUser = response1.data[i];
         }
       }
-    //   console.log("La personne avec qui tu chat: " + otherUser.login);
+      //   console.log("La personne avec qui tu chat: " + otherUser.login);
       var config2 = {
         method: "get",
         url: "block/" + otherUser.login,
@@ -607,7 +599,7 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
                 .then(function (response: any) {})
                 .catch(function (error: any) {});
             } catch (error) {
-            //   console.log("Counldn't send a message");
+              //   console.log("Counldn't send a message");
             }
             websock2.emit("message", {
               chanId: props.currentChannelId,
