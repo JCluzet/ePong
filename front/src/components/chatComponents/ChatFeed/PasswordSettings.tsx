@@ -98,7 +98,7 @@ export const PasswordSettings = (props: PasswordSettingsProps) => {
             });
         }
         catch (error) {
-            console.log("Couldn't check channel password");
+            // console.log("Couldn't check channel password");
         }
     }
 
@@ -140,7 +140,7 @@ export const PasswordSettings = (props: PasswordSettingsProps) => {
             });
         }
         catch (error) {
-            console.log("Couldn't remove channel password");
+            // console.log("Couldn't remove channel password");
         }
     }
 
@@ -183,7 +183,7 @@ export const PasswordSettings = (props: PasswordSettingsProps) => {
             });
         }
         catch (error) {
-            console.log("Couldn't remove channel password");
+            // console.log("Couldn't remove channel password");
         }
     }
 

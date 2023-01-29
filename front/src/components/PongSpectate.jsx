@@ -55,8 +55,8 @@ export default function PongSpectate() {
   })
 
   socket.on("scoreUpdate", (...args) => {
-    console.log(`score update`);
-    console.log(args);
+    // console.log(`score update`);
+    // console.log(args);
     if (args[0].player1.login === joueur1) {
       SetPlayerScore1(args[0].player1.score);
       SetPlayerScore2(args[0].player2.score);
@@ -67,7 +67,7 @@ export default function PongSpectate() {
   })
 
   socket.on("stopGame", (...args) => {
-    console.log(`stop game`);
+    // console.log(`stop game`);
     document.getElementById("victoryMessage").innerHTML = args[0].name + " a gagné !";
     // return at the home page after 5 seconds
     setTimeout(() => {
@@ -77,7 +77,7 @@ export default function PongSpectate() {
   })
 
   socket.on("spectateJoin", (...args) => {
-    console.log(args);
+    // console.log(args);
     setJoueur1(args[0].player1);
     setJoueur2(args[0].player2);
   })

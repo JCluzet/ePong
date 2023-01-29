@@ -100,7 +100,7 @@ export const JoinConversation = () => {
                 .catch(function (error: any) {});
             }
         catch (error) {
-            console.log("Couldn't join the channel");
+            // console.log("Couldn't join the channel");
         }
     }
 

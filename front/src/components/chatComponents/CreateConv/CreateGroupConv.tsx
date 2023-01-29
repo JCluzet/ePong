@@ -25,10 +25,10 @@ export const CreateGroupConv = () => {
     const getAllUsers = async () => {
       try {
         const { data } = await axios.get("users");
-        console.log(data);
+        // console.log(data);
         if (bool) setAllUsers(data);
       } catch (error) {
-        console.log("Failed to fetch all users");
+        // console.log("Failed to fetch all users");
       }
     };
     getAllUsers();
@@ -47,7 +47,7 @@ export const CreateGroupConv = () => {
           if (user.login === userId && bool) setChanUsers([user]);
         });
       } catch (error) {
-        console.log("Failed to fetch userId");
+        // console.log("Failed to fetch userId");
       }
     };
     getUserId();
@@ -87,7 +87,7 @@ export const CreateGroupConv = () => {
           })
           .catch(function (error: any) {});
       } catch (error) {
-        console.log("Failed to create a direct conversation");
+        // console.log("Failed to create a direct conversation");
       }
     }
   };
@@ -108,7 +108,7 @@ export const CreateGroupConv = () => {
         await axios(config2)
           .then(function (response: any) {
             response.data.forEach((chan: any) => {
-              console.log(chan.name);
+            //   console.log(chan.name);
               if (chan.name === chanName) {
                 toast.error("Channel name already exists");
                 goreturn = true;
@@ -117,10 +117,10 @@ export const CreateGroupConv = () => {
           })
           .catch(function (error: any) {});
       } catch (error) {
-        console.log("Failed to fetch all channels");
+        // console.log("Failed to fetch all channels");
       }
     }
-    console.log(goreturn);
+    // console.log(goreturn);
     if (!goreturn) 
         submit(event);
     };

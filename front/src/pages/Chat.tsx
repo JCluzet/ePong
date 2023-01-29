@@ -20,7 +20,7 @@ export default function Chat () {
                 }
             }
             catch (error) {
-                console.log("Couldn't fetch user info");
+                // console.log("Couldn't fetch user info");
             }
         }
         getChans();

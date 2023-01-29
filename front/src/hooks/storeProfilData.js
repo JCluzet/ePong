@@ -7,13 +7,13 @@ let storeProfilData = async (token, login, callback) => {
     url: "/users/profile/" + login,
     headers: { Authorization: "Bearer " + token },
   };
-  console.log("storeProfilData");
+//   console.log("storeProfilData");
 
   // wait until axios is available, then make the request
   axios(config)
     .then(function (response) {
-      console.log("OK! STORE PROFIL DATA : " + response.data.name);
-      console.log("hour : " + Date.now());
+    //   console.log("OK! STORE PROFIL DATA : " + response.data.name);
+    //   console.log("hour : " + Date.now());
 
 
       // console.log("Avatar saved : " + response.data.avatarUrl);
@@ -24,7 +24,7 @@ let storeProfilData = async (token, login, callback) => {
       localStorage.setItem("status", response.data.status);
       localStorage.setItem("kda", response.data.kda);
       localStorage.setItem("totalGame", response.data.totalGame.toString());
-      console.log(`nbWins: ${response.data.nbWins}`);
+    //   console.log(`nbWins: ${response.data.nbWins}`);
       localStorage.setItem("nbWins", response.data.nbWins.toString());
       localStorage.setItem("nbLoses", response.data.nbLoses.toString());
       localStorage.setItem("username", response.data.name);
@@ -38,11 +38,11 @@ let storeProfilData = async (token, login, callback) => {
         return response;
     })
     .catch(function (error) {
-        console.log("KO STORE DATAPROFIL!");
-        console.log("Erreur, impossible de get /user/profile > ".error);
+        // console.log("KO STORE DATAPROFIL!");
+        // console.log("Erreur, impossible de get /user/profile > ".error);
     });
   // print what is the response status code by making a new request
-  console.log("fin storeProfilData");
+//   console.log("fin storeProfilData");
 };
 
 export default storeProfilData;

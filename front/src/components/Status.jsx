@@ -17,12 +17,12 @@ export default function Status() {
       .then(function (response) {
           localStorage.setItem("BackendDown", false);
           setBackendStatus(false);
-          console.log("check backend... UP!");
+        //   console.log("check backend... UP!");
     })
     .catch(function (error) {
         setBackendStatus(true);
         localStorage.setItem("BackendDown", true);
-        console.log("check backend... DOWN!");
+        // console.log("check backend... DOWN!");
     });
     setTimeout(checkBackend, 2000);
 

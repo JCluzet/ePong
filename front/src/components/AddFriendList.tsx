@@ -18,7 +18,7 @@ export default function AddFriendList() {
     axios(config).then((response) => setAllUsers(response.data));
   }, []);
 
-  console.log(AllUsers);
+//   console.log(AllUsers);
 
   const handleClick = (name: string) => {
     if (isClicked === name)

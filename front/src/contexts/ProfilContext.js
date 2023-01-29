@@ -9,7 +9,7 @@ const ProfilContextProvider = (props) => {
     });
 
     const editProfil = (name, avatarUrl) => {
-        console.log("bam" . name, avatarUrl);
+        // console.log("bam" . name, avatarUrl);
         setProfil({ name, avatarUrl });
     };
 

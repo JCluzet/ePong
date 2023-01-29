@@ -18,7 +18,7 @@ async function catchUserInfo() {
     await axios(config)
     .then(function (response) {
         // console.log("user info response: " + JSON.stringify(response.data));
-        if (response.data.name == "")
+        if (response.data.name === "")
             localStorage.setItem("Alert", "You have been removed from the database");
         setAvatarUrl(response.data.avatarUrl);
         setUsername(response.data.name);

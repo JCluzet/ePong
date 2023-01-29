@@ -25,7 +25,7 @@ export const CreateDirectConv = () => {
                     setAllUsers(data);
             }
             catch (error) {
-                console.log("Failed to fetch all users");
+                // console.log("Failed to fetch all users");
             }
         }
         getAllUsers();
@@ -44,7 +44,7 @@ export const CreateDirectConv = () => {
                 })
             }
             catch (error) {
-                console.log("Failed to fetch userId");
+                // console.log("Failed to fetch userId");
             }
         }
         getUserId();
@@ -71,7 +71,7 @@ export const CreateDirectConv = () => {
                 });
             }                    
             catch (error) {
-                console.log("Failed to create a direct conversation");
+                // console.log("Failed to create a direct conversation");
             }
         }
     };

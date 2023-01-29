@@ -69,11 +69,11 @@ export const AdminPanel = (props: any) => {
         };
         axios(config)
           .then(function (response: any) {
-            console.log("getChanUsers post succeeded");
+            // console.log("getChanUsers post succeeded");
             setChanUsers(response.data);
           })
           .catch(function (error: any) {
-            console.log("Error getChanUsers : " + error);
+            // console.log("Error getChanUsers : " + error);
           });
       }
       getChanUsers();
@@ -158,7 +158,7 @@ export const AdminPanel = (props: any) => {
         })
         .catch(function (error: any) {});
     } catch (error) {
-      console.log("Couldn't update user status");
+    //   console.log("Couldn't update user status");
     }
   }
 

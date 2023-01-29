@@ -39,9 +39,9 @@ export default function FriendList() {
             setAllUsers(response.data);
         });
     } catch (error) {
-        console.log("Failed to fetch all users");
+        // console.log("Failed to fetch all users");
     }
-    console.log(allUsers);
+    // console.log(allUsers);
     
     setTimeout(getUserInfo, 1000000);
 };
@@ -54,7 +54,7 @@ export default function FriendList() {
     image: string,
     status: string
   ) => {
-    console.log(`name ${name}`);
+    // console.log(`name ${name}`);
     localStorage.setItem("friendName", login);
     setName(name);
     setLoginUser(name);

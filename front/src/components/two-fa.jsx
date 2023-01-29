@@ -19,7 +19,7 @@ export default function Twofa() {
   }
 
   function HandleTFA() {
-    console.log("tfa => ", tfa);
+    // console.log("tfa => ", tfa);
     if (!tfa.match(/^[0-9]+$/)) {
     //   setErrorType("Error: Code must be only digits");
     toast.error("Error: Code must be only digits")

@@ -50,7 +50,7 @@ const checkifKick = async (chanId: number) => {
       }
     })
     .catch(function (error: any) {
-      console.log("Error getChanUsers : " + error);
+    //   console.log("Error getChanUsers : " + error);
     });
 
     var config3 = {
@@ -100,7 +100,7 @@ const checkIfBannedChan = async (username: string): Promise<boolean> => {
     }
     return false;
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     return false;
   }
 };
@@ -120,11 +120,11 @@ export async function kickUser(userlogin: string, chanId: number) {
   };
   axios(config)
     .then(function (response: any) {
-      console.log("deleteUser post succeeded");
+    //   console.log("deleteUser post succeeded");
       window.location.reload();
     })
     .catch(function (error: any) {
-      console.log("Error deleteUser : " + error);
+    //   console.log("Error deleteUser : " + error);
     });
 }
 
@@ -155,7 +155,7 @@ export const UserBuble = (props: UserBubleProps) => {
             .catch(function (error: any) {});
         }
       } catch (error) {
-        console.log("Couldn't fetch user data");
+        // console.log("Couldn't fetch user data");
       }
     };
     getUser();
@@ -178,13 +178,13 @@ export const UserBuble = (props: UserBubleProps) => {
       })
       .catch(function (error) {
         toast.error("Friend request failed.");
-        console.log("Friend request failed.");
+        // console.log("Friend request failed.");
       });
   }
 
   async function blockUser() {
     var isBlockedvar = false;
-    console.log(login);
+    // console.log(login);
     var config = {
       method: "post",
       url: "/block/block?to=" + login,
@@ -194,10 +194,10 @@ export const UserBuble = (props: UserBubleProps) => {
       .then(function (response) {
         isBlockedvar = true;
         toast.success("Successfuly blocked");
-        console.log("Blocking success.");
+        // console.log("Blocking success.");
       })
       .catch(function (error) {
-        console.log("Blocking failed.");
+        // console.log("Blocking failed.");
       });
     return isBlockedvar;
   }
@@ -289,7 +289,7 @@ export const ChatMessage = (props: ChatMessageProps) => {
             .catch(function (error: any) {});
         }
       } catch (error) {
-        console.log("Couldn't fetch user data");
+        // console.log("Couldn't fetch user data");
       }
     };
     getUser();
@@ -336,10 +336,10 @@ export const ChatMessage = (props: ChatMessageProps) => {
     await axios(config)
       .then(function (response) {
         window.location.reload();
-        console.log("Unblocking success.");
+        // console.log("Unblocking success.");
       })
       .catch(function (error) {
-        console.log("Unblocking failed.");
+        // console.log("Unblocking failed.");
       });
     return isBlockedvar;
   }
@@ -508,21 +508,21 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
       }),
     };
     response1 = await axios(config);
-    console.log("response1");
-    console.dir(response1);
+    // console.log("response1");
+    // console.dir(response1);
     if (response1.data) {
       if (response1.data.length !== 2) {
-        console.log("C'est un channel");
+        // console.log("C'est un channel");
         return false;
       }
-      console.log("Toutes les personnes de la conv:");
+    //   console.log("Toutes les personnes de la conv:");
       let otherUser;
       for (let i = 0; i < response1.data.length; i++) {
         if (response1.data[i].login !== props.userName) {
           otherUser = response1.data[i];
         }
       }
-      console.log("La personne avec qui tu chat: " + otherUser.login);
+    //   console.log("La personne avec qui tu chat: " + otherUser.login);
       var config2 = {
         method: "get",
         url: "block/" + otherUser.login,
@@ -537,12 +537,12 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
           toast.error("You have been banned from this person");
           isBanned = true;
         }
-        console.log(
-          "La liste des user bloqué appartenant a " +
-            otherUser.login +
-            ": " +
-            response.data
-        );
+        // console.log(
+        //   "La liste des user bloqué appartenant a " +
+        //     otherUser.login +
+        //     ": " +
+        //     response.data
+        // );
       }
     }
 
@@ -569,7 +569,7 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
   async function submit(e: SyntheticEvent) {
     e.preventDefault();
     let isBanned = await checkIfBanned(props.currentChannelId);
-    console.log("La personne est banie ? " + isBanned);
+    // console.log("La personne est banie ? " + isBanned);
     if (isBanned) return;
     if (content !== "") {
       var config = {
@@ -607,7 +607,7 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
                 .then(function (response: any) {})
                 .catch(function (error: any) {});
             } catch (error) {
-              console.log("Counldn't send a message");
+            //   console.log("Counldn't send a message");
             }
             websock2.emit("message", {
               chanId: props.currentChannelId,

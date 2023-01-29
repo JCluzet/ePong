@@ -44,7 +44,7 @@ export default function Pong() {
     if (searchParams.get("vs")) {
 
       setWaitingVersus(true);
-      console.log(`check vs ${searchParams.get("vs")}`);
+    //   console.log(`check vs ${searchParams.get("vs")}`);
       socket.emit("vs", searchParams.get("vs"), searchParams.get("gameMode"));
     }
     canvas = document.getElementById("canvas");
@@ -63,7 +63,7 @@ export default function Pong() {
         setToastid(toastid);
       } else {
         setIsSearching(false);
-        console.log("stop search");
+        // console.log("stop search");
         socket.emit("leaveQueue");
         toast.update(toastid, {
           render: "Matchmaking cancelled",
