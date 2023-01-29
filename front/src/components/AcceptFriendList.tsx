@@ -5,6 +5,8 @@ import StatsCardFriend from "./StatsCardFriend";
 
 type data = {
   sender: string;
+  senderLogin: string;
+  receiverLogin: string;
   receiver: string;
   status: string;
 };
@@ -104,9 +106,9 @@ export default function AcceptFriendList() {
                 <button
                   key={element.sender}
                   className="button"
-                  onClick={() => handleClick(element.sender, true)}
+                  onClick={() => handleClick(element.senderLogin, true)}
                 >
-                  {element.receiver}
+                  {element.sender}
                 </button>
               ))}
             </div>
@@ -118,7 +120,7 @@ export default function AcceptFriendList() {
                 <button
                   key={element.receiver}
                   className="button"
-                  onClick={() => handleClick(element.receiver, false)}
+                  onClick={() => handleClick(element.receiverLogin, false)}
                 >
                   {element.receiver}
                 </button>

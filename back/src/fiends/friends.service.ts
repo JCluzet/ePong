@@ -67,6 +67,8 @@ export class FriendsService {
       const invited: EFriend[] = await this.friendsRepository.find({ where: [{ sender: login, status: 'pending' }] });
       const invite: IFriendInvite[] = invited.map((element: EFriend) => ({
         sender: element.sender,
+        senderLogin: element.sender,
+        receiverLogin: element.receiver,
         receiver: element.receiver,
         status: element.status,
       }));
@@ -81,6 +83,8 @@ export class FriendsService {
       const received: EFriend[] = await this.friendsRepository.find({ where: [{ receiver: login, status: 'pending' }] });
       const receive: IFriendInvite[] = received.map((element: EFriend) => ({
         sender: element.sender,
+        senderLogin: element.sender,
+        receiverLogin: element.receiver,
         receiver: element.receiver,
         status: element.status,
       }));
