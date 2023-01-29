@@ -38,6 +38,8 @@ export default function AddFriendList() {
   return (
     <div>
       {AllUsers.map((user: EUser) =>
+      <div key={user.login}>
+        {
         user.login !== accountService.userLogin() ? (
           <div
             className="container-social"
@@ -76,8 +78,9 @@ export default function AddFriendList() {
           </div>
         ) : (
           <p></p>
-        )
+        )}
+      </div>
       )}
-    </div>
+      </div>
   );
 }

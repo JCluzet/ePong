@@ -26,7 +26,7 @@ export default function HistoricFriend() {
       <div className="main">
         {historic.map((element) => {
           return (
-            <dir>
+            <dir key={element.id}>
               <div className="container-shiny" onClick={onToggle}>
                 <div className="date">{element.type}</div>
                 <div className="row">

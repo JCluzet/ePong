@@ -115,7 +115,7 @@ export default function FriendList() {
               <AddFriendList />
             ) : (
               allUsers.map((user: EUser) => (
-                <div
+                <div key={user.login}
                   className="container-social"
                   onClick={() =>
                     handleClick(
