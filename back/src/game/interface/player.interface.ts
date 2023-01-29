@@ -3,8 +3,6 @@ import { EUser } from "src/users/interfaces/user.entity";
 import { IPosition } from "./GameOption.interface";
 import { IRoom } from "./room.interface";
 
-export type TGM = "classic" | "bigball" | "fast";
-
 export interface IPlayer {
   socket: Socket;
   user: EUser;

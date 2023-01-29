@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { GameHistoryService } from 'src/gameHistory/gameHistory.service';
 import { IRoom } from './interface/room.interface';
@@ -8,7 +8,6 @@ import { IPlayer } from './interface/player.interface';
 import { gameHistoryDto } from 'src/gameHistory/interface/gameHistory.dto';
 import { Interval } from '@nestjs/schedule';
 import { PongService } from './pong.service';
-import { EUser } from 'src/users/interfaces/user.entity';
 
 
 @Injectable()
@@ -62,7 +61,7 @@ export class GameService {
 				x: 10,
 				y: 10,
 				ballspeed: 5,
-				speedConst: 5,
+				speedConst: 5,			
 				position: GameService.position,
 				velocity: GameService.position,
 			},
@@ -95,8 +94,12 @@ export class GameService {
 	}
 
 	async removeSocket(socket: Socket) {
+
 		if (this.queue.indexOf(socket) != -1)
 			return this.queue.splice(this.queue.indexOf(socket), 1);
+		if (this.vsQueue.indexOf(socket) != -1){
+			return this.vsQueue.splice(this.vsQueue.indexOf(socket), 1);
+		}
 		for (const room of this.rooms.values()) {
 			if (room.spectator && room.spectator.indexOf(socket) != -1)
 				return room.spectator.splice(room.spectator.indexOf(socket), 1)
@@ -142,11 +145,8 @@ export class GameService {
 				} 
 			}
 			return true;
-
-
 		} catch (err) { return false; }
 	}
-
 
 	playerJoinRoom(player: IPlayer, room: IRoom): boolean {
 		try {
@@ -174,7 +174,6 @@ export class GameService {
 
 	getPlayerByLogin(login: string): IPlayer | undefined {
 		for (const room of this.rooms.values()){
-			Logger.log("check room");
 			for (const player of room.player)
 				if (player.user.login == login) return player;
 		}
@@ -200,39 +199,41 @@ export class GameService {
 	stopGame(room: IRoom, playerDisconnected: IPlayer | undefined) {
 		room.gameIsStart = false;
 		var winner: IPlayer;
-		var looser: IPlayer;
+		var loser: IPlayer;
 		room.gameIsStart = false;
 		if (playerDisconnected){
 			for (const player of room.player){
-				if (player === playerDisconnected) looser = player;
+				if (player === playerDisconnected) loser = player;
 				else winner = player;
 			}
 			const newhistory: gameHistoryDto = {
 				winner: winner.user.login,
-				loser: looser.user.login,
+				loser: loser.user.login,
 				winnerScore: winner.score,
-				loserScore: looser.score,
+				loserScore: loser.score,
 				timeStamp: new Date().toJSON().slice(0, 10),
 				type: room.GameOption.optionName,
 			};
 			this.gameHistoricService.createNewGame(newhistory);
-			this.userService.editGameScore({winner: winner.user.login, loser: looser.user.login});
+			this.userService.editGameScore({winner: winner.user.login, loser: loser.user.login});
 		} else {
 			for(const player of room.player) {
 				if (player.score === 5) winner = player;
-				else looser = player;
+				else loser = player;
 			}
 			const newhistory: gameHistoryDto = {
 				winner: winner.user.login,
-				loser: looser.user.login,
+				loser: loser.user.login,
 				winnerScore: winner.score,
-				loserScore: looser.score,
+				loserScore: loser.score,
 				timeStamp: new Date().toJSON().slice(0, 10),
 				type: room.GameOption.optionName,
 			};
 			this.gameHistoricService.createNewGame(newhistory);
-			this.userService.editGameScore({winner: winner.user.login, loser: looser.user.login});
+			this.userService.editGameScore({winner: winner.user.login, loser: loser.user.login});
 		}
+		this.userService.updateStatus(winner.user.login, "online");
+		this.userService.updateStatus(loser.user.login, "online");
 		this.emit(room, "stopGame", winner.user);
 		this.rooms.delete(room.id);
 	}
@@ -248,7 +249,7 @@ export class GameService {
 
 	async addVsQueue(client: Socket, name: string[]){
 		for(const queue of this.vsQueue)
-			if (queue.data.user.login === name[0]){
+			if (queue.data.user.name === name[0]){
 				const room: IRoom = this.createRoomGame();
 				const newplayer1: IPlayer = {
 					socket: queue,

@@ -1,12 +1,9 @@
-import { Logger } from '@nestjs/common';
 import { OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Socket, Server } from 'ws';
 
 @WebSocketGateway({cors: 'http://139.59.203.43:5001/social/chat' })
 export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server: Server;
-  private logger: Logger = new Logger('ChatGateway');
-
   afterInit(server: Server) {
     console.log('Chat Websocket initialized');
   }

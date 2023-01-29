@@ -13,6 +13,13 @@
   width: 25%;
 }
 
+.dispatch-button{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: black;
+}
+
 .column-stats2 {
   float: left;
   width: 75%;

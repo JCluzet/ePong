@@ -1,11 +1,9 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
-import { Chat, ChatUser } from './chat.entity';
+import { Chat } from './chat.entity';
 import { ChatService } from './chat.service';
 import { UsersService } from '../users/users.service';
-import { diskStorage } from 'multer';
 import { EUser } from 'src/users/interfaces/user.entity';
 import { AuthGuard } from '@nestjs/passport';
-import { ConnectableObservable } from 'rxjs';
 
 @Controller('chat')
 export class ChatController {
@@ -21,6 +19,13 @@ export class ChatController {
     }
     return res;
   }
+
+  // create a back route /getChan that return ALL the channel exist in the database
+  @UseGuards(AuthGuard('jwt'))
+    @Get('getChan')
+    async getChan() {
+        return await this.chatService.getChat();
+    }
 
   @UseGuards(AuthGuard('jwt'))
   @Post('getChanUsers')

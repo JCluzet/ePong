@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Get, Logger, Param, Post, Query, Req, Res, UnauthorizedException, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Query, Req, Res, UnauthorizedException, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -114,7 +114,6 @@ export class UsersController {
           callback(null, newFilename);
         },
       }),
-      // eslint-disable-next-line @typescript-eslint/ban-types
       fileFilter: (req: any, file, callback: Function) => {
         if (file.mimetype.substring(0, 5) !== 'image' && !file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) callback(new BadRequestException('Invalid file type'), false);
         callback(null, true);
@@ -147,7 +146,6 @@ export class UsersController {
         isTwoFa: newtwofa,
         avatarUrl: file ? API_AVATAR_GET_URL + '/' + file.filename : user.avatarUrl,
       };
-      Logger.log(`avartrUrl ${userSetting.avatarUrl}, name ${userSetting.name}`);
       this.usersService.editWithSetting(userSetting);
     } catch (err) {
       throw new BadRequestException(err.message);

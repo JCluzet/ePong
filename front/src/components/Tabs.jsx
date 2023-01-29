@@ -3,8 +3,6 @@ import "../styles/tabs.css"
 import "../styles/social.css"
 import ProfileCard from "../components/ProfileCard";
 import FriendList from './FriendList';
-import SpectateList from '../components/SpectateList';
-// import Chat from '../pages/Chat';
 
 export default function Tabs() {
   const [ToggleState, setToggleState] = useState(1);
@@ -32,11 +30,6 @@ export default function Tabs() {
             >
             Friend List
             </li>
-            <li
-            className={`tabs ${getActiveClass(3, "active-tabs")}`}
-            onClick={() => toggleTab(3)}>
-            Spectate
-            </li>
         </ul>
         <div className="">
             {ToggleState === 1 &&
@@ -47,11 +40,6 @@ export default function Tabs() {
             {ToggleState === 2 &&
             <div className="active-content">
                 <FriendList/>
-            </div>
-            }
-            {ToggleState === 3 &&
-            <div className="active-content">
-                <SpectateList/>
             </div>
             }
         </div>

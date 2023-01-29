@@ -1,6 +1,5 @@
 import { BadRequestException, Controller, Delete, Get, Post, Query, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { use } from 'passport';
 import { EUser } from 'src/users/interfaces/user.entity';
 import { IUserPublicProfile } from 'src/users/interfaces/userPublicProfile.interface';
 import { UsersService } from 'src/users/users.service';

@@ -1,5 +1,4 @@
-import { Trole } from 'src/users/interfaces/role.type';
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('chat')
 export class Chat {

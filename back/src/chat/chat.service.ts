@@ -1,4 +1,4 @@
-import { Injectable, Req, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Chat, ChatUser } from './chat.entity';
@@ -64,7 +64,6 @@ export class ChatService {
       let res = await this.ChatUserRepository.findOne({ where: { userName: userName, chatId: chanId } });
       return res.userType;
     } catch (error) {
-      console.log("Couldn't fetch user type");
       return -2;
     }
   }

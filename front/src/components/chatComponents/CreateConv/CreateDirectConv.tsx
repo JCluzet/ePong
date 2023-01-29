@@ -100,7 +100,7 @@ export const CreateDirectConv = () => {
 
                 {chanAdmin && (
                     <>
-                        <Multiselect options={allUsers} selectedValues={chanAdmin} displayValue="login" placeholder="Add one user here" onSelect={selectUser} onRemove={selectUser} />
+                        <Multiselect options={allUsers} selectedValues={chanAdmin} displayValue="name" placeholder="Add one user here" onSelect={selectUser} onRemove={selectUser} />
                     </>
                 )}
                 <button>Submit</button>
