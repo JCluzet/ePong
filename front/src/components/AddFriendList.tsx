@@ -6,7 +6,7 @@ import EUser from './chatComponents/Models/user';
 
 export default function AddFriendList() {
   const [AllUsers, setAllUsers] = useState([]);
-  const [isClicked, setIsClicked] = useState(false);
+  const [isClicked, setIsClicked] = useState("");
   
 
   useEffect(() => {
@@ -20,7 +20,12 @@ export default function AddFriendList() {
 
   console.log(AllUsers);
 
-  const handleClick = () => setIsClicked(!isClicked);
+  const handleClick = (name: string) => {
+    if (isClicked === name)
+      setIsClicked("");
+    else
+      setIsClicked(name);
+  };
 
   const goAdd = (user: string) => {
     var config = {
@@ -43,7 +48,7 @@ export default function AddFriendList() {
       {
         AllUsers.map((user: EUser) =>
         user.login !== accountService.userLogin() ?
-        <div className="container-social" onClick={handleClick}>
+        <div className="container-social" onClick={() => handleClick(user.name)}>
         <div className="row">
             <div className="column">
                 <img src={user.avatarUrl} className="circle-img" alt={user.name} />
@@ -60,12 +65,10 @@ export default function AddFriendList() {
                 : <p></p>}
             <div>
               {
-                isClicked ? 
+                isClicked === user.name && 
                 <div className="column">
                   <button className="button" onClick={() => goAdd(user.login)}>add</button>
                 </div>
-                :
-                <p></p>
               }
             </div>
             </div>
