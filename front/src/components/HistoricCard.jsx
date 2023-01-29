@@ -26,7 +26,7 @@ export default function Historic() {
       <div className="text-title-container">Match History</div>
       {historic.map((element) => {
         return (
-          <dir>
+          <dir key={element.id}>
             <div className="container-shiny" onClick={onToggle}>
               <div className="date">{element.type}</div>
               <div className="row">
