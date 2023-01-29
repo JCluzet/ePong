@@ -52,9 +52,6 @@ const checkifKick = async (chanId: number) => {
     .catch(function (error: any) {
       console.log("Error getChanUsers : " + error);
     });
-    // checkifBan(chanId);
-
-
 
     var config3 = {
         method: "post",
