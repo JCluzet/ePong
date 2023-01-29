@@ -100,7 +100,7 @@ export default function AcceptFriendList() {
           <div className="receive-friend">
             <h2>Receive</h2>
             {receiveLst.map((element: data) => (
-              <div
+              <div key={element.sender}
                 className="container-social"
                 onClick={() => handleClick(element.sender, true)}
               >
@@ -112,7 +112,7 @@ export default function AcceptFriendList() {
           <div className="sending-friend">
             <h2>Send</h2>
             {sendingLst.map((element: data) => (
-              <div
+              <div key={element.receiver}
                 className="container-social"
                 onClick={() => handleClick(element.receiver, false)}
               >
