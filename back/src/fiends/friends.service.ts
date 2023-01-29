@@ -72,6 +72,12 @@ export class FriendsService {
         receiver: element.receiver,
         status: element.status,
       }));
+      for (const inv of invite) {
+        const player1: EUser =  await this.userService.findUserByLogin(inv.sender);
+        const player2: EUser =  await this.userService.findUserByLogin(inv.receiver);
+        inv.sender = player1.name;
+        inv.receiver = player2.name;
+      }
       return invite;
     } catch (err) {
       throw err;
