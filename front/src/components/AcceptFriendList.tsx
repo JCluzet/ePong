@@ -106,7 +106,7 @@ export default function AcceptFriendList() {
                   className="button"
                   onClick={() => handleClick(element.sender, true)}
                 >
-                  {element.receiver}
+                  {element.sender}
                 </button>
               ))}
             </div>
