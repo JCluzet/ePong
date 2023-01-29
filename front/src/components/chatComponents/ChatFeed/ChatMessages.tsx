@@ -14,7 +14,7 @@ import { Comment } from "@ant-design/compatible";
 import { accountService } from "../../../hooks/account_service";
 import { toast } from "react-toastify";
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
-let websock2 = io(`http://localhost:5001`);
+let websock2 = io(`http://139.59.203.43:5001`);
 
 type UserBubleProps = {
   userName: string;
