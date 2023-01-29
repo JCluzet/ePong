@@ -22,11 +22,15 @@ export default function StatsCard() {
           </div>
           <div className="stat-uniq">
             Nb Wins
-            <div className="stat-uniq-number" style={{color:"green"}}>{nbWins}</div>
+            <div className="stat-uniq-number" style={{ color: "green" }}>
+              {nbWins}
+            </div>
           </div>
           <div className="stat-uniq">
             Nb Loses
-            <div className="stat-uniq-number" style={{color:"red"}}>{nbLoses}</div>
+            <div className="stat-uniq-number" style={{ color: "red" }}>
+              {nbLoses}
+            </div>
           </div>
           <div className="stat-uniq">
             Total Game

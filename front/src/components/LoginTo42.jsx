@@ -5,13 +5,10 @@ import Alert from "./Alert";
 import { toast } from "react-toastify";
 
 export default function LoginTo42() {
-
-    // state
   const HandleLogin = () => {
     if (localStorage.getItem("BackendDown") === "true") {
-        // alert("Backend is down, please try again later");
-        toast.error("Backend is down, please try again later");
-        return;
+      toast.error("Backend is down, please try again later");
+      return;
     }
     const uid = process.env.REACT_APP_UID_TOKEN;
     window.location.href =
@@ -20,26 +17,21 @@ export default function LoginTo42() {
       "&redirect_uri=http%3A%2F%2F139.59.203.43%3A3000&response_type=code";
   };
 
-  // comportements
-
-  // affichage
-
-  return(
-      <div>
-
-          {useStoreToken()}
-    <div className="container-login">
-      <img src={logo} alt="logo" className="logo" />
-      <div className="btn-login">
-        <button className="button-shiny" onClick={HandleLogin}>
-          <div className="element-btn-login">
-            <img width={40} src={schoollogo} alt="" />
-            <div className="text-login">Login</div>
-          </div>
-        </button>
-    <Alert />
+  return (
+    <div>
+      {useStoreToken()}
+      <div className="container-login">
+        <img src={logo} alt="logo" className="logo" />
+        <div className="btn-login">
+          <button className="button-shiny" onClick={HandleLogin}>
+            <div className="element-btn-login">
+              <img width={40} src={schoollogo} alt="" />
+              <div className="text-login">Login</div>
+            </div>
+          </button>
+          <Alert />
+        </div>
       </div>
     </div>
-  </div>
   );
 }

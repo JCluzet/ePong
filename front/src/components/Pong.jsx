@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import "../styles/Pong.scss";
-import JSConfetti from "js-confetti";
-// import useWindowDimensions from "./useWindowDimensions";
 import io from "socket.io-client";
 import { Form } from "react-bootstrap";
 import "/node_modules/react-rain-animation/lib/style.css";
@@ -11,11 +9,9 @@ import versusLogo from "../assets/images/versusLogo.svg";
 import "semantic-ui-css/semantic.min.css";
 import Confetti from "react-confetti";
 import { useSearchParams } from "react-router-dom";
-import TextField from '@mui/material/TextField';
 
 var joueur = accountService.userName();
 var login = accountService.userLogin();
-const jsConfetti = new JSConfetti();
 let joueur1;
 let joueur2;
 
@@ -37,16 +33,15 @@ export default function Pong() {
   const [isSearching, setIsSearching] = useState(false);
   const [playerScore1, SetPlayerScore1] = useState(0);
   const [playerScore2, SetPlayerScore2] = useState(0);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   var SearchText = "Launch Matchmaking";
 
   useEffect(() => {
     if (searchParams.get("vs")) {
-
       setWaitingVersus(true);
-      console.log(`check vs ${searchParams.get("vs")}`);
       socket.emit("vs", searchParams.get("vs"), searchParams.get("gameMode"));
     }
+    // eslint-disable-next-line
     canvas = document.getElementById("canvas");
     initParty();
     window.addEventListener("mousemove", playerMove);
@@ -63,7 +58,6 @@ export default function Pong() {
         setToastid(toastid);
       } else {
         setIsSearching(false);
-        console.log("stop search");
         socket.emit("leaveQueue");
         toast.update(toastid, {
           render: "Matchmaking cancelled",
@@ -155,13 +149,10 @@ export default function Pong() {
   socket.on("startGame", (...args) => {
     setActive(false);
     setWaitingVersus(false);
-    // setInGame(true);
     document.querySelector("#victoryMessage").textContent = "";
     setWin(false);
-    // dismiss all toasts
     toast.dismiss();
     toast.success("Game found", { autoClose: 3000 });
-    // toast.update(toastid, { render: "Game found", type: "success", isLoading: false, hideProgressBar: false, autoClose: 3000 });
     setIsSearching(false);
     joueur1 = args[1][0].name;
     joueur2 = args[1][1].name;
@@ -173,7 +164,6 @@ export default function Pong() {
   socket.on("stopGame", (...args) => {
     setGM("classic");
     if (args[0].login === accountService.userLogin()) {
-      // get screen width and height
       setWin(true);
       document.querySelector("#victoryMessage").textContent = "Victory";
     } else {
@@ -183,10 +173,10 @@ export default function Pong() {
     initParty();
   });
 
-  var canvas;
-  var game;
   var PLAYER_HEIGHT = 80;
   var PLAYER_WIDTH = 10;
+  var canvas;
+  var game;
 
   function draw() {
     if (canvas) {
@@ -255,8 +245,6 @@ export default function Pong() {
                 Waiting for {otheruser} <br />
                 <br />
                 Click to cancel
-                {/* // find the argument of vs in the url */}
-                {/* {window.location.href.split("vs")[1]} */}
               </button>
             </div>
           ) : (
@@ -264,59 +252,56 @@ export default function Pong() {
           )}
 
           {isActive && (
-            // <div id="game-root-main" className="game-root-main">
-              <div id="game-root" className="game-root">
-                {isWin ? (
-                  <Confetti
-                    width={window.innerWidth}
-                    height={window.innerHeight}
-                  />
-                ) : (
-                  ""
-                )}
-                {isActive && !isSearching && !waitingVersus && (
-                  <button
-                    type="button"
-                    className="ui button button-match-making"
-                    id="search-button"
-                    onClick={() => sendSearch()}
-                  >
-                    {SearchText}
-                  </button>
-                )}
+            <div id="game-root" className="game-root">
+              {isWin ? (
+                <Confetti
+                  width={window.innerWidth}
+                  height={window.innerHeight}
+                />
+              ) : (
+                ""
+              )}
+              {isActive && !isSearching && !waitingVersus && (
+                <button
+                  type="button"
+                  className="ui button button-match-making"
+                  id="search-button"
+                  onClick={() => sendSearch()}
+                >
+                  {SearchText}
+                </button>
+              )}
 
-                {isActive && isSearching && (
-                  <button
-                    type="button"
-                    className="ui labeled icon button button-match-making"
-                    id="search-button"
-                    onClick={sendSearch}
-                  >
-                    <i className="loading spinner icon"></i>
-                    Cancel matchmaking
-                  </button>
-                )}
+              {isActive && isSearching && (
+                <button
+                  type="button"
+                  className="ui labeled icon button button-match-making"
+                  id="search-button"
+                  onClick={sendSearch}
+                >
+                  <i className="loading spinner icon"></i>
+                  Cancel matchmaking
+                </button>
+              )}
 
-                {!isSearching && !waitingVersus ? (
-                  // <Form>
-                  <div className="choosing-game">
-                    <Form.Select
-                      id="form-select-gamemode"
-                      aria-label="Modes de jeux:"
-                      className="form-select"
-                      defaultValue="original"
-                      onChange={(e) => setGM(e.target.value)}
-                    >
-                      <option value="classic">Classic</option>
-                      <option value="fast">Fast</option>
-                      <option value="bigball">Big Ball</option>
-                    </Form.Select>
-                  </div>
-                ) : (
-                  ""
-                )}
-              </div>
-            // </div>
+              {!isSearching && !waitingVersus ? (
+                <div className="choosing-game">
+                  <Form.Select
+                    id="form-select-gamemode"
+                    aria-label="Modes de jeux:"
+                    className="form-select"
+                    defaultValue="original"
+                    onChange={(e) => setGM(e.target.value)}
+                  >
+                    <option value="classic">Classic</option>
+                    <option value="fast">Fast</option>
+                    <option value="bigball">Big Ball</option>
+                  </Form.Select>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
           )}
         </div>
 
@@ -347,7 +332,6 @@ export default function Pong() {
                 </div>
               </div>
             </div>
-            {/* { inGame && */}
             <div className="container-canva">
               <canvas
                 id="canvas"
@@ -356,7 +340,6 @@ export default function Pong() {
                 height={400}
               ></canvas>
             </div>
-            {/* } */}
           </div>
         </main>
       </div>

@@ -7,12 +7,10 @@ import EditProfil from "./EditProfil";
 import TwofaSettings from "./TwofaSettings";
 
 export default function ProfilSettings() {
-  // state
   const [profilEditing, setProfilEditing] = React.useState(false);
   const [menuSettings, setMenuSettings] = React.useState(true);
   const [tfaEditing, setTfaEditing] = React.useState(false);
 
-  // comportements
   const boolTfaEditing = () => {
     if (tfaEditing === false) {
       setTfaEditing(true);
@@ -32,8 +30,6 @@ export default function ProfilSettings() {
       setMenuSettings(true);
     }
   };
-
-  // settings display
   return (
     <div>
       {menuSettings && (
@@ -52,7 +48,7 @@ export default function ProfilSettings() {
 
       {profilEditing && (
         <div>
-          <EditProfil firstlogin="false"/>
+          <EditProfil firstlogin="false" />
           <img
             className="return-arrow"
             src={returnBack}

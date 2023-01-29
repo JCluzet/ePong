@@ -16,7 +16,6 @@
 
 #main > * {
   color: white !important;
-//   margin-top: 10px;
   width: 80%;
   height: 100%;
 }
@@ -26,7 +25,7 @@
   height: 100%;
   min-width: 150px;
   display: flex;
-    cursor: pointer;
+  cursor: pointer;
   background-color: rgb(202, 202, 202);
   flex-direction: row;
   justify-content: center;
@@ -46,16 +45,6 @@
   align-items: center;
 }
 
-// .container-game {
-//   width: 100%;
-//   height: 100%;
-//   margin-top:-10px;
-// //   max-width: 1400px;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-// }
 
 .form-select {
   width: 100%;
@@ -64,17 +53,12 @@
   margin-top: 10px;
   border-radius: 10px;
   border-width: 2px;
-  
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
   align-items: center;
 }
 
 .choosing-game {
   width: 100%;
   height: 100%;
-//   margin-left: 10px;
   display: flex;
   border-radius: 10px;
   flex-direction: column;
@@ -90,35 +74,30 @@
   display: flex;
   font-weight: 500;
   font-size: 80px;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-//   margin-top: 10px;
 }
 
-.container-score
-{
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    // margin-bottom: 10px;
-    color: black !important;
+.container-score {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: black !important;
 }
 
 .name_player_left {
-    display: flex;
-    flex: 0 0 auto;
+  display: flex;
+  flex: 0 0 auto;
 }
 
 .name_player_right {
-    // font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    flex: 0 0 auto;
-    display: flex;
-
-    // align-self: flex-end;
+  flex: 0 0 auto;
+  display: flex;
 }
 
 .canvas-name-player {
@@ -127,40 +106,26 @@
   align-items: flex-end;
   flex-wrap: nowrap;
   justify-content: space-between;
-    // align-self: center;
   margin-bottom: 10px;
   color: black !important;
   width: 60%;
 }
 
-.container-score-and-versus{
-    display: flex;
-    flex: 0 0 auto;
-    // margin-bottom: -5px;
-    // padding-bottom:-40px;
-    // position:absolute;
-    // margin-bottom: 0px;
-    // flex:1;
-    flex-direction: row;
-    // justify-content: center;
-    // align-items: center;
-    // align-self: center;
-    // margin-bottom: 10px;
-    color: black !important;
+.container-score-and-versus {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  color: black !important;
 }
 
-.container-score-player
-{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    // font-size: 70px;
-    background-color: rgb(255, 255, 255);
-    // margin-bottom: 10px;
-    color: black !important;
+.container-score-player {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(255, 255, 255);
+  color: black !important;
 }
-
 
 #canvas {
   background: rgb(255, 255, 255) !important;
@@ -171,7 +136,6 @@
   position: sticky;
   margin-left: auto;
   margin-right: auto;
-//   max-width: 1000px;
   justify-items: center;
   box-shadow: 0 0 10px 0 rgb(0, 0, 0);
   align-items: center;
@@ -179,22 +143,22 @@
   transition-duration: 1s;
   width: 100%;
   height: 120%;
-  margin-bottom:30px;
+  margin-bottom: 30px;
 }
 
-.GameMode-title{
-    color: black !important;
-    font-size: 25px !important;
-    font-weight: 900 !important;
-    font-family: variables.$basic-font !important;
-    font-style: normal !important;
+.GameMode-title {
+  color: black !important;
+  font-size: 25px !important;
+  font-weight: 900 !important;
+  font-family: variables.$basic-font !important;
+  font-style: normal !important;
 }
 
-#form-select-gamemode{
-    width: 25% !important;
-    text-align: center !important;
-    position: sticky;
-    font-weight: 900 !important;
+#form-select-gamemode {
+  width: 25% !important;
+  text-align: center !important;
+  position: sticky;
+  font-weight: 900 !important;
 }
 
 #form-select,
@@ -226,18 +190,14 @@
   display: inline-block;
 }
 
-// .GameMode {
-//   color: black;
-// }
-
-.versusLogo{
-    width: 130px;
-    height: 130px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    margin-top: 10px;
+.versusLogo {
+  width: 130px;
+  height: 130px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 10px;
 }
 
 #victoryMessage {
@@ -256,25 +216,25 @@
 }
 
 .container-game {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-width: 2000px;
-    margin: auto;
-    align-items: center;
-    background-color: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 2000px;
+  margin: auto;
+  align-items: center;
+  background-color: rgb(255, 255, 255);
 }
 
 .container-canva {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 90%;
-    max-width: 750px;
-    margin: auto;
-    align-items: center;
-    background-color: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  max-width: 750px;
+  margin: auto;
+  align-items: center;
+  background-color: rgb(255, 255, 255);
 }

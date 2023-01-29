@@ -15,14 +15,14 @@ export class AppController {
     return 'ACCUEIL<br/><br/><br/>Nestjs';
   }
 
-  @Delete("/reset")
-  async Allreset() {
-    try{
-      await this.userService.removeAll();
-      await this.friendService.removeAll();
-      await this.gameHistoryService.removeAll();
-    } catch (err) {
-      throw new Error(err);
-    }
-  }
+  // @Delete("/reset")
+  // async Allreset() {
+  //   try{
+  //     await this.userService.removeAll();
+  //     await this.friendService.removeAll();
+  //     await this.gameHistoryService.removeAll();
+  //   } catch (err) {
+  //     throw new Error(err);
+  //   }
+  // }
 }

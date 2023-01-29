@@ -3,7 +3,6 @@ import "../styles/historic.css";
 import "../styles/social.css";
 import { useState } from "react";
 import Trophy from "../assets/images/trophy.png";
-// import Modal from "./HistoricModal";
 import { accountService } from "../hooks/account_service";
 import axios from "axios";
 
@@ -27,7 +26,7 @@ export default function Historic() {
       <div className="text-title-container">Match History</div>
       {historic.map((element) => {
         return (
-          <dir>
+          <dir key={element.id}>
             <div className="container-shiny" onClick={onToggle}>
               <div className="date">{element.type}</div>
               <div className="row">

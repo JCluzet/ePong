@@ -20,7 +20,6 @@ export class ChatController {
     return res;
   }
 
-  // create a back route /getChan that return ALL the channel exist in the database
   @UseGuards(AuthGuard('jwt'))
     @Get('getChan')
     async getChan() {

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { EUser } from 'src/users/interfaces/user.entity';
 import { IUserPublicProfile } from 'src/users/interfaces/userPublicProfile.interface';
 import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
@@ -11,7 +12,7 @@ export class FriendsService {
   constructor(
     @InjectRepository(EFriend)
     private friendsRepository: Repository<EFriend>,
-    private userRepository: UsersService,
+    private userService: UsersService,
   ) {}
 
   async getAll(): Promise<EFriend[]> {
@@ -52,7 +53,7 @@ export class FriendsService {
       const friendLogin: string[] = await this.getFriendsLogin(login);
       const friendPub: IUserPublicProfile[] = [];
       for (const search of friendLogin) {
-        const user = await this.userRepository.findUserPublicProfile(search);
+        const user = await this.userService.findUserPublicProfile(search);
         if (user) friendPub.push(user);
       }
       return friendPub;
@@ -66,9 +67,17 @@ export class FriendsService {
       const invited: EFriend[] = await this.friendsRepository.find({ where: [{ sender: login, status: 'pending' }] });
       const invite: IFriendInvite[] = invited.map((element: EFriend) => ({
         sender: element.sender,
+        senderLogin: element.sender,
+        receiverLogin: element.receiver,
         receiver: element.receiver,
         status: element.status,
       }));
+      for (const inv of invite) {
+        const player1: EUser =  await this.userService.findUserByLogin(inv.sender);
+        const player2: EUser =  await this.userService.findUserByLogin(inv.receiver);
+        inv.sender = player1.name;
+        inv.receiver = player2.name;
+      }
       return invite;
     } catch (err) {
       throw err;
@@ -80,9 +89,17 @@ export class FriendsService {
       const received: EFriend[] = await this.friendsRepository.find({ where: [{ receiver: login, status: 'pending' }] });
       const receive: IFriendInvite[] = received.map((element: EFriend) => ({
         sender: element.sender,
+        senderLogin: element.sender,
+        receiverLogin: element.receiver,
         receiver: element.receiver,
         status: element.status,
       }));
+      for (const rec of receive) {
+        const player1: EUser =  await this.userService.findUserByLogin(rec.sender);
+        const player2: EUser =  await this.userService.findUserByLogin(rec.receiver);
+        rec.sender = player1.name;
+        rec.receiver = player2.name;
+      }
       return receive;
     } catch (err) {
       throw err;

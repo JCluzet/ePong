@@ -2,12 +2,10 @@ import { useState } from "react";
 import axios from "../config/axios";
 
 export default function Status() {
-  // state
   const [backendStatus, setBackendStatus] = useState(
     localStorage.getItem("BackendDown") === "true"
   );
 
-  // comportements
   const checkBackend = () => {
     var config = {
       method: "get",
@@ -15,20 +13,15 @@ export default function Status() {
     };
     axios(config)
       .then(function (response) {
-          localStorage.setItem("BackendDown", false);
-          setBackendStatus(false);
-          console.log("check backend... UP!");
-    })
-    .catch(function (error) {
+        localStorage.setItem("BackendDown", false);
+        setBackendStatus(false);
+      })
+      .catch(function (error) {
         setBackendStatus(true);
         localStorage.setItem("BackendDown", true);
-        console.log("check backend... DOWN!");
-    });
+      });
     setTimeout(checkBackend, 2000);
-
   };
-
-  // affichage
 
   return (
     <div className="status">

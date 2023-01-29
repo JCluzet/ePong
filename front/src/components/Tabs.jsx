@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
-import "../styles/tabs.css"
-import "../styles/social.css"
+import React, { useState } from "react";
+import "../styles/tabs.css";
+import "../styles/social.css";
 import ProfileCard from "../components/ProfileCard";
-import FriendList from './FriendList';
+import FriendList from "./FriendList";
 
 export default function Tabs() {
   const [ToggleState, setToggleState] = useState(1);
@@ -16,34 +16,34 @@ export default function Tabs() {
 
   return (
     <div className="container-tabs">
-        <div className="container-shiny">
+      <div className="container-shiny">
         <ul className="tab-list">
-            <li
+          <li
             className={`tabs ${getActiveClass(1, "active-tabs")}`}
             onClick={() => toggleTab(1)}
-            >
+          >
             Profile
-            </li>
-            <li
+          </li>
+          <li
             className={`tabs ${getActiveClass(2, "active-tabs")}`}
             onClick={() => toggleTab(2)}
-            >
+          >
             Friend List
-            </li>
+          </li>
         </ul>
         <div className="">
-            {ToggleState === 1 &&
+          {ToggleState === 1 && (
             <div className="active-content">
-                <ProfileCard/>
+              <ProfileCard />
             </div>
-            }
-            {ToggleState === 2 &&
+          )}
+          {ToggleState === 2 && (
             <div className="active-content">
-                <FriendList/>
+              <FriendList />
             </div>
-            }
+          )}
         </div>
-        </div>
+      </div>
     </div>
   );
-};
+}

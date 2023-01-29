@@ -22,7 +22,6 @@ export class AuthController {
   @UseGuards(AuthGuard("jwt"))
   async refreshToken(@Req() req: any): Promise<IRefreshToken> {
     try {
-      // eslint-disable-next-line prettier/prettier
       const token = this.authService.deliverToken(req.user.sub, req.user.role);
       const newToken: IRefreshToken = {
         token: token,
@@ -35,7 +34,6 @@ export class AuthController {
   }
 
   @Get("twofa/get_token")
-  // eslint-disable-next-line prettier/prettier
   async twofaGetToken(@Query("login") login: string, @Query("code") code: string): Promise<ILoginSuccess> {
     try {
       const goodTwofa = await this.authService.checkTwoFaCode(login, code);

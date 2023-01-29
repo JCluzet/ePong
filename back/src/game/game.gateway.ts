@@ -39,7 +39,6 @@ export class GameGateway {
 			if (!client.data.user) return;
 			client.data.gameMode = gameMode;
 			this.gameService.addQueue(client);
-			this.userService.updateStatus(client.data.user.login, "ingame");
 		} catch (err) {}
 	}
 

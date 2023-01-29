@@ -9,9 +9,6 @@ import StatsCardFriend from "./StatsCardFriend";
 import HistoricFriend from "./historicCardFriend";
 import AcceptFriendList from "./AcceptFriendList";
 import AddFriendList from "./AddFriendList";
-import { UserBuble } from "./chatComponents/ChatFeed/ChatMessages";
-import userEvent from "@testing-library/user-event";
-
 
 export default function FriendList() {
   const [Name, setName] = useState("");
@@ -27,24 +24,21 @@ export default function FriendList() {
   useEffect(() => {
     getUserInfo();
   });
-  
+
   const getUserInfo = async () => {
-      try {
+    try {
       var config = {
-          method: "get",
-          url: "/friends",
-          headers: { Authorization: "Bearer " + accountService.userToken() },
-        };
-        await axios(config).then(function (response) {
-            setAllUsers(response.data);
-        });
-    } catch (error) {
-        console.log("Failed to fetch all users");
-    }
-    console.log(allUsers);
-    
+        method: "get",
+        url: "/friends",
+        headers: { Authorization: "Bearer " + accountService.userToken() },
+      };
+      await axios(config).then(function (response) {
+        setAllUsers(response.data);
+      });
+    } catch (error) {}
+
     setTimeout(getUserInfo, 1000000);
-};
+  };
 
   useEffect(() => {}, [Name, Img, Online]);
 
@@ -54,7 +48,6 @@ export default function FriendList() {
     image: string,
     status: string
   ) => {
-    console.log(`name ${name}`);
     localStorage.setItem("friendName", login);
     setName(name);
     setLoginUser(name);
@@ -77,7 +70,6 @@ export default function FriendList() {
   return (
     <div className="container-friendlist">
       <div className="container-stats-friendlist">
-        {/* <section> */}
         {acceptList || isGoAdd ? (
           acceptList ? (
             <h2>Pending Request</h2>
@@ -123,7 +115,7 @@ export default function FriendList() {
               <AddFriendList />
             ) : (
               allUsers.map((user: EUser) => (
-                <div
+                <div key={user.login}
                   className="container-social"
                   onClick={() =>
                     handleClick(
@@ -132,31 +124,25 @@ export default function FriendList() {
                       user.avatarUrl,
                       user.status
                     )
-                  }>
+                  }
+                >
                   <div className="row">
                     <div className="column">
                       <img
                         src={user.avatarUrl}
                         className="circle-img"
-                        alt={user.name}/>
+                        alt={user.name}
+                      />
                     </div>
+                    <div className="column-profile">{user.name}</div>
                     <div className="column-profile">
-                      {user.name}
-                    </div>
-                    <div className="column-profile">
-                    {(() => {
+                      {(() => {
                         if (user.status === "online") {
-                          return (
-                            <p className="green-circle"></p>
-                          )
+                          return <p className="green-circle"></p>;
                         } else if (user.status === "ingame") {
-                          return (
-                            <p className="orange-circle"> </p>
-                          )
+                          return <p className="orange-circle"> </p>;
                         } else {
-                          return (
-                            <p className="red-circle"></p>
-                          )
+                          return <p className="red-circle"></p>;
                         }
                       })()}
                       {user.status === "ingame" ? <p>in game</p> : <p></p>}
@@ -179,48 +165,66 @@ export default function FriendList() {
                     />
                   </div>
                   <div className="column">
-                    <button className="button" onClick={() => {setIsgoHistoric(!isgoHistoric);}}>
+                    <button
+                      className="button"
+                      onClick={() => {
+                        setIsgoHistoric(!isgoHistoric);
+                      }}
+                    >
                       Historic
                     </button>
                   </div>
                   <div className="column">
-                    <button className="button" onClick={() => {window.location.href = "/social/chat";}}>
+                    <button
+                      className="button"
+                      onClick={() => {
+                        window.location.href = "/social/chat";
+                      }}
+                    >
                       Chat
                     </button>
                   </div>
                   <div className="column">
                     {Online === "online" ? (
-                        <button className="button" onClick={() => (window.location.href = "/play?vs=" + loginUser + "&gameMode=classic")} >Challenge</button>
+                      <button
+                        className="button"
+                        onClick={() =>
+                          (window.location.href =
+                            "/play?vs=" + loginUser + "&gameMode=classic")
+                        }
+                      >
+                        Challenge
+                      </button>
                     ) : (
                       <p></p>
                     )}
                   </div>
                   <div className="column">
                     {Online === "ingame" ? (
-                        <button className="button" onClick={() => {window.location.href = "/spectate?login=" + loginUser;}}>Spectate</button>
+                      <button
+                        className="button"
+                        onClick={() => {
+                          window.location.href = "/spectate?login=" + loginUser;
+                        }}
+                      >
+                        Spectate
+                      </button>
                     ) : (
                       <p></p>
                     )}
                   </div>
-                  
                 </div>
                 <div className="column">
                   <h2> {Name} </h2>
                   {(() => {
-                        if (Online === "online") {
-                          return (
-                            <p className="green-circle"></p>
-                          )
-                        } else if (Online === "ingame") {
-                          return (
-                            <p className="orange-circle"> </p>
-                          )
-                        } else {
-                          return (
-                            <p className="red-circle"></p>
-                          )
-                        }
-                      })()}
+                    if (Online === "online") {
+                      return <p className="green-circle"></p>;
+                    } else if (Online === "ingame") {
+                      return <p className="orange-circle"> </p>;
+                    } else {
+                      return <p className="red-circle"></p>;
+                    }
+                  })()}
                   <StatsCardFriend />
                 </div>
                 <div className="row">

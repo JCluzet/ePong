@@ -4,8 +4,6 @@ import "../styles/social.css";
 import Statscard from "./StatsCard";
 import Historic from "./HistoricCard";
 
-// faire un composent "carte profile" avec login, si en ligne, image de login
-
 const user = {
   name: accountService.userName(),
   imgUrl: accountService.userAvatarUrl(),
@@ -17,7 +15,12 @@ export default function ProfileCard() {
       <section className="">
         <div className="row">
           <div className="column-stats1">
-            <img src={user.imgUrl} alt="userimage" style={{ height: 100, width: 100 }} className="circle-img" />
+            <img
+              src={user.imgUrl}
+              alt="userimage"
+              style={{ height: 100, width: 100 }}
+              className="circle-img"
+            />
             <h1>{user.name}</h1>
             <Statscard />
           </div>

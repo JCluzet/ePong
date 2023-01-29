@@ -13,17 +13,11 @@ export default function Login() {
       <div className="center">
         {localStorage.getItem("NeedTwoFa") === "true" ? (
           <Twofa />
-        ) : // {
-        localStorage.getItem("firstlogin") === "true" ? (
+        ) : localStorage.getItem("firstlogin") === "true" ? (
           <FirstConnexion />
         ) : (
           <LoginTo42 />
-        )
-        // }
-        // {localStorage.getItem("FirstConnexion") === "true") {
-        //   <FirstConnexion/>}
-        //   <LoginTo42 />
-        }
+        )}
       </div>
       <Footer />
     </div>

@@ -1,20 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import "../styles/modal.css"
+import React from "react";
+import PropTypes from "prop-types";
+import "../styles/modal.css";
 import VS from "../assets/images/vs-versus.webp";
-import { accountService } from '../hooks/account_service';
-import StatsCardFriend from './StatsCardFriend';
-import StatsCard from './StatsCard';
+import { accountService } from "../hooks/account_service";
+import StatsCardFriend from "./StatsCardFriend";
+import StatsCard from "./StatsCard";
 
 class Modal extends React.Component {
-  
-  
   render() {
-    if(!this.props.show) {
+    if (!this.props.show) {
       return null;
     }
-
-    
 
     return (
       <div className="modal">
@@ -22,7 +18,7 @@ class Modal extends React.Component {
           <div className="footer">
             <div className="modal-row">
               <div className="modal-column">
-                <StatsCard/>
+                <StatsCard />
                 <h1>{accountService.userLogin()}</h1>
               </div>
               <div className="modal-column">
@@ -30,12 +26,12 @@ class Modal extends React.Component {
               </div>
               <div className="modal-column">
                 <p>{this.props.opponent}</p>
-                <StatsCardFriend/>
+                <StatsCardFriend />
               </div>
-            </div>
             </div>
           </div>
         </div>
+      </div>
     );
   }
 }
@@ -44,7 +40,7 @@ Modal.propTypes = {
   onClose: PropTypes.func.isRequired,
   show: PropTypes.bool,
   children: PropTypes.node,
-  opponent: PropTypes.string
+  opponent: PropTypes.string,
 };
 
 export default Modal;

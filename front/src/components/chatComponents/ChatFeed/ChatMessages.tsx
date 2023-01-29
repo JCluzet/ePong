@@ -4,7 +4,6 @@ import { SyntheticEvent, useEffect, useState } from "react";
 import { DatabaseMessageType, WebSocketMessageType } from "../Models/chan";
 import User from "../Models/user";
 import CloseIcon from "@mui/icons-material/Close";
-// import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import BlockIcon from "@mui/icons-material/Block";
 import SendIcon from "@mui/icons-material/Send";
@@ -48,12 +47,29 @@ const checkifKick = async (chanId: number) => {
         window.location.reload();
       }
     })
-    .catch(function (error: any) {
-      console.log("Error getChanUsers : " + error);
-    });
+    .catch(function (error: any) {});
+
+  var config3 = {
+    method: "post",
+    url: "chat/isBanned",
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("token"),
+      "Content-Type": "application/json",
+    },
+    data: JSON.stringify({
+      userId: accountService.userLogin(),
+      chanId: chanId,
+    }),
+  };
+  let response = await axios(config3);
+  if (response.data) {
+    toast.error("You have been banned from this channel");
+    window.location.reload();
+  }
+
   setTimeout(() => {
     checkifKick(chanId);
-  }, 10000);
+  }, 7000);
 };
 
 const checkIfBannedChan = async (username: string): Promise<boolean> => {
@@ -72,7 +88,6 @@ const checkIfBannedChan = async (username: string): Promise<boolean> => {
     }
     return false;
   } catch (error) {
-    console.error(error);
     return false;
   }
 };
@@ -92,12 +107,9 @@ export async function kickUser(userlogin: string, chanId: number) {
   };
   axios(config)
     .then(function (response: any) {
-      console.log("deleteUser post succeeded");
       window.location.reload();
     })
-    .catch(function (error: any) {
-      console.log("Error deleteUser : " + error);
-    });
+    .catch(function (error: any) {});
 }
 
 const { Meta } = Card;
@@ -126,9 +138,7 @@ export const UserBuble = (props: UserBubleProps) => {
             })
             .catch(function (error: any) {});
         }
-      } catch (error) {
-        console.log("Couldn't fetch user data");
-      }
+      } catch (error) {}
     };
     getUser();
     return () => {
@@ -150,13 +160,11 @@ export const UserBuble = (props: UserBubleProps) => {
       })
       .catch(function (error) {
         toast.error("Friend request failed.");
-        console.log("Friend request failed.");
       });
   }
 
   async function blockUser() {
     var isBlockedvar = false;
-    console.log(login);
     var config = {
       method: "post",
       url: "/block/block?to=" + login,
@@ -166,11 +174,8 @@ export const UserBuble = (props: UserBubleProps) => {
       .then(function (response) {
         isBlockedvar = true;
         toast.success("Successfuly blocked");
-        console.log("Blocking success.");
       })
-      .catch(function (error) {
-        console.log("Blocking failed.");
-      });
+      .catch(function (error) {});
     return isBlockedvar;
   }
 
@@ -186,7 +191,7 @@ export const UserBuble = (props: UserBubleProps) => {
       <button
         className="buttonSmall"
         onClick={() =>
-          (window.location.href = "/play?vs=" + login + "&gameMode=classic")
+          (window.location.href = "/play?vs=" + name + "&gameMode=classic")
         }
       >
         <SportsEsportsIcon />
@@ -260,9 +265,7 @@ export const ChatMessage = (props: ChatMessageProps) => {
             })
             .catch(function (error: any) {});
         }
-      } catch (error) {
-        console.log("Couldn't fetch user data");
-      }
+      } catch (error) {}
     };
     getUser();
     return () => {
@@ -308,11 +311,8 @@ export const ChatMessage = (props: ChatMessageProps) => {
     await axios(config)
       .then(function (response) {
         window.location.reload();
-        console.log("Unblocking success.");
       })
-      .catch(function (error) {
-        console.log("Unblocking failed.");
-      });
+      .catch(function (error) {});
     return isBlockedvar;
   }
 
@@ -347,16 +347,8 @@ export const ChatMessage = (props: ChatMessageProps) => {
     };
   }, [props.msg.senderId, props.msg.chanId]);
 
-  if (isMute || isBlocked) 
-  {
-    return <div></div>
-        
-    //   <div>
-    //       <div className="message-from-ban">
-    //         This user as been ban on this channel
-    //       </div>
-    //   </div>
-    ;
+  if (isMute || isBlocked) {
+    return <div></div>;
   } else {
     checkIfBannedChan(login).then((isBanned) => {
       if (isBanned) {
@@ -480,21 +472,16 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
       }),
     };
     response1 = await axios(config);
-    console.log("response1");
-    console.dir(response1);
     if (response1.data) {
       if (response1.data.length !== 2) {
-        console.log("C'est un channel");
         return false;
       }
-      console.log("Toutes les personnes de la conv:");
       let otherUser;
       for (let i = 0; i < response1.data.length; i++) {
         if (response1.data[i].login !== props.userName) {
           otherUser = response1.data[i];
         }
       }
-      console.log("La personne avec qui tu chat: " + otherUser.login);
       var config2 = {
         method: "get",
         url: "block/" + otherUser.login,
@@ -509,12 +496,6 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
           toast.error("You have been banned from this person");
           isBanned = true;
         }
-        console.log(
-          "La liste des user bloqué appartenant a " +
-            otherUser.login +
-            ": " +
-            response.data
-        );
       }
     }
 
@@ -541,7 +522,6 @@ export const ChannelMessages = (props: ChannelMessagesProps) => {
   async function submit(e: SyntheticEvent) {
     e.preventDefault();
     let isBanned = await checkIfBanned(props.currentChannelId);
-    console.log("La personne est banie ? " + isBanned);
     if (isBanned) return;
     if (content !== "") {
       var config = {

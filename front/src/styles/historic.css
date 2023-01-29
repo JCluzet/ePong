@@ -1,68 +1,67 @@
 .column-profile {
-    float: left;
-    width: 45%;
-    /* margin : 10px; */
-    text-align: center;
+  float: left;
+  width: 45%;
+  text-align: center;
 }
 
 .row {
-    width: 100%;
+  width: 100%;
 }
 
 .row:after {
-    content: "";
-    display: table;
-    clear: both;
+  content: "";
+  display: table;
+  clear: both;
 }
 
 .imagep1 {
-    width: 5%;
-    height: 5%;
-    margin-left: 75%;
+  width: 5%;
+  height: 5%;
+  margin-left: 75%;
 }
 
 .imagep2 {
-    width: 5%;
-    height: 5%;
-    margin-right: 95%;
+  width: 5%;
+  height: 5%;
+  margin-right: 95%;
 }
 
 .loserp1 {
-    background-color: red;
-    border-radius: 15%;
-    text-align: right;
-    width: 10%;
-    margin-left: 80%;
+  background-color: red;
+  border-radius: 15%;
+  text-align: right;
+  width: 10%;
+  margin-left: 80%;
 }
 
 .loserp2 {
-    background-color: red;
-    border-radius: 15%;
-    text-align: left;
-    width: 10%;
+  background-color: red;
+  border-radius: 15%;
+  text-align: left;
+  width: 10%;
 }
 
 .winnerp1 {
-    background-color: green;
-    border-radius: 15%;
-    text-align: right;
-    width: 10%;
-    margin-left: 80%;
+  background-color: green;
+  border-radius: 15%;
+  text-align: right;
+  width: 10%;
+  margin-left: 80%;
 }
 
 .winnerp2 {
-    background-color: green;
-    border-radius: 15%;
-    text-align: left;
-    width: 10%;
+  background-color: green;
+  border-radius: 15%;
+  text-align: left;
+  width: 10%;
 }
 
 .main {
-    max-height: 400px;
-    overflow-y: scroll;
+  max-height: 400px;
+  overflow-y: scroll;
 }
 
 .date {
-    text-align: center;
-    color: azure;
+  text-align: center;
+  color: azure;
 }
