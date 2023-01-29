@@ -21,7 +21,7 @@ export default function PongSpectate() {
   const [playerScore2, SetPlayerScore2] = useState(0);
   const [joueur1, setJoueur1] = useState("");
   const [joueur2, setJoueur2] = useState("");
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     canvas = document.getElementById("canvas");

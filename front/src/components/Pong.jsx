@@ -33,7 +33,7 @@ export default function Pong() {
   const [isSearching, setIsSearching] = useState(false);
   const [playerScore1, SetPlayerScore1] = useState(0);
   const [playerScore2, SetPlayerScore2] = useState(0);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   var SearchText = "Launch Matchmaking";
 
   useEffect(() => {
