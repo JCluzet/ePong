@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "../styles/Pong.scss";
-import JSConfetti from "js-confetti";
+// import JSConfetti from "js-confetti";
 // import useWindowDimensions from "./useWindowDimensions";
 import io from "socket.io-client";
 import { Form } from "react-bootstrap";
@@ -11,11 +11,11 @@ import versusLogo from "../assets/images/versusLogo.svg";
 import "semantic-ui-css/semantic.min.css";
 import Confetti from "react-confetti";
 import { useSearchParams } from "react-router-dom";
-import TextField from '@mui/material/TextField';
+// import TextField from '@mui/material/TextField';
 
 var joueur = accountService.userName();
 var login = accountService.userLogin();
-const jsConfetti = new JSConfetti();
+// const jsConfetti = new JSConfetti();
 let joueur1;
 let joueur2;
 
