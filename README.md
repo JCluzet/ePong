@@ -1,4 +1,3 @@
-Validate at 100% ✅
 
 ## Preview
 
